@@ -1,0 +1,6 @@
+{
+  "name": "Phenomena Skincare",
+  "description": "Premium luxury editorial skincare & beauty e-commerce web application inspired by the Palo Alto Shopify theme.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
