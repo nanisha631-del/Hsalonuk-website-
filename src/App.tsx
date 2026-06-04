@@ -336,21 +336,23 @@ export default function App() {
 
               {/* SECTION 11 — MAKEUP POUCH PRODUCT HIGHLIGHT */}
               <section id="makeup-pouch-feature" className="bg-brand-offwhite py-20 px-4 md:px-12 relative select-none">
-                <ScrollReveal>
-                  <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 items-center bg-white/40 border border-brand-black/5 p-6 md:p-12">
-                    
-                    {/* Left: Square Cosmetics bag layout */}
-                    <div className="md:col-span-6 relative aspect-square bg-[#E8E4DF] overflow-hidden rounded-xs">
+                <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 items-center bg-white/40 border border-brand-black/5 p-6 md:p-12">
+                  
+                  {/* Left: Square Cosmetics bag layout */}
+                  <div className="md:col-span-6 relative aspect-square bg-[#E8E4DF] overflow-hidden rounded-xs w-full">
+                    <ScrollReveal direction="right" distance={30} className="w-full h-full">
                       <img
                         src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&auto=format&fit=crop&q=80"
                         alt="The Makeup Pouch"
                         referrerPolicy="no-referrer"
                         className="w-full h-full object-cover transition-transform duration-700 hover:scale-103"
                       />
-                    </div>
+                    </ScrollReveal>
+                  </div>
 
-                    {/* Right Info panels */}
-                    <div className="md:col-span-6 flex flex-col gap-6 items-start">
+                  {/* Right Info panels with staggered delays */}
+                  <div className="md:col-span-6 flex flex-col gap-6 items-start w-full">
+                    <ScrollReveal direction="left" distance={30} delay={0} className="w-full">
                       <div className="flex flex-col gap-2.5">
                         <span className="text-[11px] font-sans uppercase tracking-[0.25em] text-[#C4B5D4] font-black">
                           THE MAKEUP POUCH
@@ -359,15 +361,21 @@ export default function App() {
                           GETTING POPULAR
                         </h2>
                       </div>
+                    </ScrollReveal>
 
+                    <ScrollReveal direction="left" distance={30} delay={155} className="w-full">
                       <p className="text-sm font-sans text-gray-500 leading-relaxed max-w-lg mb-1">
                         A cute, compact makeup pouch designed to go wherever you do. Finished with a soft, iridescent sheen and a clean zip closure, it fits your everyday essentials without taking up space. Easy to toss in your bag, easy to wipe clean, and cute enough to leave out.
                       </p>
+                    </ScrollReveal>
 
+                    <ScrollReveal direction="left" distance={20} delay={300} className="w-full">
                       <div className="font-sans text-[24px] font-extrabold text-brand-black">
                         $60.00
                       </div>
+                    </ScrollReveal>
 
+                    <ScrollReveal direction="left" distance={20} delay={420} className="w-full">
                       {/* Add to Bag CTA */}
                       <button
                         onClick={() => {
@@ -382,7 +390,9 @@ export default function App() {
                       >
                         ADD TO BAG
                       </button>
+                    </ScrollReveal>
 
+                    <ScrollReveal direction="left" distance={15} delay={520} className="w-full">
                       {/* Detail overview sub links */}
                       <button
                         onClick={() => handleSelectProduct("makeup-pouch")}
@@ -390,10 +400,10 @@ export default function App() {
                       >
                         View details <ArrowRight className="w-4 h-4 text-brand-lilac" />
                       </button>
-                    </div>
-
+                    </ScrollReveal>
                   </div>
-                </ScrollReveal>
+
+                </div>
               </section>
 
               {/* SECTION 12 — SCROLLING BANNER */}
@@ -405,7 +415,7 @@ export default function App() {
                   
                   {/* Left slide text */}
                   <div className="md:col-span-6 flex flex-col gap-6 items-start">
-                    <ScrollReveal>
+                    <ScrollReveal direction="right" distance={35}>
                       <h2 className="font-serif text-[42px] md:text-[68px] font-black leading-[1.1] text-brand-black tracking-tight uppercase">
                         MAKEUP SHOULD <br />
                         BE FUN. <br />
@@ -414,7 +424,7 @@ export default function App() {
                       </h2>
                     </ScrollReveal>
                     
-                    <ScrollReveal delay={150}>
+                    <ScrollReveal delay={150} direction="right" distance={25}>
                       <div className="flex flex-col gap-2 border-l border-brand-lilac/30 pl-4 max-w-md mt-4">
                         <span className="text-[12px] font-sans font-black text-brand-black uppercase tracking-widest">BUILD YOUR ROUTINE.</span>
                         <p className="text-sm font-sans text-gray-500 leading-relaxed">
@@ -423,7 +433,7 @@ export default function App() {
                       </div>
                     </ScrollReveal>
 
-                    <ScrollReveal delay={250}>
+                    <ScrollReveal delay={250} direction="right" distance={15}>
                       <button
                         onClick={() => {
                           const target = document.getElementById("bestsellers-section");
@@ -438,7 +448,7 @@ export default function App() {
 
                   {/* Right slide image */}
                   <div className="md:col-span-6 relative aspect-[4/5] bg-[#E0DEDA] shadow-lg">
-                    <ScrollReveal delay={200}>
+                    <ScrollReveal delay={200} direction="zoom">
                       <img
                         src="https://images.unsplash.com/photo-1617897903246-719242758050?w=1000&auto=format&fit=crop&q=80"
                         alt="Editorial posing cosmetics"

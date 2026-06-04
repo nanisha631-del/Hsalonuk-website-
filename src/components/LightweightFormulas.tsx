@@ -50,33 +50,43 @@ export default function LightweightFormulas() {
     <section id="formulas-deck" className="bg-brand-offwhite w-full py-20 px-4 md:px-12 relative select-none">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
         
-        {/* Left Column: Sticky Information Panel */}
-        <div className="lg:col-span-5 lg:sticky lg:top-28 flex flex-col gap-6 py-6 border-l-2 border-brand-lilac/30 pl-6">
-          <span className="text-[11px] font-sans uppercase tracking-[0.2em] text-[#C4B5D4] font-bold">FEATHERLIGHT FORMULAS</span>
-          
-          <h2 className="font-serif text-[32px] md:text-[40px] font-black leading-snug tracking-tight text-brand-black">
-            LIGHTWEIGHT FORMULAS THAT BLEND IN AND ENHANCE WHAT'S ALREADY THERE.
-          </h2>
+        {/* Left Column: Sticky Information Panel with staggered scroll reveal */}
+        <div className="lg:col-span-5 lg:sticky lg:top-28">
+          <div className="flex flex-col gap-6 py-6 border-l-2 border-brand-lilac/30 pl-6">
+            <ScrollReveal direction="right" distance={20} delay={0}>
+              <span className="text-[11px] font-sans uppercase tracking-[0.2em] text-[#C4B5D4] font-bold">FEATHERLIGHT FORMULAS</span>
+            </ScrollReveal>
+            
+            <ScrollReveal direction="right" distance={30} delay={100}>
+              <h2 className="font-serif text-[32px] md:text-[40px] font-black leading-snug tracking-tight text-brand-black">
+                LIGHTWEIGHT FORMULAS THAT BLEND IN AND ENHANCE WHAT'S ALREADY THERE.
+              </h2>
+            </ScrollReveal>
 
-          <p className="text-gray-500 font-sans text-sm tracking-wide leading-relaxed">
-            MAKEUP THAT ADAPTS TO YOUR ROUTINE, YOUR MOOD, YOUR VIBE.
-          </p>
+            <ScrollReveal direction="right" distance={25} delay={200}>
+              <p className="text-gray-500 font-sans text-sm tracking-wide leading-relaxed">
+                MAKEUP THAT ADAPTS TO YOUR ROUTINE, YOUR MOOD, YOUR VIBE.
+              </p>
+            </ScrollReveal>
 
-          <p className="text-gray-400 font-serif text-[15px] italic leading-relaxed">
-            BUILD, BLEND, AND REAPPLY — WHEREVER THE DAY TAKES YOU.
-          </p>
-          
-          <div className="pt-4">
-            <button
-              onClick={() => {
-                const target = document.getElementById("bestsellers-section");
-                if (target) target.scrollIntoView({ behavior: "smooth" });
-              }}
-              className="bg-brand-black hover:bg-brand-black/90 text-white font-sans font-bold text-xs uppercase tracking-[0.15em] px-6 py-3.5 flex items-center gap-2 cursor-pointer transition-transform duration-300 hover:scale-102"
-            >
-              SHOP THE FORMULAS
-              <ArrowRight className="w-4.5 h-4.5 text-brand-lilac" />
-            </button>
+            <ScrollReveal direction="right" distance={20} delay={300}>
+              <p className="text-gray-400 font-serif text-[15px] italic leading-relaxed">
+                BUILD, BLEND, AND REAPPLY — WHEREVER THE DAY TAKES YOU.
+              </p>
+            </ScrollReveal>
+            
+            <ScrollReveal direction="right" distance={15} delay={400} className="pt-4">
+              <button
+                onClick={() => {
+                  const target = document.getElementById("bestsellers-section");
+                  if (target) target.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="bg-brand-black hover:bg-brand-black/90 text-white font-sans font-bold text-xs uppercase tracking-[0.15em] px-6 py-3.5 flex items-center gap-2 cursor-pointer transition-transform duration-300 hover:scale-102"
+              >
+                SHOP THE FORMULAS
+                <ArrowRight className="w-4.5 h-4.5 text-brand-lilac" />
+              </button>
+            </ScrollReveal>
           </div>
         </div>
 

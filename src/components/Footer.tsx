@@ -107,16 +107,16 @@ export default function Footer({ onGoHome }: FooterProps) {
         <div className="text-center pt-8 border-t border-white/5">
           <button
             onClick={onGoHome}
-            className="font-serif font-black text-[60px] sm:text-[100px] md:text-[160px] leading-none tracking-[0.1em] text-white/5 hover:text-white/10 transition-colors uppercase border-none block w-full mt-4 cursor-pointer"
+            className="font-serif font-black text-[46px] sm:text-[80px] md:text-[130px] leading-none tracking-[0.1em] text-white hover:text-brand-lilac transition-colors uppercase border-none block w-full mt-4 cursor-pointer"
           >
-            PHENOMENA
+            THE SKIN LAB
           </button>
         </div>
 
         {/* Bottom row copyrights and socials */}
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-500 uppercase tracking-widest border-t border-white/5 pt-8">
           <div>
-            © 2026, Palo-Alto-Theme-Phenomena. Built with React and absolute luxury. All rights reserved.
+            © 2026, The Skin Lab. Built with React and absolute luxury. All rights reserved.
           </div>
           <div className="flex gap-6 items-center">
             <button className="hover:text-white p-1" aria-label="Instagram"><Instagram className="w-4 h-4" /></button>

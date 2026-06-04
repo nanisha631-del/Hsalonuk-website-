@@ -5,6 +5,7 @@
 
 import { useState } from "react";
 import { ArrowLeft, Star, ChevronLeft, ChevronRight, Plus, Minus, Check, Heart, ShieldCheck, Sparkles, HelpCircle } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
 import { Product } from "../types";
 import { PRODUCTS } from "../data";
 
@@ -252,19 +253,33 @@ export default function ProductPage({
                 <span>Description</span>
                 {activeTab === "description" ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
               </button>
-              {activeTab === "description" && (
-                <div className="mt-4 text-sm text-gray-600 font-sans leading-relaxed flex flex-col gap-3 transition-all">
-                  <p>{product.description || "Designed with skin comfort at the priority, built for natural luminescence."}</p>
-                  <p className="italic">{product.intro}</p>
-                  {product.bullets && product.bullets.length > 0 && (
-                    <ul className="list-disc pl-5 flex flex-col gap-1.5 mt-2">
-                      {product.bullets.map((bullet, idx) => (
-                        <li key={idx}>{bullet}</li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              )}
+              <AnimatePresence initial={false}>
+                {activeTab === "description" && (
+                  <motion.div
+                    initial="collapsed"
+                    animate="open"
+                    exit="collapsed"
+                    variants={{
+                      open: { opacity: 1, height: "auto" },
+                      collapsed: { opacity: 0, height: 0 }
+                    }}
+                    transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                    className="overflow-hidden"
+                  >
+                    <div className="pt-4 text-sm text-gray-600 font-sans leading-relaxed flex flex-col gap-3">
+                      <p>{product.description || "Designed with skin comfort at the priority, built for natural luminescence."}</p>
+                      <p className="italic">{product.intro}</p>
+                      {product.bullets && product.bullets.length > 0 && (
+                        <ul className="list-disc pl-5 flex flex-col gap-1.5 mt-2">
+                          {product.bullets.map((bullet, idx) => (
+                            <li key={idx}>{bullet}</li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
             {/* How To Use Tab */}
@@ -276,14 +291,28 @@ export default function ProductPage({
                 <span>How To Use</span>
                 {activeTab === "how-to-use" ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
               </button>
-              {activeTab === "how-to-use" && (
-                <div className="mt-4 text-sm text-gray-600 font-sans leading-relaxed flex flex-col gap-2">
-                  <p>1. Ensure your face is clean, dry, and balanced with serum.</p>
-                  <p>2. Sweep or wipe the product directly onto desired areas needing color or highlights.</p>
-                  <p>3. Tap gently with warmth of finger pads to diffuse edges perfectly into your base makeup.</p>
-                  <p>4. Build color progressively for night out contrast.</p>
-                </div>
-              )}
+              <AnimatePresence initial={false}>
+                {activeTab === "how-to-use" && (
+                  <motion.div
+                    initial="collapsed"
+                    animate="open"
+                    exit="collapsed"
+                    variants={{
+                      open: { opacity: 1, height: "auto" },
+                      collapsed: { opacity: 0, height: 0 }
+                    }}
+                    transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                    className="overflow-hidden"
+                  >
+                    <div className="pt-4 text-sm text-gray-600 font-sans leading-relaxed flex flex-col gap-2">
+                      <p>1. Ensure your face is clean, dry, and balanced with serum.</p>
+                      <p>2. Sweep or wipe the product directly onto desired areas needing color or highlights.</p>
+                      <p>3. Tap gently with warmth of finger pads to diffuse edges perfectly into your base makeup.</p>
+                      <p>4. Build color progressively for night out contrast.</p>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
             {/* Ingredients Tab */}
@@ -295,11 +324,25 @@ export default function ProductPage({
                 <span>Ingredients</span>
                 {activeTab === "ingredients" ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
               </button>
-              {activeTab === "ingredients" && (
-                <div className="mt-4 text-sm text-gray-500 font-mono tracking-tight leading-relaxed">
-                  Organic Castor Seed Oil, Jojoba Esters, Synthetic Fluorphlogopite, Squalane, Tocopheryl Acetate (Vitamin E), Shea Butter Extract, Rosehip Fruit Extract, Titanium Dioxide (CI 77891), Lavender Flower Extract.
-                </div>
-              )}
+              <AnimatePresence initial={false}>
+                {activeTab === "ingredients" && (
+                  <motion.div
+                    initial="collapsed"
+                    animate="open"
+                    exit="collapsed"
+                    variants={{
+                      open: { opacity: 1, height: "auto" },
+                      collapsed: { opacity: 0, height: 0 }
+                    }}
+                    transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                    className="overflow-hidden"
+                  >
+                    <div className="pt-4 text-sm text-gray-500 font-mono tracking-tight leading-relaxed">
+                      Organic Castor Seed Oil, Jojoba Esters, Synthetic Fluorphlogopite, Squalane, Tocopheryl Acetate (Vitamin E), Shea Butter Extract, Rosehip Fruit Extract, Titanium Dioxide (CI 77891), Lavender Flower Extract.
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
             {/* Shipping + Returns Tab */}
@@ -311,12 +354,26 @@ export default function ProductPage({
                 <span>Shipping & Returns</span>
                 {activeTab === "shipping" ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
               </button>
-              {activeTab === "shipping" && (
-                <div className="mt-4 text-sm text-gray-600 font-sans leading-relaxed flex flex-col gap-2">
-                  <p>We provide Free Shipping on all worldwide orders over $75. Economy delivery options deliver to your door within 3 to 7 working days.</p>
-                  <p>Unhappy with shading? We offer completely free 30-day return policy for unused products in pristine cosmetics packaging boxes.</p>
-                </div>
-              )}
+              <AnimatePresence initial={false}>
+                {activeTab === "shipping" && (
+                  <motion.div
+                    initial="collapsed"
+                    animate="open"
+                    exit="collapsed"
+                    variants={{
+                      open: { opacity: 1, height: "auto" },
+                      collapsed: { opacity: 0, height: 0 }
+                    }}
+                    transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                    className="overflow-hidden"
+                  >
+                    <div className="pt-4 text-sm text-gray-600 font-sans leading-relaxed flex flex-col gap-2">
+                      <p>We provide Free Shipping on all worldwide orders over $75. Economy delivery options deliver to your door within 3 to 7 working days.</p>
+                      <p>Unhappy with shading? We offer completely free 30-day return policy for unused products in pristine cosmetics packaging boxes.</p>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </div>
 
@@ -388,11 +445,25 @@ export default function ProductPage({
                   {activeFaq === idx ? "−" : "+"}
                 </span>
               </button>
-              {activeFaq === idx && (
-                <p className="mt-2.5 text-sm font-sans text-gray-600 leading-relaxed max-w-3xl">
-                  {faq.a}
-                </p>
-              )}
+              <AnimatePresence initial={false}>
+                {activeFaq === idx && (
+                  <motion.div
+                    initial="collapsed"
+                    animate="open"
+                    exit="collapsed"
+                    variants={{
+                      open: { opacity: 1, height: "auto", marginTop: 10 },
+                      collapsed: { opacity: 0, height: 0, marginTop: 0 }
+                    }}
+                    transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                    className="overflow-hidden"
+                  >
+                    <p className="text-sm font-sans text-gray-600 leading-relaxed max-w-3xl">
+                      {faq.a}
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           ))}
         </div>

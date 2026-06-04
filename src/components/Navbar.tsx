@@ -59,7 +59,7 @@ export default function Navbar({
       className={`w-full transition-all duration-300 ${navClass} h-16 md:h-20 flex items-center justify-between px-4 md:px-12`}
     >
       {/* Left side: Hamburger + Search */}
-      <div className="flex items-center gap-4 md:gap-6 w-1/3">
+      <div className="flex items-center gap-4 md:gap-6 flex-1 min-w-0">
         <button
           onClick={onMenuClick}
           className="p-1 hover:opacity-70 transition-opacity cursor-pointer"
@@ -77,17 +77,17 @@ export default function Navbar({
       </div>
 
       {/* Center: Brand name */}
-      <div className="text-center w-1/3 flex justify-center">
+      <div className="shrink-0 px-1 flex justify-center items-center min-w-[130px] z-10">
         <button
           onClick={onGoHome}
-          className="font-serif text-[24px] md:text-[32px] font-light tracking-[0.3em] uppercase hover:opacity-80 transition-opacity cursor-pointer"
+          className="font-serif text-[12.5px] xs:text-[14px] sm:text-[20px] md:text-[26.5px] font-black tracking-[0.12em] xs:tracking-[0.16em] sm:tracking-[0.2em] uppercase hover:opacity-80 transition-all duration-300 cursor-pointer whitespace-nowrap overflow-visible select-none leading-none pt-0.5"
         >
-          PHENOMENA
+          THE SKIN LAB
         </button>
       </div>
 
       {/* Right side: Account + Cart */}
-      <div className="flex items-center justify-end gap-4 md:gap-6 w-1/3">
+      <div className="flex items-center justify-end gap-4 md:gap-6 flex-1 min-w-0">
         <button
           className="p-1 hover:opacity-70 transition-opacity hidden md:block cursor-pointer"
           aria-label="Account"

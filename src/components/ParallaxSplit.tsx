@@ -12,8 +12,6 @@ export default function ParallaxSplit() {
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    let animId: number;
-
     const handleScroll = () => {
       if (!sectionRef.current) return;
       const rect = sectionRef.current.getBoundingClientRect();
@@ -25,11 +23,11 @@ export default function ParallaxSplit() {
       const progress = Math.max(0, Math.min(1, enteredDistance / totalDistance));
       
       // map progress (0.5 being centered) to travel bounds
-      const offsetVal = (progress - 0.5) * 60; // moves max 30px up or down
+      const offsetVal = (progress - 0.5) * 50; // moves max 25px
       setScrollOffset(offsetVal);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
 
     return () => {
@@ -41,59 +39,78 @@ export default function ParallaxSplit() {
     <section
       ref={sectionRef}
       id="parallax-split"
-      className="bg-brand-offwhite w-full py-24 md:py-36 px-4 md:px-12 relative overflow-hidden flex flex-col justify-center items-center select-none"
+      className="bg-brand-offwhite w-full py-20 px-4 md:px-12 relative overflow-hidden flex flex-col items-center select-none"
     >
-      <div className="max-w-6xl w-full relative grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-center">
+      <div className="max-w-2xl w-full flex flex-col items-center text-center gap-8">
         
-        {/* Left Side Container (Upper/Left Image) */}
-        <div 
-          className="relative aspect-square md:aspect-[3/4] overflow-hidden bg-brand-nude/15 z-10 transition-transform duration-100 ease-out flex items-center justify-center"
-          style={{
-            transform: `translate3d(${-15 + scrollOffset * 0.4}px, ${-15 + scrollOffset * 0.4}px, 0)`,
-            willChange: "transform"
-          }}
-        >
-          <img
-            src="https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=800&auto=format&fit=crop&q=80"
-            alt="Makeup texture model"
-            referrerPolicy="no-referrer"
-            className="w-full h-full object-cover scale-105"
-          />
+        {/* Overlapping Polaroid Image Container */}
+        <div className="relative w-[280px] sm:w-[350px] h-[310px] sm:h-[410px] mx-auto flex items-center justify-center">
+          
+          {/* POLAROID 1 (REAR PHOTO) - Moves slightly left and up on scroll */}
+          <div 
+            className="absolute top-2 left-6 sm:left-12 w-[150px] sm:w-[190px] bg-white p-2 pb-8 sm:p-2.5 sm:pb-11 shadow-lg border border-brand-black/5 transition-transform duration-75 ease-out z-0 origin-center"
+            style={{
+              transform: `translate3d(${-10 - scrollOffset * 0.22}px, ${-scrollOffset * 0.08}px, 0) rotate(-4.5deg)`,
+              willChange: "transform"
+            }}
+          >
+            <div className="w-full aspect-[4/5] bg-gray-100 overflow-hidden relative">
+              <img
+                src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&auto=format&fit=crop&q=80"
+                alt="Models lip gloss pose"
+                referrerPolicy="no-referrer"
+                className="w-full h-full object-cover scale-[1.03]"
+              />
+            </div>
+            <div className="mt-2 text-left font-mono text-[8px] text-gray-300 tracking-wider">
+              LIP_GLOSS // 01
+            </div>
+          </div>
+
+          {/* POLAROID 2 (FRONT PHOTO) - Moves slightly right and down on scroll */}
+          <div 
+            className="absolute top-18 left-24 sm:top-24 sm:left-32 w-[150px] sm:w-[190px] bg-white p-2 pb-8 sm:p-2.5 sm:pb-11 shadow-xl border border-brand-black/5 transition-transform duration-75 ease-out z-10 origin-center"
+            style={{
+              transform: `translate3d(${10 + scrollOffset * 0.25}px, ${scrollOffset * 0.12}px, 0) rotate(5deg)`,
+              willChange: "transform"
+            }}
+          >
+            <div className="w-full aspect-[4/5] bg-gray-100 overflow-hidden relative">
+              <img
+                src="https://images.unsplash.com/photo-1617897903246-719242758050?w=600&auto=format&fit=crop&q=80"
+                alt="Makeup look pose"
+                referrerPolicy="no-referrer"
+                className="w-full h-full object-cover scale-[1.03]"
+              />
+            </div>
+            <div className="mt-2 text-left font-mono text-[8px] text-gray-300 tracking-wider">
+              MAKEUP // DEWY
+            </div>
+          </div>
         </div>
 
-        {/* Right Side Container (Lower/Right Image) */}
-        <div 
-          className="relative aspect-square md:aspect-[3/4] overflow-hidden bg-brand-lilac/15 z-10 transition-transform duration-100 ease-out flex items-center justify-center md:top-12"
-          style={{
-            transform: `translate3d(${15 - scrollOffset * 0.4}px, ${15 - scrollOffset * 0.4}px, 0)`,
-            willChange: "transform"
-          }}
-        >
-          <img
-            src="https://images.unsplash.com/photo-1617897903246-719242758050?w=800&auto=format&fit=crop&q=80"
-            alt="Luminous cheekbone glow"
-            referrerPolicy="no-referrer"
-            className="w-full h-full object-cover scale-105"
-          />
-        </div>
-
-        {/* Center Text Overlay Layer */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center z-20 pointer-events-none md:p-6 text-center">
-          <ScrollReveal>
-            <div className="bg-brand-offwhite/90 backdrop-blur-md px-10 py-8 border border-brand-black/5 flex flex-col items-center gap-3 shadow-xl max-w-lg pointer-events-auto">
-              <h2 className="font-serif text-[32px] md:text-[46px] lg:text-[54px] font-black text-brand-black leading-tight">
+        {/* Center Text Layer UNDER Polaroid stack */}
+        <div className="w-full flex flex-col items-center max-w-lg mt-2">
+          <ScrollReveal direction="up" distance={25}>
+            <div className="flex flex-col items-center gap-4 text-center">
+              <h2 className="font-serif text-[42px] sm:text-[54px] md:text-[62px] font-black leading-tight text-brand-black uppercase leading-[1]">
                 MAKEUP, MADE <br />
-                <span className="italic font-light text-brand-lilac">EFFORTLESS.</span>
+                <span className="relative inline-block z-10 whitespace-nowrap text-brand-black italic font-light lowercase font-serif py-1">
+                  effortless.
+                  <span className="absolute bottom-2 left-0 right-0 h-2 sm:h-3 bg-[#E1D1FF] -z-10 rounded-full scale-x-105 origin-left transform -rotate-1 opacity-70" />
+                </span>
               </h2>
-              <p className="text-gray-500 font-sans text-xs tracking-widest uppercase">
-                Lightweight, buildable formulas infused with skincare ingredients. 
+              
+              <p className="text-gray-500 font-sans text-[13px] sm:text-[15px] leading-relaxed max-w-sm mt-1">
+                Lightweight, buildable makeup infused with skincare-level ingredients. Easy to wear, easy to blend, and made for whatever your routine looks like.
               </p>
+              
               <button
                 onClick={() => {
                   const target = document.getElementById("bestsellers-section");
                   if (target) target.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="mt-2 text-xs font-sans font-bold uppercase tracking-[0.15em] border-b border-brand-black pb-1 hover:opacity-75 transition-opacity cursor-pointer flex items-center gap-2"
+                className="mt-4 text-xs font-sans font-bold uppercase tracking-[0.2em] border-b border-brand-black pb-1 hover:opacity-75 transition-opacity cursor-pointer flex items-center gap-1.5 text-brand-black"
               >
                 SHOP THE COLLECTION
                 <ArrowRight className="w-4 h-4 text-brand-lilac" />
