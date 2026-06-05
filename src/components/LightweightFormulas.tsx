@@ -3,11 +3,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ArrowRight } from "lucide-react";
 import ScrollReveal from "./ScrollReveal";
+import ScrollZoomImage from "./ScrollZoomImage";
 
 interface FormulaCard {
   id: string;
+  category: string;
   name: string;
   image: string;
 }
@@ -15,120 +16,78 @@ interface FormulaCard {
 const CARDS: FormulaCard[] = [
   {
     id: "f1",
-    name: "HALO HIGHLIGHTER",
-    image: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=800&auto=format&fit=crop&q=80"
+    category: "SKIN, BUT BETTER",
+    name: "LIGHTWEIGHT FORMULAS THAT BLEND IN AND ENHANCE WHAT'S ALREADY THERE.",
+    image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=1000&auto=format&fit=crop&q=80"
   },
   {
     id: "f2",
-    name: "COLOR MASCARA",
-    image: "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=800&auto=format&fit=crop&q=80"
+    category: "THE LASH GURU",
+    name: "COLOR MASCARA FOR THAT MULTI-DIMENSIONAL FEATHERLIGHT LASH LOOK.",
+    image: "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=1000&auto=format&fit=crop&q=80"
   },
   {
     id: "f3",
-    name: "EYE SHADOW STICK",
-    image: "https://images.unsplash.com/photo-1631214499551-772e2c24255b?w=800&auto=format&fit=crop&q=80"
+    category: "MAIN CHARACTER EYE",
+    name: "EYE SHADOW STICK WITH QUICK BLENDABLE WATERPROOF INTENSITY.",
+    image: "https://images.unsplash.com/photo-1631214499551-772e2c24255b?w=1000&auto=format&fit=crop&q=80"
   },
   {
     id: "f4",
-    name: "CONCEALER",
-    image: "https://images.unsplash.com/photo-1590156546746-cf337ae99c9c?w=800&auto=format&fit=crop&q=80"
-  },
-  {
-    id: "f5",
-    name: "EYELINER",
-    image: "https://images.unsplash.com/photo-1617897903246-719242758050?w=800&auto=format&fit=crop&q=80"
-  },
-  {
-    id: "f6",
-    name: "LIP GLOSS",
-    image: "https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?w=800&auto=format&fit=crop&q=80"
+    category: "SOFT LIPS CLUB",
+    name: "GLISTENING BERRY-OIL LIP GLAZE WITH INSTANT MOUTH-WATERING SHAPE.",
+    image: "https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?w=1000&auto=format&fit=crop&q=80"
   }
 ];
 
 export default function LightweightFormulas() {
   return (
-    <section id="formulas-deck" className="bg-brand-offwhite w-full py-20 px-4 md:px-12 relative select-none">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-        
-        {/* Left Column: Sticky Information Panel with staggered scroll reveal */}
-        <div className="lg:col-span-5 lg:sticky lg:top-28">
-          <div className="flex flex-col gap-6 py-6 border-l-2 border-brand-lilac/30 pl-6">
-            <ScrollReveal direction="right" distance={20} delay={0}>
-              <span className="text-[11px] font-sans uppercase tracking-[0.2em] text-[#C4B5D4] font-bold">FEATHERLIGHT FORMULAS</span>
-            </ScrollReveal>
-            
-            <ScrollReveal direction="right" distance={30} delay={100}>
-              <h2 className="font-serif text-[32px] md:text-[40px] font-black leading-snug tracking-tight text-brand-black">
-                LIGHTWEIGHT FORMULAS THAT BLEND IN AND ENHANCE WHAT'S ALREADY THERE.
-              </h2>
-            </ScrollReveal>
+    <section id="formulas-deck" className="bg-brand-offwhite w-full py-10 sm:py-16 px-4 md:px-12 relative select-none">
+      <div className="max-w-xl mx-auto flex flex-col gap-3 items-center text-center mb-10">
+        <ScrollReveal direction="up" distance={15}>
+          <span className="text-[10px] md:text-[11px] font-sans uppercase tracking-[0.2em] text-gray-400 font-bold">THE HIGHLIGHT INDEX</span>
+        </ScrollReveal>
+        <ScrollReveal direction="up" distance={20} delay={50}>
+          <h2 className="font-sans text-[22px] sm:text-[32px] font-black tracking-tight leading-tight uppercase text-brand-black">
+            STORY OF LIGHTWEIGHT FORMULAS
+          </h2>
+        </ScrollReveal>
+      </div>
 
-            <ScrollReveal direction="right" distance={25} delay={200}>
-              <p className="text-gray-500 font-sans text-sm tracking-wide leading-relaxed">
-                MAKEUP THAT ADAPTS TO YOUR ROUTINE, YOUR MOOD, YOUR VIBE.
-              </p>
-            </ScrollReveal>
-
-            <ScrollReveal direction="right" distance={20} delay={300}>
-              <p className="text-gray-400 font-serif text-[15px] italic leading-relaxed">
-                BUILD, BLEND, AND REAPPLY — WHEREVER THE DAY TAKES YOU.
-              </p>
-            </ScrollReveal>
-            
-            <ScrollReveal direction="right" distance={15} delay={400} className="pt-4">
-              <button
-                onClick={() => {
-                  const target = document.getElementById("bestsellers-section");
-                  if (target) target.scrollIntoView({ behavior: "smooth" });
-                }}
-                className="bg-brand-black hover:bg-brand-black/90 text-white font-sans font-bold text-xs uppercase tracking-[0.15em] px-6 py-3.5 flex items-center gap-2 cursor-pointer transition-transform duration-300 hover:scale-102"
-              >
-                SHOP THE FORMULAS
-                <ArrowRight className="w-4.5 h-4.5 text-brand-lilac" />
-              </button>
-            </ScrollReveal>
-          </div>
-        </div>
-
-        {/* Right Column: Vertically Stacking Cards (Deck of cards effect) */}
-        <div className="lg:col-span-7 flex flex-col gap-8 lg:gap-14">
-          {CARDS.map((card, idx) => (
-            <div key={card.id}>
-              <ScrollReveal delay={100}>
-                {/* Card Container */}
-                <div 
-                  className="w-full h-[380px] md:h-[440px] bg-[#E3DFDA] relative overflow-hidden shadow-lg border border-brand-black/5 lg:sticky rounded-none group"
-                  style={{
-                    top: `${140 + idx * 25}px`, // Stacking deck values
-                    zIndex: 10 + idx
-                  }}
-                >
-                  {/* Visual image */}
-                  <img
-                    src={card.image}
-                    alt={card.name}
-                    referrerPolicy="no-referrer"
-                    className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-103"
-                  />
-
-                  {/* Cover overlay on bottom */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-brand-black/75 via-transparent to-transparent flex items-end p-6 md:p-8">
-                    <div className="flex justify-between items-end w-full">
-                      <div className="flex flex-col gap-1">
-                        <span className="text-[10px] font-sans text-brand-lilac uppercase tracking-[0.15em] font-bold">FORMULA 0{idx+1}</span>
-                        <h3 className="font-serif text-[18px] md:text-[22px] font-bold text-white tracking-widest">{card.name}</h3>
-                      </div>
-                      <span className="text-white/60 font-mono text-xs">
-                        [0{idx+1}_N]
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </ScrollReveal>
+      {/* Main Single-Column Overlapping Deck */}
+      <div className="max-w-2xl mx-auto relative flex flex-col gap-10 sm:gap-14 pb-20">
+        {CARDS.map((card, idx) => (
+          <div 
+            key={card.id}
+            className="sticky w-full h-[60vh] sm:h-[65vh] min-h-[420px] max-h-[580px] bg-[#E3DFDA] rounded-[24px] sm:rounded-[36px] shadow-sm border border-brand-black/5 overflow-hidden group flex flex-col"
+            style={{
+              top: `${110 + idx * 20}px`, // Staggered sticky offsets for stacking stacked cards
+              zIndex: 10 + idx
+            }}
+          >
+            {/* 1. Large Rounded Beauty Portrait */}
+            <div className="h-[62%] w-full relative overflow-hidden bg-gray-200">
+              <ScrollZoomImage
+                src={card.image}
+                alt={card.name}
+              />
             </div>
-          ))}
-        </div>
 
+            {/* 2. Overlap Card Info Text Area Below Image */}
+            <div className="h-[38%] bg-[#FDFBF7] p-4.5 sm:p-6 md:p-8 flex flex-col justify-center text-left border-t border-brand-black/5 gap-1 shadow-xs">
+              <span className="text-[9px] sm:text-[10px] font-sans text-brand-lilac uppercase tracking-[0.2em] font-bold">
+                {card.category}
+              </span>
+              <h3 className="font-sans text-[13px] sm:text-[16px] md:text-[17px] font-black text-brand-black leading-snug uppercase tracking-tight">
+                {card.name}
+              </h3>
+              <div className="flex justify-between items-center mt-1 pt-2 border-t border-[#DFDADA]/40">
+                <span className="text-gray-400 font-sans text-[10px] uppercase tracking-widest font-bold">FORMULA 0{idx+1}</span>
+                <span className="text-brand-lilac font-mono text-[10px]">[INDEX_0{idx+1}_OK]</span>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </section>
   );

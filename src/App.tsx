@@ -28,6 +28,7 @@ import HoverAccordion from "./components/HoverAccordion";
 import ProductPage from "./components/ProductPage";
 import CartDrawer from "./components/CartDrawer";
 import Footer from "./components/Footer";
+import ScrollZoomImage from "./components/ScrollZoomImage";
 
 export default function App() {
   const [currentView, setCurrentView] = useState<"home" | "product">("home");
@@ -149,99 +150,86 @@ export default function App() {
               className="flex flex-col w-full"
             >
               {/* SECTION 2 — HERO SECTION */}
-              <section id="hero-showcase" className="relative h-screen w-full overflow-hidden flex items-center justify-center">
-                {/* Fullbleed background hero cover */}
-                <div className="absolute inset-0 bg-[#E8E8E8] z-0 select-none">
-                  <img
-                    src="https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=1900&auto=format&fit=crop&q=80"
-                    alt="Radiant Skin Beauty Hero Background"
-                    referrerPolicy="no-referrer"
-                    className="w-full h-full object-cover object-center brightness-[0.78]"
-                  />
-                </div>
+              <section id="hero-showcase" className="w-full bg-brand-offwhite pt-24 sm:pt-28 pb-10 px-4 md:px-12 select-none">
+                <div className="max-w-7xl mx-auto">
+                  {/* The Framed Hero Card with gap highlighted */}
+                  <div className="relative w-full h-[65vh] sm:h-[75vh] min-h-[480px] max-h-[720px] bg-[#E8E8E8] rounded-2xl md:rounded-[36px] overflow-hidden shadow-xs flex items-center justify-center">
+                    
+                    {/* Background portrait of skin close-up */}
+                    <div className="absolute inset-0 z-0 select-none overflow-hidden rounded-2xl md:rounded-[36px]">
+                      <ScrollZoomImage
+                        src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=1800&auto=format&fit=crop&q=80"
+                        alt="Radiant Skin Beauty Hero Background"
+                        className="brightness-[0.82] object-center"
+                      />
+                    </div>
 
-                {/* Styled Center Hero Contents with sliding transitions */}
-                <div className="relative z-10 text-center flex flex-col items-center gap-6 px-4 md:px-12 max-w-4xl pt-16 select-none">
-                  <motion.div
-                    initial={{ opacity: 0, y: 40 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
-                    className="flex flex-col gap-2"
-                  >
-                    <span className="text-[11px] font-sans font-bold text-[#E8D5C4] uppercase tracking-[0.25em] drop-shadow-xs">
-                      MIST • HIGHLIGHT • DEFINE
-                    </span>
-                    <h1 className="font-serif text-[56px] md:text-[88px] lg:text-[110px] font-light leading-[0.85] tracking-[-0.02em] text-white my-6 uppercase">
-                      RADIANT<br />BEAUTY
-                    </h1>
-                    <p className="text-white/90 text-xs md:text-sm font-sans tracking-[0.2em] font-semibold max-w-xl mx-auto uppercase">
-                      Makeup, but make it fun.
-                    </p>
-                  </motion.div>
+                    {/* Styled Center Hero Contents */}
+                    <div className="relative z-10 text-center flex flex-col items-center gap-3 px-4 md:px-12 max-w-2xl select-none">
+                      <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                        className="flex flex-col gap-1.5"
+                      >
+                        <h1 className="font-sans text-[44px] sm:text-[68px] md:text-[88px] font-black leading-[0.9] tracking-tight text-white my-3 uppercase">
+                          RADIANT<br />BEAUTY
+                        </h1>
+                        <p className="text-white/95 text-xs sm:text-xs font-sans tracking-[0.18em] font-bold uppercase mt-2">
+                          Makeup, but make it fun.
+                        </p>
+                      </motion.div>
 
-                  {/* Buttons with staggered delays */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.25, ease: "easeOut" }}
-                    className="flex justify-center gap-6 flex-wrap mt-4"
-                  >
-                    <button
-                      onClick={() => {
-                        const next = document.getElementById("bestsellers-section");
-                        if (next) next.scrollIntoView({ behavior: "smooth" });
-                      }}
-                      className="bg-brand-black text-white border border-brand-black px-10 py-4.5 uppercase tracking-[0.2em] text-[11px] font-bold hover:scale-[1.05] transition-all duration-300 shadow-xl cursor-pointer rounded-none"
-                    >
-                      BESTSELLERS
-                    </button>
-                    <button
-                      onClick={() => {
-                        const block = document.getElementById("category-accordion");
-                        if (block) block.scrollIntoView({ behavior: "smooth" });
-                      }}
-                      className="bg-transparent border border-white text-white px-10 py-4.5 uppercase tracking-[0.2em] text-[11px] font-bold hover:scale-[1.05] transition-all duration-300 cursor-pointer rounded-none"
-                    >
-                      MAKEUP BASICS
-                    </button>
-                  </motion.div>
-                </div>
-                
-                {/* Slow mouse down indicator */}
-                <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 text-white/50 text-[10px] uppercase font-sans tracking-widest animate-bounce">
-                  <span>Scroll down</span>
-                  <div className="w-[1px] h-6 bg-white/40" />
+                      {/* Pill button: SHOP PRODUCTS */}
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.8, delay: 0.15, ease: "easeOut" }}
+                        className="mt-6"
+                      >
+                        <button
+                          onClick={() => {
+                            const next = document.getElementById("bestsellers-section");
+                            if (next) next.scrollIntoView({ behavior: "smooth" });
+                          }}
+                          className="bg-white text-brand-black px-10 py-3.5 rounded-full text-[11px] font-extrabold uppercase tracking-[0.25em] hover:bg-white/95 hover:scale-[1.03] transition-all duration-300 shadow-sm cursor-pointer whitespace-nowrap"
+                        >
+                          SHOP PRODUCTS
+                        </button>
+                      </motion.div>
+                    </div>
+
+                    {/* Slow mouse down indicator inside the frame */}
+                    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1.5 text-white/50 text-[9px] uppercase font-sans tracking-widest">
+                      <span>Scroll down</span>
+                      <div className="w-[1px] h-4 bg-white/30" />
+                    </div>
+
+                  </div>
                 </div>
               </section>
 
               {/* SECTION 3 — BESTSELLER PRODUCT CAROUSEL */}
-              <section id="bestsellers-section" className="bg-brand-offwhite py-20 px-4 md:px-12 relative select-none">
-                <div className="max-w-7xl mx-auto flex flex-col gap-8">
+              <section id="bestsellers-section" className="bg-brand-offwhite py-12 px-4 md:px-12 relative select-none">
+                <div className="max-w-7xl mx-auto flex flex-col gap-6">
                   
                   {/* Heading container and tabs */}
-                  <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b border-brand-black/5 pb-6">
-                    <div>
-                      <span className="text-[11px] font-sans uppercase tracking-[0.2em] text-gray-400">OUR FAVORITES</span>
-                      <h2 className="font-serif text-[32px] md:text-[44px] font-bold tracking-tight text-brand-black mt-1">
-                        Bestsellers
-                      </h2>
-                    </div>
-
-                    {/* Toggle tabs for categories */}
-                    <div className="flex gap-6 border-b border-brand-black/5 pb-1 md:pb-0">
+                  <div className="flex justify-between items-end border-b border-brand-black/10 pb-4">
+                    {/* Toggle tabs for categories as heavy headers */}
+                    <div className="flex gap-6 sm:gap-10">
                       {(["BESTSELLERS", "MAKEUP BRUSHES"] as const).map((tab) => (
                         <button
                           key={tab}
                           onClick={() => setBestsellersTab(tab)}
-                          className={`text-xs md:text-sm font-sans font-bold uppercase tracking-widest pb-3 relative transition-colors cursor-pointer ${
-                            bestsellersTab === tab ? "text-brand-black" : "text-gray-400 hover:text-brand-black"
+                          className={`text-[20px] sm:text-[30px] font-sans font-black uppercase tracking-tight pb-2 relative transition-colors cursor-pointer select-none ${
+                            bestsellersTab === tab ? "text-brand-black" : "text-gray-300 hover:text-brand-black"
                           }`}
                         >
                           {tab}
                           {bestsellersTab === tab && (
                             <motion.div
                               layoutId="activeBestsellerTabUnderline"
-                              className="absolute bottom-0 left-0 right-0 h-[2px] bg-brand-lilac"
+                              className="absolute bottom-0 left-0 right-0 h-[3px] bg-brand-lilac"
                             />
                           )}
                         </button>
@@ -261,10 +249,10 @@ export default function App() {
                   <div className="relative w-full overflow-hidden">
                     <div
                       ref={carouselContainerRef}
-                      className="flex gap-6 overflow-x-auto select-none py-4 px-1 scroll-smooth w-full no-scrollbar relative snap-x snap-mandatory"
+                      className="flex gap-5 overflow-x-auto select-none py-4 px-1 scroll-smooth w-full no-scrollbar relative snap-x snap-mandatory"
                     >
                       {filteredProducts.map((p) => (
-                        <div key={p.id} className="snap-start w-[240px] md:w-[280px] shrink-0">
+                        <div key={p.id} className="snap-center w-[85vw] sm:w-[320px] md:w-[280px] shrink-0">
                           <ProductCard
                             product={p}
                             onSelect={handleSelectProduct}
@@ -295,14 +283,14 @@ export default function App() {
                   </div>
 
                   {/* Under slider button for collection */}
-                  <div className="flex justify-center mt-6">
+                  <div className="flex justify-center mt-4">
                     <button
                       id="view-collection-button"
                       onClick={() => {
                         const firstProduct = PRODUCTS[0];
                         handleSelectProduct(firstProduct.id);
                       }}
-                      className="bg-[#C4B5D4]/20 hover:bg-[#C4B5D4]/30 text-[#6B5A7F] font-sans font-bold text-xs uppercase tracking-[0.2em] px-10 py-4.5 transition-colors cursor-pointer"
+                      className="bg-[#C4B5D4]/20 hover:bg-[#C4B5D4]/30 text-[#6B5A7F] font-sans font-bold text-xs uppercase tracking-[0.2em] px-10 py-4 transition-colors cursor-pointer"
                     >
                       SHOP THE FULL COLLECTION
                     </button>
@@ -335,74 +323,79 @@ export default function App() {
               <LightweightFormulas />
 
               {/* SECTION 11 — MAKEUP POUCH PRODUCT HIGHLIGHT */}
-              <section id="makeup-pouch-feature" className="bg-brand-offwhite py-20 px-4 md:px-12 relative select-none">
-                <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 items-center bg-white/40 border border-brand-black/5 p-6 md:p-12">
+              <section id="makeup-pouch-feature" className="bg-brand-offwhite py-12 px-4 md:px-12 relative select-none">
+                <div className="max-w-4xl mx-auto bg-white p-6 sm:p-10 rounded-[24px] sm:rounded-[36px] shadow-xs border border-brand-black/5">
                   
-                  {/* Left: Square Cosmetics bag layout */}
-                  <div className="md:col-span-6 relative aspect-square bg-[#E8E4DF] overflow-hidden rounded-xs w-full">
-                    <ScrollReveal direction="right" distance={30} className="w-full h-full">
-                      <img
-                        src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&auto=format&fit=crop&q=80"
-                        alt="The Makeup Pouch"
-                        referrerPolicy="no-referrer"
-                        className="w-full h-full object-cover transition-transform duration-700 hover:scale-103"
-                      />
-                    </ScrollReveal>
+                  {/* Top Tab Headers */}
+                  <div className="flex gap-6 border-b border-brand-black/5 pb-2.5 mb-6">
+                    <span className="font-sans text-[13px] sm:text-[15px] font-black tracking-widest text-brand-black cursor-pointer pb-2 border-b-2 border-brand-lilac">
+                      THE MAKEUP POUCH
+                    </span>
+                    <span className="font-sans text-[13px] sm:text-[15px] font-bold tracking-widest text-gray-300 hover:text-gray-400 cursor-pointer pb-2">
+                      SETTING POWDER
+                    </span>
                   </div>
 
-                  {/* Right Info panels with staggered delays */}
-                  <div className="md:col-span-6 flex flex-col gap-6 items-start w-full">
-                    <ScrollReveal direction="left" distance={30} delay={0} className="w-full">
-                      <div className="flex flex-col gap-2.5">
-                        <span className="text-[11px] font-sans uppercase tracking-[0.25em] text-[#C4B5D4] font-black">
-                          THE MAKEUP POUCH
-                        </span>
-                        <h2 className="font-serif text-[42px] font-bold leading-tight tracking-tight text-brand-black">
-                          GETTING POPULAR
-                        </h2>
+                  {/* Overlapping Images Grid */}
+                  <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+                    
+                    {/* Left: Beautiful Overlapping Image Card frame */}
+                    <div className="md:col-span-6 relative w-full select-none">
+                      <div className="w-[85%] aspect-[1.12/1] bg-[#E8E4DF] overflow-hidden rounded-2xl sm:rounded-[28px] relative shadow-xs">
+                        <ScrollZoomImage
+                          src="https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=800&auto=format&fit=crop&q=80"
+                          alt="The Makeup Pouch Main"
+                        />
                       </div>
-                    </ScrollReveal>
+                      
+                      {/* Secondary overlapping inset picture */}
+                      <div className="absolute bottom-[-10px] right-2 w-[42%] aspect-square bg-[#DFDEDA] border-[3px] border-white rounded-[16px] sm:rounded-[22px] overflow-hidden shadow-md">
+                        <ScrollZoomImage
+                          src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=500&auto=format&fit=crop&q=80"
+                          alt="The Makeup Pouch Inset Detail"
+                        />
+                      </div>
+                    </div>
 
-                    <ScrollReveal direction="left" distance={30} delay={155} className="w-full">
-                      <p className="text-sm font-sans text-gray-500 leading-relaxed max-w-lg mb-1">
-                        A cute, compact makeup pouch designed to go wherever you do. Finished with a soft, iridescent sheen and a clean zip closure, it fits your everyday essentials without taking up space. Easy to toss in your bag, easy to wipe clean, and cute enough to leave out.
-                      </p>
-                    </ScrollReveal>
-
-                    <ScrollReveal direction="left" distance={20} delay={300} className="w-full">
-                      <div className="font-sans text-[24px] font-extrabold text-brand-black">
+                    {/* Right: Tight details copy with ADD TO BAG button */}
+                    <div className="md:col-span-6 flex flex-col gap-3 sm:gap-4 items-start w-full">
+                      <span className="text-[10px] sm:text-[11px] font-sans uppercase tracking-[0.2em] text-[#C4B5D4] font-black">
+                        TRENDING BESTSELLER
+                      </span>
+                      
+                      {/* Price in bold compact size */}
+                      <div className="font-sans text-[26px] sm:text-[32px] font-black leading-none text-brand-black">
                         $60.00
                       </div>
-                    </ScrollReveal>
 
-                    <ScrollReveal direction="left" distance={20} delay={420} className="w-full">
-                      {/* Add to Bag CTA */}
-                      <button
-                        onClick={() => {
-                          const pouch = PRODUCTS.find((p) => p.id === "makeup-pouch");
-                          if (pouch) {
-                            handleAddToCart(pouch, 1);
-                          } else {
-                            alert("Creating luxury pouch item!");
-                          }
-                        }}
-                        className="w-full bg-brand-black hover:bg-brand-black/90 hover:opacity-95 text-white font-sans font-bold py-4 px-8 text-xs uppercase tracking-[0.2em] transition-colors rounded-none cursor-pointer"
-                      >
-                        ADD TO BAG
-                      </button>
-                    </ScrollReveal>
+                      <p className="text-[11.5px] sm:text-[13px] font-sans text-gray-400 leading-relaxed">
+                        A cute, compact makeup pouch designed to go wherever you do. Finished with a soft, iridescent sheen and a clean zip closure, it fits your everyday essentials without taking up space. Easy to toss in your bag, easy to wipe clean, and cute enough to leave out.
+                      </p>
 
-                    <ScrollReveal direction="left" distance={15} delay={520} className="w-full">
-                      {/* Detail overview sub links */}
-                      <button
-                        onClick={() => handleSelectProduct("makeup-pouch")}
-                        className="text-xs font-sans font-bold uppercase tracking-widest text-[#2A2A2A] hover:underline flex items-center gap-1.5"
-                      >
-                        View details <ArrowRight className="w-4 h-4 text-brand-lilac" />
-                      </button>
-                    </ScrollReveal>
+                      <div className="flex gap-4 w-full mt-2">
+                        {/* Add to Bag CTA */}
+                        <button
+                          onClick={() => {
+                            const pouch = PRODUCTS.find((p) => p.id === "makeup-pouch");
+                            if (pouch) {
+                              handleAddToCart(pouch, 1);
+                            }
+                          }}
+                          className="flex-1 bg-brand-black hover:bg-brand-black/90 text-white font-sans font-bold py-3.5 px-6 text-[11px] uppercase tracking-[0.2em] transition-colors rounded-full cursor-pointer whitespace-nowrap shadow-xs"
+                        >
+                          ADD TO BAG
+                        </button>
+
+                        <button
+                          onClick={() => handleSelectProduct("makeup-pouch")}
+                          className="border border-brand-black/15 bg-transparent hover:bg-brand-black/5 text-brand-black font-sans font-bold py-3.5 px-6 text-[11px] uppercase tracking-[0.2em] transition-all rounded-full cursor-pointer whitespace-nowrap"
+                        >
+                          DETAILS
+                        </button>
+                      </div>
+                    </div>
+
                   </div>
-
                 </div>
               </section>
 
@@ -447,13 +440,11 @@ export default function App() {
                   </div>
 
                   {/* Right slide image */}
-                  <div className="md:col-span-6 relative aspect-[4/5] bg-[#E0DEDA] shadow-lg">
-                    <ScrollReveal delay={200} direction="zoom">
-                      <img
+                  <div className="md:col-span-6 relative aspect-[4/5] bg-[#E0DEDA] shadow-lg rounded-2xl overflow-hidden">
+                    <ScrollReveal delay={200} direction="none">
+                      <ScrollZoomImage
                         src="https://images.unsplash.com/photo-1617897903246-719242758050?w=1000&auto=format&fit=crop&q=80"
                         alt="Editorial posing cosmetics"
-                        referrerPolicy="no-referrer"
-                        className="w-full h-full object-cover rounded-xs"
                       />
                     </ScrollReveal>
                   </div>

@@ -6,6 +6,7 @@
 import { useEffect, useState, useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import ScrollReveal from "./ScrollReveal";
+import ScrollZoomImage from "./ScrollZoomImage";
 
 export default function ParallaxSplit() {
   const [scrollOffset, setScrollOffset] = useState(0);
@@ -39,51 +40,47 @@ export default function ParallaxSplit() {
     <section
       ref={sectionRef}
       id="parallax-split"
-      className="bg-brand-offwhite w-full py-20 px-4 md:px-12 relative overflow-hidden flex flex-col items-center select-none"
+      className="bg-brand-offwhite w-full py-10 sm:py-14 px-4 md:px-12 relative overflow-hidden flex flex-col items-center select-none"
     >
-      <div className="max-w-2xl w-full flex flex-col items-center text-center gap-8">
+      <div className="max-w-2xl w-full flex flex-col items-center text-center gap-6">
         
         {/* Overlapping Polaroid Image Container */}
-        <div className="relative w-[280px] sm:w-[350px] h-[310px] sm:h-[410px] mx-auto flex items-center justify-center">
+        <div className="relative w-[210px] sm:w-[350px] h-[210px] sm:h-[410px] mx-auto flex items-center justify-center">
           
           {/* POLAROID 1 (REAR PHOTO) - Moves slightly left and up on scroll */}
           <div 
-            className="absolute top-2 left-6 sm:left-12 w-[150px] sm:w-[190px] bg-white p-2 pb-8 sm:p-2.5 sm:pb-11 shadow-lg border border-brand-black/5 transition-transform duration-75 ease-out z-0 origin-center"
+            className="absolute top-1 left-2 sm:left-12 w-[110px] sm:w-[190px] bg-white p-1.5 pb-5 sm:p-2.5 sm:pb-11 shadow-lg border border-brand-black/5 transition-transform duration-[800ms] cubic-bezier(0.16, 1, 0.3, 1) z-0 origin-center"
             style={{
-              transform: `translate3d(${-10 - scrollOffset * 0.22}px, ${-scrollOffset * 0.08}px, 0) rotate(-4.5deg)`,
+              transform: `translate3d(${-8 - scrollOffset * 0.15}px, ${-scrollOffset * 0.05}px, 0) rotate(-4.5deg)`,
               willChange: "transform"
             }}
           >
             <div className="w-full aspect-[4/5] bg-gray-100 overflow-hidden relative">
-              <img
+              <ScrollZoomImage
                 src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&auto=format&fit=crop&q=80"
                 alt="Models lip gloss pose"
-                referrerPolicy="no-referrer"
-                className="w-full h-full object-cover scale-[1.03]"
               />
             </div>
-            <div className="mt-2 text-left font-mono text-[8px] text-gray-300 tracking-wider">
+            <div className="mt-1.5 text-left font-mono text-[6px] sm:text-[8px] text-gray-300 tracking-wider">
               LIP_GLOSS // 01
             </div>
           </div>
 
           {/* POLAROID 2 (FRONT PHOTO) - Moves slightly right and down on scroll */}
           <div 
-            className="absolute top-18 left-24 sm:top-24 sm:left-32 w-[150px] sm:w-[190px] bg-white p-2 pb-8 sm:p-2.5 sm:pb-11 shadow-xl border border-brand-black/5 transition-transform duration-75 ease-out z-10 origin-center"
+            className="absolute top-10 left-16 sm:top-24 sm:left-32 w-[110px] sm:w-[190px] bg-white p-1.5 pb-5 sm:p-2.5 sm:pb-11 shadow-xl border border-brand-black/5 transition-transform duration-[800ms] cubic-bezier(0.16, 1, 0.3, 1) z-10 origin-center"
             style={{
-              transform: `translate3d(${10 + scrollOffset * 0.25}px, ${scrollOffset * 0.12}px, 0) rotate(5deg)`,
+              transform: `translate3d(${8 + scrollOffset * 0.18}px, ${scrollOffset * 0.08}px, 0) rotate(5deg)`,
               willChange: "transform"
             }}
           >
             <div className="w-full aspect-[4/5] bg-gray-100 overflow-hidden relative">
-              <img
+              <ScrollZoomImage
                 src="https://images.unsplash.com/photo-1617897903246-719242758050?w=600&auto=format&fit=crop&q=80"
                 alt="Makeup look pose"
-                referrerPolicy="no-referrer"
-                className="w-full h-full object-cover scale-[1.03]"
               />
             </div>
-            <div className="mt-2 text-left font-mono text-[8px] text-gray-300 tracking-wider">
+            <div className="mt-1.5 text-left font-mono text-[6px] sm:text-[8px] text-gray-300 tracking-wider">
               MAKEUP // DEWY
             </div>
           </div>

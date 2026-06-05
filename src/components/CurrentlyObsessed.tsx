@@ -53,54 +53,54 @@ export default function CurrentlyObsessed() {
   return (
     <section 
       id="currently-obsessed" 
-      className="w-full py-20 px-4 md:px-12 relative overflow-hidden transition-all duration-700 ease-in-out"
+      className="w-full py-10 sm:py-14 px-4 md:px-12 relative overflow-hidden transition-all duration-700 ease-in-out"
       style={{ backgroundColor: activeItem.bgColor }}
     >
-      <div className="max-w-7xl mx-auto flex flex-col gap-10">
+      <div className="max-w-7xl mx-auto flex flex-col gap-6">
         
         {/* Header */}
         <ScrollReveal>
-          <div className="flex flex-col gap-2 border-b border-black/10 pb-6 text-black">
-            <span className="text-[11px] font-sans uppercase tracking-[0.2em] font-bold text-black/60">WEEK WRAPUP</span>
-            <h2 className="font-serif text-[38px] md:text-[52px] font-bold tracking-tight">
+          <div className="flex flex-col gap-1 border-b border-black/10 pb-3 text-black">
+            <span className="text-[10px] md:text-[11px] font-sans uppercase tracking-[0.2em] font-bold text-black/60">WEEK WRAPUP</span>
+            <h2 className="font-serif text-[28px] md:text-[38px] font-bold tracking-tight uppercase leading-none">
               Currently Obsessed
             </h2>
-            <p className="text-black/55 font-sans text-xs uppercase tracking-widest max-w-lg mt-1">
+            <p className="text-black/55 font-sans text-[11px] sm:text-xs uppercase tracking-widest max-w-lg mt-1 block">
               Curated edits of our most-worn formulas and shades, thoughtfully grouped so you don't have to overthink it.
             </p>
           </div>
         </ScrollReveal>
 
         {/* 1 Row Split Layout - Swapped to text on left, image on right */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-10 items-center">
           
           {/* Left vertical accordion text headings - 35% width */}
-          <div className="md:col-span-5 flex flex-col gap-2 h-full justify-center">
+          <div className="md:col-span-5 flex flex-col gap-1.5 h-full justify-center">
             {ITEMS.map((item, index) => {
               const isActive = activeItem.id === item.id;
               const serial = `0${index + 1}`;
               return (
                 <div
                   key={item.id}
-                  className={`group py-5 border-b border-black/10 last:border-0 cursor-pointer select-none transition-all duration-300 ${
-                    isActive ? "border-l-3 border-black pl-5" : "pl-1 hover:pl-3"
+                  className={`group py-2.5 border-b border-black/10 last:border-0 cursor-pointer select-none transition-all duration-300 ${
+                    isActive ? "border-l-3 border-black pl-4" : "pl-1 hover:pl-2.5"
                   }`}
                   onMouseEnter={() => setActiveItem(item)}
                 >
                   <div className="flex justify-between items-center w-full">
                     <div className="flex flex-col">
                       <h3
-                        className={`font-serif text-[20px] md:text-[23px] tracking-wide transition-all duration-500 uppercase leading-none ${
+                        className={`font-serif text-[17px] md:text-[20px] tracking-wide uppercase leading-none bg-[linear-gradient(to_right,#000000_50%,rgba(0,0,0,0.35)_50%)] bg-[length:200%_100%] bg-clip-text text-transparent transition-[background-position,font-weight] duration-500 ease-out ${
                           isActive 
-                            ? "text-black font-black" 
-                            : "text-black/35 group-hover:text-black font-semibold"
+                            ? "bg-[position:0_0] font-black" 
+                            : "bg-[position:100%_0] group-hover:bg-[position:0_0] font-semibold"
                         }`}
                       >
                         {item.title}
                       </h3>
 
                       {/* Muted subtitle */}
-                      <span className={`text-[10px] md:text-[11px] uppercase tracking-wider font-sans mt-1.5 transition-all duration-500 ${
+                      <span className={`text-[10px] sm:text-[11px] uppercase tracking-wider font-sans mt-1 transition-all duration-300 ${
                         isActive ? "text-black/75" : "text-black/45 group-hover:text-black/70"
                       }`}>
                         {item.subtitle}
@@ -109,8 +109,8 @@ export default function CurrentlyObsessed() {
 
                     {/* Serial label */}
                     <span
-                      className={`font-mono text-xs italic transition-all duration-500 ${
-                        isActive ? "text-black opacity-100 font-bold scale-110" : "text-black/25 opacity-60 group-hover:text-black/50"
+                      className={`font-mono text-xs italic transition-all duration-300 ${
+                        isActive ? "text-black opacity-100 font-bold scale-105" : "text-black/25 opacity-60 group-hover:text-black/50"
                       }`}
                     >
                       {serial}

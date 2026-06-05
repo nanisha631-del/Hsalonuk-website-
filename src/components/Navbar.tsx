@@ -49,9 +49,7 @@ export default function Navbar({
     };
   }, [currentView]);
 
-  const navClass = isScrolled
-    ? "bg-brand-offwhite/95 backdrop-blur-md shadow-sm border-b border-brand-black/5 text-brand-black"
-    : "bg-transparent text-white border-b border-white/10";
+  const navClass = "bg-brand-offwhite text-brand-black border-b border-brand-black/10 shadow-xs";
 
   return (
     <nav
@@ -80,9 +78,9 @@ export default function Navbar({
       <div className="shrink-0 px-1 flex justify-center items-center min-w-[130px] z-10">
         <button
           onClick={onGoHome}
-          className="font-serif text-[12.5px] xs:text-[14px] sm:text-[20px] md:text-[26.5px] font-black tracking-[0.12em] xs:tracking-[0.16em] sm:tracking-[0.2em] uppercase hover:opacity-80 transition-all duration-300 cursor-pointer whitespace-nowrap overflow-visible select-none leading-none pt-0.5"
+          className="font-serif text-[21px] xs:text-[24px] sm:text-[28px] md:text-[32px] font-bold tracking-[-0.01em] hover:opacity-80 transition-all duration-300 cursor-pointer whitespace-nowrap overflow-visible select-none leading-none pt-0.5 text-brand-black"
         >
-          THE SKIN LAB
+          Phenomena
         </button>
       </div>
 

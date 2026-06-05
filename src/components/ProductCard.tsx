@@ -6,6 +6,7 @@
 import React, { useState } from "react";
 import { Star, ShoppingBag } from "lucide-react";
 import { Product } from "../types";
+import ScrollZoomImage from "./ScrollZoomImage";
 
 interface ProductCardProps {
   product: Product;
@@ -43,11 +44,9 @@ export default function ProductCard({ product, onSelect, onQuickAdd }: ProductCa
           </div>
         )}
 
-        <img
+        <ScrollZoomImage
           src={product.images[0]}
           alt={product.name}
-          referrerPolicy="no-referrer"
-          className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
         />
 
         {/* Quick Add Overlay Button - slides up on hover */}

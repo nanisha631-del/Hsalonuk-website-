@@ -59,11 +59,11 @@ export default function ScrollReveal({
       case "down":
         return `translateY(-${distance}px) scale(1)`;
       case "left":
-        return `translateX(${distance}px) scale(1)`;
+        return `translateY(${distance}px) scale(1)`;
       case "right":
-        return `translateX(-${distance}px) scale(1)`;
+        return `translateY(${distance}px) scale(1)`;
       case "zoom":
-        return "translateY(0px) scale(0.96)";
+        return "translateY(0px) scale(1.05)";
       case "none":
         return "none";
       default:

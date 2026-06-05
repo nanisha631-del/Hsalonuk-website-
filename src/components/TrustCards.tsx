@@ -32,8 +32,8 @@ const CARDS: CardItem[] = [
 
 export default function TrustCards() {
   return (
-    <section id="trust-cards" className="bg-brand-offwhite w-full py-16 md:py-24 px-4 sm:px-6 md:px-12 relative border-t border-brand-black/5 select-none">
-      <div className="max-w-4xl mx-auto grid grid-cols-2">
+    <section id="trust-cards" className="bg-brand-offwhite w-full py-10 sm:py-14 px-2 sm:px-6 md:px-12 relative border-t border-brand-black/5 select-none">
+      <div className="max-w-2xl mx-auto grid grid-cols-2">
         {CARDS.map((card, idx) => {
           // Determine borders to design a precise 2x2 crossed grid of lines with no outer frame
           const isLeft = idx % 2 === 0;
@@ -47,13 +47,13 @@ export default function TrustCards() {
           return (
             <div 
               key={idx} 
-              className={`flex flex-col items-center text-center p-6 sm:p-10 md:p-14 ${borderClasses}`}
+              className={`flex flex-col items-center text-center p-3 xs:p-4 sm:p-6 md:p-8 ${borderClasses}`}
             >
-              <ScrollReveal delay={idx * 150} direction="up" distance={20}>
-                <div className="flex flex-col items-center gap-3 sm:gap-4.5">
+              <ScrollReveal delay={idx * 100} direction="up" distance={15}>
+                <div className="flex flex-col items-center gap-2 sm:gap-3">
                   {/* Premium chrome-look Star SVG with radial background glow */}
-                  <div className="relative w-12 h-12 flex items-center justify-center select-none">
-                    <svg viewBox="0 0 100 100" className="w-10 h-10 drop-shadow-md overflow-visible" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <div className="relative w-8 h-8 flex items-center justify-center select-none">
+                    <svg viewBox="0 0 100 100" className="w-7 h-7 drop-shadow-xs overflow-visible" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <defs>
                         <radialGradient id={`starGlow-${idx}`} cx="50%" cy="50%" r="50%">
                           <stop offset="0%" stopColor="#DFD8E9" stopOpacity="0.95"/>
@@ -67,7 +67,7 @@ export default function TrustCards() {
                           <stop offset="100%" stopColor="#30241A"/>
                         </linearGradient>
                         <filter id={`glossyShadow-${idx}`} x="-20%" y="-20%" width="140%" height="140%">
-                          <feDropShadow dx="0" dy="3" stdDeviation="2.5" floodColor="#3F2815" floodOpacity="0.4"/>
+                          <feDropShadow dx="0" dy="2" stdDeviation="1.5" floodColor="#3F2815" floodOpacity="0.3"/>
                         </filter>
                       </defs>
                       {/* Glow circle behind star */}
@@ -92,13 +92,13 @@ export default function TrustCards() {
                     </svg>
                   </div>
 
-                  {/* Heavy font heading (Oswald font under font-serif style) */}
-                  <h3 id={`trust-card-title-${idx}`} className="font-serif text-[15px] sm:text-[21px] font-black text-brand-black tracking-tight uppercase leading-tight mt-1">
+                  {/* Heavy font heading */}
+                  <h3 id={`trust-card-title-${idx}`} className="font-sans text-[11px] sm:text-[13px] font-black text-brand-black tracking-widest uppercase leading-tight mt-1">
                     {card.title}
                   </h3>
 
                   {/* Clean readable description matching style perfectly */}
-                  <p className="font-sans text-[11.5px] sm:text-[13.5px] text-gray-500 leading-relaxed max-w-[240px] mx-auto">
+                  <p className="font-sans text-[10px] sm:text-[11.5px] text-gray-400 leading-normal max-w-[180px] mx-auto">
                     {card.desc}
                   </p>
                 </div>

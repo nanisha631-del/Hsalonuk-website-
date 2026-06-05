@@ -56,21 +56,21 @@ const DOUBLE_ITEMS = [...FEEDBACK_ITEMS, ...FEEDBACK_ITEMS];
 
 export default function AutoScrollCards() {
   return (
-    <section id="hype-carousel" className="bg-white w-full py-20 overflow-hidden relative border-y border-brand-black/5 select-none">
-      <div className="max-w-7xl mx-auto px-4 md:px-12 mb-10 text-center flex flex-col gap-2">
+    <section id="hype-carousel" className="bg-white w-full py-10 sm:py-14 overflow-hidden relative border-y border-brand-black/5 select-none">
+      <div className="max-w-7xl mx-auto px-4 md:px-12 mb-6 text-center flex flex-col gap-1.5">
         <ScrollReveal>
-          <span className="text-[11px] font-sans uppercase tracking-[0.2em] text-[#C4B5D4]">CUSTOMER REVIEWS</span>
+          <span className="text-[10px] md:text-[11px] font-sans uppercase tracking-[0.2em] text-[#C4B5D4] font-bold">CUSTOMER REVIEWS</span>
         </ScrollReveal>
         <ScrollReveal>
-          <h2 className="font-serif text-[38px] md:text-[48px] font-bold tracking-tight text-brand-black">
+          <h2 className="font-serif text-[28px] md:text-[38px] font-black tracking-tight text-brand-black uppercase leading-none">
             The Hype Is Real
           </h2>
         </ScrollReveal>
       </div>
 
-      {/* Scrolling Row */}
-      <div className="relative w-full flex items-center overflow-hidden py-4 border-t border-b border-brand-black/5 bg-[#F7F5F2]/40">
-        <div className="flex w-max gap-8 animate-marquee shrink-0">
+      {/* Scrolling Row with pause-on-hover */}
+      <div className="relative w-full flex items-center overflow-hidden py-3 border-t border-b border-brand-black/5 bg-[#F7F5F2]/40">
+        <div className="flex w-max gap-8 animate-marquee shrink-0 hover:[animation-play-state:paused]">
           {DOUBLE_ITEMS.map((item, idx) => {
             if (item.type === "text") {
               return (

@@ -6,6 +6,7 @@
 import { useEffect, useState, useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import ScrollReveal from "./ScrollReveal";
+import ScrollZoomImage from "./ScrollZoomImage";
 
 export default function GreetingSection() {
   const [fillPercent, setFillPercent] = useState(0);
@@ -67,12 +68,13 @@ export default function GreetingSection() {
             <div className="absolute inset-0 border-[6px] border-white z-10" />
             
             {/* Scenic background photo */}
-            <img 
-               src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&auto=format&fit=crop&q=80" 
-              alt="The Skin Lab Coastal Travel Card" 
-              className="absolute inset-0 w-full h-full object-cover brightness-[0.7] contrast-[1.1]"
-              referrerPolicy="no-referrer"
-            />
+            <div className="absolute inset-0 w-full h-full">
+              <ScrollZoomImage 
+                src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&auto=format&fit=crop&q=80" 
+                alt="The Skin Lab Coastal Travel Card" 
+                className="brightness-[0.7] contrast-[1.1]"
+              />
+            </div>
             
             {/* Retro title styles */}
             <div className="relative z-10 text-center flex flex-col select-none drop-shadow-lg pb-4 font-serif">

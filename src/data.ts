@@ -73,10 +73,11 @@ export const PRODUCTS: Product[] = [
       "https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?w=1000&auto=format&fit=crop&q=80"
     ],
     colors: [
-      { name: "Soft Lilac", hex: "#C4B5D4" },
-      { name: "Warm Nude", hex: "#E8D5C4" },
+      { name: "Lavender", hex: "#C4B5D4" },
+      { name: "Terra Cotta", hex: "#BC7F75" },
+      { name: "Lilac Gray", hex: "#D3CFD9" },
       { name: "Pure White", hex: "#FFFFFF" },
-      { name: "Champagne", hex: "#ECC5B2" }
+      { name: "Blossom Pink", hex: "#E8C5CE" }
     ],
     category: "eye",
     description: "A cream-to-powder eyeshadown crayon that takes the friction out of beauty routines. Simply swipe on lid, tap with your finger to blend, and you get a stunning visual pause.",

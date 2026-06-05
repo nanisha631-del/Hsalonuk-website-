@@ -1,13 +1,10 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ArrowLeft, Star, ChevronLeft, ChevronRight, Plus, Minus, Check, Heart, ShieldCheck, Sparkles, HelpCircle } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { Product } from "../types";
 import { PRODUCTS } from "../data";
+import ScrollReveal from "./ScrollReveal";
+import ScrollZoomImage from "./ScrollZoomImage";
 
 interface ProductPageProps {
   product: Product;
@@ -27,8 +24,26 @@ export default function ProductPage({
     product.colors && product.colors.length > 0 ? product.colors[0].name : undefined
   );
   const [quantity, setQuantity] = useState(1);
-  const [activeTab, setActiveTab] = useState<string | null>("description");
+  const [openTabs, setOpenTabs] = useState<Record<string, boolean>>({
+    description: false,
+    "how-to-use": false,
+    ingredients: false,
+    shipping: false,
+  });
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
+  const [showStickyBar, setShowStickyBar] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 500) {
+        setShowStickyBar(true);
+      } else {
+        setShowStickyBar(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // Recommendations: products from different category than current
   const recommendedProducts = PRODUCTS.filter((p) => p.id !== product.id).slice(0, 4);
@@ -37,7 +52,10 @@ export default function ProductPage({
   const crossSellProduct = PRODUCTS.find((p) => p.id === "makeup-pouch") || PRODUCTS[0];
 
   const toggleTab = (tabName: string) => {
-    setActiveTab(activeTab === tabName ? null : tabName);
+    setOpenTabs((prev) => ({
+      ...prev,
+      [tabName]: !prev[tabName],
+    }));
   };
 
   const handleNextImage = () => {
@@ -49,62 +67,58 @@ export default function ProductPage({
   };
 
   return (
-    <div className="bg-brand-offwhite min-h-screen pt-32 md:pt-40 pb-24 px-4 md:px-12 select-none">
-      {/* Breadcrumb & Back action */}
-      <div className="max-w-7xl mx-auto mb-8 flex items-center justify-between">
-        <button
-          onClick={onBack}
-          className="flex items-center gap-2 text-[12px] font-sans font-bold uppercase tracking-[0.15em] text-brand-black hover:opacity-75 transition-opacity cursor-pointer group"
-        >
-          <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
-          Back to collection
-        </button>
-        <span className="text-xs text-gray-400 font-sans tracking-wide">
-          Shop all / {product.category.toUpperCase()} / {product.name.toUpperCase()}
-        </span>
-      </div>
-
-      {/* Outer Grid Container */}
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+    <div className="bg-brand-offwhite min-h-screen pt-24 md:pt-32 pb-24 px-4 md:px-12 select-none">
+      
+      {/* Outer Grid Container wrapped in ScrollReveal to fade in gracefully on entry */}
+      <ScrollReveal className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10">
         
         {/* LEFT COLUMN: Gallery Grid Layout (Lg span 7) */}
-        <div className="lg:col-span-7 flex flex-col gap-4">
-          <div className="relative aspect-[3/4] bg-[#E0DEDA] shadow-xs overflow-hidden group">
+        <div className="lg:col-span-7 flex flex-col gap-3">
+          <div className="relative aspect-square bg-[#E0DEDA] shadow-xs overflow-hidden group rounded-2xl">
+            {/* Back action badge floating nicely on top of the square image */}
+            <button
+              onClick={onBack}
+              className="absolute top-4 left-4 z-10 bg-white/90 hover:bg-white text-brand-black border border-brand-black/5 text-[11px] font-sans font-bold py-1.5 px-3.5 shadow-xs transition-transform active:scale-95 flex items-center gap-1.5 rounded-full cursor-pointer uppercase tracking-wider"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              BACK
+            </button>
+
             {product.tags && product.tags.length > 0 && (
-              <span className="absolute top-4 left-4 z-10 bg-brand-lilac text-brand-black text-[10px] font-bold py-1 px-3 uppercase tracking-wider rounded-full">
+              <span className="absolute top-4 right-4 z-10 bg-brand-lilac text-brand-black text-[9.5px] font-bold py-0.5 px-2.5 uppercase tracking-wider rounded-full">
                 {product.tags[0]}
               </span>
             )}
             
-            <img
-              src={product.images[selectedImageIdx]}
-              alt={product.name}
-              referrerPolicy="no-referrer"
-              className="w-full h-full object-cover transition-all duration-500"
-            />
+            <div className="w-full h-full">
+              <ScrollZoomImage
+                src={product.images[selectedImageIdx]}
+                alt={product.name}
+              />
+            </div>
 
             {/* Slider arrows */}
             <button
               onClick={handlePrevImage}
-              className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full border border-brand-black/10 bg-white/70 hover:bg-white backdrop-blur-xs flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 cursor-pointer text-brand-black"
+              className="absolute left-4 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full border border-brand-black/10 bg-white/70 hover:bg-white backdrop-blur-xs flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 cursor-pointer text-brand-black"
             >
-              <ChevronLeft className="w-5 h-5" />
+              <ChevronLeft className="w-4 h-4" />
             </button>
             <button
               onClick={handleNextImage}
-              className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full border border-brand-black/10 bg-white/70 hover:bg-white backdrop-blur-xs flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 cursor-pointer text-brand-black"
+              className="absolute right-4 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full border border-brand-black/10 bg-white/70 hover:bg-white backdrop-blur-xs flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 cursor-pointer text-brand-black"
             >
-              <ChevronRight className="w-5 h-5" />
+              <ChevronRight className="w-4 h-4" />
             </button>
           </div>
 
           {/* Thumbnails list below main display */}
-          <div className="grid grid-cols-4 gap-3 mt-1">
+          <div className="grid grid-cols-4 gap-2 mt-0.5">
             {product.images.map((img, i) => (
               <button
                 key={i}
                 onClick={() => setSelectedImageIdx(i)}
-                className={`aspect-[3/4] bg-[#E0DEDA] relative overflow-hidden transition-all duration-300 outline-none cursor-pointer ${
+                className={`aspect-square bg-[#E0DEDA] relative overflow-hidden transition-all duration-300 outline-none cursor-pointer rounded-lg ${
                   selectedImageIdx === i ? "ring-2 ring-brand-lilac ring-offset-2 ring-offset-brand-offwhite" : "opacity-75 hover:opacity-100"
                 }`}
               >
@@ -114,115 +128,118 @@ export default function ProductPage({
           </div>
         </div>
 
-        {/* RIGHT COLUMN: Info, controls, descriptions, accessories (Lg span 5) */}
-        <div className="lg:col-span-5 flex flex-col gap-8">
+        {/* RIGHT COLUMN: Info, controls, descriptions, accessories (Lg span 5) - highly compact */}
+        <div className="lg:col-span-5 flex flex-col gap-4 font-sans">
           
-          {/* Header information */}
-          <div className="flex flex-col gap-2.5">
-            <span className="text-[11px] font-sans font-bold uppercase tracking-[0.2em] text-brand-lilac">
-              {product.category.toUpperCase()} ESSENTIAL
-            </span>
-            <h1 className="font-serif text-[38px] md:text-[48px] font-bold leading-tight tracking-tight text-brand-black">
-              {product.name.toUpperCase()}
+          {/* Header information with tight compact margins */}
+          <div className="flex flex-col gap-1.5 border-b border-brand-black/5 pb-3">
+            {/* SALE Badge (matching image 1 & 2) */}
+            <div className="flex items-center gap-2">
+              <span className="bg-[#9A8FB7] text-white text-[10px] font-extrabold py-0.5 px-3 uppercase tracking-[0.12em] rounded-full inline-block select-none font-sans">
+                SELLING FAST!
+              </span>
+            </div>
+            
+            {/* Product Title */}
+            <h1 className="font-sans text-[28px] sm:text-[32px] font-black leading-[1] tracking-tight text-brand-black uppercase">
+              {product.name}
             </h1>
             
-            <div className="flex items-center gap-2 text-brand-black">
-              <span className="font-sans text-[24px] font-extrabold">
+            {/* Price section containing exact formatted minimal size values */}
+            <div className="flex flex-wrap items-center gap-2 text-brand-black mt-0.5">
+              <span className="font-sans text-[17px] font-black leading-none">
                 ${product.price.toFixed(2)}
               </span>
               {product.originalPrice && (
                 <>
-                  <span className="font-sans text-[18px] text-gray-400 line-through">
+                  <span className="font-sans text-[14px] text-gray-400 line-through leading-none">
                     ${product.originalPrice.toFixed(2)}
                   </span>
-                  <span className="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-sm uppercase tracking-wide">
-                    Save {Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}%
+                  <span className="text-[#334211] text-[10px] font-bold px-1.5 py-0.5 uppercase tracking-wider font-sans leading-none">
+                    ({Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}% off)
                   </span>
                 </>
               )}
             </div>
 
             {/* In-Stock Indicator */}
-            <div className="flex items-center gap-2 mt-2">
-              <span className="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse" />
-              <span className="text-[13px] font-sans text-emerald-700 font-semibold">
-                Item is in stock and ready to ship
-              </span>
+            <div className="flex items-center gap-1.5 text-[11.5px] text-gray-600 font-sans mt-0.5">
+              <span className="text-[10px] text-[#42B870] font-sans">●</span>
+              <span>Item is in stock</span>
             </div>
-          </div>
 
-          {/* Luxury benefits badges */}
-          <div className="grid grid-cols-2 gap-4 py-4 px-5 border border-brand-black/5 bg-white/40">
-            <div className="flex items-center gap-2 text-xs font-sans text-gray-700 tracking-wide">
-              <Star className="w-4 h-4 text-brand-lilac fill-current" />
-              Dermatologist Tested
-            </div>
-            <div className="flex items-center gap-2 text-xs font-sans text-gray-700 tracking-wide">
-              <Sparkles className="w-4 h-4 text-brand-lilac fill-current" />
-              Non-comedogenic
-            </div>
-          </div>
-
-          {/* Color swatches selection */}
-          {product.colors && product.colors.length > 0 && (
-            <div className="flex flex-col gap-3">
-              <div className="flex justify-between text-xs font-sans uppercase tracking-wider text-gray-500">
-                <span>Color: <strong className="text-brand-black font-semibold">{selectedColor}</strong></span>
+            {/* Micro benefits matching original image list with light stars */}
+            <div className="flex flex-col gap-1 mt-1.5">
+              <div className="flex items-center gap-2 text-[12px] font-sans text-brand-black leading-tight">
+                <span className="text-[12px] text-[#A697BB]">★</span>
+                <span>Dermatologist Tested</span>
               </div>
-              <div className="flex gap-2.5 flex-wrap">
-                {product.colors.map((color) => (
-                  <button
-                    key={color.name}
-                    onClick={() => setSelectedColor(color.name)}
-                    className={`w-9 h-9 rounded-full flex items-center justify-center border transition-all ${
-                      selectedColor === color.name
-                        ? "border-brand-black scale-105 ring-2 ring-brand-lilac/50 ring-offset-2"
-                        : "border-brand-black/10 hover:border-brand-black/30"
-                    } cursor-pointer shadow-xs`}
-                    style={{ backgroundColor: color.hex }}
-                    title={color.name}
-                  >
-                    {selectedColor === color.name && (
-                      <Check className={`w-4 h-4 ${color.hex === "#FFFFFF" || color.hex === "#F3EDE4" ? "text-black" : "text-white"}`} />
-                    )}
-                  </button>
-                ))}
+              <div className="flex items-center gap-2 text-[12px] font-sans text-brand-black leading-tight">
+                <span className="text-[12px] text-[#A697BB]">★</span>
+                <span>Non comedogenic</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Color swatches selection - compact spacing */}
+          {product.colors && product.colors.length > 0 && (
+            <div className="flex flex-col gap-1.5 border-b border-brand-black/5 pb-2.5">
+              <span className="text-[10px] font-sans font-extrabold uppercase tracking-widest text-brand-black">COLOR</span>
+              <div className="flex gap-2 flex-wrap">
+                {product.colors.map((color) => {
+                  const isSelected = selectedColor === color.name;
+                  return (
+                    <button
+                      key={color.name}
+                      onClick={() => setSelectedColor(color.name)}
+                      className={`w-7 h-7 rounded-full flex items-center justify-center border transition-all ${
+                        isSelected
+                          ? "border-[#B2A4A1] scale-100 ring-1 ring-[#B2A4A1] ring-offset-2"
+                          : "border-brand-black/10 hover:border-brand-black/30"
+                      } cursor-pointer shadow-xs`}
+                      style={{ backgroundColor: color.hex }}
+                      title={color.name}
+                    >
+                      {isSelected && (
+                        <Check className={`w-3.5 h-3.5 ${color.hex === "#FFFFFF" || color.hex === "#F3EDE4" ? "text-brand-black" : "text-white"}`} />
+                      )}
+                    </button>
+                  );
+                })}
               </div>
             </div>
           )}
 
-          {/* Quantity stepper selection */}
-          <div className="flex flex-col gap-3">
-            <span className="text-xs font-sans uppercase tracking-wider text-gray-500">
-              Quantity
+          {/* Quantity selection wrapped with select dropdown */}
+          <div className="flex flex-col gap-1.5 border-b border-brand-black/5 pb-3">
+            <span className="text-[10px] font-sans font-extrabold uppercase tracking-widest text-brand-black">
+              QUANTITY
             </span>
-            <div className="flex items-center border border-brand-black/15 bg-white w-32 py-1 px-3 rounded-none">
-              <button
-                onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                className="p-1.5 text-gray-500 hover:text-black hover:opacity-75 cursor-pointer"
-                disabled={quantity <= 1}
+            <div className="relative w-28">
+              <select
+                value={quantity}
+                onChange={(e) => setQuantity(Number(e.target.value))}
+                className="w-full bg-white border border-brand-black/15 text-brand-black text-[12px] font-sans font-bold py-1.5 px-3 rounded-full appearance-none outline-none cursor-pointer pr-8"
               >
-                <Minus className="w-4 h-4" />
-              </button>
-              <span className="flex-1 text-center font-sans font-bold text-brand-black px-2 text-[15px]">
-                {quantity}
-              </span>
-              <button
-                onClick={() => setQuantity((q) => q + 1)}
-                className="p-1.5 text-gray-500 hover:text-black hover:opacity-75 cursor-pointer"
-              >
-                <Plus className="w-4 h-4" />
-              </button>
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
+                  <option key={num} value={num}>
+                    {num}
+                  </option>
+                ))}
+              </select>
+              <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-brand-black text-[9px]">
+                ▼
+              </div>
             </div>
           </div>
 
-          {/* Actions: ADD TO BAG & BUY IT NOW */}
-          <div className="flex flex-col gap-3">
+          {/* Actions: ADD TO BAG & BUY IT NOW pill shapes - highly compact */}
+          <div className="flex flex-col gap-2 border-b border-brand-black/5 pb-3 mt-1">
             <button
               onClick={() => onAddToCart(product, quantity, selectedColor)}
-              className="w-full bg-brand-black hover:bg-brand-black/90 text-white font-sans font-bold py-4.5 text-[13px] uppercase tracking-[0.2em] transition-all hover:scale-[1.01] active:scale-98 cursor-pointer shadow-md rounded-none flex items-center justify-center gap-2"
+              className="w-full bg-brand-black hover:bg-brand-black/95 text-white font-sans font-bold py-3 text-[12px] uppercase tracking-[0.12em] transition-all hover:scale-[1.01] active:scale-98 cursor-pointer shadow-xs rounded-full flex items-center justify-center gap-1"
             >
-              ADD TO BAG • ${(product.price * quantity).toFixed(2)}
+              ADD TO CART • ${(product.price * quantity).toFixed(2)}
             </button>
             
             <button
@@ -230,31 +247,31 @@ export default function ProductPage({
                 onAddToCart(product, quantity, selectedColor);
                 alert("Redirecting securely to test checkout gateway!");
               }}
-              className="w-full bg-transparent hover:bg-brand-black/5 border border-brand-black text-brand-black font-sans font-bold py-4.5 text-[13px] uppercase tracking-[0.2em] transition-all scale-100 hover:scale-[1.01] active:scale-98 cursor-pointer rounded-none flex items-center justify-center"
+              className="w-full bg-white hover:bg-brand-black/5 border border-brand-black text-brand-black font-sans font-bold py-3 text-[12px] uppercase tracking-[0.12em] transition-all hover:scale-[1.01] active:scale-98 cursor-pointer rounded-full flex items-center justify-center shadow-xs"
             >
               BUY IT NOW
             </button>
 
-            <button className="flex items-center justify-center gap-2 py-2.5 text-xs text-gray-400 font-sans uppercase tracking-widest hover:text-brand-black transition-colors border-t border-brand-black/5 mt-2">
-              <Heart className="w-3.5 h-3.5" />
-              Add to wishlist
-            </button>
+            {/* Demostore Notice matching original Screenshot 3 */}
+            <div className="text-center text-[10.5px] text-gray-400 font-sans tracking-wide py-1 leading-none">
+              This is a demo store for Palo Alto. These products are not for sale.
+            </div>
           </div>
 
-          {/* Collapsible Tabs: DESCRIPTION, HOW TO USE, INGREDIENTS */}
-          <div className="flex flex-col border-t border-brand-black/10 mt-4">
+          {/* Collapsible Tabs: DESCRIPTION, HOW TO USE, INGREDIENTS, SHIPPING & RETURNS - extremely compact */}
+          <div className="flex flex-col gap-1 mt-0">
             
             {/* Description Tab */}
-            <div className="border-b border-brand-black/10 py-4.5">
+            <div className="bg-[#F0EEF3] rounded-xl transition-all duration-300 hover:bg-[#EAE8ED]">
               <button
                 onClick={() => toggleTab("description")}
-                className="w-full flex items-center justify-between text-left font-serif text-[17px] font-bold uppercase tracking-wider text-brand-black hover:opacity-85 cursor-pointer"
+                className="w-full flex items-center justify-between text-left font-serif text-[13px] font-bold uppercase tracking-wider text-brand-black px-4 py-2.5 cursor-pointer select-none"
               >
                 <span>Description</span>
-                {activeTab === "description" ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+                {openTabs["description"] ? <Minus className="w-3.5 h-3.5 text-brand-black" /> : <Plus className="w-3.5 h-3.5 text-brand-black" />}
               </button>
               <AnimatePresence initial={false}>
-                {activeTab === "description" && (
+                {openTabs["description"] && (
                   <motion.div
                     initial="collapsed"
                     animate="open"
@@ -263,14 +280,14 @@ export default function ProductPage({
                       open: { opacity: 1, height: "auto" },
                       collapsed: { opacity: 0, height: 0 }
                     }}
-                    transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                    transition={{ duration: 0.4, ease: [0.25, 1, 0.5, 1] }}
                     className="overflow-hidden"
                   >
-                    <div className="pt-4 text-sm text-gray-600 font-sans leading-relaxed flex flex-col gap-3">
+                    <div className="px-4 pb-3.5 text-[12px] text-gray-600 font-sans leading-relaxed flex flex-col gap-1.5 border-t border-brand-black/5 pt-2.5">
                       <p>{product.description || "Designed with skin comfort at the priority, built for natural luminescence."}</p>
-                      <p className="italic">{product.intro}</p>
+                      <p className="italic text-[11px]">{product.intro}</p>
                       {product.bullets && product.bullets.length > 0 && (
-                        <ul className="list-disc pl-5 flex flex-col gap-1.5 mt-2">
+                        <ul className="list-disc pl-4 flex flex-col gap-1 mt-1">
                           {product.bullets.map((bullet, idx) => (
                             <li key={idx}>{bullet}</li>
                           ))}
@@ -283,16 +300,16 @@ export default function ProductPage({
             </div>
 
             {/* How To Use Tab */}
-            <div className="border-b border-brand-black/10 py-4.5">
+            <div className="bg-[#F0EEF3] rounded-xl transition-all duration-300 hover:bg-[#EAE8ED]">
               <button
                 onClick={() => toggleTab("how-to-use")}
-                className="w-full flex items-center justify-between text-left font-serif text-[17px] font-bold uppercase tracking-wider text-brand-black hover:opacity-85 cursor-pointer"
+                className="w-full flex items-center justify-between text-left font-serif text-[13px] font-bold uppercase tracking-wider text-brand-black px-4 py-2.5 cursor-pointer select-none"
               >
                 <span>How To Use</span>
-                {activeTab === "how-to-use" ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+                {openTabs["how-to-use"] ? <Minus className="w-3.5 h-3.5 text-brand-black" /> : <Plus className="w-3.5 h-3.5 text-brand-black" />}
               </button>
               <AnimatePresence initial={false}>
-                {activeTab === "how-to-use" && (
+                {openTabs["how-to-use"] && (
                   <motion.div
                     initial="collapsed"
                     animate="open"
@@ -301,14 +318,13 @@ export default function ProductPage({
                       open: { opacity: 1, height: "auto" },
                       collapsed: { opacity: 0, height: 0 }
                     }}
-                    transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                    transition={{ duration: 0.4, ease: [0.25, 1, 0.5, 1] }}
                     className="overflow-hidden"
                   >
-                    <div className="pt-4 text-sm text-gray-600 font-sans leading-relaxed flex flex-col gap-2">
+                    <div className="px-4 pb-3.5 text-[12px] text-gray-600 font-sans leading-relaxed flex flex-col gap-1 border-t border-brand-black/5 pt-2.5">
                       <p>1. Ensure your face is clean, dry, and balanced with serum.</p>
                       <p>2. Sweep or wipe the product directly onto desired areas needing color or highlights.</p>
                       <p>3. Tap gently with warmth of finger pads to diffuse edges perfectly into your base makeup.</p>
-                      <p>4. Build color progressively for night out contrast.</p>
                     </div>
                   </motion.div>
                 )}
@@ -316,16 +332,16 @@ export default function ProductPage({
             </div>
 
             {/* Ingredients Tab */}
-            <div className="border-b border-brand-black/10 py-4.5">
+            <div className="bg-[#F0EEF3] rounded-xl transition-[#000] duration-300 hover:bg-[#EAE8ED]">
               <button
                 onClick={() => toggleTab("ingredients")}
-                className="w-full flex items-center justify-between text-left font-serif text-[17px] font-bold uppercase tracking-wider text-brand-black hover:opacity-85 cursor-pointer"
+                className="w-full flex items-center justify-between text-left font-serif text-[13px] font-bold uppercase tracking-wider text-brand-black px-4 py-2.5 cursor-pointer select-none"
               >
                 <span>Ingredients</span>
-                {activeTab === "ingredients" ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+                {openTabs["ingredients"] ? <Minus className="w-3.5 h-3.5 text-brand-black" /> : <Plus className="w-3.5 h-3.5 text-brand-black" />}
               </button>
               <AnimatePresence initial={false}>
-                {activeTab === "ingredients" && (
+                {openTabs["ingredients"] && (
                   <motion.div
                     initial="collapsed"
                     animate="open"
@@ -334,11 +350,11 @@ export default function ProductPage({
                       open: { opacity: 1, height: "auto" },
                       collapsed: { opacity: 0, height: 0 }
                     }}
-                    transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                    transition={{ duration: 0.4, ease: [0.25, 1, 0.5, 1] }}
                     className="overflow-hidden"
                   >
-                    <div className="pt-4 text-sm text-gray-500 font-mono tracking-tight leading-relaxed">
-                      Organic Castor Seed Oil, Jojoba Esters, Synthetic Fluorphlogopite, Squalane, Tocopheryl Acetate (Vitamin E), Shea Butter Extract, Rosehip Fruit Extract, Titanium Dioxide (CI 77891), Lavender Flower Extract.
+                    <div className="px-4 pb-3.5 text-[11.5px] font-mono text-gray-500 tracking-tight leading-relaxed border-t border-brand-black/5 pt-2.5">
+                      Organic Castor Seed Oil, Jojoba Esters, Synthetic Fluorphlogopite, Squalane, Tocopheryl Acetate (Vitamin E), Shea Butter Extract, Rosehip Fruit Extract.
                     </div>
                   </motion.div>
                 )}
@@ -346,16 +362,16 @@ export default function ProductPage({
             </div>
 
             {/* Shipping + Returns Tab */}
-            <div className="border-b border-brand-black/10 py-4.5">
+            <div className="bg-[#F0EEF3] rounded-xl transition-all duration-300 hover:bg-[#EAE8ED]">
               <button
                 onClick={() => toggleTab("shipping")}
-                className="w-full flex items-center justify-between text-left font-serif text-[17px] font-bold uppercase tracking-wider text-brand-black hover:opacity-85 cursor-pointer"
+                className="w-full flex items-center justify-between text-left font-serif text-[13px] font-bold uppercase tracking-wider text-brand-black px-4 py-2.5 cursor-pointer select-none"
               >
-                <span>Shipping & Returns</span>
-                {activeTab === "shipping" ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+                <span>Shipping + Returns</span>
+                {openTabs["shipping"] ? <Minus className="w-3.5 h-3.5 text-brand-black" /> : <Plus className="w-3.5 h-3.5 text-brand-black" />}
               </button>
               <AnimatePresence initial={false}>
-                {activeTab === "shipping" && (
+                {openTabs["shipping"] && (
                   <motion.div
                     initial="collapsed"
                     animate="open"
@@ -364,43 +380,43 @@ export default function ProductPage({
                       open: { opacity: 1, height: "auto" },
                       collapsed: { opacity: 0, height: 0 }
                     }}
-                    transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                    transition={{ duration: 0.4, ease: [0.25, 1, 0.5, 1] }}
                     className="overflow-hidden"
                   >
-                    <div className="pt-4 text-sm text-gray-600 font-sans leading-relaxed flex flex-col gap-2">
+                    <div className="px-4 pb-3.5 text-[12px] text-gray-600 font-sans leading-relaxed flex flex-col gap-1 border-t border-[#000]/5 pt-2.5">
                       <p>We provide Free Shipping on all worldwide orders over $75. Economy delivery options deliver to your door within 3 to 7 working days.</p>
-                      <p>Unhappy with shading? We offer completely free 30-day return policy for unused products in pristine cosmetics packaging boxes.</p>
                     </div>
                   </motion.div>
                 )}
               </AnimatePresence>
             </div>
+
           </div>
 
-          {/* Buy It With Cross-Sell section */}
+          {/* Buy It With Cross-Sell section highlighted with crisp boundary */}
           {crossSellProduct && (
-            <div className="mt-4 p-5 bg-[#C4B5D4]/10 border border-[#C4B5D4]/30 rounded-none flex flex-col gap-3">
-              <span className="text-[10px] font-sans font-bold uppercase tracking-widest text-[#6B5A7F] flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5" /> BUY IT WITH
+            <div className="mt-2.5 p-3.5 bg-white border border-brand-black/30 rounded-xl flex flex-col gap-2 shadow-xs font-sans">
+              <span className="text-[9px] font-bold uppercase tracking-widest text-brand-black flex items-center gap-1.5">
+                <Sparkles className="w-3 h-3 fill-current" /> BUY IT WITH
               </span>
-              <div className="flex gap-4 items-center">
+              <div className="flex gap-3 items-center">
                 <img
                   src={crossSellProduct.images[0]}
                   alt={crossSellProduct.name}
                   referrerPolicy="no-referrer"
-                  className="w-14 h-14 object-cover' bg-[#E0DEDA] aspect-square overflow-hidden"
+                  className="w-10 h-10 object-cover bg-gray-100 rounded-lg aspect-square overflow-hidden"
                 />
-                <div className="flex-1 flex flex-col">
-                  <span className="font-serif text-[15px] font-semibold text-brand-black">
+                <div className="flex-1 flex flex-col min-w-0">
+                  <span className="font-serif text-[13px] font-bold text-brand-black truncate leading-tight">
                     {crossSellProduct.name}
                   </span>
-                  <span className="font-sans text-[13px] text-gray-500">
+                  <span className="font-sans text-[11px] text-gray-400">
                     ${crossSellProduct.price.toFixed(2)}
                   </span>
                 </div>
                 <button
                   onClick={() => onAddToCart(crossSellProduct, 1)}
-                  className="bg-brand-black hover:bg-brand-black/90 text-white text-[10px] font-bold uppercase tracking-wider px-4 py-2.5 transition-all"
+                  className="bg-brand-black hover:bg-brand-black/95 text-white text-[9.5px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full transition-all shrink-0 cursor-pointer"
                 >
                   Quick Buy
                 </button>
@@ -409,39 +425,39 @@ export default function ProductPage({
           )}
 
         </div>
-      </div>
+      </ScrollReveal>
 
-      {/* FREQUENTLY ASKED QUESTIONS SECTION */}
-      <div className="max-w-4xl mx-auto mt-28 border-t border-brand-black/10 pt-16">
-        <h2 className="font-serif text-[28px] md:text-[36px] font-bold text-center tracking-tight text-brand-black mb-8 uppercase">
+      {/* FREQUENTLY ASKED QUESTIONS SECTION - with ScrollReveal smooth entry */}
+      <ScrollReveal className="max-w-7xl mx-auto mt-6 border-t border-brand-black/10 pt-6 px-4 md:px-12">
+        <h2 className="font-sans text-[11px] sm:text-[12px] font-extrabold tracking-widest text-[#9A8FB7] mb-3 uppercase text-left">
           Frequently Asked Questions
         </h2>
-        <div className="flex flex-col border-b border-brand-black/10">
+        <div className="flex flex-col">
           {[
             {
               q: "Is this suitable for all skin types?",
-              a: "Absolutely. Our specialized skin care cosmetics formulas are non-comedogenic, dermatologist tested for hyper-allergic breakouts, and safe for extremely sensitive cheeks, lips, or dry skin."
+              a: "Absolutely. Our specialized skincare cosmetics formulas are non-comedogenic, dermatologist tested for hyper-allergic breakouts, and safe for extremely sensitive cheeks, lips, or dry skin."
             },
             {
               q: "Is this product vegan and cruelty-free?",
-              a: "Yes! Sustainability and compassion is our primary core principle. We use zero animal fat derivatives and pledge 100% cruelty-free formulation lines verified by third-party boards."
+              a: "Yes! Sustainability and compassion are our core principles. We use zero animal fat derivatives and pledge 100% cruelty-free formulation lines verified by third-party boards."
             },
             {
               q: "How long does it last after applying?",
-              a: "When blended properly, color pigments withstand high sweat levels, and offer pristine hydration-lock durability upwards of 12 to 16 full day hours without fine-line cake flaking."
+              a: "When blended properly, color pigments withstand high sweat levels, and offer pristine hydration-lock durability upwards of 12 to 16 full hours without fine-line cake flaking."
             },
             {
               q: "Can I wear this with other brand bases?",
-              a: "Yes. Our light butter formulas blend as compatible layers upon liquid silicon bases, dry foundations, or organic sunblock oils nicely."
+              a: "Yes. Our light butter formulas blend as compatible layers upon liquid silicone bases, dry foundations, or organic sunblock oils nicely."
             }
           ].map((faq, idx) => (
-            <div key={idx} className="border-t border-brand-black/5 py-4">
+            <div key={idx} className="border-b border-brand-black/10 py-1 bg-transparent">
               <button
                 onClick={() => setActiveFaq(activeFaq === idx ? null : idx)}
-                className="w-full flex justify-between items-center text-left font-serif text-[17px] font-semibold text-brand-black/90 hover:text-brand-black cursor-pointer"
+                className="w-full flex justify-between items-center text-left font-sans text-[11px] sm:text-[11.5px] font-bold uppercase tracking-widest text-brand-black py-2.5 cursor-pointer select-none"
               >
                 <span>{faq.q}</span>
-                <span className="font-sans font-bold text-lg text-brand-lilac">
+                <span className="font-sans font-bold text-xs text-brand-black">
                   {activeFaq === idx ? "−" : "+"}
                 </span>
               </button>
@@ -452,54 +468,53 @@ export default function ProductPage({
                     animate="open"
                     exit="collapsed"
                     variants={{
-                      open: { opacity: 1, height: "auto", marginTop: 10 },
-                      collapsed: { opacity: 0, height: 0, marginTop: 0 }
+                      open: { opacity: 1, height: "auto" },
+                      collapsed: { opacity: 0, height: 0 }
                     }}
-                    transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                    transition={{ duration: 0.3, ease: [0.25, 1, 0.5, 1] }}
                     className="overflow-hidden"
                   >
-                    <p className="text-sm font-sans text-gray-600 leading-relaxed max-w-3xl">
+                    <div className="pb-3 text-[11.5px] text-gray-500 font-sans leading-relaxed select-none">
                       {faq.a}
-                    </p>
+                    </div>
                   </motion.div>
                 )}
               </AnimatePresence>
             </div>
           ))}
         </div>
-      </div>
+      </ScrollReveal>
 
-      {/* DYNAMIC PRESS TESTIMONIAL LOGOS SECTION */}
-      <div className="max-w-6xl mx-auto mt-24 border-t border-brand-black/10 pt-16 text-center">
-        <span className="text-[11px] font-sans uppercase tracking-[0.2em] text-gray-400">PRESS APPROVED</span>
-        <div className="grid grid-cols-3 gap-6 md:gap-12 mt-8 items-center max-w-xl mx-auto opacity-55">
-          <div className="font-serif text-[18px] md:text-[22px] italic tracking-widest font-black text-brand-black select-none">
+      {/* DYNAMIC PRESS TESTIMONIAL LOGOS SECTION - with ScrollReveal smooth entry */}
+      <ScrollReveal className="max-w-7xl mx-auto mt-6 border-t border-brand-black/10 pt-6 text-center px-4 md:px-12">
+        <span className="text-[10px] font-sans uppercase tracking-[0.2em] text-gray-400">PRESS APPROVED</span>
+        <div className="grid grid-cols-3 gap-6 md:gap-12 mt-6 items-center max-w-xl mx-auto opacity-55">
+          <div className="font-serif text-[16px] md:text-[20px] italic tracking-widest font-black text-brand-black select-none">
             BYRDIE
           </div>
-          <div className="font-serif text-[20px] md:text-[24px] tracking-wider font-extrabold text-brand-black select-none">
+          <div className="font-serif text-[18px] md:text-[22px] tracking-wider font-extrabold text-brand-black select-none">
             allure
           </div>
-          <div className="font-serif text-[18px] md:text-[22px] tracking-widest font-semibold text-brand-black select-none">
+          <div className="font-serif text-[16px] md:text-[20px] tracking-widest font-semibold text-brand-black select-none">
             GLAMOUR
           </div>
         </div>
-        <p className="mt-8 font-serif text-[18px] md:text-[22px] italic text-gray-500 max-w-2xl mx-auto leading-relaxed">
+        <p className="mt-6 font-serif text-[16px] md:text-[20px] italic text-gray-500 max-w-2xl mx-auto leading-relaxed">
           "An effortless approach to modern makeup—skin-first, wearable, and cool. Exactly what Gen Z wants right now."
         </p>
-      </div>
+      </ScrollReveal>
 
-      {/* RECOMMENDATIONS CAROUSEL ROW */}
-      <div className="max-w-7xl mx-auto mt-28 border-t border-brand-black/10 pt-16">
-        <div className="flex justify-between items-end mb-8">
-          <div>
-            <span className="text-[11px] font-sans uppercase tracking-[0.2em] text-gray-400">YOU MAY ALSO LIKE</span>
-            <h2 className="font-serif text-[28px] md:text-[36px] font-bold tracking-tight text-brand-black mt-1">
-              Curated Duos
-            </h2>
-          </div>
+      {/* RECOMMENDATIONS CAROUSEL ROW - with ScrollReveal smooth entry */}
+      <ScrollReveal className="max-w-7xl mx-auto mt-8 border-t border-brand-black/10 pt-6 px-4 md:px-12">
+        <div className="mb-6">
+          <span className="text-[10px] font-sans uppercase tracking-[0.2em] text-gray-400">YOU MAY ALSO LIKE</span>
+          <h2 className="font-serif text-[24px] md:text-[30px] font-bold tracking-tight text-brand-black mt-0.5">
+            Curated Duos
+          </h2>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        {/* On mobile: a horizontal slider showing exactly 1 card in view. On desktop: standard 4-grid! */}
+        <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-none gap-0 pl-0 pr-0 md:grid md:grid-cols-4 md:gap-6 w-full [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {recommendedProducts.map((p) => (
             <div
               key={p.id}
@@ -510,18 +525,16 @@ export default function ProductPage({
                 setQuantity(1);
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
-              className="flex flex-col gap-3 group cursor-pointer"
+              className="w-full md:w-auto shrink-0 snap-center md:snap-align-none select-none flex flex-col gap-3 group cursor-pointer px-4 md:px-0"
             >
-              <div className="aspect-square bg-[#E0DEDA] overflow-hidden">
-                <img
+              <div className="aspect-square bg-gray-100 overflow-hidden rounded-xl">
+                <ScrollZoomImage
                   src={p.images[0]}
                   alt={p.name}
-                  referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
-              <div className="flex flex-col gap-1 items-start">
-                <h3 className="font-serif text-[15px] font-medium text-brand-black group-hover:underline">
+              <div className="flex flex-col gap-1 items-start px-2 md:px-0">
+                <h3 className="font-serif text-[15.5px] font-semibold text-brand-black group-hover:underline">
                   {p.name}
                 </h3>
                 <span className="font-sans text-[13px] text-gray-500 font-semibold">
@@ -531,7 +544,57 @@ export default function ProductPage({
             </div>
           ))}
         </div>
-      </div>
+
+        {/* Page progress slide dots indicator - mobile viewport only */}
+        <div className="flex md:hidden justify-center items-center gap-1.5 mt-6">
+          {recommendedProducts.map((_, dotIdx) => (
+            <span
+              key={dotIdx}
+              className="w-1.5 h-1.5 rounded-full bg-brand-black/35 hover:bg-brand-black/80 transition-colors"
+            />
+          ))}
+        </div>
+      </ScrollReveal>
+
+      {/* STICKY BOTTOM CHECKOUT TRIGGER FOR MOBILE VIEWPORT SCROLL */}
+      <AnimatePresence>
+        {showStickyBar && (
+          <motion.div
+            initial={{ y: 100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 100, opacity: 0 }}
+            transition={{ duration: 0.4, ease: [0.25, 1, 0.5, 1] }}
+            className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-brand-black/10 py-3.5 px-4 z-50 flex items-center justify-between gap-3 lg:hidden"
+          >
+            {/* Left circular or rounded pill select */}
+            <div className="relative flex-1">
+              <select
+                value={selectedColor || ""}
+                onChange={(e) => setSelectedColor(e.target.value)}
+                className="w-full bg-[#F1EEF4] border-none text-brand-black text-[12px] font-sans font-bold py-3.5 px-4 rounded-full appearance-none outline-none cursor-pointer pr-10"
+              >
+                {product.colors?.map((c) => (
+                  <option key={c.name} value={c.name}>
+                    {c.name}
+                  </option>
+                ))}
+              </select>
+              <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-brand-black font-bold">
+                ↓
+              </div>
+            </div>
+
+            {/* Right buy CTA button */}
+            <button
+              onClick={() => onAddToCart(product, quantity, selectedColor)}
+              className="bg-brand-black hover:bg-brand-black/95 text-white font-sans text-[12px] font-bold py-3.5 px-6 rounded-full uppercase tracking-wider flex-1 cursor-pointer transition-transform duration-150 active:scale-95 text-center truncate shadow-sm"
+            >
+              Add • ${product.price.toFixed(2)}
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
     </div>
   );
 }

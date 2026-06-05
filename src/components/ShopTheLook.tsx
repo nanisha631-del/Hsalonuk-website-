@@ -8,6 +8,7 @@ import { Plus, ChevronLeft, ChevronRight, ShoppingBag, Eye } from "lucide-react"
 import { Product } from "../types";
 import { PRODUCTS } from "../data";
 import ScrollReveal from "./ScrollReveal";
+import ScrollZoomImage from "./ScrollZoomImage";
 
 interface ShopTheLookProps {
   onSelectProduct: (id: string) => void;
@@ -76,14 +77,14 @@ export default function ShopTheLook({ onSelectProduct, onAddToCart }: ShopTheLoo
   };
 
   return (
-    <section id="shop-the-look" className="bg-brand-offwhite w-full py-20 px-4 md:px-12 relative overflow-hidden select-none">
-      <div className="max-w-7xl mx-auto flex flex-col gap-8">
+    <section id="shop-the-look" className="bg-brand-offwhite w-full py-10 sm:py-14 px-4 md:px-12 relative overflow-hidden select-none">
+      <div className="max-w-7xl mx-auto flex flex-col gap-6">
         
         {/* Title row */}
-        <div className="flex justify-between items-end border-b border-brand-black/5 pb-6">
+        <div className="flex justify-between items-end border-b border-brand-black/5 pb-3">
           <div>
-            <span className="text-[11px] font-sans uppercase tracking-[0.2em] text-gray-400">TAP TO DISCOVER</span>
-            <h2 className="font-serif text-[38px] md:text-[48px] font-bold tracking-tight text-brand-black">
+            <span className="text-[10px] md:text-[11px] font-sans uppercase tracking-[0.2em] text-gray-400 font-bold">TAP TO DISCOVER</span>
+            <h2 className="font-serif text-[28px] md:text-[38px] font-bold tracking-tight text-brand-black uppercase leading-none">
               Shop The Look
             </h2>
           </div>
@@ -111,12 +112,10 @@ export default function ShopTheLook({ onSelectProduct, onAddToCart }: ShopTheLoo
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           
           {/* Left Column: Interactive Hotspot Image (50% area) */}
-          <div className="lg:col-span-6 relative aspect-square md:aspect-[4/5] bg-brand-nude/15 overflow-hidden shadow-md">
-            <img
+          <div className="lg:col-span-6 relative aspect-square md:aspect-[4/5] bg-brand-nude/15 overflow-hidden shadow-md rounded-[16px]">
+            <ScrollZoomImage
               src="https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=1200&auto=format&fit=crop&q=80"
               alt="Model visual look"
-              referrerPolicy="no-referrer"
-              className="w-full h-full object-cover"
             />
             
             {/* Hotspot dots */}
@@ -196,11 +195,9 @@ export default function ShopTheLook({ onSelectProduct, onAddToCart }: ShopTheLoo
                     className="cursor-pointer"
                   >
                     <div className="aspect-square bg-[#E5E0DA] relative overflow-hidden">
-                      <img
+                      <ScrollZoomImage
                         src={p.images[0]}
                         alt={p.name}
-                        referrerPolicy="no-referrer"
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-103"
                       />
                     </div>
                     <div className="p-5 flex flex-col gap-1 items-start">
