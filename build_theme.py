@@ -144,8 +144,8 @@ with zipfile.ZipFile(zip_filename, 'w', zipfile.ZIP_DEFLATED) as zip_file:
     for root, dirs, files in os.walk(theme_dir):
         for file in files:
             file_path = os.path.join(root, file)
-            # Create relative path for the zip archive
-            arcname = os.path.relpath(file_path, os.path.dirname(theme_dir))
+            # Create relative path from theme_dir to put folders at the zip root
+            arcname = os.path.relpath(file_path, theme_dir)
             zip_file.write(file_path, arcname)
 
 print(f"Shopify theme zipped successfully as '{zip_filename}'")
