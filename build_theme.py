@@ -72,14 +72,144 @@ with open(os.path.join(theme_dir, 'templates', 'index.json'), 'w', encoding='utf
 
 # 3. sections/main-home.liquid
 main_home_liquid_content = """<!-- The mount point for the React-powered phenomena homepage -->
-<div id="root"></div>
+<div id="root" class="relative"></div>
+
+<!-- JSON payload storing dynamic Shopify Customizer inputs.
+     This allows real-time edits to update the React frontend smoothly. -->
+<script id="shopify-section-settings" type="application/json">
+{
+  "announcement_text": {{ section.settings.announcement_text | default: "NEW CUSTOMERS SAVE 10% WITH CODE FIRST10! ★ NEW ARRIVALS NOW LIVE" | json }},
+  "hero_title_1": {{ section.settings.hero_title_1 | default: "RADIANT" | json }},
+  "hero_title_2": {{ section.settings.hero_title_2 | default: "BEAUTY" | json }},
+  "hero_subtitle": {{ section.settings.hero_subtitle | default: "Makeup, but make it fun." | json }},
+  "hero_cta_text": {{ section.settings.hero_cta_text | default: "SHOP PRODUCTS" | json }},
+  "hero_image_url": {% if section.settings.hero_image != blank %}{{ section.settings.hero_image | image_url: width: 1800 | json }}{% else %}""{% endif %},
+  "bestsellers_title": {{ section.settings.bestsellers_title | default: "BESTSELLERS" | json }},
+  "brushes_title": {{ section.settings.brushes_title | default: "MAKEUP BRUSHES" | json }},
+  "pouch_title": {{ section.settings.pouch_title | default: "THE MAKEUP POUCH" | json }},
+  "pouch_price": {{ section.settings.pouch_price | default: "60.00" | json }},
+  "pouch_desc": {{ section.settings.pouch_desc | default: "A cute, compact makeup pouch designed to go wherever you do. Finished with a soft, iridescent sheen and a clean zip closure, it fits your everyday essentials without taking up space. Easy to toss in your bag, easy to wipe clean, and cute enough to leave out." | json }},
+  "pouch_image_1_url": {% if section.settings.pouch_image_1 != blank %}{{ section.settings.pouch_image_1 | image_url: width: 1000 | json }}{% else %}""{% endif %},
+  "pouch_image_2_url": {% if section.settings.pouch_image_2 != blank %}{{ section.settings.pouch_image_2 | image_url: width: 805 | json }}{% else %}""{% endif %},
+  "brand_primary_color": {{ section.settings.brand_primary_color | default: "#C4B5D4" | json }},
+  "collection_button_text": {{ section.settings.collection_button_text | default: "SHOP THE FULL COLLECTION" | json }}
+}
+</script>
 
 {% schema %}
 {
   "name": "Main Home",
   "tag": "section",
   "class": "section",
-  "settings": []
+  "settings": [
+    {
+      "type": "header",
+      "content": "Announcement Bar"
+    },
+    {
+      "type": "text",
+      "id": "announcement_text",
+      "label": "Announcement Text",
+      "default": "NEW CUSTOMERS SAVE 10% WITH CODE FIRST10! ★ NEW ARRIVALS NOW LIVE"
+    },
+    {
+      "type": "header",
+      "content": "Hero Section"
+    },
+    {
+      "type": "text",
+      "id": "hero_title_1",
+      "label": "Hero Title Line 1",
+      "default": "RADIANT"
+    },
+    {
+      "type": "text",
+      "id": "hero_title_2",
+      "label": "Hero Title Line 2",
+      "default": "BEAUTY"
+    },
+    {
+      "type": "text",
+      "id": "hero_subtitle",
+      "label": "Hero Subtitle",
+      "default": "Makeup, but make it fun."
+    },
+    {
+      "type": "text",
+      "id": "hero_cta_text",
+      "label": "Hero CTA Button Text",
+      "default": "SHOP PRODUCTS"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Background Image (Portrait/Landscape)"
+    },
+    {
+      "type": "header",
+      "content": "Product Sections"
+    },
+    {
+      "type": "text",
+      "id": "bestsellers_title",
+      "label": "Bestsellers Tab Header",
+      "default": "BESTSELLERS"
+    },
+    {
+      "type": "text",
+      "id": "brushes_title",
+      "label": "Brushes Tab Header",
+      "default": "MAKEUP BRUSHES"
+    },
+    {
+      "type": "text",
+      "id": "collection_button_text",
+      "label": "Collection Button Text",
+      "default": "SHOP THE FULL COLLECTION"
+    },
+    {
+      "type": "header",
+      "content": "The Makeup Pouch Feature"
+    },
+    {
+      "type": "text",
+      "id": "pouch_title",
+      "label": "Pouch Section Title",
+      "default": "THE MAKEUP POUCH"
+    },
+    {
+      "type": "text",
+      "id": "pouch_price",
+      "label": "Pouch Unit Price ($)",
+      "default": "60.00"
+    },
+    {
+      "type": "textarea",
+      "id": "pouch_desc",
+      "label": "Pouch Description Text",
+      "default": "A cute, compact makeup pouch designed to go wherever you do. Finished with a soft, iridescent sheen and a clean zip closure, it fits your everyday essentials without taking up space. Easy to toss in your bag, easy to wipe clean, and cute enough to leave out."
+    },
+    {
+      "type": "image_picker",
+      "id": "pouch_image_1",
+      "label": "Pouch Image 1 (Left Portrait image)"
+    },
+    {
+      "type": "image_picker",
+      "id": "pouch_image_2",
+      "label": "Pouch Image 2 (Overlapping Inset image)"
+    },
+    {
+      "type": "header",
+      "content": "Colors & Styling"
+    },
+    {
+      "type": "color",
+      "id": "brand_primary_color",
+      "label": "Brand Accent Color (e.g. Lavender, Lilac, Pink)",
+      "default": "#C4B5D4"
+    }
+  ]
 }
 {% endschema %}
 """
@@ -149,3 +279,9 @@ with zipfile.ZipFile(zip_filename, 'w', zipfile.ZIP_DEFLATED) as zip_file:
             zip_file.write(file_path, arcname)
 
 print(f"Shopify theme zipped successfully as '{zip_filename}'")
+
+# Ensure the zip is accessible as a static asset for easy downloading from preview app
+os.makedirs('public', exist_ok=True)
+shutil.copy(zip_filename, os.path.join('public', zip_filename))
+shutil.copy(zip_filename, os.path.join('dist', zip_filename))
+print("Copied zip to public/ and dist/ folders for web downloading.")

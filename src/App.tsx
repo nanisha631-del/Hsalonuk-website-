@@ -29,8 +29,13 @@ import ProductPage from "./components/ProductPage";
 import CartDrawer from "./components/CartDrawer";
 import Footer from "./components/Footer";
 import ScrollZoomImage from "./components/ScrollZoomImage";
+import ShopifyInstructionModal from "./components/ShopifyInstructionModal";
+import { getShopifySettings } from "./shopifySettings";
+
 
 export default function App() {
+  const settings = getShopifySettings();
+  
   const [currentView, setCurrentView] = useState<"home" | "product">("home");
   const [selectedProductId, setSelectedProductId] = useState<string>("halo-highlighter");
   const [cartOpen, setCartOpen] = useState(false);
@@ -38,8 +43,16 @@ export default function App() {
   
   // Tab state for Section 3 bestseller product carousel
   const [bestsellersTab, setBestsellersTab] = useState<"BESTSELLERS" | "MAKEUP BRUSHES">("BESTSELLERS");
+  const [shopifyModalOpen, setShopifyModalOpen] = useState(false);
   
   const carouselContainerRef = useRef<HTMLDivElement>(null);
+
+  // Dynamic brand styling color sync
+  useEffect(() => {
+    if (settings.brand_primary_color) {
+      document.documentElement.style.setProperty('--color-brand-lilac', settings.brand_primary_color);
+    }
+  }, [settings.brand_primary_color]);
 
   // Scroll to top on page or view transition
   useEffect(() => {
@@ -158,7 +171,7 @@ export default function App() {
                     {/* Background portrait of skin close-up */}
                     <div className="absolute inset-0 z-0 select-none overflow-hidden rounded-2xl md:rounded-[36px]">
                       <ScrollZoomImage
-                        src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=1800&auto=format&fit=crop&q=80"
+                        src={settings.hero_image_url || "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=1800&auto=format&fit=crop&q=80"}
                         alt="Radiant Skin Beauty Hero Background"
                         className="brightness-[0.82] object-center"
                       />
@@ -173,10 +186,10 @@ export default function App() {
                         className="flex flex-col gap-1.5"
                       >
                         <h1 className="font-sans text-[44px] sm:text-[68px] md:text-[88px] font-black leading-[0.9] tracking-tight text-white my-3 uppercase">
-                          RADIANT<br />BEAUTY
+                          {settings.hero_title_1 || "RADIANT"}<br />{settings.hero_title_2 || "BEAUTY"}
                         </h1>
                         <p className="text-white/95 text-xs sm:text-xs font-sans tracking-[0.18em] font-bold uppercase mt-2">
-                          Makeup, but make it fun.
+                          {settings.hero_subtitle || "Makeup, but make it fun."}
                         </p>
                       </motion.div>
 
@@ -194,7 +207,7 @@ export default function App() {
                           }}
                           className="bg-white text-brand-black px-10 py-3.5 rounded-full text-[11px] font-extrabold uppercase tracking-[0.25em] hover:bg-white/95 hover:scale-[1.03] transition-all duration-300 shadow-sm cursor-pointer whitespace-nowrap"
                         >
-                          SHOP PRODUCTS
+                          {settings.hero_cta_text || "SHOP PRODUCTS"}
                         </button>
                       </motion.div>
                     </div>
@@ -225,7 +238,9 @@ export default function App() {
                             bestsellersTab === tab ? "text-brand-black" : "text-gray-300 hover:text-brand-black"
                           }`}
                         >
-                          {tab}
+                          {tab === "BESTSELLERS" 
+                            ? (settings.bestsellers_title || "BESTSELLERS")
+                            : (settings.brushes_title || "MAKEUP BRUSHES")}
                           {bestsellersTab === tab && (
                             <motion.div
                               layoutId="activeBestsellerTabUnderline"
@@ -292,7 +307,7 @@ export default function App() {
                       }}
                       className="bg-[#C4B5D4]/20 hover:bg-[#C4B5D4]/30 text-[#6B5A7F] font-sans font-bold text-xs uppercase tracking-[0.2em] px-10 py-4 transition-colors cursor-pointer"
                     >
-                      SHOP THE FULL COLLECTION
+                      {settings.collection_button_text || "SHOP THE FULL COLLECTION"}
                     </button>
                   </div>
                 </div>
@@ -329,7 +344,7 @@ export default function App() {
                   {/* Top Tab Headers */}
                   <div className="flex gap-6 border-b border-brand-black/5 pb-2.5 mb-6">
                     <span className="font-sans text-[13px] sm:text-[15px] font-black tracking-widest text-brand-black cursor-pointer pb-2 border-b-2 border-brand-lilac">
-                      THE MAKEUP POUCH
+                      {settings.pouch_title || "THE MAKEUP POUCH"}
                     </span>
                     <span className="font-sans text-[13px] sm:text-[15px] font-bold tracking-widest text-gray-300 hover:text-gray-400 cursor-pointer pb-2">
                       SETTING POWDER
@@ -343,7 +358,7 @@ export default function App() {
                     <div className="md:col-span-6 relative w-full select-none">
                       <div className="w-[85%] aspect-[1.12/1] bg-[#E8E4DF] overflow-hidden rounded-2xl sm:rounded-[28px] relative shadow-xs">
                         <ScrollZoomImage
-                          src="https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=800&auto=format&fit=crop&q=80"
+                          src={settings.pouch_image_1_url || "https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=800&auto=format&fit=crop&q=80"}
                           alt="The Makeup Pouch Main"
                         />
                       </div>
@@ -351,7 +366,7 @@ export default function App() {
                       {/* Secondary overlapping inset picture */}
                       <div className="absolute bottom-[-10px] right-2 w-[42%] aspect-square bg-[#DFDEDA] border-[3px] border-white rounded-[16px] sm:rounded-[22px] overflow-hidden shadow-md">
                         <ScrollZoomImage
-                          src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=500&auto=format&fit=crop&q=80"
+                          src={settings.pouch_image_2_url || "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=500&auto=format&fit=crop&q=80"}
                           alt="The Makeup Pouch Inset Detail"
                         />
                       </div>
@@ -365,11 +380,11 @@ export default function App() {
                       
                       {/* Price in bold compact size */}
                       <div className="font-sans text-[26px] sm:text-[32px] font-black leading-none text-brand-black">
-                        $60.00
+                        ${settings.pouch_price || "60.00"}
                       </div>
 
                       <p className="text-[11.5px] sm:text-[13px] font-sans text-gray-400 leading-relaxed">
-                        A cute, compact makeup pouch designed to go wherever you do. Finished with a soft, iridescent sheen and a clean zip closure, it fits your everyday essentials without taking up space. Easy to toss in your bag, easy to wipe clean, and cute enough to leave out.
+                        {settings.pouch_desc || "A cute, compact makeup pouch designed to go wherever you do. Finished with a soft, iridescent sheen and a clean zip closure, it fits your everyday essentials without taking up space. Easy to toss in your bag, easy to wipe clean, and cute enough to leave out."}
                       </p>
 
                       <div className="flex gap-4 w-full mt-2">
@@ -491,6 +506,30 @@ export default function App() {
         onRemoveItem={handleRemoveItem}
         onUpdateQuantity={handleUpdateQuantity}
       />
+
+      {/* Floating Shopify ZIP Download Helper */}
+      <div className="fixed bottom-6 right-6 z-50">
+        <button 
+          onClick={() => setShopifyModalOpen(true)}
+          className="flex items-center gap-2 bg-[#008060] hover:bg-[#006e52] text-white font-medium text-[13px] md:text-sm px-4 py-3 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-300 hover:scale-[1.03] active:scale-95 group border border-emerald-500/10 cursor-pointer"
+          id="shopify-theme-download-btn"
+        >
+          <span className="relative flex h-2.5 w-2.5">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-white"></span>
+          </span>
+          <svg className="w-4 h-4 fill-current transition-transform group-hover:translate-y-0.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/>
+          </svg>
+          <span>Shopify Integration Guide & ZIP</span>
+        </button>
+      </div>
+
+      <ShopifyInstructionModal 
+        isOpen={shopifyModalOpen} 
+        onClose={() => setShopifyModalOpen(false)} 
+      />
+
 
     </div>
   );
