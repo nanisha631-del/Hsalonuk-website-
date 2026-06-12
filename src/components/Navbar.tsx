@@ -4,7 +4,9 @@
  */
 
 import { useEffect, useState } from "react";
+import * as React from "react";
 import { Menu, Search, User, ShoppingBag, X } from "lucide-react";
+import { getShopifySettings } from "../shopifySettings";
 
 interface NavbarProps {
   cartCount: number;
@@ -24,6 +26,7 @@ export default function Navbar({
   onMenuClick
 }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
+  const settings = getShopifySettings();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -49,12 +52,26 @@ export default function Navbar({
     };
   }, [currentView]);
 
+  const navBg = settings.nav_bg_color || undefined;
+  const navColor = settings.nav_links_color || undefined;
+  const logoText = settings.nav_logo_text || "Phenomena";
+  const logoSize = settings.nav_logo_size || undefined;
+
+  const navStyle: React.CSSProperties = {};
+  if (navBg) navStyle.backgroundColor = navBg;
+  if (navColor) navStyle.color = navColor;
+
+  const logoStyle: React.CSSProperties = {};
+  if (logoSize) logoStyle.fontSize = logoSize;
+  if (navColor) logoStyle.color = navColor;
+
   const navClass = "bg-brand-offwhite text-brand-black border-b border-brand-black/10 shadow-xs";
 
   return (
     <nav
       id="main-navigation"
-      className={`w-full transition-all duration-300 ${navClass} h-16 md:h-20 flex items-center justify-between px-4 md:px-12`}
+      className={`w-full transition-all duration-300 ${navBg ? "" : navClass} h-16 md:h-20 flex items-center justify-between px-4 md:px-12`}
+      style={navStyle}
     >
       {/* Left side: Hamburger + Search */}
       <div className="flex items-center gap-4 md:gap-6 flex-1 min-w-0">
@@ -62,6 +79,7 @@ export default function Navbar({
           onClick={onMenuClick}
           className="p-1 hover:opacity-70 transition-opacity cursor-pointer"
           aria-label="Menu"
+          style={navColor ? { color: navColor } : {}}
         >
           <Menu className="w-5 h-5 md:w-6 md:h-6" />
         </button>
@@ -69,6 +87,7 @@ export default function Navbar({
           onClick={onSearchClick}
           className="p-1 hover:opacity-70 transition-opacity cursor-pointer"
           aria-label="Search"
+          style={navColor ? { color: navColor } : {}}
         >
           <Search className="w-5 h-5 md:w-6 md:h-6" />
         </button>
@@ -78,9 +97,10 @@ export default function Navbar({
       <div className="shrink-0 px-1 flex justify-center items-center min-w-[130px] z-10">
         <button
           onClick={onGoHome}
-          className="font-serif text-[21px] xs:text-[24px] sm:text-[28px] md:text-[32px] font-bold tracking-[-0.01em] hover:opacity-80 transition-all duration-300 cursor-pointer whitespace-nowrap overflow-visible select-none leading-none pt-0.5 text-brand-black"
+          className="font-serif text-[21px] xs:text-[24px] sm:text-[28px] md:text-[32px] font-bold tracking-[-0.01em] hover:opacity-80 transition-all duration-300 cursor-pointer whitespace-nowrap overflow-visible select-none leading-none pt-0.5"
+          style={logoStyle}
         >
-          Phenomena
+          {logoText}
         </button>
       </div>
 
@@ -89,6 +109,7 @@ export default function Navbar({
         <button
           className="p-1 hover:opacity-70 transition-opacity hidden md:block cursor-pointer"
           aria-label="Account"
+          style={navColor ? { color: navColor } : {}}
         >
           <User className="w-5 h-5 md:w-6 md:h-6" />
         </button>
@@ -96,12 +117,14 @@ export default function Navbar({
           onClick={onCartClick}
           className="p-1 hover:opacity-70 transition-opacity relative cursor-pointer"
           aria-label="Shopping Cart"
+          style={navColor ? { color: navColor } : {}}
         >
           <ShoppingBag className="w-5 h-5 md:w-6 md:h-6" />
           {cartCount > 0 && (
             <span
               id="cart-count-badge"
               className="absolute -top-1 -right-1 bg-brand-lilac text-brand-black font-sans text-[10px] font-bold w-4 h-4 md:w-5 md:h-5 rounded-full flex items-center justify-center border border-brand-offwhite"
+              style={settings.brand_primary_color ? { backgroundColor: settings.brand_primary_color } : {}}
             >
               {cartCount}
             </span>

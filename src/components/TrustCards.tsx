@@ -5,32 +5,35 @@
 
 import React from "react";
 import ScrollReveal from "./ScrollReveal";
+import { getShopifySettings } from "../shopifySettings";
 
 interface CardItem {
   title: string;
   desc: string;
 }
 
-const CARDS: CardItem[] = [
-  {
-    title: "Skin-First Formulas",
-    desc: "Makeup that treats your skin while you wear it."
-  },
-  {
-    title: "Inclusive Shades",
-    desc: "Made to work across tones and undertones."
-  },
-  {
-    title: "Multi-Use Essentials",
-    desc: "Minimal effort. Maximum options."
-  },
-  {
-    title: "Clean & Conscious",
-    desc: "Vegan. Cruelty-free. Thoughtfully formulated."
-  }
-];
-
 export default function TrustCards() {
+  const settings = getShopifySettings();
+
+  const CARDS: CardItem[] = [
+    {
+      title: settings.trust_card_1_title || "Scalp-First Science",
+      desc: settings.trust_card_1_desc || "Active clinical botanicals that heal your scalp follicles while conditioning."
+    },
+    {
+      title: settings.trust_card_2_title || "All-Hair Adaptability",
+      desc: settings.trust_card_2_desc || "Formulated to balance and care for all hair structures and types."
+    },
+    {
+      title: settings.trust_card_3_title || "Scent-Therapy Blends",
+      desc: settings.trust_card_3_desc || "Signature Oribe and Ground Wellbeing stress-relieving scents."
+    },
+    {
+      title: settings.trust_card_4_title || "100% Purity Certified",
+      desc: settings.trust_card_4_desc || "Vegan, sulfate-free, and carefully hand-blended formulas."
+    }
+  ];
+
   return (
     <section id="trust-cards" className="bg-brand-offwhite w-full py-10 sm:py-14 px-2 sm:px-6 md:px-12 relative border-t border-brand-black/5 select-none">
       <div className="max-w-2xl mx-auto grid grid-cols-2">

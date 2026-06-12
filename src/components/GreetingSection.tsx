@@ -7,10 +7,16 @@ import { useEffect, useState, useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import ScrollReveal from "./ScrollReveal";
 import ScrollZoomImage from "./ScrollZoomImage";
+import { getShopifySettings } from "../shopifySettings";
 
 export default function GreetingSection() {
   const [fillPercent, setFillPercent] = useState(0);
   const textRef = useRef<HTMLParagraphElement>(null);
+  const settings = getShopifySettings();
+
+  const titleText = settings.greeting_heading || "H SALON LUXURY";
+  const greetingText = settings.greeting_hint || "Wellness from";
+  const bgImage = settings.look_main_image || "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&auto=format&fit=crop&q=80";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -70,8 +76,8 @@ export default function GreetingSection() {
             {/* Scenic background photo */}
             <div className="absolute inset-0 w-full h-full">
               <ScrollZoomImage 
-                src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&auto=format&fit=crop&q=80" 
-                alt="The Skin Lab Coastal Travel Card" 
+                src={bgImage} 
+                alt="H Salon Apothecary Wellness Card" 
                 className="brightness-[0.7] contrast-[1.1]"
               />
             </div>
@@ -79,10 +85,10 @@ export default function GreetingSection() {
             {/* Retro title styles */}
             <div className="relative z-10 text-center flex flex-col select-none drop-shadow-lg pb-4 font-serif">
                <span className="italic text-white text-[22px] sm:text-[28px] md:text-[32px] leading-tight font-medium drop-shadow-md">
-                Greetings from
+                {greetingText}
               </span>
               <h3 className="font-sans font-black text-white text-[32px] sm:text-[40px] md:text-[45px] leading-[0.9] tracking-[0.05em] uppercase mt-1 drop-shadow-lg">
-                THE SKIN LAB
+                {titleText}
               </h3>
             </div>
           </div>
@@ -91,7 +97,7 @@ export default function GreetingSection() {
         {/* Scrolling progressive fill text */}
         <div className="w-full max-w-4xl px-2">
           <p ref={textRef} className="font-sans font-extrabold text-[26px] sm:text-[36px] md:text-[50px] lg:text-[54px] leading-[1.12] tracking-tight uppercase flex flex-wrap justify-center gap-x-[0.25em] gap-y-[0.1em]">
-            {"GOOD MAKEUP DOESN'T NEED TO BE COMPLICATED. OUR PRODUCTS BLEND IN SEAMLESSLY, FEEL COMFORTABLE ALL DAY, AND FIT INTO WHATEVER YOUR ROUTINE LOOKS LIKE.".split(" ").map((word, i, arr) => {
+            {"HEALTHY HAIR AND BALANCED SCALP DOESN'T NEED TO BE COMPLICATED. OUR TREATMENT ELIXIRS BLEND ESSENTIAL PLANT CLINICALS SEAMLESSLY, CALMING SENSITIVE ROOTS ALL DAY AND BEAUTIFYING YOUR SHINE.".split(" ").map((word, i, arr) => {
               const progress = fillPercent / 100;
               const wordStart = i / arr.length;
               const wordEnd = (i + 1.3) / arr.length; // slight overlap for smooth bleed

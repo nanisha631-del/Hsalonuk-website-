@@ -60,7 +60,7 @@ export default function CommunitySection() {
         <div className="flex flex-col items-center gap-1 max-w-xl">
           <ScrollReveal>
             <span className="font-sans text-[10px] md:text-[11px] uppercase tracking-[0.25em] text-brand-lilac font-black">
-              TAG @THESKINLABBEAUTY FOR A CHANCE TO BE FEATURED
+              TAG @HSALONAPOTHECARY FOR A CHANCE TO BE FEATURED
             </span>
           </ScrollReveal>
           <ScrollReveal delay={150}>

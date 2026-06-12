@@ -5,6 +5,7 @@
 
 import ScrollReveal from "./ScrollReveal";
 import ScrollZoomImage from "./ScrollZoomImage";
+import { getShopifySettings } from "../shopifySettings";
 
 interface FormulaCard {
   id: string;
@@ -16,40 +17,44 @@ interface FormulaCard {
 const CARDS: FormulaCard[] = [
   {
     id: "f1",
-    category: "SKIN, BUT BETTER",
-    name: "LIGHTWEIGHT FORMULAS THAT BLEND IN AND ENHANCE WHAT'S ALREADY THERE.",
-    image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=1000&auto=format&fit=crop&q=80"
+    category: "SKIN & SCALP ELIXIRS",
+    name: "ORIBE SERENE SCALP TREATMENT INSTANTLY RELIEVES SCALP REDNESS AND DRY IRRITATION.",
+    image: "/formula 1.jpeg"
   },
   {
     id: "f2",
-    category: "THE LASH GURU",
-    name: "COLOR MASCARA FOR THAT MULTI-DIMENSIONAL FEATHERLIGHT LASH LOOK.",
-    image: "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=1000&auto=format&fit=crop&q=80"
+    category: "BEAUTIFYING DEEP GLOSS",
+    name: "KÉRASTASE ELIXIR ULTIME FOR WEIGHTLESS HIGH-GLOSS BRILLIANCE AND HEAT SHIELDING.",
+    image: "/formula 2.jpeg"
   },
   {
     id: "f3",
-    category: "MAIN CHARACTER EYE",
-    name: "EYE SHADOW STICK WITH QUICK BLENDABLE WATERPROOF INTENSITY.",
-    image: "https://images.unsplash.com/photo-1631214499551-772e2c24255b?w=1000&auto=format&fit=crop&q=80"
+    category: "A RECOVERY RITUAL",
+    name: "THE RECOVERY FACE OIL REPLETE WITH BOTANICAL JASMINE AND ROSEWOOD OILS.",
+    image: "/formula 3.jpeg"
   },
   {
     id: "f4",
-    category: "SOFT LIPS CLUB",
-    name: "GLISTENING BERRY-OIL LIP GLAZE WITH INSTANT MOUTH-WATERING SHAPE.",
-    image: "https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?w=1000&auto=format&fit=crop&q=80"
+    category: "ACTIVE MUSCLE CARE",
+    name: "THE ACTIVE BODY OIL WITH STIMULATING ROSEMARY AND COLD-PRESSED BOTANICALS.",
+    image: "/formula 4.jpeg"
   }
 ];
 
 export default function LightweightFormulas() {
+  const settings = getShopifySettings();
+
   return (
     <section id="formulas-deck" className="bg-brand-offwhite w-full py-10 sm:py-16 px-4 md:px-12 relative select-none">
       <div className="max-w-xl mx-auto flex flex-col gap-3 items-center text-center mb-10">
         <ScrollReveal direction="up" distance={15}>
-          <span className="text-[10px] md:text-[11px] font-sans uppercase tracking-[0.2em] text-gray-400 font-bold">THE HIGHLIGHT INDEX</span>
+          <span className="text-[10px] md:text-[11px] font-sans uppercase tracking-[0.2em] text-gray-400 font-bold">
+            {settings.formulas_desc || "THE HIGHLIGHT INDEX"}
+          </span>
         </ScrollReveal>
         <ScrollReveal direction="up" distance={20} delay={50}>
           <h2 className="font-sans text-[22px] sm:text-[32px] font-black tracking-tight leading-tight uppercase text-brand-black">
-            STORY OF LIGHTWEIGHT FORMULAS
+            {settings.formulas_heading || "STORY OF LIGHTWEIGHT FORMULAS"}
           </h2>
         </ScrollReveal>
       </div>

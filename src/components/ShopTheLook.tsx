@@ -9,6 +9,7 @@ import { Product } from "../types";
 import { PRODUCTS } from "../data";
 import ScrollReveal from "./ScrollReveal";
 import ScrollZoomImage from "./ScrollZoomImage";
+import { getShopifySettings } from "../shopifySettings";
 
 interface ShopTheLookProps {
   onSelectProduct: (id: string) => void;
@@ -28,7 +29,7 @@ interface Hotspot {
 const HOTSPOTS: Hotspot[] = [
   {
     id: "h1",
-    name: "Halo highlighter",
+    name: "Kérastase Elixir Ultime Hair Oil",
     price: 56.00,
     productId: "halo-highlighter",
     x: 65,
@@ -37,7 +38,7 @@ const HOTSPOTS: Hotspot[] = [
   },
   {
     id: "h2",
-    name: "Eyeliner",
+    name: "Olaplex No. 9 Bond Protector Serum",
     price: 24.00,
     productId: "eyeliner",
     x: 55,
@@ -46,7 +47,7 @@ const HOTSPOTS: Hotspot[] = [
   },
   {
     id: "h3",
-    name: "Lip gloss",
+    name: "Kérastase Nutritive Split-End Serum",
     price: 24.00,
     productId: "lip-gloss",
     x: 35,
@@ -58,6 +59,11 @@ const HOTSPOTS: Hotspot[] = [
 export default function ShopTheLook({ onSelectProduct, onAddToCart }: ShopTheLookProps) {
   const [activeHotspot, setActiveHotspot] = useState<Hotspot | null>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const settings = getShopifySettings();
+
+  const title = settings.look_title || "Shop The Look";
+  const tagline = settings.look_tagline || "TAP TO DISCOVER";
+  const mainImage = settings.look_main_image || "https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=1200&auto=format&fit=crop&q=80";
 
   // Products from our list to show in this carousel
   const lookProducts = PRODUCTS.filter((p) =>
@@ -83,9 +89,11 @@ export default function ShopTheLook({ onSelectProduct, onAddToCart }: ShopTheLoo
         {/* Title row */}
         <div className="flex justify-between items-end border-b border-brand-black/5 pb-3">
           <div>
-            <span className="text-[10px] md:text-[11px] font-sans uppercase tracking-[0.2em] text-gray-400 font-bold">TAP TO DISCOVER</span>
+            <span className="text-[10px] md:text-[11px] font-sans uppercase tracking-[0.2em] text-gray-400 font-bold">
+              {tagline}
+            </span>
             <h2 className="font-serif text-[28px] md:text-[38px] font-bold tracking-tight text-brand-black uppercase leading-none">
-              Shop The Look
+              {title}
             </h2>
           </div>
           
@@ -114,7 +122,7 @@ export default function ShopTheLook({ onSelectProduct, onAddToCart }: ShopTheLoo
           {/* Left Column: Interactive Hotspot Image (50% area) */}
           <div className="lg:col-span-6 relative aspect-square md:aspect-[4/5] bg-brand-nude/15 overflow-hidden shadow-md rounded-[16px]">
             <ScrollZoomImage
-              src="https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=1200&auto=format&fit=crop&q=80"
+              src={mainImage}
               alt="Model visual look"
             />
             

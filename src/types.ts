@@ -12,11 +12,13 @@ export interface Product {
   rating: number;
   images: string[];
   colors?: { name: string; hex: string; bgImage?: string }[];
-  category: "lip" | "face" | "eye" | "brush" | "pouch";
+  category: "lip" | "face" | "eye" | "brush" | "pouch" | "skincare";
   description?: string;
   intro?: string;
   bullets?: string[];
   tags?: string[];
+  howToUse?: string;
+  ingredients?: string;
 }
 
 export interface CartItem {

@@ -5,6 +5,7 @@ import { Product } from "../types";
 import { PRODUCTS } from "../data";
 import ScrollReveal from "./ScrollReveal";
 import ScrollZoomImage from "./ScrollZoomImage";
+import { getShopifySettings } from "../shopifySettings";
 
 interface ProductPageProps {
   product: Product;
@@ -19,6 +20,7 @@ export default function ProductPage({
   onAddToCart,
   onSelectProduct
 }: ProductPageProps) {
+  const settings = getShopifySettings();
   const [selectedImageIdx, setSelectedImageIdx] = useState(0);
   const [selectedColor, setSelectedColor] = useState(
     product.colors && product.colors.length > 0 ? product.colors[0].name : undefined
@@ -165,18 +167,18 @@ export default function ProductPage({
             {/* In-Stock Indicator */}
             <div className="flex items-center gap-1.5 text-[11.5px] text-gray-600 font-sans mt-0.5">
               <span className="text-[10px] text-[#42B870] font-sans">●</span>
-              <span>Item is in stock</span>
+              <span>{settings.prod_stock_text || "Item is in stock"}</span>
             </div>
 
             {/* Micro benefits matching original image list with light stars */}
             <div className="flex flex-col gap-1 mt-1.5">
               <div className="flex items-center gap-2 text-[12px] font-sans text-brand-black leading-tight">
                 <span className="text-[12px] text-[#A697BB]">★</span>
-                <span>Dermatologist Tested</span>
+                <span>{settings.prod_tested_bullet_1 || "Dermatologist Tested"}</span>
               </div>
               <div className="flex items-center gap-2 text-[12px] font-sans text-brand-black leading-tight">
                 <span className="text-[12px] text-[#A697BB]">★</span>
-                <span>Non comedogenic</span>
+                <span>{settings.prod_tested_bullet_2 || "Non comedogenic"}</span>
               </div>
             </div>
           </div>
@@ -322,9 +324,15 @@ export default function ProductPage({
                     className="overflow-hidden"
                   >
                     <div className="px-4 pb-3.5 text-[12px] text-gray-600 font-sans leading-relaxed flex flex-col gap-1 border-t border-brand-black/5 pt-2.5">
-                      <p>1. Ensure your face is clean, dry, and balanced with serum.</p>
-                      <p>2. Sweep or wipe the product directly onto desired areas needing color or highlights.</p>
-                      <p>3. Tap gently with warmth of finger pads to diffuse edges perfectly into your base makeup.</p>
+                      {product.howToUse ? (
+                        <p>{product.howToUse}</p>
+                      ) : (
+                        <>
+                          <p>1. Ensure your hair, scalp, or skin is clean and balanced.</p>
+                          <p>2. Dispense a warm portion of product between your fingers or directly onto the treatment zone.</p>
+                          <p>3. Massage gently to encourage optimal absorption and activation of active elixirs.</p>
+                        </>
+                      )}
                     </div>
                   </motion.div>
                 )}
@@ -354,7 +362,7 @@ export default function ProductPage({
                     className="overflow-hidden"
                   >
                     <div className="px-4 pb-3.5 text-[11.5px] font-mono text-gray-500 tracking-tight leading-relaxed border-t border-brand-black/5 pt-2.5">
-                      Organic Castor Seed Oil, Jojoba Esters, Synthetic Fluorphlogopite, Squalane, Tocopheryl Acetate (Vitamin E), Shea Butter Extract, Rosehip Fruit Extract.
+                      {product.ingredients || "Abyssine Extract, Sweet Almond Oil, Premium Squalane, Rose Extract, Jasmine, Camellia Seed Extract, Hyaluronic Acid Complexes, Organic Essential Oils."}
                     </div>
                   </motion.div>
                 )}
@@ -397,7 +405,7 @@ export default function ProductPage({
           {crossSellProduct && (
             <div className="mt-2.5 p-3.5 bg-white border border-brand-black/30 rounded-xl flex flex-col gap-2 shadow-xs font-sans">
               <span className="text-[9px] font-bold uppercase tracking-widest text-brand-black flex items-center gap-1.5">
-                <Sparkles className="w-3 h-3 fill-current" /> BUY IT WITH
+                <Sparkles className="w-3 h-3 fill-current" /> {settings.prod_buy_with_text || "BUY IT WITH"}
               </span>
               <div className="flex gap-3 items-center">
                 <img
@@ -429,26 +437,26 @@ export default function ProductPage({
 
       {/* FREQUENTLY ASKED QUESTIONS SECTION - with ScrollReveal smooth entry */}
       <ScrollReveal className="max-w-7xl mx-auto mt-6 border-t border-brand-black/10 pt-6 px-4 md:px-12">
-        <h2 className="font-sans text-[11px] sm:text-[12px] font-extrabold tracking-widest text-[#9A8FB7] mb-3 uppercase text-left">
-          Frequently Asked Questions
+        <h2 className="font-sans text-[11px] sm:text-[12px] font-extrabold tracking-widest text-[#9A8FB7] mb-3 uppercase text-left" style={settings.brand_primary_color ? { color: settings.brand_primary_color } : {}}>
+          {settings.prod_faq_title || "Frequently Asked Questions"}
         </h2>
         <div className="flex flex-col">
           {[
             {
-              q: "Is this suitable for all skin types?",
-              a: "Absolutely. Our specialized skincare cosmetics formulas are non-comedogenic, dermatologist tested for hyper-allergic breakouts, and safe for extremely sensitive cheeks, lips, or dry skin."
+              q: "Is this suitable for all hair and scalp types?",
+              a: "Absolutely. Our specialized scalp and hair formulas are dermatologist-tested and dermatologist-approved for zero irritation, being safe for even hyper-sensitive crowns, color-treated locks, or dry hair fibers."
             },
             {
-              q: "Is this product vegan and cruelty-free?",
-              a: "Yes! Sustainability and compassion are our core principles. We use zero animal fat derivatives and pledge 100% cruelty-free formulation lines verified by third-party boards."
+              q: "Are H Salon curations vegan and cruelty-free?",
+              a: "Yes! Sustainability and organic purity are core principles. We choose sustainable harvesting and pledge 100% cruelty-free, sulfate-free, and paraben-free formulation lines."
             },
             {
-              q: "How long does it last after applying?",
-              a: "When blended properly, color pigments withstand high sweat levels, and offer pristine hydration-lock durability upwards of 12 to 16 full hours without fine-line cake flaking."
+              q: "How long do the therapeutic benefits last after use?",
+              a: "Our deep treatment elixirs and oils hydrate hair fibers for up to 48 hours, providing ongoing moisture protection, exceptional high-gloss shine, and organic scent-therapy relief."
             },
             {
-              q: "Can I wear this with other brand bases?",
-              a: "Yes. Our light butter formulas blend as compatible layers upon liquid silicone bases, dry foundations, or organic sunblock oils nicely."
+              q: "Can I layer these treatments with other styling products?",
+              a: "Yes. Our botanical, weightless elixirs are engineered to layer seamlessly with any everyday styling cremes, leave-in repair sprays, or thermal protecting shields."
             }
           ].map((faq, idx) => (
             <div key={idx} className="border-b border-brand-black/10 py-1 bg-transparent">
@@ -496,11 +504,11 @@ export default function ProductPage({
             allure
           </div>
           <div className="font-serif text-[16px] md:text-[20px] tracking-widest font-semibold text-brand-black select-none">
-            GLAMOUR
+            VOGUE
           </div>
         </div>
         <p className="mt-6 font-serif text-[16px] md:text-[20px] italic text-gray-500 max-w-2xl mx-auto leading-relaxed">
-          "An effortless approach to modern makeup—skin-first, wearable, and cool. Exactly what Gen Z wants right now."
+          "An effortless approach to premium hair and wellbeing therapy—root-first, restorative, and deeply grounding. Exactly what modern luxury wellness demands."
         </p>
       </ScrollReveal>
 
@@ -509,7 +517,7 @@ export default function ProductPage({
         <div className="mb-6">
           <span className="text-[10px] font-sans uppercase tracking-[0.2em] text-gray-400">YOU MAY ALSO LIKE</span>
           <h2 className="font-serif text-[24px] md:text-[30px] font-bold tracking-tight text-brand-black mt-0.5">
-            Curated Duos
+            {settings.prod_recommended_title || "Curated Duos"}
           </h2>
         </div>
 

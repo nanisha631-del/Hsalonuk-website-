@@ -7,7 +7,7 @@ import { motion } from "motion/react";
 import ScrollReveal from "./ScrollReveal";
 
 export default function ScrollingBanner() {
-  const textItem = "SOFT GLAM • NO STRESS • SOFT GLAM • NO STRESS • SOFT GLAM • NO STRESS ";
+  const textItem = "PURA VIDA • DEEP NOURISHMENT • CROWN TREATMENT • APOTHECARY SHINE • SPA LUXURY ";
   const fullText = Array(12).fill(textItem).join(" • ");
 
   return (
@@ -27,7 +27,7 @@ export default function ScrollingBanner() {
           {/* Extremely high end visual models photo */}
           <img
             src="https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=1600&auto=format&fit=crop&q=80"
-            alt="3 girls premium cosmetics vibe"
+            alt="H Salon Luxury Hair treatments vibe"
             referrerPolicy="no-referrer"
             className="w-full h-full object-cover brightness-[0.92]"
           />

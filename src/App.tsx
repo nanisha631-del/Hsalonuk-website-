@@ -36,13 +36,20 @@ import { getShopifySettings } from "./shopifySettings";
 export default function App() {
   const settings = getShopifySettings();
   
+  // Detect if we are running in the AI Studio preview environment vs a live Shopify store
+  const isStudioPreview = typeof window !== "undefined" && (
+    window.location.hostname.includes("run.app") ||
+    window.location.hostname.includes("localhost") ||
+    window.location.hostname.includes("127.0.0.1")
+  );
+
   const [currentView, setCurrentView] = useState<"home" | "product">("home");
   const [selectedProductId, setSelectedProductId] = useState<string>("halo-highlighter");
   const [cartOpen, setCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   
   // Tab state for Section 3 bestseller product carousel
-  const [bestsellersTab, setBestsellersTab] = useState<"BESTSELLERS" | "MAKEUP BRUSHES">("BESTSELLERS");
+  const [bestsellersTab, setBestsellersTab] = useState<"BESTSELLERS" | "WHATS HOT">("BESTSELLERS");
   const [shopifyModalOpen, setShopifyModalOpen] = useState(false);
   
   const carouselContainerRef = useRef<HTMLDivElement>(null);
@@ -107,8 +114,8 @@ export default function App() {
 
   // Bestsellers filtering
   const filteredProducts = PRODUCTS.filter((p) => {
-    if (bestsellersTab === "MAKEUP BRUSHES") {
-      return p.category === "brush";
+    if (bestsellersTab === "WHATS HOT") {
+      return p.category === "brush" || (p.tags && p.tags.includes("WHATS HOT"));
     } else {
       return p.category !== "brush" && p.category !== "pouch";
     }
@@ -164,32 +171,41 @@ export default function App() {
             >
               {/* SECTION 2 — HERO SECTION */}
               <section id="hero-showcase" className="w-full bg-brand-offwhite pt-24 sm:pt-28 pb-10 px-4 md:px-12 select-none">
-                <div className="max-w-7xl mx-auto">
-                  {/* The Framed Hero Card with gap highlighted */}
-                  <div className="relative w-full h-[65vh] sm:h-[75vh] min-h-[480px] max-h-[720px] bg-[#E8E8E8] rounded-2xl md:rounded-[36px] overflow-hidden shadow-xs flex items-center justify-center">
+                <div className="max-w-7xl mx-auto flex flex-col gap-6">
+
+                  {/* The Framed Hero Card with precise aspect ratios corresponding to native images */}
+                  <div className="relative w-full aspect-[1792/2400] md:aspect-[2752/1536] bg-[#E8E8E8] rounded-2xl md:rounded-[36px] overflow-hidden shadow-xs flex items-end justify-center pb-12 sm:pb-24">
                     
                     {/* Background portrait of skin close-up */}
                     <div className="absolute inset-0 z-0 select-none overflow-hidden rounded-2xl md:rounded-[36px]">
-                      <ScrollZoomImage
-                        src={settings.hero_image_url || "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=1800&auto=format&fit=crop&q=80"}
-                        alt="Radiant Skin Beauty Hero Background"
-                        className="brightness-[0.82] object-center"
-                      />
+                      {/* Desktop Background Image - 2752x1536 */}
+                      <div className="hidden sm:block w-full h-full">
+                        <ScrollZoomImage
+                          src={settings.hero_image_url || "/hero section image.jpeg"}
+                          alt="Radiant Skin Beauty Hero Background"
+                          className="brightness-[0.85] object-center"
+                        />
+                      </div>
+                      {/* Mobile Background Image - 1792x2400 */}
+                      <div className="block sm:hidden w-full h-full">
+                        <ScrollZoomImage
+                          src="/hero section mobile view.jpeg"
+                          alt="Radiant Skin Beauty Hero Background Mobile"
+                          className="brightness-[0.85] object-center"
+                        />
+                      </div>
                     </div>
 
-                    {/* Styled Center Hero Contents */}
+                    {/* Styled Center Hero Contents positioned lower */}
                     <div className="relative z-10 text-center flex flex-col items-center gap-3 px-4 md:px-12 max-w-2xl select-none">
                       <motion.div
-                        initial={{ opacity: 0, y: 30 }}
+                        initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
                         className="flex flex-col gap-1.5"
                       >
-                        <h1 className="font-sans text-[44px] sm:text-[68px] md:text-[88px] font-black leading-[0.9] tracking-tight text-white my-3 uppercase">
-                          {settings.hero_title_1 || "RADIANT"}<br />{settings.hero_title_2 || "BEAUTY"}
-                        </h1>
-                        <p className="text-white/95 text-xs sm:text-xs font-sans tracking-[0.18em] font-bold uppercase mt-2">
-                          {settings.hero_subtitle || "Makeup, but make it fun."}
+                        <p className="text-white text-[11px] sm:text-xs font-sans tracking-[0.22em] font-extrabold uppercase bg-black/15 px-4.5 py-2 rounded-full backdrop-blur-[3px] shadow-sm inline-block">
+                          {settings.hero_subtitle || "Apothecary hair & scalp elixirs."}
                         </p>
                       </motion.div>
 
@@ -198,14 +214,14 @@ export default function App() {
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.8, delay: 0.15, ease: "easeOut" }}
-                        className="mt-6"
+                        className="mt-3.5"
                       >
                         <button
                           onClick={() => {
                             const next = document.getElementById("bestsellers-section");
                             if (next) next.scrollIntoView({ behavior: "smooth" });
                           }}
-                          className="bg-white text-brand-black px-10 py-3.5 rounded-full text-[11px] font-extrabold uppercase tracking-[0.25em] hover:bg-white/95 hover:scale-[1.03] transition-all duration-300 shadow-sm cursor-pointer whitespace-nowrap"
+                          className="bg-white text-brand-black px-11 py-4 rounded-full text-[11px] font-extrabold uppercase tracking-[0.22em] hover:bg-white/95 hover:scale-[1.03] transition-all duration-300 shadow-md cursor-pointer whitespace-nowrap"
                         >
                           {settings.hero_cta_text || "SHOP PRODUCTS"}
                         </button>
@@ -219,6 +235,13 @@ export default function App() {
                     </div>
 
                   </div>
+
+                  {/* Elegant Background Element: RADIANT BEAUTY below the girls */}
+                  <div className="relative w-full text-center mt-6 md:mt-8 select-none pointer-events-none cursor-default overflow-hidden">
+                    <span className="font-sans text-[48px] sm:text-[90px] md:text-[130px] lg:text-[150px] font-black leading-none uppercase tracking-tighter text-black/[0.035] block">
+                      {settings.hero_title_1 || "RADIANT"} {settings.hero_title_2 || "BEAUTY"}
+                    </span>
+                  </div>
                 </div>
               </section>
 
@@ -230,7 +253,7 @@ export default function App() {
                   <div className="flex justify-between items-end border-b border-brand-black/10 pb-4">
                     {/* Toggle tabs for categories as heavy headers */}
                     <div className="flex gap-6 sm:gap-10">
-                      {(["BESTSELLERS", "MAKEUP BRUSHES"] as const).map((tab) => (
+                      {(["BESTSELLERS", "WHATS HOT"] as const).map((tab) => (
                         <button
                           key={tab}
                           onClick={() => setBestsellersTab(tab)}
@@ -240,7 +263,7 @@ export default function App() {
                         >
                           {tab === "BESTSELLERS" 
                             ? (settings.bestsellers_title || "BESTSELLERS")
-                            : (settings.brushes_title || "MAKEUP BRUSHES")}
+                            : (settings.brushes_title || "WHAT'S HOT")}
                           {bestsellersTab === tab && (
                             <motion.div
                               layoutId="activeBestsellerTabUnderline"
@@ -253,10 +276,10 @@ export default function App() {
 
                     {/* See all / View More link */}
                     <button
-                      onClick={() => setBestsellersTab(bestsellersTab === "BESTSELLERS" ? "MAKEUP BRUSHES" : "BESTSELLERS")}
+                      onClick={() => setBestsellersTab(bestsellersTab === "BESTSELLERS" ? "WHATS HOT" : "BESTSELLERS")}
                       className="text-xs font-sans font-bold uppercase tracking-[0.16em] text-brand-black border-b border-brand-black pb-1 hover:opacity-75 transition-opacity cursor-pointer hidden md:block"
                     >
-                      VIEW ALL {bestsellersTab === "BESTSELLERS" ? "BRUSHES" : "PRODUCTS"} →
+                      VIEW ALL {bestsellersTab === "BESTSELLERS" ? (settings.brushes_title || "WHAT'S HOT") : "PRODUCTS"} →
                     </button>
                   </div>
 
@@ -305,7 +328,7 @@ export default function App() {
                         const firstProduct = PRODUCTS[0];
                         handleSelectProduct(firstProduct.id);
                       }}
-                      className="bg-[#C4B5D4]/20 hover:bg-[#C4B5D4]/30 text-[#6B5A7F] font-sans font-bold text-xs uppercase tracking-[0.2em] px-10 py-4 transition-colors cursor-pointer"
+                      className="bg-brand-lilac/20 hover:bg-brand-lilac/30 text-brand-black font-sans font-bold text-xs uppercase tracking-[0.2em] px-10 py-4 transition-colors cursor-pointer"
                     >
                       {settings.collection_button_text || "SHOP THE FULL COLLECTION"}
                     </button>
@@ -374,7 +397,7 @@ export default function App() {
 
                     {/* Right: Tight details copy with ADD TO BAG button */}
                     <div className="md:col-span-6 flex flex-col gap-3 sm:gap-4 items-start w-full">
-                      <span className="text-[10px] sm:text-[11px] font-sans uppercase tracking-[0.2em] text-[#C4B5D4] font-black">
+                      <span className="text-[10px] sm:text-[11px] font-sans uppercase tracking-[0.2em] text-brand-lilac font-black">
                         TRENDING BESTSELLER
                       </span>
                       
@@ -506,30 +529,6 @@ export default function App() {
         onRemoveItem={handleRemoveItem}
         onUpdateQuantity={handleUpdateQuantity}
       />
-
-      {/* Floating Shopify ZIP Download Helper */}
-      <div className="fixed bottom-6 right-6 z-50">
-        <button 
-          onClick={() => setShopifyModalOpen(true)}
-          className="flex items-center gap-2 bg-[#008060] hover:bg-[#006e52] text-white font-medium text-[13px] md:text-sm px-4 py-3 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-300 hover:scale-[1.03] active:scale-95 group border border-emerald-500/10 cursor-pointer"
-          id="shopify-theme-download-btn"
-        >
-          <span className="relative flex h-2.5 w-2.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-white"></span>
-          </span>
-          <svg className="w-4 h-4 fill-current transition-transform group-hover:translate-y-0.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/>
-          </svg>
-          <span>Shopify Integration Guide & ZIP</span>
-        </button>
-      </div>
-
-      <ShopifyInstructionModal 
-        isOpen={shopifyModalOpen} 
-        onClose={() => setShopifyModalOpen(false)} 
-      />
-
 
     </div>
   );

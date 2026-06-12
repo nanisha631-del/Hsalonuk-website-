@@ -7,6 +7,7 @@ import { useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import ScrollReveal from "./ScrollReveal";
+import { getShopifySettings } from "../shopifySettings";
 
 interface AccordionItem {
   id: string;
@@ -16,39 +17,42 @@ interface AccordionItem {
   bgColor: string;
 }
 
-const ITEMS: AccordionItem[] = [
-  {
-    id: "glow",
-    title: "LOW EFFORT GLOW",
-    subtitle: "Daily gloss and natural highlight formulas",
-    image: "https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=1200&auto=format&fit=crop&q=80",
-    bgColor: "#E8D5C4" // Cream
-  },
-  {
-    id: "eyes",
-    title: "MAIN CHARACTER EYES",
-    subtitle: "Precision liquid liners and saturated eye pigments",
-    image: "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=1200&auto=format&fit=crop&q=80",
-    bgColor: "#C4B5D4" // Purple
-  },
-  {
-    id: "touches",
-    title: "FINISHING TOUCHES",
-    subtitle: "Setting sprays, buffers, and featherlight buffers",
-    image: "https://images.unsplash.com/photo-1620802631468-911c03ae793e?w=1200&auto=format&fit=crop&q=80",
-    bgColor: "#EBDCCB" // Cream/beige neutral
-  },
-  {
-    id: "lips",
-    title: "SOFT LIPS CLUB",
-    subtitle: "Hydrating berry-oil lip glazes and sheens",
-    image: "https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?w=1200&auto=format&fit=crop&q=80",
-    bgColor: "#D2C4E3" // Soft lilac purple
-  }
-];
-
 export default function CurrentlyObsessed() {
-  const [activeItem, setActiveItem] = useState<AccordionItem>(ITEMS[0]);
+  const settings = getShopifySettings();
+  const [activeId, setActiveId] = useState("glow");
+
+  const ITEMS: AccordionItem[] = [
+    {
+      id: "glow",
+      title: settings.obsessed_item_1_title || "CROWN GROWTH & SCALP",
+      subtitle: settings.obsessed_item_1_subtitle || "Stimulating leave-in elixirs and cooling root therapy",
+      image: settings.obsessed_item_1_img || "/01 frame.jpeg",
+      bgColor: "#E8D5C4" // Cream
+    },
+    {
+      id: "eyes",
+      title: settings.obsessed_item_2_title || "DEEP NUTRITION GLOSS",
+      subtitle: settings.obsessed_item_2_subtitle || "High-brilliance restorative hair oils and moisture drops",
+      image: settings.obsessed_item_2_img || "/02 frame.jpeg",
+      bgColor: "#C1EDE2" // Soft pale mint green
+    },
+    {
+      id: "touches",
+      title: settings.obsessed_item_3_title || "GROUNDING WELLBEING",
+      subtitle: settings.obsessed_item_3_subtitle || "Aromatherapy overnight face oils and muscle reliefs",
+      image: settings.obsessed_item_3_img || "/03 frame.jpeg",
+      bgColor: "#EBDCCB" // Cream/beige neutral
+    },
+    {
+      id: "lips",
+      title: settings.obsessed_item_4_title || "LUXURY SPA TOOLS",
+      subtitle: settings.obsessed_item_4_subtitle || "Natural quartz gua shas and padded velvet kit pouches",
+      image: settings.obsessed_item_4_img || "/04 frame.jpeg",
+      bgColor: "#D6F5EE" // Very light soft Ice-Mint green
+    }
+  ];
+
+  const activeItem = ITEMS.find(item => item.id === activeId) || ITEMS[0];
 
   return (
     <section 
@@ -61,12 +65,14 @@ export default function CurrentlyObsessed() {
         {/* Header */}
         <ScrollReveal>
           <div className="flex flex-col gap-1 border-b border-black/10 pb-3 text-black">
-            <span className="text-[10px] md:text-[11px] font-sans uppercase tracking-[0.2em] font-bold text-black/60">WEEK WRAPUP</span>
+            <span className="text-[10px] md:text-[11px] font-sans uppercase tracking-[0.2em] font-bold text-black/60">
+              {settings.obsessed_label || "WEEK WRAPUP"}
+            </span>
             <h2 className="font-serif text-[28px] md:text-[38px] font-bold tracking-tight uppercase leading-none">
-              Currently Obsessed
+              {settings.obsessed_title || "Currently Obsessed"}
             </h2>
             <p className="text-black/55 font-sans text-[11px] sm:text-xs uppercase tracking-widest max-w-lg mt-1 block">
-              Curated edits of our most-worn formulas and shades, thoughtfully grouped so you don't have to overthink it.
+              {settings.obsessed_desc || "Curated edits of our most-worn formulas and shades, thoughtfully grouped so you don't have to overthink it."}
             </p>
           </div>
         </ScrollReveal>
@@ -77,7 +83,7 @@ export default function CurrentlyObsessed() {
           {/* Left vertical accordion text headings - 35% width */}
           <div className="md:col-span-5 flex flex-col gap-1.5 h-full justify-center">
             {ITEMS.map((item, index) => {
-              const isActive = activeItem.id === item.id;
+              const isActive = activeId === item.id;
               const serial = `0${index + 1}`;
               return (
                 <div
@@ -85,7 +91,7 @@ export default function CurrentlyObsessed() {
                   className={`group py-2.5 border-b border-black/10 last:border-0 cursor-pointer select-none transition-all duration-300 ${
                     isActive ? "border-l-3 border-black pl-4" : "pl-1 hover:pl-2.5"
                   }`}
-                  onMouseEnter={() => setActiveItem(item)}
+                  onMouseEnter={() => setActiveId(item.id)}
                 >
                   <div className="flex justify-between items-center w-full">
                     <div className="flex flex-col">

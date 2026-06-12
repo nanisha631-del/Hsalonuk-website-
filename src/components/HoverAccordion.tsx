@@ -19,24 +19,24 @@ interface CategoryItem {
 const CATEGORIES: CategoryItem[] = [
   {
     id: "lips",
-    title: "LIP FAVORITES",
-    subtitle: "ON-THE-GO SHINE",
-    image: "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=1200&auto=format&fit=crop&q=80",
-    products: "Lip Glazes • Tinted Oils • Soft Balms"
+    title: "SCALP & ROOT ELIXIRS",
+    subtitle: "RESTORE BALANCED CROWNS",
+    image: "/snail silk face serum.webp",
+    products: "Oribe Serene Scalp • Root Cooling Masques • Power Drops"
   },
   {
     id: "face",
-    title: "FACE ESSENTIALS",
-    subtitle: "SKIN, BUT BETTER",
-    image: "https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=1200&auto=format&fit=crop&q=80",
-    products: "Halo Highlighter • Cream Concealers • Dew Sprays"
+    title: "WELLBEING SKIN CARE",
+    subtitle: "DEEP CELLULAR HYDRATION",
+    image: "/ground recovery oil.webp",
+    products: "Ground Face Oils • Active Recovery Body Oils • Sleep Bed Balms"
   },
   {
     id: "eyes",
-    title: "EYES EDITS",
-    subtitle: "QUICK LOOKS, BIG PAYOFF",
-    image: "https://images.unsplash.com/photo-1631214499551-772e2c24255b?w=1200&auto=format&fit=crop&q=80",
-    products: "Liquid Felt Liners • Swipe Eyeshadow Crayons"
+    title: "RESTORE & GLOSS CARE",
+    subtitle: "REBUILD HAIR FIBER INTEGRITY",
+    image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=1200&auto=format&fit=crop&q=80",
+    products: "Kérastase Elixir Ultime • Chronologiste Pearls • Olaplex Shields"
   }
 ];
 
@@ -52,7 +52,7 @@ export default function HoverAccordion() {
           <div className="flex flex-col gap-1 border-b border-brand-black/5 pb-3">
             <span className="text-[10px] md:text-[11px] font-sans uppercase tracking-[0.2em] text-gray-400 font-bold">EXPLORE CATEGORIES</span>
             <h2 className="font-serif text-[28px] md:text-[38px] font-bold tracking-tight text-brand-black leading-none uppercase">
-              Beauty Edits
+              Apothecary Collections
             </h2>
           </div>
         </ScrollReveal>

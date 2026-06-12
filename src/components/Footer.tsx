@@ -28,7 +28,7 @@ export default function Footer({ onGoHome }: FooterProps) {
             ABOUT THE BRAND
           </h4>
           <p className="text-[14px] md:text-[15px] font-sans text-gray-600 leading-relaxed">
-            Good makeup should feel fun, not complicated. That’s why we focus on easy formulas, flexible products, and looks that work no matter the plan.
+            Good hair, scalp, and skincare should feel natural and restorative, not complicated. That’s why we focus on pure clinical active botanical formulas that heal irritated roots and skin.
           </p>
         </div>
 
@@ -59,9 +59,9 @@ export default function Footer({ onGoHome }: FooterProps) {
                 >
                   <ul className="pt-3 pb-1 flex flex-col gap-2.5 text-xs text-gray-500 font-sans pl-1">
                     <li><button className="hover:text-black hover:underline cursor-pointer">Bestsellers</button></li>
-                    <li><button className="hover:text-black hover:underline cursor-pointer">Face glow</button></li>
-                    <li><button className="hover:text-black hover:underline cursor-pointer">Lip balms</button></li>
-                    <li><button className="hover:text-black hover:underline cursor-pointer">Eye shadows</button></li>
+                    <li><button className="hover:text-black hover:underline cursor-pointer">Scalp & Root Care</button></li>
+                    <li><button className="hover:text-black hover:underline cursor-pointer">Wellbeing Face Oils</button></li>
+                    <li><button className="hover:text-black hover:underline cursor-pointer">Restore & Gloss Serum</button></li>
                   </ul>
                 </motion.div>
               )}
@@ -107,7 +107,7 @@ export default function Footer({ onGoHome }: FooterProps) {
         <div className="text-left pt-6">
           <button
             onClick={onGoHome}
-            className="font-serif font-bold text-[60px] sm:text-[90px] md:text-[145px] leading-none tracking-[-0.03em] text-[#C4B5D4]/80 hover:text-[#C4B5D4] transition-all duration-300 block w-full text-left cursor-pointer select-none origin-left"
+            className="font-serif font-bold text-[60px] sm:text-[90px] md:text-[145px] leading-none tracking-[-0.03em] text-brand-lilac/80 hover:text-brand-lilac transition-all duration-300 block w-full text-left cursor-pointer select-none origin-left"
           >
             Phenomena
           </button>
