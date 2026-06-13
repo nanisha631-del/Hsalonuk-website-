@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { useState } from "react";
 import { Star } from "lucide-react";
 import ScrollReveal from "./ScrollReveal";
 import { getShopifySettings } from "../shopifySettings";
@@ -26,7 +27,7 @@ const FEEDBACK_ITEMS: ScrollerCard[] = [
   },
   {
     type: "image",
-    imageUrl: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&auto=format&fit=crop&q=80"
+    imageUrl: "/Review 1.jpeg"
   },
   {
     type: "text",
@@ -37,7 +38,7 @@ const FEEDBACK_ITEMS: ScrollerCard[] = [
   },
   {
     type: "image",
-    imageUrl: "https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=600&auto=format&fit=crop&q=80"
+    imageUrl: "/Review 2.jpeg"
   },
   {
     type: "text",
@@ -48,7 +49,40 @@ const FEEDBACK_ITEMS: ScrollerCard[] = [
   },
   {
     type: "image",
-    imageUrl: "https://images.unsplash.com/photo-1620802631468-911c03ae793e?w=600&auto=format&fit=crop&q=80"
+    imageUrl: "/Review 3.jpeg"
+  },
+  {
+    type: "text",
+    author: "Elena G.",
+    rating: 5,
+    highlight: "Absolute game changer!",
+    content: "My scalp feels so hydrated and the hair gloss is incredible. Truly premium botanical formulas."
+  },
+  {
+    type: "image",
+    imageUrl: "/Review 4.jpeg"
+  },
+  {
+    type: "text",
+    author: "Chloe W.",
+    rating: 5,
+    highlight: "Clean and radiant",
+    content: "No sticky residue or strong chemical smell. Smells wonderful and looks so glass-like."
+  },
+  {
+    type: "image",
+    imageUrl: "/Review 5.jpeg"
+  },
+  {
+    type: "text",
+    author: "Serena K.",
+    rating: 5,
+    highlight: "Soothed my dry scalp",
+    content: "Struggled with winter dryness for years, but this active formula completely healed it."
+  },
+  {
+    type: "image",
+    imageUrl: "/Review 6.jpeg"
   }
 ];
 
@@ -58,6 +92,7 @@ const DOUBLE_ITEMS = [...FEEDBACK_ITEMS, ...FEEDBACK_ITEMS];
 export default function AutoScrollCards() {
   const settings = getShopifySettings();
   const speed = settings.marquee_card_speed || "25s";
+  const [isPaused, setIsPaused] = useState(false);
 
   return (
     <section id="hype-carousel" className="bg-white w-full py-10 sm:py-14 overflow-hidden relative border-y border-brand-black/5 select-none">
@@ -75,10 +110,17 @@ export default function AutoScrollCards() {
       </div>
 
       {/* Scrolling Row with pause-on-hover */}
-      <div className="relative w-full flex items-center overflow-hidden py-3 border-t border-b border-brand-black/5 bg-[#F7F5F2]/40">
+      <div 
+        className="relative w-full flex items-center overflow-hidden py-3 border-t border-b border-brand-black/5 bg-[#F7F5F2]/40 cursor-pointer"
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+      >
         <div 
-          className="flex w-max gap-8 animate-marquee shrink-0 hover:[animation-play-state:paused]"
-          style={{ animationDuration: speed }}
+          className="flex w-max gap-8 animate-marquee shrink-0"
+          style={{ 
+            animationDuration: speed,
+            animationPlayState: isPaused ? "paused" : "running"
+          }}
         >
           {DOUBLE_ITEMS.map((item, idx) => {
             if (item.type === "text") {

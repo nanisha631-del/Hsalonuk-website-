@@ -32,8 +32,8 @@ const HOTSPOTS: Hotspot[] = [
     name: "Kérastase Elixir Ultime Hair Oil",
     price: 56.00,
     productId: "halo-highlighter",
-    x: 65,
-    y: 38,
+    x: 66,
+    y: 26.5,
     placement: "bottom"
   },
   {
@@ -41,17 +41,17 @@ const HOTSPOTS: Hotspot[] = [
     name: "Olaplex No. 9 Bond Protector Serum",
     price: 24.00,
     productId: "eyeliner",
-    x: 55,
-    y: 22,
-    placement: "top"
+    x: 57,
+    y: 5.5,
+    placement: "bottom"
   },
   {
     id: "h3",
     name: "Kérastase Nutritive Split-End Serum",
     price: 24.00,
     productId: "lip-gloss",
-    x: 35,
-    y: 65,
+    x: 40,
+    y: 62,
     placement: "right"
   }
 ];
@@ -63,7 +63,7 @@ export default function ShopTheLook({ onSelectProduct, onAddToCart }: ShopTheLoo
 
   const title = settings.look_title || "Shop The Look";
   const tagline = settings.look_tagline || "TAP TO DISCOVER";
-  const mainImage = settings.look_main_image || "https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=1200&auto=format&fit=crop&q=80";
+  const mainImage = settings.look_main_image || "/Shop the look.jpg";
 
   // Products from our list to show in this carousel
   const lookProducts = PRODUCTS.filter((p) =>

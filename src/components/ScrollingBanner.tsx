@@ -24,12 +24,18 @@ export default function ScrollingBanner() {
           }}
           className="w-full h-full bg-[#E8D5C4] relative"
         >
-          {/* Extremely high end visual models photo */}
+          {/* Extremely high end visual models photo - custom laptop/mobile versions */}
           <img
-            src="https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=1600&auto=format&fit=crop&q=80"
-            alt="H Salon Luxury Hair treatments vibe"
+            src="/scroll banner photo laptop view.jpeg"
+            alt="H Salon Luxury Hair treatments vibe - Laptop View"
             referrerPolicy="no-referrer"
-            className="w-full h-full object-cover brightness-[0.92]"
+            className="hidden md:block w-full h-full object-cover brightness-[0.92]"
+          />
+          <img
+            src="/scroll banner photo mobile view.jpeg"
+            alt="H Salon Luxury Hair treatments vibe - Mobile View"
+            referrerPolicy="no-referrer"
+            className="block md:hidden w-full h-full object-cover brightness-[0.92]"
           />
         </motion.div>
 

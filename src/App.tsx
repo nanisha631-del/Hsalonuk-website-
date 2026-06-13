@@ -30,6 +30,7 @@ import CartDrawer from "./components/CartDrawer";
 import Footer from "./components/Footer";
 import ScrollZoomImage from "./components/ScrollZoomImage";
 import ShopifyInstructionModal from "./components/ShopifyInstructionModal";
+import AestheticVideoPlayer from "./components/AestheticVideoPlayer";
 import { getShopifySettings } from "./shopifySettings";
 
 
@@ -112,14 +113,10 @@ export default function App() {
     setCurrentView("home");
   };
 
-  // Bestsellers filtering
+  // Bestsellers filtering - strictly limited to exactly 5 bestsellers
   const filteredProducts = PRODUCTS.filter((p) => {
-    if (bestsellersTab === "WHATS HOT") {
-      return p.category === "brush" || (p.tags && p.tags.includes("WHATS HOT"));
-    } else {
-      return p.category !== "brush" && p.category !== "pouch";
-    }
-  });
+    return p.category !== "brush" && p.category !== "pouch";
+  }).slice(0, 5);
 
   const scrollCarouselLeft = () => {
     if (carouselContainerRef.current) {
@@ -251,36 +248,12 @@ export default function App() {
                   
                   {/* Heading container and tabs */}
                   <div className="flex justify-between items-end border-b border-brand-black/10 pb-4">
-                    {/* Toggle tabs for categories as heavy headers */}
-                    <div className="flex gap-6 sm:gap-10">
-                      {(["BESTSELLERS", "WHATS HOT"] as const).map((tab) => (
-                        <button
-                          key={tab}
-                          onClick={() => setBestsellersTab(tab)}
-                          className={`text-[20px] sm:text-[30px] font-sans font-black uppercase tracking-tight pb-2 relative transition-colors cursor-pointer select-none ${
-                            bestsellersTab === tab ? "text-brand-black" : "text-gray-300 hover:text-brand-black"
-                          }`}
-                        >
-                          {tab === "BESTSELLERS" 
-                            ? (settings.bestsellers_title || "BESTSELLERS")
-                            : (settings.brushes_title || "WHAT'S HOT")}
-                          {bestsellersTab === tab && (
-                            <motion.div
-                              layoutId="activeBestsellerTabUnderline"
-                              className="absolute bottom-0 left-0 right-0 h-[3px] bg-brand-lilac"
-                            />
-                          )}
-                        </button>
-                      ))}
+                    <div>
+                      <h2 className="text-[20px] sm:text-[30px] font-sans font-black uppercase tracking-tight pb-2 relative text-brand-black select-none">
+                        {settings.bestsellers_title || "BESTSELLERS"}
+                        <div className="absolute bottom-0 left-0 w-24 h-[3px] bg-brand-lilac" />
+                      </h2>
                     </div>
-
-                    {/* See all / View More link */}
-                    <button
-                      onClick={() => setBestsellersTab(bestsellersTab === "BESTSELLERS" ? "WHATS HOT" : "BESTSELLERS")}
-                      className="text-xs font-sans font-bold uppercase tracking-[0.16em] text-brand-black border-b border-brand-black pb-1 hover:opacity-75 transition-opacity cursor-pointer hidden md:block"
-                    >
-                      VIEW ALL {bestsellersTab === "BESTSELLERS" ? (settings.brushes_title || "WHAT'S HOT") : "PRODUCTS"} →
-                    </button>
                   </div>
 
                   {/* Slider and arrows row */}
@@ -367,10 +340,10 @@ export default function App() {
                   {/* Top Tab Headers */}
                   <div className="flex gap-6 border-b border-brand-black/5 pb-2.5 mb-6">
                     <span className="font-sans text-[13px] sm:text-[15px] font-black tracking-widest text-brand-black cursor-pointer pb-2 border-b-2 border-brand-lilac">
-                      {settings.pouch_title || "THE MAKEUP POUCH"}
+                      {settings.pouch_title || "THE APOTHECARY SPA POUCH"}
                     </span>
-                    <span className="font-sans text-[13px] sm:text-[15px] font-bold tracking-widest text-gray-300 hover:text-gray-400 cursor-pointer pb-2">
-                      SETTING POWDER
+                    <span className="font-sans text-[13px] sm:text-[15px] font-bold tracking-widest text-gray-400 hover:text-brand-black cursor-pointer pb-2">
+                      ROOT THERAPY DUOS
                     </span>
                   </div>
 
@@ -381,16 +354,16 @@ export default function App() {
                     <div className="md:col-span-6 relative w-full select-none">
                       <div className="w-[85%] aspect-[1.12/1] bg-[#E8E4DF] overflow-hidden rounded-2xl sm:rounded-[28px] relative shadow-xs">
                         <ScrollZoomImage
-                          src={settings.pouch_image_1_url || "https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=800&auto=format&fit=crop&q=80"}
-                          alt="The Makeup Pouch Main"
+                          src={settings.pouch_image_1_url || "/the main image frame pouch.jpeg"}
+                          alt="The Apothecary Spa Pouch Main"
                         />
                       </div>
                       
                       {/* Secondary overlapping inset picture */}
                       <div className="absolute bottom-[-10px] right-2 w-[42%] aspect-square bg-[#DFDEDA] border-[3px] border-white rounded-[16px] sm:rounded-[22px] overflow-hidden shadow-md">
                         <ScrollZoomImage
-                          src={settings.pouch_image_2_url || "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=500&auto=format&fit=crop&q=80"}
-                          alt="The Makeup Pouch Inset Detail"
+                          src={settings.pouch_image_2_url || "/the secondary insdert image frame.jpeg"}
+                          alt="Apothecary Pouch Inset Detail"
                         />
                       </div>
                     </div>
@@ -407,7 +380,7 @@ export default function App() {
                       </div>
 
                       <p className="text-[11.5px] sm:text-[13px] font-sans text-gray-400 leading-relaxed">
-                        {settings.pouch_desc || "A cute, compact makeup pouch designed to go wherever you do. Finished with a soft, iridescent sheen and a clean zip closure, it fits your everyday essentials without taking up space. Easy to toss in your bag, easy to wipe clean, and cute enough to leave out."}
+                        {settings.pouch_desc || "A gorgeous, quilted velvet protection sleeve designed to shelter your luxury elixirs, active botanicals, and scalp oils. Liquid-proof lining shields your precious apothecary glass droppers, while the compact, padded structural silhouette packs seamlessly into travel bags for premium root treatments anywhere."}
                       </p>
 
                       <div className="flex gap-4 w-full mt-2">
@@ -440,18 +413,17 @@ export default function App() {
               {/* SECTION 12 — SCROLLING BANNER */}
               <ScrollingBanner />
 
-              {/* SECTION 13 — "MAKEUP SHOULD BE FUN" EDITORIAL */}
+              {/* SECTION 13 — "HAIRCARE SHOULD BE RESTORATIVE" EDITORIAL */}
               <section id="fun-editorial" className="bg-[#F7F5F2] w-full py-24 px-4 md:px-12 relative overflow-hidden select-none">
                 <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
                   
                   {/* Left slide text */}
                   <div className="md:col-span-6 flex flex-col gap-6 items-start">
                     <ScrollReveal direction="right" distance={35}>
-                      <h2 className="font-serif text-[42px] md:text-[68px] font-black leading-[1.1] text-brand-black tracking-tight uppercase">
-                        MAKEUP SHOULD <br />
-                        BE FUN. <br />
-                        NOT A FULL-TIME <br />
-                        JOB.
+                      <h2 className="font-serif text-[42px] md:text-[62px] font-black leading-[1.15] text-brand-black tracking-tight uppercase">
+                        HAIRCARE SHOULD <br />
+                        BE HEALING. <br />
+                        NOT COMPLICATED. <br />
                       </h2>
                     </ScrollReveal>
                     
@@ -459,7 +431,7 @@ export default function App() {
                       <div className="flex flex-col gap-2 border-l border-brand-lilac/30 pl-4 max-w-md mt-4">
                         <span className="text-[12px] font-sans font-black text-brand-black uppercase tracking-widest">BUILD YOUR ROUTINE.</span>
                         <p className="text-sm font-sans text-gray-500 leading-relaxed">
-                          These are the kind of products you swipe on, tap in, and forget about—in a good way. Skin-first, easy to use, and made for experimenting without commitment.
+                          A highly targeted ritual of concentrated treatment elixirs, active botanical scalp masks, and lightweight root-penetrating hair oils. Scientifically formulated to calm irritated follicles, lock in deep moisture, and amplify your natural luminous shine from within.
                         </p>
                       </div>
                     </ScrollReveal>
@@ -472,18 +444,15 @@ export default function App() {
                         }}
                         className="mt-6 text-xs font-sans font-bold uppercase tracking-[0.2em] border-b border-brand-black pb-1 hover:opacity-70 transition-opacity cursor-pointer text-brand-black"
                       >
-                        SHOP THE BESTSELLERS →
+                        EXPLORE THE TREATMENT RANGE →
                       </button>
                     </ScrollReveal>
                   </div>
 
-                  {/* Right slide image */}
+                  {/* Right slide video */}
                   <div className="md:col-span-6 relative aspect-[4/5] bg-[#E0DEDA] shadow-lg rounded-2xl overflow-hidden">
-                    <ScrollReveal delay={200} direction="none">
-                      <ScrollZoomImage
-                        src="https://images.unsplash.com/photo-1617897903246-719242758050?w=1000&auto=format&fit=crop&q=80"
-                        alt="Editorial posing cosmetics"
-                      />
+                    <ScrollReveal delay={200} direction="none" className="w-full h-full">
+                      <AestheticVideoPlayer />
                     </ScrollReveal>
                   </div>
 

@@ -36,12 +36,12 @@ export default function ParallaxSplit() {
       const rect = sectionRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
       
-      // Calculate how far the section is scrolled into view (0 to 1)
+      // Calculate how far the section is scrolled into view (0 to 1) safely guarding division by zero
       const enteredDistance = windowHeight - rect.top;
       const totalDistance = windowHeight + rect.height;
-      const progress = Math.max(0, Math.min(1, enteredDistance / totalDistance));
+      const progress = totalDistance <= 0 ? 0 : Math.max(0, Math.min(1, enteredDistance / totalDistance));
       
-      setScrollProgress(progress);
+      setScrollProgress(isNaN(progress) ? 0.2 : progress);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -55,8 +55,9 @@ export default function ParallaxSplit() {
 
   // Compute smooth animation values
   // We want the polaroids to be far apart when entering view, and smoothly come closer as we scroll down.
-  const animProgress = Math.max(0, Math.min(1, (scrollProgress - 0.12) / 0.38));
-  const spread = 1 - animProgress; // 1 = far apart, 0 = fully converged
+  const animProgressRaw = (scrollProgress - 0.12) / 0.38;
+  const animProgress = isNaN(animProgressRaw) ? 0 : Math.max(0, Math.min(1, animProgressRaw));
+  const spread = isNaN(animProgress) ? 1 : 1 - animProgress; // 1 = far apart, 0 = fully converged
 
   // Coordinate math based on mobile vs desktop layouts and the scroll-controlled spread factor:
   const leftX = isMobile

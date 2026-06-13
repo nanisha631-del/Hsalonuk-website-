@@ -123,9 +123,7 @@ export const PRODUCTS: Product[] = [
     price: 56.00,
     rating: 5,
     images: [
-      "https://images.unsplash.com/photo-1608248597481-496100c8c836?w=1000&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=1000&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?w=1000&auto=format&fit=crop&q=80"
+      "/snail silk scalp oil.webp"
     ],
     colors: [
       { name: "Original Gold", hex: "#D4AF37" },
@@ -221,8 +219,7 @@ export const PRODUCTS: Product[] = [
     price: 24.00,
     rating: 5,
     images: [
-      "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=1000&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1608248597481-496100c8c836?w=1000&auto=format&fit=crop&q=80"
+      "/snail silk scalp mask.webp"
     ],
     category: "eye",
     description: "A weightless, silicone-free antioxidant hair serum that shields locks from pollution and high heat styling for up to 48 hours. Powered by Olaplex's patented Bond Building Technology to rebuild broken disulfide bonds.",
@@ -244,8 +241,7 @@ export const PRODUCTS: Product[] = [
     price: 24.00,
     rating: 5,
     images: [
-      "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=1000&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?w=1000&auto=format&fit=crop&q=80"
+      "/snail silk face serum.webp"
     ],
     category: "lip",
     description: "An incredibly nutritive, lightweight split-end serum hybrid. Adds immediate sensory hydration and seals fiber split-ends instantly. Infused with plant-based proteins and niacinamide to nurture cuticle locks.",
@@ -305,8 +301,8 @@ export const PRODUCTS: Product[] = [
     price: 60.00,
     rating: 5,
     images: [
-      "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=1000&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=1000&auto=format&fit=crop&q=80"
+      "/the main image frame pouch.jpeg",
+      "/the secondary insdert image frame.jpeg"
     ],
     category: "pouch",
     description: "A gorgeous, padded luxury spa kit pouch designed to house your Oribe, Kérastase, and Ground Wellbeing elixirs. Crafted with double-stitch quilted velvet, splash-proof lining, and a polished heavy brass zip closure.",
