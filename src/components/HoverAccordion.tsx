@@ -21,7 +21,7 @@ const CATEGORIES: CategoryItem[] = [
     id: "lips",
     title: "SCALP & ROOT ELIXIRS",
     subtitle: "RESTORE BALANCED CROWNS",
-    image: "/snail silk face serum.webp",
+    image: "/snail silk scalp oil.webp",
     products: "Oribe Serene Scalp • Root Cooling Masques • Power Drops"
   },
   {
@@ -35,7 +35,7 @@ const CATEGORIES: CategoryItem[] = [
     id: "eyes",
     title: "RESTORE & GLOSS CARE",
     subtitle: "REBUILD HAIR FIBER INTEGRITY",
-    image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=1200&auto=format&fit=crop&q=80",
+    image: "/snail silk face serum.webp",
     products: "Kérastase Elixir Ultime • Chronologiste Pearls • Olaplex Shields"
   }
 ];
@@ -106,23 +106,23 @@ export default function HoverAccordion() {
             })}
           </div>
 
-          {/* Right image projection panel (70% column span 7) */}
-          <div className="md:col-span-8 relative aspect-[14/10] bg-[#EDEDE9]/40 overflow-hidden shadow-xs rounded-[16px] border border-brand-black/5">
+          {/* Right image projection panel (70% column span 7) representing 1:1 on mobile, 16:9 aspect-video on laptop */}
+          <div className="md:col-span-8 w-full max-w-full md:max-w-2xl mx-auto aspect-square md:aspect-video relative bg-[#F7F7F9]/80 overflow-hidden shadow-xs rounded-[16px] border border-brand-black/5 flex items-center justify-center">
             <AnimatePresence mode="wait">
               <motion.img
                 key={activeCat.id}
                 src={activeCat.image}
                 alt={activeCat.title}
                 referrerPolicy="no-referrer"
-                initial={{ opacity: 0, scale: 1.01 }}
+                initial={{ opacity: 0, scale: 0.98 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.35, ease: "easeOut" }}
-                className="w-full h-full object-cover"
+                transition={{ duration: 0.3, ease: "easeOut" }}
+                className="w-full h-full object-contain p-4 md:p-6"
               />
             </AnimatePresence>
 
-            <div className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-md px-3.5 py-1.5 border border-brand-black/5 flex items-center gap-1.5 text-[10px] uppercase tracking-widest font-sans font-black text-brand-black rounded-full shadow-xs">
+            <div className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-md px-3.5 py-1.5 border border-brand-black/5 flex items-center gap-1.5 text-[10px] uppercase tracking-widest font-sans font-black text-brand-black rounded-full shadow-xs hover:bg-white transition-colors">
               <span>View collection</span>
               <ArrowRight className="w-3.5 h-3.5 text-brand-lilac" />
             </div>

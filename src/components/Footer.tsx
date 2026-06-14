@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Instagram, Twitter, Plus, Minus } from "lucide-react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, useScroll, useTransform, useSpring } from "motion/react";
 
 interface FooterProps {
   onGoHome: () => void;
@@ -13,13 +13,32 @@ interface FooterProps {
 
 export default function Footer({ onGoHome }: FooterProps) {
   const [activeTab, setActiveTab] = useState<string | null>(null);
+  const footerRef = useRef<HTMLDivElement>(null);
+
+  // Scroll tracking to trigger smooth center zoom of H salon logo
+  const { scrollYProgress } = useScroll({
+    target: footerRef,
+    offset: ["start end", "end end"]
+  });
+
+  // Luxury spring configurations for smooth responsiveness
+  const smoothScale = useSpring(scrollYProgress, {
+    stiffness: 60,
+    damping: 25,
+    mass: 0.4,
+    restDelta: 0.0001
+  });
+
+  // Maps scroll progress to a glorious center-scaling zoom effect
+  const logoScale = useTransform(smoothScale, [0.0, 0.95], [0.35, 1.05]);
+  const logoOpacity = useTransform(smoothScale, [0.0, 0.85], [0.15, 1.0]);
 
   const toggleTab = (tabName: string) => {
     setActiveTab(activeTab === tabName ? null : tabName);
   };
 
   return (
-    <footer id="brand-footer" className="bg-[#F1EEF4] text-brand-black w-full pt-16 pb-12 px-4 md:px-12 relative select-none border-t border-brand-black/5 mt-auto">
+    <footer id="brand-footer" ref={footerRef} className="bg-[#F1EEF4] text-brand-black w-full pt-16 pb-12 px-4 md:px-12 relative select-none border-t border-brand-black/5 mt-auto">
       <div className="max-w-7xl mx-auto flex flex-col gap-10">
         
         {/* About the Brand Text Panel (Matching image 8 & 9) */}
@@ -103,14 +122,18 @@ export default function Footer({ onGoHome }: FooterProps) {
 
         </div>
 
-        {/* Center Giant Phenomena logo in periwinkle style matching screenshot 9 */}
-        <div className="text-left pt-6">
-          <button
+        {/* Center Giant H salon logo designed to zoom in dynamically from center */}
+        <div className="pt-8 pb-4 overflow-hidden flex justify-center items-center w-full">
+          <motion.button
             onClick={onGoHome}
-            className="font-serif font-bold text-[60px] sm:text-[90px] md:text-[145px] leading-none tracking-[-0.03em] text-brand-lilac/80 hover:text-brand-lilac transition-all duration-300 block w-full text-left cursor-pointer select-none origin-left"
+            style={{
+              scale: logoScale,
+              opacity: logoOpacity
+            }}
+            className="font-serif font-black text-[60px] sm:text-[90px] md:text-[145px] leading-none tracking-[-0.03em] text-brand-lilac/80 hover:text-brand-lilac transition-[#color] duration-300 block cursor-pointer select-none origin-center text-center mx-auto uppercase"
           >
-            Phenomena
-          </button>
+            H salon
+          </motion.button>
         </div>
 
         {/* Socials & Copyrights */}
@@ -131,7 +154,7 @@ export default function Footer({ onGoHome }: FooterProps) {
           </div>
 
           <div className="text-[12px] text-gray-400 font-sans tracking-wide">
-            © 2026, Phenomena. Powered by Palo Alto. These products are not for sale.
+            © 2026, H salon. Powered by Palo Alto. These products are not for sale.
           </div>
         </div>
 

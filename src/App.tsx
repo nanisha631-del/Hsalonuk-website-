@@ -21,6 +21,7 @@ import ParallaxSplit from "./components/ParallaxSplit";
 import AutoScrollCards from "./components/AutoScrollCards";
 import ShopTheLook from "./components/ShopTheLook";
 import GreetingSection from "./components/GreetingSection";
+import HSalonScrollSection from "./components/HSalonScrollSection";
 import LightweightFormulas from "./components/LightweightFormulas";
 import ScrollingBanner from "./components/ScrollingBanner";
 import CommunitySection from "./components/CommunitySection";
@@ -167,7 +168,7 @@ export default function App() {
               className="flex flex-col w-full"
             >
               {/* SECTION 2 — HERO SECTION */}
-              <section id="hero-showcase" className="w-full bg-brand-offwhite pt-24 sm:pt-28 pb-10 px-4 md:px-12 select-none">
+              <section id="hero-showcase" className="w-full bg-brand-offwhite pt-24 sm:pt-28 pb-1 md:pb-12 px-4 md:px-12 select-none">
                 <div className="max-w-7xl mx-auto flex flex-col gap-6">
 
                   {/* The Framed Hero Card with precise aspect ratios corresponding to native images */}
@@ -232,18 +233,14 @@ export default function App() {
                     </div>
 
                   </div>
-
-                  {/* Elegant Background Element: RADIANT BEAUTY below the girls */}
-                  <div className="relative w-full text-center mt-6 md:mt-8 select-none pointer-events-none cursor-default overflow-hidden">
-                    <span className="font-sans text-[48px] sm:text-[90px] md:text-[130px] lg:text-[150px] font-black leading-none uppercase tracking-tighter text-black/[0.035] block">
-                      {settings.hero_title_1 || "RADIANT"} {settings.hero_title_2 || "BEAUTY"}
-                    </span>
-                  </div>
                 </div>
               </section>
 
+              {/* SECTION 2.5 — H SALON STICKY TEXT REVEAL SECTION */}
+              <HSalonScrollSection />
+
               {/* SECTION 3 — BESTSELLER PRODUCT CAROUSEL */}
-              <section id="bestsellers-section" className="bg-brand-offwhite py-12 px-4 md:px-12 relative select-none">
+              <section id="bestsellers-section" className="bg-brand-offwhite pt-1 md:pt-12 pb-12 px-4 md:px-12 relative select-none">
                 <div className="max-w-7xl mx-auto flex flex-col gap-6">
                   
                   {/* Heading container and tabs */}

@@ -54,7 +54,7 @@ export default function Navbar({
 
   const navBg = settings.nav_bg_color || undefined;
   const navColor = settings.nav_links_color || undefined;
-  const logoText = settings.nav_logo_text || "Phenomena";
+  const logoText = settings.nav_logo_text || "H salon";
   const logoSize = settings.nav_logo_size || undefined;
 
   const navStyle: React.CSSProperties = {};
