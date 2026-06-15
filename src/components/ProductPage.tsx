@@ -6,6 +6,7 @@ import { PRODUCTS } from "../data";
 import ScrollReveal from "./ScrollReveal";
 import ScrollZoomImage from "./ScrollZoomImage";
 import { getShopifySettings } from "../shopifySettings";
+import ScenicReviews from "./ScenicReviews";
 
 interface ProductPageProps {
   product: Product;
@@ -511,6 +512,12 @@ export default function ProductPage({
           "An effortless approach to premium hair and wellbeing therapy—root-first, restorative, and deeply grounding. Exactly what modern luxury wellness demands."
         </p>
       </ScrollReveal>
+
+      {/* LUXURY SCROLL REVIEWS ANIMATION TRACK */}
+      <ScenicReviews 
+        onAddToCart={onAddToCart}
+        onSelectProduct={onSelectProduct}
+      />
 
       {/* RECOMMENDATIONS CAROUSEL ROW - with ScrollReveal smooth entry */}
       <ScrollReveal className="max-w-7xl mx-auto mt-8 border-t border-brand-black/10 pt-6 px-4 md:px-12">

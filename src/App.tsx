@@ -34,6 +34,33 @@ import ShopifyInstructionModal from "./components/ShopifyInstructionModal";
 import AestheticVideoPlayer from "./components/AestheticVideoPlayer";
 import { getShopifySettings } from "./shopifySettings";
 
+// Staggered animation triggers from left to right as requested (slowly like a 1, 2, 3, 4 counting)
+const bestsellerContainerVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.35, // Premium medium-paced count (1, 2, 3, 4)
+    }
+  }
+};
+
+// Smooth, refined animation starting from bottom (y offset), fading in, and gently settles.
+const bestsellerCardVariants = {
+  hidden: {
+    opacity: 0,
+    y: 90,
+    scale: 1.05, // Classy zoom-out transition starting from slightly magnified state
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 1.35, // Elegant medium timing for supreme smoothness
+      ease: [0.19, 1, 0.22, 1], // Custom slow power-4 cubic bezier curve for high-end feel
+    }
+  }
+};
 
 export default function App() {
   const settings = getShopifySettings();
@@ -255,12 +282,20 @@ export default function App() {
 
                   {/* Slider and arrows row */}
                   <div className="relative w-full overflow-hidden">
-                    <div
+                    <motion.div
+                      variants={bestsellerContainerVariants}
+                      initial="hidden"
+                      whileInView="visible"
+                      viewport={{ once: true, amount: 0.65 }}
                       ref={carouselContainerRef}
                       className="flex gap-5 overflow-x-auto select-none py-4 px-1 scroll-smooth w-full no-scrollbar relative snap-x snap-mandatory"
                     >
                       {filteredProducts.map((p) => (
-                        <div key={p.id} className="snap-center w-[85vw] sm:w-[320px] md:w-[280px] shrink-0">
+                        <motion.div
+                          key={p.id}
+                          variants={bestsellerCardVariants}
+                          className="snap-center w-[85vw] sm:w-[320px] md:w-[280px] shrink-0"
+                        >
                           <ProductCard
                             product={p}
                             onSelect={handleSelectProduct}
@@ -269,9 +304,9 @@ export default function App() {
                               handleAddToCart(item, 1, item.colors && item.colors.length > 0 ? item.colors[0].name : undefined);
                             }}
                           />
-                        </div>
+                        </motion.div>
                       ))}
-                    </div>
+                    </motion.div>
 
                     {/* Left & Right absolute slider trigger buttons */}
                     <button
