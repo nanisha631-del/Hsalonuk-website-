@@ -16,7 +16,7 @@ export default function GreetingSection() {
 
   const titleText = settings.greeting_heading || "H SALON LUXURY";
   const greetingText = settings.greeting_hint || "Wellness from";
-  const bgImage = settings.look_main_image || "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&auto=format&fit=crop&q=80";
+  const bgImage = settings.greeting_image || "/wellness from hsalon luxury image.png";
 
   useEffect(() => {
     const handleScroll = () => {

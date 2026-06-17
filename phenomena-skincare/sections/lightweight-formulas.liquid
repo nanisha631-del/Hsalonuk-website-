@@ -1,0 +1,31 @@
+<div class="shopify-react-section" data-react-component="LightweightFormulas" data-settings='{
+  "formulas_heading": {{ section.settings.formulas_heading | default: "STORY OF LIGHTWEIGHT FORMULAS" | json }},
+  "formulas_desc": {{ section.settings.formulas_desc | default: "THE HIGHLIGHT INDEX" | json }}
+}'></div>
+
+{% schema %}
+{
+  "name": "Lightweight Formulas Index",
+  "tag": "section",
+  "class": "section-formulas",
+  "settings": [
+    {
+      "type": "text",
+      "id": "formulas_heading",
+      "label": "Main Headline Title",
+      "default": "STORY OF LIGHTWEIGHT FORMULAS"
+    },
+    {
+      "type": "text",
+      "id": "formulas_desc",
+      "label": "Subtitle Accent Headline",
+      "default": "THE HIGHLIGHT INDEX"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Lightweight Formulas Index"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,14 @@
+<div class="max-w-3xl mx-auto px-6 py-16">
+  <h1 class="text-4xl font-bold mb-4">{{ article.title }}</h1>
+  <div class="text-xs text-gray-500 mb-8">{{ article.published_at | date: "%B %d, %Y" }}</div>
+  <div class="prose max-w-none text-sm text-gray-600 leading-relaxed">
+    {{ article.content }}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Article Layout Manager",
+  "settings": []
+}
+{% endschema %}

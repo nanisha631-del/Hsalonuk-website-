@@ -1,0 +1,45 @@
+<div class="shopify-react-section" data-react-component="AutoScrollCards" data-settings='{
+  "marquee_card_text_1": {{ section.settings.marquee_card_text_1 | default: "REAL REVIEWS" | json }},
+  "marquee_card_text_2": {{ section.settings.marquee_card_text_2 | default: "CLEAN FORMULAS" | json }},
+  "marquee_card_text_3": {{ section.settings.marquee_card_text_3 | default: "FAST SHIPPING" | json }},
+  "marquee_card_speed": {{ section.settings.marquee_card_speed | default: "25s" | json }}
+}'></div>
+
+{% schema %}
+{
+  "name": "Auto-Scrolling Reviews",
+  "tag": "section",
+  "class": "section-autoscroll",
+  "settings": [
+    {
+      "type": "text",
+      "id": "marquee_card_text_1",
+      "label": "Ticker Phrase 1",
+      "default": "REAL REVIEWS"
+    },
+    {
+      "type": "text",
+      "id": "marquee_card_text_2",
+      "label": "Ticker Phrase 2",
+      "default": "CLEAN FORMULAS"
+    },
+    {
+      "type": "text",
+      "id": "marquee_card_text_3",
+      "label": "Ticker Phrase 3",
+      "default": "FAST SHIPPING"
+    },
+    {
+      "type": "text",
+      "id": "marquee_card_speed",
+      "label": "Scroll Ticker Duration Speed (e.g. 25s)",
+      "default": "25s"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Auto-Scrolling Reviews"
+    }
+  ]
+}
+{% endschema %}

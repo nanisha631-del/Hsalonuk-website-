@@ -1,0 +1,57 @@
+<div class="shopify-react-section" data-react-component="ParallaxSplit" data-settings='{
+  "parallax_title_line_1": {{ section.settings.parallax_title_line_1 | default: "MAKEUP, MADE" | json }},
+  "parallax_title_line_2_italic": {{ section.settings.parallax_title_line_2_italic | default: "effortless." | json }},
+  "parallax_desc": {{ section.settings.parallax_desc | default: "Lightweight, buildable makeup infused with skincare-level ingredients. Easy to wear, easy to blend, and made for whatever your routine looks like." | json }},
+  "parallax_button_text": {{ section.settings.parallax_button_text | default: "SHOP THE COLLECTION" | json }},
+  "parallax_image_1": {% if section.settings.parallax_image_1 != blank %}{{ section.settings.parallax_image_1 | image_url: width: 1000 | json }}{% else %}""{% endif %},
+  "parallax_image_2": {% if section.settings.parallax_image_2 != blank %}{{ section.settings.parallax_image_2 | image_url: width: 1000 | json }}{% else %}""{% endif %}
+}'></div>
+
+{% schema %}
+{
+  "name": "Parallax Split Frame",
+  "tag": "section",
+  "class": "section-parallax-split",
+  "settings": [
+    {
+      "type": "text",
+      "id": "parallax_title_line_1",
+      "label": "Normal Title Text",
+      "default": "MAKEUP, MADE"
+    },
+    {
+      "type": "text",
+      "id": "parallax_title_line_2_italic",
+      "label": "Italicized Accent Title Text",
+      "default": "effortless."
+    },
+    {
+      "type": "textarea",
+      "id": "parallax_desc",
+      "label": "Description Text Block",
+      "default": "Lightweight, buildable makeup infused with skincare-level ingredients. Easy to wear, easy to blend, and made for whatever your routine looks like."
+    },
+    {
+      "type": "text",
+      "id": "parallax_button_text",
+      "label": "Button Label CTA",
+      "default": "SHOP THE COLLECTION"
+    },
+    {
+      "type": "image_picker",
+      "id": "parallax_image_1",
+      "label": "Bottom Layer Background Picture"
+    },
+    {
+      "type": "image_picker",
+      "id": "parallax_image_2",
+      "label": "Dynamic Front Floating Polaroid"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Parallax Split Frame"
+    }
+  ]
+}
+{% endschema %}

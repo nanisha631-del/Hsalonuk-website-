@@ -1,0 +1,73 @@
+<div class="shopify-react-section" data-react-component="TrustCards" data-settings='{
+  "trust_card_1_title": {{ section.settings.trust_card_1_title | default: "Skin-First Formulas" | json }},
+  "trust_card_1_desc": {{ section.settings.trust_card_1_desc | default: "Makeup that treats your skin while you wear it." | json }},
+  "trust_card_2_title": {{ section.settings.trust_card_2_title | default: "Inclusive Shades" | json }},
+  "trust_card_2_desc": {{ section.settings.trust_card_2_desc | default: "Made to work across tones and undertones." | json }},
+  "trust_card_3_title": {{ section.settings.trust_card_3_title | default: "Multi-Use Essentials" | json }},
+  "trust_card_3_desc": {{ section.settings.trust_card_3_desc | default: "Minimal effort. Maximum options." | json }},
+  "trust_card_4_title": {{ section.settings.trust_card_4_title | default: "Clean & Conscious" | json }},
+  "trust_card_4_desc": {{ section.settings.trust_card_4_desc | default: "Vegan. Cruelty-free. Thoughtfully formulated." | json }}
+}'></div>
+
+{% schema %}
+{
+  "name": "Premium Trust Grid",
+  "tag": "section",
+  "class": "section-trust",
+  "settings": [
+    {
+      "type": "text",
+      "id": "trust_card_1_title",
+      "label": "Trust Card 1 Title",
+      "default": "Skin-First Formulas"
+    },
+    {
+      "type": "text",
+      "id": "trust_card_1_desc",
+      "label": "Trust Card 1 Description",
+      "default": "Makeup that treats your skin while you wear it."
+    },
+    {
+      "type": "text",
+      "id": "trust_card_2_title",
+      "label": "Trust Card 2 Title",
+      "default": "Inclusive Shades"
+    },
+    {
+      "type": "text",
+      "id": "trust_card_2_desc",
+      "label": "Trust Card 2 Description",
+      "default": "Made to work across tones and undertones."
+    },
+    {
+      "type": "text",
+      "id": "trust_card_3_title",
+      "label": "Trust Card 3 Title",
+      "default": "Multi-Use Essentials"
+    },
+    {
+      "type": "text",
+      "id": "trust_card_3_desc",
+      "label": "Trust Card 3 Description",
+      "default": "Minimal effort. Maximum options."
+    },
+    {
+      "type": "text",
+      "id": "trust_card_4_title",
+      "label": "Trust Card 4 Title",
+      "default": "Clean & Conscious"
+    },
+    {
+      "type": "text",
+      "id": "trust_card_4_desc",
+      "label": "Trust Card 4 Description",
+      "default": "Vegan. Cruelty-free. Thoughtfully formulated."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Premium Trust Grid"
+    }
+  ]
+}
+{% endschema %}

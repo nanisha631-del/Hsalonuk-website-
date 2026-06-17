@@ -1,0 +1,37 @@
+<div class="shopify-react-section" data-react-component="ShopTheLook" data-settings='{
+  "look_title": {{ section.settings.look_title | default: "Shop The Look" | json }},
+  "look_tagline": {{ section.settings.look_tagline | default: "TAP TO DISCOVER" | json }},
+  "look_main_image": {% if section.settings.look_main_image != blank %}{{ section.settings.look_main_image | image_url: width: 1200 | json }}{% else %}""{% endif %}
+}'></div>
+
+{% schema %}
+{
+  "name": "Shop The Look (Pins)",
+  "tag": "section",
+  "class": "section-shop-the-look",
+  "settings": [
+    {
+      "type": "text",
+      "id": "look_title",
+      "label": "Title Heading",
+      "default": "Shop The Look"
+    },
+    {
+      "type": "text",
+      "id": "look_tagline",
+      "label": "Pins Hover Accent Subheading",
+      "default": "TAP TO DISCOVER"
+    },
+    {
+      "type": "image_picker",
+      "id": "look_main_image",
+      "label": "Look Model Portrait (Full Aspect Ratio)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop The Look (Pins)"
+    }
+  ]
+}
+{% endschema %}

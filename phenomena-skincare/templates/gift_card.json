@@ -1,0 +1,26 @@
+{
+  "sections": {
+    "announcement_bar": {
+      "type": "announcement-bar",
+      "settings": {}
+    },
+    "navigation": {
+      "type": "navigation",
+      "settings": {}
+    },
+    "main": {
+      "type": "main-giftcard",
+      "settings": {}
+    },
+    "footer": {
+      "type": "footer",
+      "settings": {}
+    }
+  },
+  "order": [
+    "announcement_bar",
+    "navigation",
+    "main",
+    "footer"
+  ]
+}

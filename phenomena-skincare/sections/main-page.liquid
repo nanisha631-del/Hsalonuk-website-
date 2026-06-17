@@ -1,0 +1,13 @@
+<div class="max-w-4xl mx-auto px-6 py-16">
+  <h1 class="text-3xl font-bold tracking-tight text-brand-black mb-8">{{ page.title | default: "Brand Policy & Information" }}</h1>
+  <div class="prose max-w-none text-gray-600 leading-relaxed text-sm">
+    {{ page.content | default: "Please configure page details or terms under Pages settings in your Shopify Admin." }}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Static Page Content",
+  "settings": []
+}
+{% endschema %}

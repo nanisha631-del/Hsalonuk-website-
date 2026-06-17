@@ -150,6 +150,11 @@ export default function ShopifyInstructionModal({ isOpen, onClose }: ShopifyInst
                           </span>
                         )}
                       </div>
+
+                      {/* Explicit Iframe/Redirect Notice Warning */}
+                      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 text-[11.5px] text-yellow-800 leading-relaxed mt-2">
+                        <span className="font-bold">💡 Sandbox Notice:</span> Since this preview runs in a secure frame, you will see a purple/white <strong>"Redirect Notice"</strong> page after clicking. <strong>This is completely expected!</strong> Simply click the URL displayed on that Redirect Notice page, and your browser will immediately download the exact 136 KB zip file directly to your system.
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -217,6 +222,27 @@ export default function ShopifyInstructionModal({ isOpen, onClose }: ShopifyInst
                       </ol>
                     </div>
                   </div>
+                </div>
+
+                {/* Troubleshooting: 404 Page Fallback notice */}
+                <div className="p-4 bg-amber-50 border border-amber-200/60 rounded-xl text-left text-gray-800 space-y-2">
+                  <div className="flex items-center gap-2 text-amber-800 font-bold text-xs uppercase tracking-wide">
+                    <svg className="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                    </svg>
+                    Troubleshoot: Did the Editor open stating "404 Page"?
+                  </div>
+                  <p className="text-[12px] leading-relaxed text-gray-600">
+                    If your Shopify Editor opens and defaults to showing the <strong>"404 page"</strong> template inside the preview pane, do not worry! This is standard Shopify behavior for two simple reasons:
+                  </p>
+                  <ul className="list-disc pl-4 text-[11.5px] space-y-1.5 text-gray-600">
+                    <li>
+                      <strong>Password-Protected Store:</strong> Most new developer or trial stores have a storefront password enabled in <em>Online Store → Preferences</em>. Because of this, Shopify redirects default visits to `/password` or `/404`.
+                    </li>
+                    <li>
+                      <strong>Easy Switch to Homepage:</strong> To open your gorgeous, interactive skincare homepage inside the Customizer, look at the <strong>Top-Center Page Dropdown Selector</strong> in your Shopify interface (where it currently says <strong className="bg-amber-100/80 px-1 py-0.5 rounded border border-amber-200">"404 page"</strong>). Click this dropdown and select <strong className="font-bold text-gray-900">"Home page"</strong> from the list. The Editor will load the stunning typography, floating buttons, and aesthetic carousels immediately!
+                    </li>
+                  </ul>
                 </div>
 
               </div>

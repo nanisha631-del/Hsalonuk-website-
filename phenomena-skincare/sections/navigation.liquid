@@ -1,0 +1,45 @@
+<div class="shopify-react-section" data-react-component="Navbar" data-settings='{
+  "nav_logo_text": {{ section.settings.nav_logo_text | default: "Phenomena" | json }},
+  "nav_logo_size": {{ section.settings.nav_logo_size | default: "28px" | json }},
+  "nav_bg_color": {{ section.settings.nav_bg_color | default: "#FDFBF7" | json }},
+  "nav_links_color": {{ section.settings.nav_links_color | default: "#121212" | json }}
+}'></div>
+
+{% schema %}
+{
+  "name": "Sticky Navigation Bar",
+  "tag": "section",
+  "class": "section-navigation",
+  "settings": [
+    {
+      "type": "text",
+      "id": "nav_logo_text",
+      "label": "Logo Brand Name Text",
+      "default": "Phenomena"
+    },
+    {
+      "type": "text",
+      "id": "nav_logo_size",
+      "label": "Logo Typography Size",
+      "default": "28px"
+    },
+    {
+      "type": "color",
+      "id": "nav_bg_color",
+      "label": "Navbar Background Color",
+      "default": "#FDFBF7"
+    },
+    {
+      "type": "color",
+      "id": "nav_links_color",
+      "label": "Links Text Color",
+      "default": "#121212"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sticky Navigation Bar"
+    }
+  ]
+}
+{% endschema %}

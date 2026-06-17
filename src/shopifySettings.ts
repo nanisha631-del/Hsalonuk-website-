@@ -96,6 +96,11 @@ export interface ShopifySettings {
   prod_recommended_title?: string;
 
   brand_primary_color?: string;
+  wave_text?: string;
+  wave_speed_seconds?: string | number;
+  hsalon_heading?: string;
+  hsalon_subtext?: string;
+  greeting_image?: string;
 }
 
 /**
@@ -103,23 +108,51 @@ export interface ShopifySettings {
  * If running outside Shopify, it falls back to defaults gracefuly.
  */
 export function getShopifySettings(): ShopifySettings {
-  if (typeof document !== "undefined") {
-    const script = document.getElementById("shopify-section-settings");
-    if (script) {
-      try {
-        const parsed = JSON.parse(script.textContent || "{}");
-        // Clear any empty string or placeholder values so defaults can kick in
-        const cleanSettings: Record<string, any> = {};
-        for (const [key, val] of Object.entries(parsed)) {
-          if (val !== undefined && val !== null && val !== "") {
-            cleanSettings[key] = val;
-          }
+  if (typeof document === "undefined") {
+    return {};
+  }
+
+  // Use a global cache on window to keep settings consistent and super fast
+  const win = window as any;
+  if (win.__mergedShopifySettings) {
+    return win.__mergedShopifySettings;
+  }
+
+  const mergedSettings: Record<string, any> = {};
+
+  // 1. Scan for old single monolithic config tag
+  const script = document.getElementById("shopify-section-settings");
+  if (script) {
+    try {
+      const parsed = JSON.parse(script.textContent || "{}");
+      for (const [key, val] of Object.entries(parsed)) {
+        if (val !== undefined && val !== null && val !== "") {
+          mergedSettings[key] = val;
         }
-        return cleanSettings as ShopifySettings;
-      } catch (e) {
-        console.error("Shopify Theme Customizer: parsed settings format is invalid", e);
       }
+    } catch (e) {
+      console.error("Shopify Theme Customizer: parsed settings format is invalid", e);
     }
   }
-  return {};
+
+  // 2. Scan and merge settings from all active native reorderable sections on the page
+  const sectionContainers = document.querySelectorAll(".shopify-react-section[data-settings]");
+  sectionContainers.forEach((el) => {
+    try {
+      const settingsAttr = el.getAttribute("data-settings");
+      if (settingsAttr) {
+        const parsed = JSON.parse(settingsAttr);
+        for (const [key, val] of Object.entries(parsed)) {
+          if (val !== undefined && val !== null && val !== "") {
+            mergedSettings[key] = val;
+          }
+        }
+      }
+    } catch (e) {
+      console.warn("Failed to parse settings for a section container element:", e);
+    }
+  });
+
+  win.__mergedShopifySettings = mergedSettings;
+  return mergedSettings;
 }

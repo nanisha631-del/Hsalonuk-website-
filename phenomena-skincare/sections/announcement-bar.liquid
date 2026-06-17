@@ -1,0 +1,52 @@
+<div class="shopify-react-section" data-react-component="AnnouncementBar" data-settings='{
+  "announcement_text": {{ section.settings.announcement_text | default: "NEW CUSTOMERS SAVE 10% WITH CODE FIRST10! ★ NEW ARRIVALS NOW LIVE" | json }},
+  "announcement_bg_color": {{ section.settings.announcement_bg_color | default: "#C4B5D4" | json }},
+  "announcement_text_color": {{ section.settings.announcement_text_color | default: "#121212" | json }},
+  "announcement_speed": {{ section.settings.announcement_speed | default: "28" | json }},
+  "announcement_text_size": {{ section.settings.announcement_text_size | default: "11px" | json }}
+}'></div>
+
+{% schema %}
+{
+  "name": "Announcement Bar",
+  "tag": "section",
+  "class": "section-announcement-bar",
+  "settings": [
+    {
+      "type": "text",
+      "id": "announcement_text",
+      "label": "Announcement Text",
+      "default": "NEW CUSTOMERS SAVE 10% WITH CODE FIRST10! ★ NEW ARRIVALS NOW LIVE"
+    },
+    {
+      "type": "color",
+      "id": "announcement_bg_color",
+      "label": "Bar Background Color",
+      "default": "#C4B5D4"
+    },
+    {
+      "type": "color",
+      "id": "announcement_text_color",
+      "label": "Bar Text Color",
+      "default": "#121212"
+    },
+    {
+      "type": "text",
+      "id": "announcement_speed",
+      "label": "Animation Duration (Seconds)",
+      "default": "28"
+    },
+    {
+      "type": "text",
+      "id": "announcement_text_size",
+      "label": "Text Size (e.g. 11px)",
+      "default": "11px"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Announcement Bar"
+    }
+  ]
+}
+{% endschema %}

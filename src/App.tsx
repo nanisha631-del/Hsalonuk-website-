@@ -17,6 +17,7 @@ import ScrollReveal from "./components/ScrollReveal";
 import ProductCard from "./components/ProductCard";
 import CurrentlyObsessed from "./components/CurrentlyObsessed";
 import TrustCards from "./components/TrustCards";
+import WaveScrollSection from "./components/WaveScrollSection";
 import ParallaxSplit from "./components/ParallaxSplit";
 import AutoScrollCards from "./components/AutoScrollCards";
 import ShopTheLook from "./components/ShopTheLook";
@@ -32,7 +33,12 @@ import Footer from "./components/Footer";
 import ScrollZoomImage from "./components/ScrollZoomImage";
 import ShopifyInstructionModal from "./components/ShopifyInstructionModal";
 import AestheticVideoPlayer from "./components/AestheticVideoPlayer";
+import HeroSection from "./components/HeroSection";
+import BestsellersCarousel from "./components/BestsellersCarousel";
+import MakeupPouchFeature from "./components/MakeupPouchFeature";
+import FunEditorialSection from "./components/FunEditorialSection";
 import { getShopifySettings } from "./shopifySettings";
+import { useSharedState } from "./useSharedState";
 
 // Staggered animation triggers from left to right as requested (slowly like a 1, 2, 3, 4 counting)
 const bestsellerContainerVariants = {
@@ -72,14 +78,23 @@ export default function App() {
     window.location.hostname.includes("127.0.0.1")
   );
 
-  const [currentView, setCurrentView] = useState<"home" | "product">("home");
-  const [selectedProductId, setSelectedProductId] = useState<string>("halo-highlighter");
-  const [cartOpen, setCartOpen] = useState(false);
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  
-  // Tab state for Section 3 bestseller product carousel
-  const [bestsellersTab, setBestsellersTab] = useState<"BESTSELLERS" | "WHATS HOT">("BESTSELLERS");
-  const [shopifyModalOpen, setShopifyModalOpen] = useState(false);
+  const {
+    state,
+    updateState,
+    handleAddToCart,
+    handleUpdateQuantity,
+    handleRemoveItem,
+    handleSelectProduct,
+    handleGoHome,
+  } = useSharedState();
+
+  const {
+    currentView,
+    selectedProductId,
+    cartOpen,
+    cartItems,
+    shopifyModalOpen,
+  } = state;
   
   const carouselContainerRef = useRef<HTMLDivElement>(null);
 
@@ -97,49 +112,6 @@ export default function App() {
 
   // Derive cart elements total count
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
-
-  // Cart Management
-  const handleAddToCart = (product: Product, quantity: number, color?: string) => {
-    setCartItems((prev) => {
-      const idx = prev.findIndex(
-        (item) => item.product.id === product.id && item.selectedColor === color
-      );
-      if (idx > -1) {
-        const update = [...prev];
-        update[idx].quantity += quantity;
-        return update;
-      }
-      return [...prev, { product, quantity, selectedColor: color }];
-    });
-    // Auto trigger open the cart drawer to feed back to user!
-    setCartOpen(true);
-  };
-
-  const handleUpdateQuantity = (id: string, color: string | undefined, qty: number) => {
-    setCartItems((prev) =>
-      prev.map((item) =>
-        item.product.id === id && item.selectedColor === color
-          ? { ...item, quantity: Math.max(1, qty) }
-          : item
-      )
-    );
-  };
-
-  const handleRemoveItem = (id: string, color: string | undefined) => {
-    setCartItems((prev) =>
-      prev.filter((item) => !(item.product.id === id && item.selectedColor === color))
-    );
-  };
-
-  // Nav actions
-  const handleSelectProduct = (productId: string) => {
-    setSelectedProductId(productId);
-    setCurrentView("product");
-  };
-
-  const handleGoHome = () => {
-    setCurrentView("home");
-  };
 
   // Bestsellers filtering - strictly limited to exactly 5 bestsellers
   const filteredProducts = PRODUCTS.filter((p) => {
@@ -169,7 +141,7 @@ export default function App() {
         {/* Primary Sticky Top Nav */}
         <Navbar
           cartCount={cartCount}
-          onCartClick={() => setCartOpen(true)}
+          onCartClick={() => updateState({ cartOpen: true })}
           currentView={currentView}
           onGoHome={handleGoHome}
           onSearchClick={() => {
@@ -195,157 +167,22 @@ export default function App() {
               className="flex flex-col w-full"
             >
               {/* SECTION 2 — HERO SECTION */}
-              <section id="hero-showcase" className="w-full bg-brand-offwhite pt-24 sm:pt-28 pb-1 md:pb-12 px-4 md:px-12 select-none">
-                <div className="max-w-7xl mx-auto flex flex-col gap-6">
-
-                  {/* The Framed Hero Card with precise aspect ratios corresponding to native images */}
-                  <div className="relative w-full aspect-[1792/2400] md:aspect-[2752/1536] bg-[#E8E8E8] rounded-2xl md:rounded-[36px] overflow-hidden shadow-xs flex items-end justify-center pb-12 sm:pb-24">
-                    
-                    {/* Background portrait of skin close-up */}
-                    <div className="absolute inset-0 z-0 select-none overflow-hidden rounded-2xl md:rounded-[36px]">
-                      {/* Desktop Background Image - 2752x1536 */}
-                      <div className="hidden sm:block w-full h-full">
-                        <ScrollZoomImage
-                          src={settings.hero_image_url || "/hero section image.jpeg"}
-                          alt="Radiant Skin Beauty Hero Background"
-                          className="brightness-[0.85] object-center"
-                        />
-                      </div>
-                      {/* Mobile Background Image - 1792x2400 */}
-                      <div className="block sm:hidden w-full h-full">
-                        <ScrollZoomImage
-                          src="/hero section mobile view.jpeg"
-                          alt="Radiant Skin Beauty Hero Background Mobile"
-                          className="brightness-[0.85] object-center"
-                        />
-                      </div>
-                    </div>
-
-                    {/* Styled Center Hero Contents positioned lower */}
-                    <div className="relative z-10 text-center flex flex-col items-center gap-3 px-4 md:px-12 max-w-2xl select-none">
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-                        className="flex flex-col gap-1.5"
-                      >
-                        <p className="text-white text-[11px] sm:text-xs font-sans tracking-[0.22em] font-extrabold uppercase bg-black/15 px-4.5 py-2 rounded-full backdrop-blur-[3px] shadow-sm inline-block">
-                          {settings.hero_subtitle || "Apothecary hair & scalp elixirs."}
-                        </p>
-                      </motion.div>
-
-                      {/* Pill button: SHOP PRODUCTS */}
-                      <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.8, delay: 0.15, ease: "easeOut" }}
-                        className="mt-3.5"
-                      >
-                        <button
-                          onClick={() => {
-                            const next = document.getElementById("bestsellers-section");
-                            if (next) next.scrollIntoView({ behavior: "smooth" });
-                          }}
-                          className="bg-white text-brand-black px-11 py-4 rounded-full text-[11px] font-extrabold uppercase tracking-[0.22em] hover:bg-white/95 hover:scale-[1.03] transition-all duration-300 shadow-md cursor-pointer whitespace-nowrap"
-                        >
-                          {settings.hero_cta_text || "SHOP PRODUCTS"}
-                        </button>
-                      </motion.div>
-                    </div>
-
-                    {/* Slow mouse down indicator inside the frame */}
-                    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1.5 text-white/50 text-[9px] uppercase font-sans tracking-widest">
-                      <span>Scroll down</span>
-                      <div className="w-[1px] h-4 bg-white/30" />
-                    </div>
-
-                  </div>
-                </div>
-              </section>
+              <HeroSection />
 
               {/* SECTION 2.5 — H SALON STICKY TEXT REVEAL SECTION */}
               <HSalonScrollSection />
 
               {/* SECTION 3 — BESTSELLER PRODUCT CAROUSEL */}
-              <section id="bestsellers-section" className="bg-brand-offwhite pt-1 md:pt-12 pb-12 px-4 md:px-12 relative select-none">
-                <div className="max-w-7xl mx-auto flex flex-col gap-6">
-                  
-                  {/* Heading container and tabs */}
-                  <div className="flex justify-between items-end border-b border-brand-black/10 pb-4">
-                    <div>
-                      <h2 className="text-[20px] sm:text-[30px] font-sans font-black uppercase tracking-tight pb-2 relative text-brand-black select-none">
-                        {settings.bestsellers_title || "BESTSELLERS"}
-                        <div className="absolute bottom-0 left-0 w-24 h-[3px] bg-brand-lilac" />
-                      </h2>
-                    </div>
-                  </div>
-
-                  {/* Slider and arrows row */}
-                  <div className="relative w-full overflow-hidden">
-                    <motion.div
-                      variants={bestsellerContainerVariants}
-                      initial="hidden"
-                      whileInView="visible"
-                      viewport={{ once: true, amount: 0.65 }}
-                      ref={carouselContainerRef}
-                      className="flex gap-5 overflow-x-auto select-none py-4 px-1 scroll-smooth w-full no-scrollbar relative snap-x snap-mandatory"
-                    >
-                      {filteredProducts.map((p) => (
-                        <motion.div
-                          key={p.id}
-                          variants={bestsellerCardVariants}
-                          className="snap-center w-[85vw] sm:w-[320px] md:w-[280px] shrink-0"
-                        >
-                          <ProductCard
-                            product={p}
-                            onSelect={handleSelectProduct}
-                            onQuickAdd={(item, event) => {
-                              event.stopPropagation();
-                              handleAddToCart(item, 1, item.colors && item.colors.length > 0 ? item.colors[0].name : undefined);
-                            }}
-                          />
-                        </motion.div>
-                      ))}
-                    </motion.div>
-
-                    {/* Left & Right absolute slider trigger buttons */}
-                    <button
-                      onClick={scrollCarouselLeft}
-                      className="absolute left-2 top-[35%] -translate-y-1/2 w-10 h-10 rounded-full border border-brand-black/10 bg-white/80 hover:bg-white flex items-center justify-center transition-colors cursor-pointer text-brand-black shadow-xs hidden md:flex"
-                      aria-label="Previous bestseller"
-                    >
-                      <ChevronLeft className="w-5 h-5" />
-                    </button>
-                    <button
-                      onClick={scrollCarouselRight}
-                      className="absolute right-2 top-[35%] -translate-y-1/2 w-10 h-10 rounded-full border border-brand-black/10 bg-white/80 hover:bg-white flex items-center justify-center transition-colors cursor-pointer text-brand-black shadow-xs hidden md:flex"
-                      aria-label="Next bestseller"
-                    >
-                      <ChevronRight className="w-5 h-5" />
-                    </button>
-                  </div>
-
-                  {/* Under slider button for collection */}
-                  <div className="flex justify-center mt-4">
-                    <button
-                      id="view-collection-button"
-                      onClick={() => {
-                        const firstProduct = PRODUCTS[0];
-                        handleSelectProduct(firstProduct.id);
-                      }}
-                      className="bg-brand-lilac/20 hover:bg-brand-lilac/30 text-brand-black font-sans font-bold text-xs uppercase tracking-[0.2em] px-10 py-4 transition-colors cursor-pointer"
-                    >
-                      {settings.collection_button_text || "SHOP THE FULL COLLECTION"}
-                    </button>
-                  </div>
-                </div>
-              </section>
+              <BestsellersCarousel />
 
               {/* SECTION 4 — CURRENTLY OBSESSED */}
               <CurrentlyObsessed />
 
               {/* SECTION 5 — TRUST CARDS */}
               <TrustCards />
+
+              {/* NEW SECTION — ENDLESS WAVE SCROLL MARQUEE */}
+              <WaveScrollSection />
 
               {/* SECTION 6 — PARALLAX SPLIT IMAGE */}
               <ParallaxSplit />
@@ -366,130 +203,13 @@ export default function App() {
               <LightweightFormulas />
 
               {/* SECTION 11 — MAKEUP POUCH PRODUCT HIGHLIGHT */}
-              <section id="makeup-pouch-feature" className="bg-brand-offwhite py-12 px-4 md:px-12 relative select-none">
-                <div className="max-w-4xl mx-auto bg-white p-6 sm:p-10 rounded-[24px] sm:rounded-[36px] shadow-xs border border-brand-black/5">
-                  
-                  {/* Top Tab Headers */}
-                  <div className="flex gap-6 border-b border-brand-black/5 pb-2.5 mb-6">
-                    <span className="font-sans text-[13px] sm:text-[15px] font-black tracking-widest text-brand-black cursor-pointer pb-2 border-b-2 border-brand-lilac">
-                      {settings.pouch_title || "THE APOTHECARY SPA POUCH"}
-                    </span>
-                    <span className="font-sans text-[13px] sm:text-[15px] font-bold tracking-widest text-gray-400 hover:text-brand-black cursor-pointer pb-2">
-                      ROOT THERAPY DUOS
-                    </span>
-                  </div>
-
-                  {/* Overlapping Images Grid */}
-                  <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
-                    
-                    {/* Left: Beautiful Overlapping Image Card frame */}
-                    <div className="md:col-span-6 relative w-full select-none">
-                      <div className="w-[85%] aspect-[1.12/1] bg-[#E8E4DF] overflow-hidden rounded-2xl sm:rounded-[28px] relative shadow-xs">
-                        <ScrollZoomImage
-                          src={settings.pouch_image_1_url || "/the main image frame pouch.jpeg"}
-                          alt="The Apothecary Spa Pouch Main"
-                        />
-                      </div>
-                      
-                      {/* Secondary overlapping inset picture */}
-                      <div className="absolute bottom-[-10px] right-2 w-[42%] aspect-square bg-[#DFDEDA] border-[3px] border-white rounded-[16px] sm:rounded-[22px] overflow-hidden shadow-md">
-                        <ScrollZoomImage
-                          src={settings.pouch_image_2_url || "/the secondary insdert image frame.jpeg"}
-                          alt="Apothecary Pouch Inset Detail"
-                        />
-                      </div>
-                    </div>
-
-                    {/* Right: Tight details copy with ADD TO BAG button */}
-                    <div className="md:col-span-6 flex flex-col gap-3 sm:gap-4 items-start w-full">
-                      <span className="text-[10px] sm:text-[11px] font-sans uppercase tracking-[0.2em] text-brand-lilac font-black">
-                        TRENDING BESTSELLER
-                      </span>
-                      
-                      {/* Price in bold compact size */}
-                      <div className="font-sans text-[26px] sm:text-[32px] font-black leading-none text-brand-black">
-                        ${settings.pouch_price || "60.00"}
-                      </div>
-
-                      <p className="text-[11.5px] sm:text-[13px] font-sans text-gray-400 leading-relaxed">
-                        {settings.pouch_desc || "A gorgeous, quilted velvet protection sleeve designed to shelter your luxury elixirs, active botanicals, and scalp oils. Liquid-proof lining shields your precious apothecary glass droppers, while the compact, padded structural silhouette packs seamlessly into travel bags for premium root treatments anywhere."}
-                      </p>
-
-                      <div className="flex gap-4 w-full mt-2">
-                        {/* Add to Bag CTA */}
-                        <button
-                          onClick={() => {
-                            const pouch = PRODUCTS.find((p) => p.id === "makeup-pouch");
-                            if (pouch) {
-                              handleAddToCart(pouch, 1);
-                            }
-                          }}
-                          className="flex-1 bg-brand-black hover:bg-brand-black/90 text-white font-sans font-bold py-3.5 px-6 text-[11px] uppercase tracking-[0.2em] transition-colors rounded-full cursor-pointer whitespace-nowrap shadow-xs"
-                        >
-                          ADD TO BAG
-                        </button>
-
-                        <button
-                          onClick={() => handleSelectProduct("makeup-pouch")}
-                          className="border border-brand-black/15 bg-transparent hover:bg-brand-black/5 text-brand-black font-sans font-bold py-3.5 px-6 text-[11px] uppercase tracking-[0.2em] transition-all rounded-full cursor-pointer whitespace-nowrap"
-                        >
-                          DETAILS
-                        </button>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-              </section>
+              <MakeupPouchFeature />
 
               {/* SECTION 12 — SCROLLING BANNER */}
               <ScrollingBanner />
 
               {/* SECTION 13 — "HAIRCARE SHOULD BE RESTORATIVE" EDITORIAL */}
-              <section id="fun-editorial" className="bg-[#F7F5F2] w-full py-24 px-4 md:px-12 relative overflow-hidden select-none">
-                <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
-                  
-                  {/* Left slide text */}
-                  <div className="md:col-span-6 flex flex-col gap-6 items-start">
-                    <ScrollReveal direction="right" distance={35}>
-                      <h2 className="font-serif text-[42px] md:text-[62px] font-black leading-[1.15] text-brand-black tracking-tight uppercase">
-                        HAIRCARE SHOULD <br />
-                        BE HEALING. <br />
-                        NOT COMPLICATED. <br />
-                      </h2>
-                    </ScrollReveal>
-                    
-                    <ScrollReveal delay={150} direction="right" distance={25}>
-                      <div className="flex flex-col gap-2 border-l border-brand-lilac/30 pl-4 max-w-md mt-4">
-                        <span className="text-[12px] font-sans font-black text-brand-black uppercase tracking-widest">BUILD YOUR ROUTINE.</span>
-                        <p className="text-sm font-sans text-gray-500 leading-relaxed">
-                          A highly targeted ritual of concentrated treatment elixirs, active botanical scalp masks, and lightweight root-penetrating hair oils. Scientifically formulated to calm irritated follicles, lock in deep moisture, and amplify your natural luminous shine from within.
-                        </p>
-                      </div>
-                    </ScrollReveal>
-
-                    <ScrollReveal delay={250} direction="right" distance={15}>
-                      <button
-                        onClick={() => {
-                          const target = document.getElementById("bestsellers-section");
-                          if (target) target.scrollIntoView({ behavior: "smooth" });
-                        }}
-                        className="mt-6 text-xs font-sans font-bold uppercase tracking-[0.2em] border-b border-brand-black pb-1 hover:opacity-70 transition-opacity cursor-pointer text-brand-black"
-                      >
-                        EXPLORE THE TREATMENT RANGE →
-                      </button>
-                    </ScrollReveal>
-                  </div>
-
-                  {/* Right slide video */}
-                  <div className="md:col-span-6 relative aspect-[4/5] bg-[#E0DEDA] shadow-lg rounded-2xl overflow-hidden">
-                    <ScrollReveal delay={200} direction="none" className="w-full h-full">
-                      <AestheticVideoPlayer />
-                    </ScrollReveal>
-                  </div>
-
-                </div>
-              </section>
+              <FunEditorialSection />
 
               {/* SECTION 14 — COMMUNITY UGC */}
               <CommunitySection />
@@ -525,7 +245,7 @@ export default function App() {
       {/* CAROUSEL SLIDE-OUT CART VIEW DRAWER */}
       <CartDrawer
         isOpen={cartOpen}
-        onClose={() => setCartOpen(false)}
+        onClose={() => updateState({ cartOpen: false })}
         cartItems={cartItems}
         onRemoveItem={handleRemoveItem}
         onUpdateQuantity={handleUpdateQuantity}

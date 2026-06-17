@@ -1,0 +1,31 @@
+<div class="shopify-react-section" data-react-component="GreetingSection" data-settings='{
+  "greeting_heading": {{ section.settings.greeting_heading | default: "THE SKIN LAB" | json }},
+  "greeting_hint": {{ section.settings.greeting_hint | default: "Greetings from" | json }}
+}'></div>
+
+{% schema %}
+{
+  "name": "Interactive Postcard Stamp",
+  "tag": "section",
+  "class": "section-greeting",
+  "settings": [
+    {
+      "type": "text",
+      "id": "greeting_heading",
+      "label": "Postcard Banner Stamp Brand",
+      "default": "THE SKIN LAB"
+    },
+    {
+      "type": "text",
+      "id": "greeting_hint",
+      "label": "Postcard Small Upper Greeting Line",
+      "default": "Greetings from"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Interactive Postcard Stamp"
+    }
+  ]
+}
+{% endschema %}

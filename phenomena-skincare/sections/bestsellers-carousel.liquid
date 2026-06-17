@@ -1,0 +1,31 @@
+<div class="shopify-react-section" data-react-component="BestsellersCarousel" data-settings='{
+  "bestsellers_title": {{ section.settings.bestsellers_title | default: "BESTSELLERS" | json }},
+  "collection_button_text": {{ section.settings.collection_button_text | default: "SHOP THE FULL COLLECTION" | json }}
+}'></div>
+
+{% schema %}
+{
+  "name": "Bestsellers Carousel",
+  "tag": "section",
+  "class": "section-bestsellers",
+  "settings": [
+    {
+      "type": "text",
+      "id": "bestsellers_title",
+      "label": "Title Text",
+      "default": "BESTSELLERS"
+    },
+    {
+      "type": "text",
+      "id": "collection_button_text",
+      "label": "Collection Bottom Link Text",
+      "default": "SHOP THE FULL COLLECTION"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bestsellers Carousel"
+    }
+  ]
+}
+{% endschema %}

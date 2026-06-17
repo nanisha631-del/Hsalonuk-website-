@@ -1,0 +1,59 @@
+<!-- Mount Node for the Active Skincare Product Details screen -->
+<div id="root" class="relative"></div>
+
+<script id="shopify-section-settings" type="application/json">
+{
+  "prod_stock_text": {{ section.settings.prod_stock_text | default: "Item is in stock" | json }},
+  "prod_tested_bullet_1": {{ section.settings.prod_tested_bullet_1 | default: "Dermatologist Tested" | json }},
+  "prod_tested_bullet_2": {{ section.settings.prod_tested_bullet_2 | default: "Non comedogenic" | json }},
+  "prod_buy_with_text": {{ section.settings.prod_buy_with_text | default: "BUY IT WITH" | json }},
+  "prod_faq_title": {{ section.settings.prod_faq_title | default: "Frequently Asked Questions" | json }},
+  "prod_recommended_title": {{ section.settings.prod_recommended_title | default: "Curated Duos" | json }}
+}
+</script>
+
+{% schema %}
+{
+  "name": "Product Layout Manager",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "prod_stock_text",
+      "label": "Product Stock Title Line",
+      "default": "Item is in stock"
+    },
+    {
+      "type": "text",
+      "id": "prod_tested_bullet_1",
+      "label": "Testing Bullet 1 Line",
+      "default": "Dermatologist Tested"
+    },
+    {
+      "type": "text",
+      "id": "prod_tested_bullet_2",
+      "label": "Testing Bullet 2 Line",
+      "default": "Non comedogenic"
+    },
+    {
+      "type": "text",
+      "id": "prod_buy_with_text",
+      "label": "Buy it With Up-sell Title Header",
+      "default": "BUY IT WITH"
+    },
+    {
+      "type": "text",
+      "id": "prod_faq_title",
+      "label": "Frequently Asked Questions Section Heading",
+      "default": "Frequently Asked Questions"
+    },
+    {
+      "type": "text",
+      "id": "prod_recommended_title",
+      "label": "Curated recommended Row Title",
+      "default": "Curated Duos"
+    }
+  ]
+}
+{% endschema %}

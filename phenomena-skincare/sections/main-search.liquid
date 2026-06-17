@@ -1,0 +1,17 @@
+<div class="max-w-4xl mx-auto px-6 py-16 text-center">
+  <h1 class="text-3xl font-bold mb-8">Search Results</h1>
+  <form action="/search" method="get" class="max-w-md mx-auto mb-12 flex gap-2">
+    <input type="text" name="q" placeholder="Search our apothecary..." class="px-3 py-2 border rounded text-sm w-full" value="{{ search.terms | escape }}">
+    <button type="submit" class="px-4 py-2 bg-gray-900 text-white text-xs uppercase font-bold tracking-widest rounded hover:bg-gray-800">Search</button>
+  </form>
+  {% if search.performed %}
+    <p class="text-sm text-gray-500">Found {{ search.results_count }} results for "{{ search.terms }}".</p>
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "Search Results Page",
+  "settings": []
+}
+{% endschema %}

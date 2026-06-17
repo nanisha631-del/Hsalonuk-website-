@@ -1,0 +1,50 @@
+<div class="shopify-react-section" data-react-component="MakeupPouchFeature" data-settings='{
+  "pouch_title": {{ section.settings.pouch_title | default: "THE APOTHECARY SPA POUCH" | json }},
+  "pouch_price": {{ section.settings.pouch_price | default: "60.00" | json }},
+  "pouch_desc": {{ section.settings.pouch_desc | default: "A gorgeous, quilted velvet protection sleeve designed to shelter your luxury elixirs, active botanicals, and scalp oils. Liquid-proof lining shields your precious apothecary glass droppers, while the compact, padded structural silhouette packs seamlessly into travel bags for premium root treatments anywhere." | json }},
+  "pouch_image_1_url": {% if section.settings.pouch_image_1 != blank %}{{ section.settings.pouch_image_1 | image_url: width: 1000 | json }}{% else %}""{% endif %},
+  "pouch_image_2_url": {% if section.settings.pouch_image_2 != blank %}{{ section.settings.pouch_image_2 | image_url: width: 800 | json }}{% else %}""{% endif %}
+}'></div>
+
+{% schema %}
+{
+  "name": "Featured Quilted Pouch Card",
+  "tag": "section",
+  "class": "section-pouch",
+  "settings": [
+    {
+      "type": "text",
+      "id": "pouch_title",
+      "label": "Pouch Spotlight Header",
+      "default": "THE APOTHECARY SPA POUCH"
+    },
+    {
+      "type": "text",
+      "id": "pouch_price",
+      "label": "Pouch Spotlight Retail Price ($)",
+      "default": "60.00"
+    },
+    {
+      "type": "textarea",
+      "id": "pouch_desc",
+      "label": "Detailed Product Description Copy",
+      "default": "A gorgeous, quilted velvet protection sleeve designed to shelter your luxury elixirs, active botanicals, and scalp oils. Liquid-proof lining shields your precious apothecary glass droppers, while the compact, padded structural silhouette packs seamlessly into travel bags for premium root treatments anywhere."
+    },
+    {
+      "type": "image_picker",
+      "id": "pouch_image_1",
+      "label": "Left Portrait Feature Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "pouch_image_2",
+      "label": "Front Overlay Overlapping Detail Image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Quilted Pouch Card"
+    }
+  ]
+}
+{% endschema %}

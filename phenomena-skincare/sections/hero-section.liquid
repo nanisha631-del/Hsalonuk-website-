@@ -1,0 +1,37 @@
+<div class="shopify-react-section" data-react-component="HeroSection" data-settings='{
+  "hero_subtitle": {{ section.settings.hero_subtitle | default: "Apothecary hair & scalp elixirs." | json }},
+  "hero_cta_text": {{ section.settings.hero_cta_text | default: "SHOP PRODUCTS" | json }},
+  "hero_image_url": {% if section.settings.hero_image != blank %}{{ section.settings.hero_image | image_url: width: 2752 | json }}{% else %}""{% endif %}
+}'></div>
+
+{% schema %}
+{
+  "name": "Framed Hero Showcase",
+  "tag": "section",
+  "class": "section-hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "hero_subtitle",
+      "label": "Hero Compact Subtitle Pill",
+      "default": "Apothecary hair & scalp elixirs."
+    },
+    {
+      "type": "text",
+      "id": "hero_cta_text",
+      "label": "CTA Link Button Text",
+      "default": "SHOP PRODUCTS"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Portrait Zoom Background (Resolution: ~2750x1500)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Framed Hero Showcase"
+    }
+  ]
+}
+{% endschema %}
