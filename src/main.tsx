@@ -30,6 +30,10 @@ import BestsellersCarousel from './components/BestsellersCarousel';
 import MakeupPouchFeature from './components/MakeupPouchFeature';
 import FunEditorialSection from './components/FunEditorialSection';
 import HSalonScrollSection from './components/HSalonScrollSection';
+import InteractiveConsultation from './components/InteractiveConsultation';
+import UgcVideoGrid from './components/UgcVideoGrid';
+import BotanicalLab from './components/BotanicalLab';
+import BeforeAfterSection from './components/BeforeAfterSection';
 
 import { useSharedState } from './useSharedState';
 
@@ -110,6 +114,10 @@ const COMPONENT_MAP: Record<string, any> = {
   Navbar: NavbarSectionWrapper,
   HeroSection: HeroSection,
   BestsellersCarousel: BestsellersCarousel,
+  InteractiveConsultation: InteractiveConsultation,
+  BotanicalLab: BotanicalLab,
+  UgcVideoGrid: UgcVideoGrid,
+  BeforeAfterSection: BeforeAfterSection,
   CurrentlyObsessed: CurrentlyObsessed,
   TrustCards: TrustCards,
   HSalonScrollSection: HSalonScrollSection,

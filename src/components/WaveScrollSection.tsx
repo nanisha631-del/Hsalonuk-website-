@@ -4,6 +4,7 @@
  */
 
 import React, { useEffect, useState, useMemo } from "react";
+import { motion } from "motion/react";
 import { getShopifySettings } from "../shopifySettings";
 
 export default function WaveScrollSection() {
@@ -98,21 +99,18 @@ export default function WaveScrollSection() {
                 fontStyle: "italic"
               }}
             >
-              <textPath 
+              <motion.textPath 
                 href="#waveScrollingPath" 
-                startOffset="0%"
+                animate={{ startOffset: ["10%", "-40%"] }}
+                transition={{
+                  repeat: Infinity,
+                  ease: "linear",
+                  duration: speedSeconds
+                }}
                 fill="url(#textFadeGrad)"
               >
                 {repeatedText}
-                {/* Hardware-accelerated SMIL animation built natively into the SVG path */}
-                <animate 
-                  attributeName="startOffset" 
-                  from="10%" 
-                  to="-40%" 
-                  dur={`${speedSeconds}s`} 
-                  repeatCount="indefinite" 
-                />
-              </textPath>
+              </motion.textPath>
             </text>
           </svg>
         </div>

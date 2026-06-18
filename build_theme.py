@@ -72,6 +72,10 @@ index_json_content = """{
       "type": "bestsellers-carousel",
       "settings": {}
     },
+    "interactive_consultation": {
+      "type": "interactive-consultation",
+      "settings": {}
+    },
     "currently_obsessed": {
       "type": "currently-obsessed",
       "settings": {}
@@ -124,6 +128,18 @@ index_json_content = """{
       "type": "community-section",
       "settings": {}
     },
+    "ugc_video_grid": {
+      "type": "ugc-video-grid",
+      "settings": {}
+    },
+    "botanical_lab": {
+      "type": "botanical-lab",
+      "settings": {}
+    },
+    "before_after": {
+      "type": "before-after",
+      "settings": {}
+    },
     "hover_accordion": {
       "type": "hover-accordion",
       "settings": {}
@@ -139,6 +155,7 @@ index_json_content = """{
     "hero",
     "hsalon_scroll",
     "bestsellers",
+    "interactive_consultation",
     "currently_obsessed",
     "trust_cards",
     "wave_scroll_text",
@@ -146,10 +163,13 @@ index_json_content = """{
     "auto_scroll_cards",
     "shop_the_look",
     "greeting_section",
+    "botanical_lab",
+    "before_after",
     "lightweight_formulas",
     "makeup_pouch",
     "scrolling_banner",
     "fun_editorial",
+    "ugc_video_grid",
     "community_section",
     "hover_accordion",
     "footer"
@@ -477,16 +497,20 @@ with open(os.path.join(theme_dir, 'sections', 'main-giftcard.liquid'), 'w', enco
 main_home_liquid_content = """<div class="shopify-react-section" data-react-component="HeroSection"></div>
 <div class="shopify-react-section" data-react-component="HSalonScrollSection"></div>
 <div class="shopify-react-section" data-react-component="BestsellersCarousel"></div>
+<div class="shopify-react-section" data-react-component="InteractiveConsultation"></div>
 <div class="shopify-react-section" data-react-component="CurrentlyObsessed"></div>
 <div class="shopify-react-section" data-react-component="TrustCards"></div>
 <div class="shopify-react-section" data-react-component="ParallaxSplit"></div>
 <div class="shopify-react-section" data-react-component="AutoScrollCards"></div>
 <div class="shopify-react-section" data-react-component="ShopTheLook"></div>
 <div class="shopify-react-section" data-react-component="GreetingSection"></div>
+<div class="shopify-react-section" data-react-component="BotanicalLab"></div>
+<div class="shopify-react-section" data-react-component="BeforeAfterSection"></div>
 <div class="shopify-react-section" data-react-component="LightweightFormulas"></div>
 <div class="shopify-react-section" data-react-component="MakeupPouchFeature"></div>
 <div class="shopify-react-section" data-react-component="ScrollingBanner"></div>
 <div class="shopify-react-section" data-react-component="FunEditorialSection"></div>
+<div class="shopify-react-section" data-react-component="UgcVideoGrid"></div>
 <div class="shopify-react-section" data-react-component="CommunitySection"></div>
 <div class="shopify-react-section" data-react-component="HoverAccordion"></div>
 
@@ -982,6 +1006,90 @@ hsalon_scroll_content = """<div class="shopify-react-section" data-react-compone
 """
 with open(os.path.join(theme_dir, 'sections', 'hsalon-scroll.liquid'), 'w', encoding='utf-8') as f:
     f.write(hsalon_scroll_content)
+
+
+# 6.7. interactive-consultation.liquid
+interactive_consultation_content = """<div class="shopify-react-section" data-react-component="InteractiveConsultation"></div>
+
+{% schema %}
+{
+  "name": "Quiz Consultation",
+  "tag": "section",
+  "class": "section-interactive-consultation",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Quiz Consultation"
+    }
+  ]
+}
+{% endschema %}
+"""
+with open(os.path.join(theme_dir, 'sections', 'interactive-consultation.liquid'), 'w', encoding='utf-8') as f:
+    f.write(interactive_consultation_content)
+
+
+# 6.8. botanical-lab.liquid
+botanical_lab_content = """<div class="shopify-react-section" data-react-component="BotanicalLab"></div>
+
+{% schema %}
+{
+  "name": "Botanical Active Lab",
+  "tag": "section",
+  "class": "section-botanical-lab",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Botanical Active Lab"
+    }
+  ]
+}
+{% endschema %}
+"""
+with open(os.path.join(theme_dir, 'sections', 'botanical-lab.liquid'), 'w', encoding='utf-8') as f:
+    f.write(botanical_lab_content)
+
+
+# 6.9. ugc-video-grid.liquid
+ugc_video_grid_content = """<div class="shopify-react-section" data-react-component="UgcVideoGrid"></div>
+
+{% schema %}
+{
+  "name": "UGC Watch & Shop Stories",
+  "tag": "section",
+  "class": "section-ugc-video-grid",
+  "settings": [],
+  "presets": [
+    {
+      "name": "UGC Watch & Shop Stories"
+    }
+  ]
+}
+{% endschema %}
+"""
+with open(os.path.join(theme_dir, 'sections', 'ugc-video-grid.liquid'), 'w', encoding='utf-8') as f:
+    f.write(ugc_video_grid_content)
+
+
+# 6.10. before-after.liquid
+before_after_content = """<div class="shopify-react-section" data-react-component="BeforeAfterSection"></div>
+
+{% schema %}
+{
+  "name": "Before and After Results",
+  "tag": "section",
+  "class": "section-before-after",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Before and After Results"
+    }
+  ]
+}
+{% endschema %}
+"""
+with open(os.path.join(theme_dir, 'sections', 'before-after.liquid'), 'w', encoding='utf-8') as f:
+    f.write(before_after_content)
 
 
 # 7. parallax-split.liquid

@@ -37,6 +37,11 @@ import HeroSection from "./components/HeroSection";
 import BestsellersCarousel from "./components/BestsellersCarousel";
 import MakeupPouchFeature from "./components/MakeupPouchFeature";
 import FunEditorialSection from "./components/FunEditorialSection";
+import InteractiveConsultation from "./components/InteractiveConsultation";
+import CustomCursor from "./components/CustomCursor";
+import UgcVideoGrid from "./components/UgcVideoGrid";
+import BotanicalLab from "./components/BotanicalLab";
+import BeforeAfterSection from "./components/BeforeAfterSection";
 import { getShopifySettings } from "./shopifySettings";
 import { useSharedState } from "./useSharedState";
 
@@ -132,6 +137,8 @@ export default function App() {
 
   return (
     <div className="bg-brand-offwhite min-h-screen text-brand-black flex flex-col relative tracking-wide selection:bg-brand-lilac/30 animate-fade-in">
+      {/* Absolute floating organic cursor follower for high-end web experiences */}
+      <CustomCursor />
       
       {/* Unified Fixed Header Container */}
       <header className="fixed top-0 left-0 w-full z-50 flex flex-col">
@@ -175,6 +182,9 @@ export default function App() {
               {/* SECTION 3 — BESTSELLER PRODUCT CAROUSEL */}
               <BestsellersCarousel />
 
+              {/* NEW SECTION — INTERACTIVE ONLINE CONSULTATION */}
+              <InteractiveConsultation />
+
               {/* SECTION 4 — CURRENTLY OBSESSED */}
               <CurrentlyObsessed />
 
@@ -199,6 +209,12 @@ export default function App() {
               {/* SECTION 9 — TEXT FILL ON SCROLL */}
               <GreetingSection />
 
+              {/* NEW PREMIUM SECTION — BOTANICAL LAB ACTIVE INGREDIENTS SPOTLIGHT */}
+              <BotanicalLab />
+
+              {/* NEW PREMIUM SECTION — BEFORE AND AFTER SLIDER REVELATION */}
+              <BeforeAfterSection />
+
               {/* SECTION 10 — LIGHTWEIGHT FORMULA PARALLAX STACKS */}
               <LightweightFormulas />
 
@@ -210,6 +226,9 @@ export default function App() {
 
               {/* SECTION 13 — "HAIRCARE SHOULD BE RESTORATIVE" EDITORIAL */}
               <FunEditorialSection />
+
+              {/* NEW PREMIUM SECTION — UGC VIDEO SHOPPING REELS GRID */}
+              <UgcVideoGrid />
 
               {/* SECTION 14 — COMMUNITY UGC */}
               <CommunitySection />
