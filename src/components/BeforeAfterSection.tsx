@@ -82,8 +82,16 @@ export default function BeforeAfterSection() {
 
   const currentCase = cases.find((c) => c.id === activeCase) || cases[0];
 
-  // Robustly track container width with ResizeObserver
+  // Robustly track container width with ResizeObserver & preload images for instant performance
   useEffect(() => {
+    // Preload images to browser cache
+    cases.forEach((c) => {
+      const imgBefore = new Image();
+      imgBefore.src = c.beforeImg;
+      const imgAfter = new Image();
+      imgAfter.src = c.afterImg;
+    });
+
     if (!containerRef.current) return;
     
     const updateSize = (entries: ResizeObserverEntry[]) => {

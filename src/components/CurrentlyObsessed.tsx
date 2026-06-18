@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import ScrollReveal from "./ScrollReveal";
@@ -51,6 +51,14 @@ export default function CurrentlyObsessed() {
       bgColor: "#D6F5EE" // Very light soft Ice-Mint green
     }
   ];
+
+  // Preload items images for instant hover responsiveness
+  useEffect(() => {
+    ITEMS.forEach((item) => {
+      const img = new Image();
+      img.src = item.image;
+    });
+  }, []);
 
   const activeItem = ITEMS.find(item => item.id === activeId) || ITEMS[0];
 

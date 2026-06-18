@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Beaker, ShieldCheck, Scale, Microscope, Droplet, Leaf, Sprout } from "lucide-react";
 
@@ -74,6 +74,14 @@ export default function BotanicalLab() {
       image: "/formula 3.jpeg"
     },
   ];
+
+  // Preload ingredient images for instant responsiveness
+  useEffect(() => {
+    ingredients.forEach((ing) => {
+      const img = new Image();
+      img.src = ing.image;
+    });
+  }, []);
 
   const currentIng = ingredients.find((ing) => ing.id === activeId) || ingredients[0];
 
