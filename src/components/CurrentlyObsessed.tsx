@@ -129,22 +129,32 @@ export default function CurrentlyObsessed() {
 
           {/* Right image display area - 65% width */}
           <div className="md:col-span-7 relative aspect-[14/10] bg-black/5 overflow-hidden shadow-2xl border border-black/5">
-            <AnimatePresence>
-              <motion.img
-                key={activeItem.id}
-                src={activeItem.image}
-                alt={activeItem.title}
-                referrerPolicy="no-referrer"
-                initial={{ opacity: 0, scale: 1.12, filter: "blur(10px)" }}
-                animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-                exit={{ opacity: 0, scale: 1.02, filter: "blur(6px)" }}
-                transition={{ duration: 0.28, ease: "easeOut" }}
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-            </AnimatePresence>
+            {ITEMS.map((item) => {
+              const isActive = item.id === activeId;
+              return (
+                <motion.img
+                  key={item.id}
+                  src={item.image}
+                  alt={item.title}
+                  referrerPolicy="no-referrer"
+                  initial={false}
+                  animate={{
+                    opacity: isActive ? 1 : 0,
+                    scale: isActive ? 1 : 1.05,
+                    filter: isActive ? "blur(0px)" : "blur(4px)"
+                  }}
+                  transition={{ duration: 0.65, ease: [0.25, 1, 0.5, 1] }}
+                  className="absolute inset-0 w-full h-full object-cover"
+                  style={{ 
+                    pointerEvents: isActive ? "auto" : "none",
+                    zIndex: isActive ? 1 : 0
+                  }}
+                />
+              );
+            })}
             
             {/* Absolute label accent */}
-            <div className="absolute bottom-6 left-6 bg-white/75 backdrop-blur-md px-5 py-3 text-xs uppercase tracking-widest font-sans border border-black/5 text-black flex items-center gap-2 shadow-md">
+            <div className="absolute bottom-6 left-6 bg-white/75 backdrop-blur-md px-5 py-3 text-xs uppercase tracking-widest font-sans border border-black/5 text-black flex items-center gap-2 shadow-md z-10">
               <span className="font-bold tracking-widest">{activeItem.title}</span>
               <ArrowRight className="w-4 h-4 text-black" />
             </div>

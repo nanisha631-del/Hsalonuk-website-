@@ -22,6 +22,7 @@ interface IngredientDetail {
 
 export default function BotanicalLab() {
   const [activeId, setActiveId] = useState<string>("snail-silk");
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   const ingredients: IngredientDetail[] = [
     {
@@ -100,36 +101,49 @@ export default function BotanicalLab() {
         {/* The Laboratory Interactive Stage */}
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-stretch">
           
-          {/* Left Panel: Ingredient selector tabs with active theme color */}
-          <div className="w-full lg:w-[40%] flex flex-col gap-4 justify-center">
+          {/* Left Panel: Ingredient selector tabs ordered second on mobile style */}
+          <div className="w-full lg:w-[40%] flex flex-col gap-4 justify-center order-2 lg:order-1">
             {ingredients.map((ing) => {
               const Icon = ing.icon;
-              const isSelected = ing.id === activeId;
+              const isHighlighted = ing.id === hoveredId;
               return (
                 <button
                   key={ing.id}
                   onClick={() => setActiveId(ing.id)}
-                  className={`w-full text-left p-6 rounded-2xl border transition-all duration-300 transform cursor-pointer flex items-center gap-4 hover:scale-[1.01] active:scale-95 ${
-                    isSelected
-                      ? "bg-brand-black text-white border-brand-black shadow-lg lg:translate-x-3"
-                      : "bg-white text-black border-black/10 hover:border-[#82D8C5] hover:bg-[#82D8C5]/5"
+                  onMouseEnter={() => {
+                    setHoveredId(ing.id);
+                    setActiveId(ing.id);
+                  }}
+                  onMouseLeave={() => {
+                    setHoveredId(null);
+                  }}
+                  className={`relative overflow-hidden w-full text-left p-6 rounded-2xl border transition-all duration-500 transform cursor-pointer flex items-center gap-4 hover:scale-[1.01] active:scale-95 z-0 ${
+                    isHighlighted
+                      ? "border-brand-black shadow-lg lg:translate-x-3 text-white"
+                      : "bg-white text-black border-black/10 hover:border-black/30"
                   }`}
                 >
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center border shrink-0 transition-colors ${
-                    isSelected 
+                  <motion.div
+                    className="absolute inset-0 bg-brand-black -z-10"
+                    initial={{ x: "-101%" }}
+                    animate={{ x: isHighlighted ? ["-101%", "0%"] : "101%" }}
+                    transition={{ duration: 0.65, ease: [0.25, 1, 0.5, 1] }}
+                  />
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center border shrink-0 transition-all duration-500 ${
+                    isHighlighted 
                       ? "bg-[#82D8C5]/20 border-[#82D8C5]/30 text-[#82D8C5]" 
-                      : "bg-black/5 border-black/5 text-black/50 group-hover:bg-black/10"
+                      : "bg-black/5 border-black/5 text-black/50"
                   }`}>
                     <Icon className="w-4 h-4" />
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <p className={`font-sans font-black text-xs uppercase tracking-wider leading-none mb-1.5 ${
-                      isSelected ? "text-white" : "text-black"
+                  <div className="flex-1 min-w-0 relative z-10">
+                    <p className={`font-sans font-black text-xs uppercase tracking-wider leading-none mb-1.5 transition-colors duration-500 ${
+                      isHighlighted ? "text-white" : "text-black"
                     }`}>
                       {ing.name}
                     </p>
-                    <p className={`font-mono text-[9px] truncate uppercase tracking-widest ${
-                      isSelected ? "text-[#82D8C5]" : "text-black/40"
+                    <p className={`font-mono text-[9px] truncate uppercase tracking-widest transition-colors duration-500 ${
+                      isHighlighted ? "text-[#82D8C5]" : "text-black/40"
                     }`}>
                       {ing.scientificName}
                     </p>
@@ -139,8 +153,8 @@ export default function BotanicalLab() {
             })}
           </div>
 
-          {/* Right Panel: Immersive microscopic visualizer, beautiful imagery & clinical facts */}
-          <div className="w-full lg:w-[60%] bg-white rounded-3xl border border-black/10 p-6 sm:p-10 flex flex-col justify-between relative overflow-hidden shadow-xs">
+          {/* Right Panel: Immersive microscopic visualizer, beautiful imagery & clinical facts ordered first on mobile */}
+          <div className="w-full lg:w-[60%] bg-white rounded-3xl border border-black/10 p-6 sm:p-10 flex flex-col justify-between relative overflow-hidden shadow-xs order-1 lg:order-2">
             <div className="absolute right-0 bottom-0 text-[180px] font-black leading-none text-[#82D8C5]/[0.05] pointer-events-none select-none font-serif">
               BIO
             </div>
@@ -148,10 +162,10 @@ export default function BotanicalLab() {
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeId}
-                initial={{ opacity: 0, scale: 0.98 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.98 }}
-                transition={{ duration: 0.45 }}
+                initial={{ opacity: 0, scale: 0.99, filter: "blur(4px)" }}
+                animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+                exit={{ opacity: 0, scale: 0.99, filter: "blur(4px)" }}
+                transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
                 className="flex-1 flex flex-col h-full"
               >
                 {/* Meta details with emerald/turquoise colors */}
@@ -171,15 +185,22 @@ export default function BotanicalLab() {
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-8 mb-8 flex-1">
                   
                   {/* Real Product/Formulation Image block! */}
-                  <div className="md:col-span-5 relative aspect-square sm:aspect-[4/3] md:aspect-auto md:h-full bg-zinc-100 rounded-2xl overflow-hidden border border-black/5 group shadow-xs">
-                    <img
-                      src={currentIng.image}
-                      alt={currentIng.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                      referrerPolicy="no-referrer"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-60 pointer-events-none" />
-                    <span className="absolute bottom-3 left-3 text-white text-[9px] font-mono tracking-widest uppercase">
+                  <div className="md:col-span-12 lg:col-span-12 xl:col-span-5 relative aspect-square sm:aspect-[4/3] md:aspect-auto md:h-[320px] lg:h-full bg-zinc-100 rounded-2xl overflow-hidden border border-black/5 shadow-xs">
+                    <AnimatePresence mode="popLayout">
+                      <motion.img
+                        key={activeId}
+                        src={currentIng.image}
+                        alt={currentIng.name}
+                        referrerPolicy="no-referrer"
+                        initial={{ opacity: 0, scale: 1.08, filter: "blur(8px)" }}
+                        animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+                        exit={{ opacity: 0, scale: 0.96, filter: "blur(4px)" }}
+                        transition={{ duration: 0.65, ease: [0.25, 1, 0.5, 1] }}
+                        className="absolute inset-0 w-full h-full object-cover"
+                      />
+                    </AnimatePresence>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-60 pointer-events-none z-10" />
+                    <span className="absolute bottom-3 left-3 text-white text-[9px] font-mono tracking-widest uppercase z-10">
                       LAB REVELATION
                     </span>
                   </div>

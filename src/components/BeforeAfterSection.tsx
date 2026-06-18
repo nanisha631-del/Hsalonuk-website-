@@ -23,7 +23,9 @@ interface CaseStudy {
 
 export default function BeforeAfterSection() {
   const [activeCase, setActiveCase] = useState<string>("case-1");
+  const [hoveredCase, setHoveredCase] = useState<string | null>(null);
   const [sliderPos, setSliderPos] = useState<number>(50); // percentage (0 - 100)
+  const [containerWidth, setContainerWidth] = useState<number>(0);
   const isDragging = useRef<boolean>(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -36,8 +38,8 @@ export default function BeforeAfterSection() {
       duration: "6 Weeks Ritual",
       metric: "-88.5% Flakes",
       metricSub: "Clinically monitored lipid recovery",
-      beforeImg: "/01 frame.jpeg", // using exquisite available frames & formulas
-      afterImg: "/snail silk scalp mask.webp",
+      beforeImg: "/scalp before image.jpeg",
+      afterImg: "/scalp after image.jpeg",
       bullets: [
         "Eliminates tight microscopic scalp redness and irritation",
         "Deeply hydrates root follicles without blocking oxygen pathways",
@@ -51,9 +53,9 @@ export default function BeforeAfterSection() {
       formula: "Snail Silk Face Serum + Scalp Oil",
       duration: "4 Weeks Ritual",
       metric: "+92% Velvet Shine",
-      metricSub: "Cuticle alignment alignment under cold-seal plates",
-      beforeImg: "/03 frame.jpeg",
-      afterImg: "/snail silk scalp oil.webp",
+      metricSub: "Cuticle alignment with cold-seal plates",
+      beforeImg: "/sealing before image.jpeg",
+      afterImg: "/sealing after image.jpeg",
       bullets: [
         "Fuses split ends up to 210°C thermal protection levels",
         "Restores premium lustrous light reflection to hair fibers",
@@ -68,8 +70,8 @@ export default function BeforeAfterSection() {
       duration: "8 Weeks Ritual",
       metric: "+148% Hydration",
       metricSub: "Retained cellular water-loss containment",
-      beforeImg: "/02 frame.jpeg",
-      afterImg: "/ground recovery oil.webp",
+      beforeImg: "/dermal before image.jpeg",
+      afterImg: "/dermal after image.jpeg",
       bullets: [
         "Deeply penetrates skin layers to repair cell cement",
         "Balances oily/dry facial zones for smooth cosmetic prep",
@@ -79,6 +81,25 @@ export default function BeforeAfterSection() {
   ];
 
   const currentCase = cases.find((c) => c.id === activeCase) || cases[0];
+
+  // Robustly track container width with ResizeObserver
+  useEffect(() => {
+    if (!containerRef.current) return;
+    
+    const updateSize = (entries: ResizeObserverEntry[]) => {
+      for (const entry of entries) {
+        setContainerWidth(entry.contentRect.width);
+      }
+    };
+
+    const observer = new ResizeObserver(updateSize);
+    observer.observe(containerRef.current);
+
+    // Initial size
+    setContainerWidth(containerRef.current.getBoundingClientRect().width);
+
+    return () => observer.disconnect();
+  }, []);
 
   // Dragging event handlers for before/after comparison slider
   const handleMove = (clientX: number) => {
@@ -143,8 +164,8 @@ export default function BeforeAfterSection() {
         {/* Outer Layout wrapper split */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
           
-          {/* Left panel: Clinical Case Study details */}
-          <div className="lg:col-span-5 flex flex-col justify-between gap-6">
+          {/* Left panel: Clinical Case Study details - Ordered second on mobile to stay under slides */}
+          <div className="lg:col-span-5 flex flex-col justify-between gap-6 order-2 lg:order-1">
             
             {/* Interactive program selector tabs */}
             <div className="flex flex-col gap-3">
@@ -153,7 +174,7 @@ export default function BeforeAfterSection() {
               </span>
               <div className="flex flex-col gap-2.5">
                 {cases.map((c) => {
-                  const isSelected = c.id === activeCase;
+                  const isHighlighted = c.id === hoveredCase;
                   return (
                     <button
                       key={c.id}
@@ -161,25 +182,39 @@ export default function BeforeAfterSection() {
                         setActiveCase(c.id);
                         setSliderPos(50); // Reset position on switch
                       }}
-                      className={`text-left px-5 py-4 rounded-xl border transition-all duration-300 transform cursor-pointer flex justify-between items-center ${
-                        isSelected
-                          ? "bg-brand-black text-white border-brand-black shadow-md translate-x-1.5"
-                          : "bg-white text-black border-black/10 hover:border-[#82D8C5] hover:bg-[#82D8C5]/5"
+                      onMouseEnter={() => {
+                        setHoveredCase(c.id);
+                        setActiveCase(c.id);
+                        setSliderPos(50); // Reset position on switch
+                      }}
+                      onMouseLeave={() => {
+                        setHoveredCase(null);
+                      }}
+                      className={`relative overflow-hidden text-left px-5 py-4 rounded-xl border transition-all duration-500 transform cursor-pointer flex justify-between items-center z-0 ${
+                        isHighlighted
+                          ? "border-brand-black shadow-md translate-x-1.5 text-white"
+                          : "bg-white text-black border-black/10 hover:border-black/30"
                       }`}
                     >
-                      <div className="flex flex-col min-w-0">
-                        <span className={`font-sans font-black text-xs uppercase tracking-wider mb-0.5 ${
-                          isSelected ? "text-white" : "text-black"
+                      <motion.div
+                        className="absolute inset-0 bg-brand-black -z-10"
+                        initial={{ x: "-101%" }}
+                        animate={{ x: isHighlighted ? ["-101%", "0%"] : "101%" }}
+                        transition={{ duration: 0.65, ease: [0.25, 1, 0.5, 1] }}
+                      />
+                      <div className="flex flex-col min-w-0 relative z-10">
+                        <span className={`font-sans font-black text-xs uppercase tracking-wider mb-0.5 transition-colors duration-500 ${
+                          isHighlighted ? "text-white" : "text-black"
                         }`}>
                           {c.title}
                         </span>
-                        <span className={`font-sans text-[10px] truncate ${
-                          isSelected ? "text-white/60" : "text-black/40"
+                        <span className={`font-sans text-[10px] truncate transition-colors duration-500 ${
+                          isHighlighted ? "text-white/60" : "text-black/40"
                         }`}>
                           {c.subtitle}
                         </span>
                       </div>
-                      <div className={`p-1 rounded-full ${isSelected ? "text-[#82D8C5]" : "text-black/25"}`}>
+                      <div className={`p-1 rounded-full relative z-10 transition-colors duration-500 ${isHighlighted ? "text-[#82D8C5]" : "text-black/25"}`}>
                         <Eye className="w-4 h-4" />
                       </div>
                     </button>
@@ -236,48 +271,67 @@ export default function BeforeAfterSection() {
 
           </div>
 
-          {/* Right panel: Ultra attractive Draggable Comparison Slider */}
-          <div className="lg:col-span-7 flex flex-col justify-between">
+          {/* Right panel: Ultra attractive Draggable Comparison Slider - Ordered first on mobile */}
+          <div className="lg:col-span-7 flex flex-col justify-between order-1 lg:order-2">
             <div 
               ref={containerRef}
               onPointerDown={handlePointerDown}
               className="relative w-full aspect-[4/3] bg-zinc-200 rounded-3xl overflow-hidden cursor-ew-resize select-none border border-black/15 shadow-md group touch-none"
             >
-              
-              {/* After image layer (base) */}
-              <img 
-                src={currentCase.afterImg} 
-                alt="After clinical therapy premium result" 
-                referrerPolicy="no-referrer"
-                className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none brightness-[0.98]"
-              />
-              <div className="absolute right-6 top-6 bg-brand-black text-[#82D8C5] font-sans text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded-md select-none shadow-md z-10">
-                AFTER RITUAL
-              </div>
-
-              {/* Before image layer (overlay container cropped dynamically) */}
-              <div 
-                className="absolute inset-y-0 left-0 overflow-hidden pointer-events-none"
-                style={{ width: `${sliderPos}%` }}
-              >
-                <div className="relative w-full h-full aspect-[4/3] min-w-full">
-                  <img 
-                    src={currentCase.beforeImg} 
-                    alt="Before clinical therapy raw state" 
-                    referrerPolicy="no-referrer"
-                    // Force the actual image to occupy the parent container's full bounds to match alignment
-                    style={{
-                      width: containerRef.current?.getBoundingClientRect().width || "100%",
-                      height: containerRef.current?.getBoundingClientRect().height || "100%",
-                      maxWidth: "none"
+              {cases.map((c) => {
+                const isActive = c.id === activeCase;
+                return (
+                  <motion.div
+                    key={c.id}
+                    initial={false}
+                    animate={{
+                      opacity: isActive ? 1 : 0,
+                      scale: isActive ? 1 : 1.05,
+                      filter: isActive ? "blur(0px)" : "blur(4px)"
                     }}
-                    className="absolute inset-0 object-cover pointer-events-none select-none grayscale-[30%] contrast-[1.05]"
-                  />
-                  <div className="absolute left-6 top-6 bg-white/90 border border-black/10 text-brand-black font-sans text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded-md select-none shadow-md">
-                    BEFORE RAW
-                  </div>
-                </div>
-              </div>
+                    transition={{ duration: 0.65, ease: [0.25, 1, 0.5, 1] }}
+                    className="absolute inset-0 w-full h-full pointer-events-none"
+                    style={{
+                      zIndex: isActive ? 5 : 1,
+                    }}
+                  >
+                    {/* After image layer (base) */}
+                    <img 
+                      src={c.afterImg} 
+                      alt="After clinical therapy premium result" 
+                      referrerPolicy="no-referrer"
+                      className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none brightness-[0.98]"
+                    />
+                    <div className="absolute right-6 top-6 bg-brand-black text-[#82D8C5] font-sans text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded-md select-none shadow-md z-10">
+                      AFTER RITUAL
+                    </div>
+
+                    {/* Before image layer (overlay container cropped dynamically) */}
+                    <div 
+                      className="absolute inset-y-0 left-0 overflow-hidden pointer-events-none"
+                      style={{ width: `${sliderPos}%` }}
+                    >
+                      <div className="relative w-full h-full aspect-[4/3] min-w-full">
+                        <img 
+                          src={c.beforeImg} 
+                          alt="Before clinical therapy raw state" 
+                          referrerPolicy="no-referrer"
+                          // Force the actual image to occupy the parent container's full bounds to match alignment
+                          style={{
+                            width: containerWidth ? `${containerWidth}px` : "100%",
+                            height: "100%",
+                            maxWidth: "none"
+                          }}
+                          className="absolute inset-0 object-cover pointer-events-none select-none grayscale-[30%] contrast-[1.05]"
+                        />
+                        <div className="absolute left-6 top-6 bg-white/90 border border-black/10 text-brand-black font-sans text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded-md select-none shadow-md z-10">
+                          BEFORE RAW
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })}
 
               {/* Glass slider vertical line separator */}
               <div 
