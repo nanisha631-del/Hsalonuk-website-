@@ -5,7 +5,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Sparkles, ArrowRight, Eye, ShieldCheck, Zap, Droplets, Scissors } from "lucide-react";
+import { Sparkles, ArrowRight, Eye, ShieldCheck, Zap, Droplets, Scissors, ChevronLeft, ChevronRight } from "lucide-react";
 import { useSharedState } from "../useSharedState";
 
 interface CaseStudy {
@@ -28,6 +28,9 @@ export default function BeforeAfterSection() {
   const [containerWidth, setContainerWidth] = useState<number>(0);
   const isDragging = useRef<boolean>(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  
+  const [hasAnimatedInView, setHasAnimatedInView] = useState<boolean>(false);
+  const isAutoAnimating = useRef<boolean>(false);
 
   const cases: CaseStudy[] = [
     {
@@ -109,6 +112,59 @@ export default function BeforeAfterSection() {
     return () => observer.disconnect();
   }, []);
 
+  // Animation to simulate automatic drag preview when visible or when switching cases
+  const triggerAutoSliderDemo = () => {
+    isAutoAnimating.current = true;
+    const startTime = performance.now();
+    const duration = 1600; // 1.6 seconds of elegant demo swing
+
+    const animate = (time: number) => {
+      if (isDragging.current || !isAutoAnimating.current) {
+        isAutoAnimating.current = false;
+        return;
+      }
+
+      const elapsed = time - startTime;
+      const progress = elapsed / duration;
+
+      if (progress >= 1) {
+        setSliderPos(50);
+        isAutoAnimating.current = false;
+        return;
+      }
+
+      // Fluid swing: 50 -> 74 -> 50 -> 26 -> 50
+      const swing = Math.sin(progress * 2 * Math.PI) * 24;
+      setSliderPos(50 + swing);
+
+      requestAnimationFrame(animate);
+    };
+
+    requestAnimationFrame(animate);
+  };
+
+  // IntersectionObserver to trigger the swipe effect automatically one time when scrolled into view
+  useEffect(() => {
+    if (hasAnimatedInView || !containerRef.current) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setHasAnimatedInView(true);
+            setTimeout(() => {
+              triggerAutoSliderDemo();
+            }, 600); // Elegant entrance delay
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, [hasAnimatedInView]);
+
   // Dragging event handlers for before/after comparison slider
   const handleMove = (clientX: number) => {
     if (!containerRef.current) return;
@@ -122,6 +178,7 @@ export default function BeforeAfterSection() {
 
   const handlePointerDown = (e: React.PointerEvent) => {
     e.preventDefault();
+    isAutoAnimating.current = false; // Abort any running auto-animation immediately
     isDragging.current = true;
     handleMove(e.clientX);
   };
@@ -170,111 +227,79 @@ export default function BeforeAfterSection() {
         </div>
 
         {/* Outer Layout wrapper split */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           
           {/* Left panel: Clinical Case Study details - Ordered second on mobile to stay under slides */}
-          <div className="lg:col-span-5 flex flex-col justify-between gap-6 order-2 lg:order-1">
+          <div className="lg:col-span-5 flex flex-col justify-center gap-6 order-2 lg:order-1">
             
             {/* Interactive program selector tabs */}
-            <div className="flex flex-col gap-3">
-              <span className="font-sans text-[10px] font-bold tracking-widest text-[#82D8C5] uppercase block mb-1">
+            <div className="flex flex-col">
+              <span className="font-sans text-[10px] font-bold tracking-widest text-gray-400 uppercase block mb-3">
                 SELECT CLINICAL PROGRAM
               </span>
-              <div className="flex flex-col gap-2.5">
+              <div className="flex flex-col">
                 {cases.map((c) => {
-                  const isHighlighted = c.id === hoveredCase;
+                  const isActive = c.id === activeCase;
                   return (
-                    <button
+                    <div
                       key={c.id}
+                      className="group py-4 border-b border-black/10 last:border-0 cursor-pointer"
                       onClick={() => {
-                        setActiveCase(c.id);
-                        setSliderPos(50); // Reset position on switch
+                        if (activeCase !== c.id) {
+                          setActiveCase(c.id);
+                          setSliderPos(50);
+                          isAutoAnimating.current = false;
+                          setTimeout(() => {
+                            triggerAutoSliderDemo();
+                          }, 50);
+                        }
                       }}
                       onMouseEnter={() => {
-                        setHoveredCase(c.id);
-                        setActiveCase(c.id);
-                        setSliderPos(50); // Reset position on switch
+                        if (activeCase !== c.id) {
+                          setActiveCase(c.id);
+                          setSliderPos(50);
+                          isAutoAnimating.current = false;
+                          setTimeout(() => {
+                            triggerAutoSliderDemo();
+                          }, 50);
+                        }
                       }}
-                      onMouseLeave={() => {
-                        setHoveredCase(null);
-                      }}
-                      className={`relative overflow-hidden text-left px-5 py-4 rounded-xl border transition-all duration-500 transform cursor-pointer flex justify-between items-center z-0 ${
-                        isHighlighted
-                          ? "border-brand-black shadow-md translate-x-1.5 text-white"
-                          : "bg-white text-black border-black/10 hover:border-black/30"
-                      }`}
                     >
-                      <motion.div
-                        className="absolute inset-0 bg-brand-black -z-10"
-                        initial={{ x: "-101%" }}
-                        animate={{ x: isHighlighted ? ["-101%", "0%"] : "101%" }}
-                        transition={{ duration: 0.65, ease: [0.25, 1, 0.5, 1] }}
-                      />
-                      <div className="flex flex-col min-w-0 relative z-10">
-                        <span className={`font-sans font-black text-xs uppercase tracking-wider mb-0.5 transition-colors duration-500 ${
-                          isHighlighted ? "text-white" : "text-black"
-                        }`}>
-                          {c.title}
+                      <div
+                        className="flex flex-col transition-all duration-300"
+                        style={{
+                          transform: isActive ? "translateX(6px)" : "translateX(0)"
+                        }}
+                      >
+                        <span className="text-[9px] font-sans font-bold tracking-widest text-[#0A0A0A]/40 mb-1 uppercase">
+                          {c.id === "case-1" ? "RESTORE BALANCED CROWNS" : c.id === "case-2" ? "REBUILD HAIR FIBER INTEGRITY" : "DEEP CELLULAR HYDRATION"}
                         </span>
-                        <span className={`font-sans text-[10px] truncate transition-colors duration-500 ${
-                          isHighlighted ? "text-white/60" : "text-black/40"
-                        }`}>
+                        
+                        <h3
+                          className={`font-serif text-[18px] md:text-[22px] font-black tracking-wide leading-none transition-colors uppercase ${
+                            isActive ? "text-brand-lilac" : "text-[#0A0A0A]/50 group-hover:text-brand-black"
+                          }`}
+                        >
+                          {c.title}
+                        </h3>
+
+                        {/* Italic list of products */}
+                        <span className="text-[11px] sm:text-[12px] font-sans text-gray-400 mt-1.5 leading-normal">
                           {c.subtitle}
                         </span>
+
+                        {/* Micro Highlight bar */}
+                        <div
+                          className="h-[1.5px] bg-[#82D8C5] mt-2.5 transition-all duration-300"
+                          style={{
+                            width: isActive ? "60%" : "0%"
+                          }}
+                        />
                       </div>
-                      <div className={`p-1 rounded-full relative z-10 transition-colors duration-500 ${isHighlighted ? "text-[#82D8C5]" : "text-black/25"}`}>
-                        <Eye className="w-4 h-4" />
-                      </div>
-                    </button>
+                    </div>
                   );
                 })}
               </div>
-            </div>
-
-            {/* Case Study Metadata Specifications with theme color matches */}
-            <div className="bg-white rounded-2xl border border-black/10 p-6 space-y-5 shadow-2xs">
-              
-              <div className="flex items-center justify-between border-b border-black/5 pb-4">
-                <div className="flex flex-col">
-                  <span className="font-mono text-[9px] uppercase tracking-widest text-[#82D8C5] font-black">Applied Apothecary Formula</span>
-                  <span className="font-sans font-black text-xs text-black uppercase tracking-wider">{currentCase.formula}</span>
-                </div>
-                <div className="text-right flex flex-col">
-                  <span className="font-mono text-[9px] uppercase tracking-widest text-black/40">Treatment Duration</span>
-                  <span className="font-serif italic font-bold text-xs text-[#82D8C5] h-4">{currentCase.duration}</span>
-                </div>
-              </div>
-
-              {/* Huge Clinical Proven Metric Widget */}
-              <div className="flex items-center gap-4 bg-[#FAF9F5] rounded-xl p-4 border border-black/5">
-                <div className="w-10 h-10 rounded-full bg-[#82D8C5]/10 border border-[#82D8C5]/30 flex items-center justify-center text-[#82D8C5]">
-                  <Zap className="w-5 h-5" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="font-serif text-3xl font-black text-black leading-none tracking-tight">
-                    {currentCase.metric}
-                  </p>
-                  <p className="font-sans text-[11px] text-black/50 tracking-wide mt-1 leading-none">
-                    {currentCase.metricSub}
-                  </p>
-                </div>
-              </div>
-
-              {/* Bullet details checkmark list */}
-              <div>
-                <span className="font-sans text-[10px] font-bold tracking-[0.2em] text-[#82D8C5] uppercase block mb-3">
-                  OBSERVED MOLECULAR REPAIRS
-                </span>
-                <ul className="space-y-2.5">
-                  {currentCase.bullets.map((bullet, idx) => (
-                    <li key={idx} className="flex items-start gap-2.5 font-sans text-xs text-black/60 leading-relaxed">
-                      <ShieldCheck className="w-4 h-4 text-[#82D8C5] shrink-0 mt-0.5" />
-                      <span>{bullet}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
             </div>
 
           </div>
@@ -341,21 +366,16 @@ export default function BeforeAfterSection() {
                 );
               })}
 
-              {/* Glass slider vertical line separator */}
+              {/* Glowing vertical line separator with customized mint green color */}
               <div 
-                className="absolute inset-y-0 w-0.5 bg-white/70 backdrop-blur-xs pointer-events-none flex items-center justify-center"
+                className="absolute inset-y-0 w-1 bg-[#82D8C5] shadow-[0_0_12px_#82D8C5] pointer-events-none flex items-center justify-center z-10"
                 style={{ left: `${sliderPos}%` }}
               >
-                {/* Drag Handle ball with glowing mint accent color */}
-                <div className="w-10 h-10 rounded-full bg-white/95 border border-black/10 shadow-lg flex items-center justify-center text-brand-black cursor-ew-resize hover:scale-110 active:scale-95 transition-transform absolute -translate-x-[19px]">
-                  <div className="flex gap-[3px] items-center text-brand-black/45">
-                    <span className="w-0.5 h-3.5 bg-black/30 rounded-full" />
-                    {/* Double chevron indicators style */}
-                    <div className="flex gap-[1px]">
-                      <span className="w-1 h-1 rounded-full bg-[#82D8C5]" />
-                      <span className="w-1 h-1 rounded-full bg-[#82D8C5]" />
-                    </div>
-                    <span className="w-0.5 h-3.5 bg-black/30 rounded-full" />
+                {/* Drag Handle button - Highly intuitive with double horizontal arrows (Chevrons). Set to relative and shrink-0 to follow perfect flexbox centering vertically and horizontally. */}
+                <div className="relative w-12 h-12 rounded-full bg-brand-black text-[#82D8C5] border-2 border-white shadow-2xl flex items-center justify-center cursor-ew-resize hover:scale-110 active:scale-95 transition-transform shrink-0 z-20 pointer-events-auto">
+                  <div className="flex items-center justify-between w-full px-1.5">
+                    <ChevronLeft className="w-4 h-4 text-[#82D8C5] stroke-[3]" />
+                    <ChevronRight className="w-4 h-4 text-[#82D8C5] stroke-[3]" />
                   </div>
                 </div>
               </div>
@@ -369,8 +389,22 @@ export default function BeforeAfterSection() {
 
             </div>
 
+            {/* Cute small short summary bar under clinical image instead of giant metadata card */}
+            <div className="mt-4 flex flex-col md:flex-row md:items-center justify-between gap-y-2 gap-x-4 border border-black/5 bg-white/40 p-4 rounded-xl leading-normal text-xs text-black/60 shadow-xs max-w-full">
+              <div className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#82D8C5]" />
+                <span className="font-bold text-black">{currentCase.metric}</span>
+                <span className="text-[11px] font-sans text-black/40">({currentCase.metricSub})</span>
+              </div>
+              <div className="flex items-center gap-1.5 md:text-right">
+                <span className="font-serif italic font-bold text-[#82D8C5]">{currentCase.duration}</span>
+                <span className="text-black/30">•</span>
+                <span className="truncate max-w-[220px] font-medium text-black/70" title={currentCase.formula}>{currentCase.formula}</span>
+              </div>
+            </div>
+
             {/* Bottom response text indicator */}
-            <p className="text-center font-sans text-[11px] text-black/45 tracking-wider uppercase mt-4 italic">
+            <p className="text-center font-sans text-[10px] text-black/40 tracking-wider uppercase mt-4 italic">
               *All photography represents real clinical study volunteers. Individual scalp tissue activation may vary.
             </p>
 

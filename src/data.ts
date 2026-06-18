@@ -316,6 +316,50 @@ export const PRODUCTS: Product[] = [
     howToUse: "Pack your glass apothecary dropper bottles and rollers securely into custom inside elasticated sleeves for on-the-go hotel room retreats.",
     ingredients: "Luxury Quilted Soft Velvet, Waterproof Poly Shield Lining, Heavy Core Solid Brass Metal Zipper.",
     tags: ["POPULAR"]
+  },
+  {
+    id: "h-salon-cap",
+    name: "H Salon Signature Styling Cap",
+    subtitle: "Luxury Organic Cotton Cap by H Salon",
+    price: 35.00,
+    rating: 5,
+    images: [
+      "/cap h salon product image.jpg"
+    ],
+    category: "pouch",
+    description: "A premium-crafted signature cap designed for the perfect post-treatment aesthetic or casual day wear. Embroidered with the elegant H Salon logo, featuring a fully adjustable brass buckle clasp and breathable structured organic cotton.",
+    intro: "Style meets scalp care. Keep hair protected from wind, UV rays, and styling stress in our custom logo cap.",
+    bullets: [
+      "100% premium double-stitch organic cotton",
+      "Embroidered signature H Salon classic branding",
+      "Adjustable brass buckle clasp for custom secure fit",
+      "Protects treated hair and sensitive scalps from direct UV exposure"
+    ],
+    howToUse: "Wear comfortably to shield your scalp and keep styled hair in absolute place after premium treatment or on relaxed daily strolls.",
+    ingredients: "100% Certified Organic Cotton, Brushed Brass Metal Adjuster.",
+    tags: ["BESTSELLER", "NEW"]
+  },
+  {
+    id: "h-salon-comb",
+    name: "H Salon Luxury Texture Comb",
+    subtitle: "Hand-Carved Anti-Static Dressing Comb",
+    price: 28.00,
+    rating: 5,
+    images: [
+      "/h salon comb.webp"
+    ],
+    category: "brush",
+    description: "An ultra-smooth, hand-carved finishing and detangling comb designed to glide effortlessly through hair without causing cuticle friction, static, or breakage. Perfect for distributing hair oils and scalp masques.",
+    intro: "The ultimate styling tool. Gently detangles wet or dry strands while massaging and stimulating scalp circulation.",
+    bullets: [
+      "Hand-polished wide and fine teeth prevent hair tearing",
+      "Therapeutic, non-scratching tips gently massage hair follicles",
+      "Anti-static, premium heat-resistant material designed to last",
+      "Ideal for spreading scalp treatment oils and cream masques evenly"
+    ],
+    howToUse: "Glide gently from scalp roots to ends. Perfect for detangling wet hair in the shower or finishing dry styles with luxury high-shine polish.",
+    ingredients: "100% Eco-Friendly Cellulose Acetate, Hand-Polished Finish.",
+    tags: ["BESTSELLER", "NEW"]
   }
 ];
 

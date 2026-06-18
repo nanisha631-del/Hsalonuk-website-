@@ -27,7 +27,6 @@ import CartDrawer from './components/CartDrawer';
 import ShopifyInstructionModal from './components/ShopifyInstructionModal';
 import HeroSection from './components/HeroSection';
 import BestsellersCarousel from './components/BestsellersCarousel';
-import MakeupPouchFeature from './components/MakeupPouchFeature';
 import FunEditorialSection from './components/FunEditorialSection';
 import HSalonScrollSection from './components/HSalonScrollSection';
 import InteractiveConsultation from './components/InteractiveConsultation';
@@ -127,7 +126,6 @@ const COMPONENT_MAP: Record<string, any> = {
   ShopTheLook: ShopTheLookSectionWrapper,
   GreetingSection: GreetingSection,
   LightweightFormulas: LightweightFormulas,
-  MakeupPouchFeature: MakeupPouchFeature,
   ScrollingBanner: ScrollingBanner,
   FunEditorialSection: FunEditorialSection,
   CommunitySection: CommunitySection,

@@ -35,7 +35,6 @@ import ShopifyInstructionModal from "./components/ShopifyInstructionModal";
 import AestheticVideoPlayer from "./components/AestheticVideoPlayer";
 import HeroSection from "./components/HeroSection";
 import BestsellersCarousel from "./components/BestsellersCarousel";
-import MakeupPouchFeature from "./components/MakeupPouchFeature";
 import FunEditorialSection from "./components/FunEditorialSection";
 import InteractiveConsultation from "./components/InteractiveConsultation";
 import CustomCursor from "./components/CustomCursor";
@@ -218,9 +217,6 @@ export default function App() {
               {/* SECTION 10 — LIGHTWEIGHT FORMULA PARALLAX STACKS */}
               <LightweightFormulas />
 
-              {/* SECTION 11 — MAKEUP POUCH PRODUCT HIGHLIGHT */}
-              <MakeupPouchFeature />
-
               {/* SECTION 12 — SCROLLING BANNER */}
               <ScrollingBanner />
 
@@ -230,11 +226,11 @@ export default function App() {
               {/* NEW PREMIUM SECTION — UGC VIDEO SHOPPING REELS GRID */}
               <UgcVideoGrid />
 
-              {/* SECTION 14 — COMMUNITY UGC */}
-              <CommunitySection />
-
               {/* SECTION 15 — LANDING HOVER ACCORDION */}
               <HoverAccordion />
+
+              {/* SECTION 14 — COMMUNITY UGC */}
+              <CommunitySection />
 
             </motion.div>
           ) : (

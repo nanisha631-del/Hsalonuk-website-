@@ -42,9 +42,10 @@ export default function BestsellersCarousel() {
   const { handleAddToCart, handleSelectProduct } = useSharedState();
   const carouselContainerRef = useRef<HTMLDivElement>(null);
 
-  const filteredProducts = PRODUCTS.filter((p) => {
-    return p.category !== "brush" && p.category !== "pouch";
-  }).slice(0, 5);
+  const filteredProducts = [
+    ...PRODUCTS.filter((p) => p.id === "h-salon-cap" || p.id === "h-salon-comb"),
+    ...PRODUCTS.filter((p) => p.id !== "h-salon-cap" && p.id !== "h-salon-comb" && p.category !== "brush" && p.category !== "pouch").slice(0, 4)
+  ];
 
   const scrollCarouselLeft = () => {
     if (carouselContainerRef.current) {

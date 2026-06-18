@@ -17,24 +17,22 @@ export default function HeroSection() {
         {/* The Framed Hero Card with precise aspect ratios corresponding to native images */}
         <div className="relative w-full aspect-[1792/2400] md:aspect-[2752/1536] bg-[#E8E8E8] rounded-2xl md:rounded-[36px] overflow-hidden shadow-xs flex items-end justify-center pb-12 sm:pb-24">
           
-          {/* Background portrait of skin close-up or silent high-definition cinematic video loop */}
+          {/* Background portrait of skin close-up - Responsive for Laptop and Mobile */}
           <div className="absolute inset-0 z-0 select-none overflow-hidden rounded-2xl md:rounded-[36px]">
-            {/* Ambient silent background video loop */}
-            <video
-              src="/frame video.mp4"
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="absolute inset-0 w-full h-full object-cover brightness-[0.78] z-10"
-              poster={settings.hero_image_url || "/hero section image.jpeg"}
-            />
-            {/* Fallback image layer behind video for smooth loading */}
-            <div className="w-full h-full">
+            {/* Laptop view image */}
+            <div className="hidden md:block w-full h-full">
               <ScrollZoomImage
                 src={settings.hero_image_url || "/hero section image.jpeg"}
-                alt="Radiant Skin Beauty Hero Background"
-                className="brightness-[0.85] object-center"
+                alt="Radiant Hair and Scalp Elixir Hero Background"
+                className="brightness-[0.78] object-center"
+              />
+            </div>
+            {/* Mobile view image */}
+            <div className="block md:hidden w-full h-full">
+              <ScrollZoomImage
+                src="/hero section mobile view.jpeg"
+                alt="Radiant Hair and Scalp Elixir Hero Mobile Background"
+                className="brightness-[0.78] object-center"
               />
             </div>
           </div>

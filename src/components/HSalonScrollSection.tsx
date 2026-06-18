@@ -26,11 +26,17 @@ export default function HSalonScrollSection() {
     offset: ["start start", "end end"]
   });
 
-  // Calculate underline drawing progress immediately following character fills
-  const underlineDrawing = useTransform(scrollYProgress, [0.75, 0.92], [0, 1], { clamp: true });
+  // Calculate underline drawing progress with a customized easing mapping:
+  // Starts fast, and slows down near the end of the drawing sequence.
+  const underlineDrawing = useTransform(
+    scrollYProgress,
+    [0.75, 0.78, 0.82, 0.87, 0.92],
+    [0, 0.45, 0.75, 0.92, 1],
+    { clamp: true }
+  );
   const underlineOpacity = useTransform(scrollYProgress, [0.74, 0.76], [0, 1], { clamp: true });
 
-  const activeUnderlineColor = settings.brand_primary_color || "#82D8C5";
+  const activeUnderlineColor = "#82D8C5";
 
   return (
     <section
@@ -98,10 +104,10 @@ export default function HSalonScrollSection() {
               preserveAspectRatio="none"
             >
               <motion.path
-                d="M 4,4 L 38,9 L 55,2 L 72,10 L 116,4"
+                d="M 3,6 C 35,11 85,11 117,4.5"
                 fill="none"
                 stroke={activeUnderlineColor}
-                strokeWidth="3.2"
+                strokeWidth="4.2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 style={{
