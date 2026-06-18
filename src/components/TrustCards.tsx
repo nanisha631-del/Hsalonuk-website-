@@ -36,15 +36,15 @@ export default function TrustCards() {
 
   return (
     <section id="trust-cards" className="bg-brand-offwhite w-full py-10 sm:py-14 px-2 sm:px-6 md:px-12 relative border-t border-brand-black/5 select-none">
-      <div className="max-w-2xl mx-auto grid grid-cols-2">
+      <div className="max-w-2xl md:max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4">
         {CARDS.map((card, idx) => {
-          // Determine borders to design a precise 2x2 crossed grid of lines with no outer frame
-          const isLeft = idx % 2 === 0;
-          const isTop = idx < 2;
+          // Precise responsive grid: 2x2 on mobile, single straight 1x4 horizontal row on md+
           const borderClasses = `
-            ${isLeft ? "border-r" : ""} 
-            ${isTop ? "border-b" : ""} 
             border-[#DFDADA]
+            ${idx === 0 ? "border-r border-b md:border-r md:border-b-0" : ""}
+            ${idx === 1 ? "border-b md:border-r md:border-b-0" : ""}
+            ${idx === 2 ? "border-r md:border-b-0 md:border-r" : ""}
+            ${idx === 3 ? "md:border-0" : ""}
           `;
 
           return (

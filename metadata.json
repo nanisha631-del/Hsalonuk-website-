@@ -1,6 +1,6 @@
 {
-  "name": "The Skin Lab",
-  "description": "Premium luxury editorial skincare & beauty e-commerce web application inspired by the Palo Alto Shopify theme.",
+  "name": "H Salon Luxury",
+  "description": "Premium luxury editorial skincare & cosmetic wellness brand web application for H Salon apothecary.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

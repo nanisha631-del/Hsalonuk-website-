@@ -132,8 +132,8 @@ export default function Footer({ onGoHome }: FooterProps) {
             }}
             className="flex items-center gap-3 sm:gap-4 hover:opacity-90 transition-opacity duration-300 cursor-pointer select-none text-brand-lilac/80 hover:text-brand-lilac justify-center origin-center mx-auto uppercase leading-none"
           >
-            <span className="font-sans font-black text-[90px] sm:text-[140px] md:text-[180px] tracking-tighter">H</span>
-            <div className="flex flex-col items-start text-[22px] sm:text-[34px] md:text-[44px] font-black tracking-[0.2em] leading-[0.95] text-left">
+            <span className="font-sans font-black text-[96px] sm:text-[144px] md:text-[184px] tracking-tighter" style={{ fontFamily: '"Space Grotesk", "Inter", sans-serif' }}>H</span>
+            <div className="flex flex-col items-start text-[22px] sm:text-[34px] md:text-[44px] font-medium tracking-[0.25em] leading-[0.98] text-left" style={{ fontFamily: '"Space Grotesk", "Inter", sans-serif' }}>
               <span>SAL</span>
               <span>ON</span>
             </div>

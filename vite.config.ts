@@ -9,17 +9,38 @@ const publicDir = path.resolve(__dirname, 'public');
 if (fs.existsSync(publicDir)) {
   try {
     const files = fs.readdirSync(publicDir);
-    const mapping = {
+    const videoMapping = {
       "POV-": "ugc_video_1.mp4",
       "Discover the ritual": "ugc_video_2.mp4",
       "tried my fair share": "ugc_video_3.mp4",
       "towel robe": "ugc_video_4.mp4",
       "following my": "ugc_video_5.mp4"
     };
+    const imageMapping = {
+      "Grounded. Restored. Ready to grow": "instagram_1.jpg",
+      "A first in British scalp": "instagram_2.jpg",
+      "H Salon has arrived": "instagram_3.jpg",
+      "Our solutions are designed": "instagram_4.jpg",
+      "Outshining the hydrangeas": "instagram_5.jpg",
+      "Sailing into healthier": "instagram_6.jpg",
+      "Summer skin but make": "instagram_7.jpg",
+      "You only have one heart": "instagram_8.jpg"
+    };
     files.forEach(f => {
       if (f.endsWith('.mp4')) {
-        for (const [key, target] of Object.entries(mapping)) {
+        for (const [key, target] of Object.entries(videoMapping)) {
           if (f.includes(key)) {
+            const srcPath = path.join(publicDir, f);
+            const dstPath = path.join(publicDir, target);
+            if (fs.existsSync(srcPath)) {
+              fs.copyFileSync(srcPath, dstPath);
+              console.log(`[Asset Optimization] Copied ${f} -> ${target}`);
+            }
+          }
+        }
+      } else if (f.endsWith('.jpg') || f.endsWith('.jpeg') || f.endsWith('.webp')) {
+        for (const [key, target] of Object.entries(imageMapping)) {
+          if (f.toLowerCase().includes(key.toLowerCase())) {
             const srcPath = path.join(publicDir, f);
             const dstPath = path.join(publicDir, target);
             if (fs.existsSync(srcPath)) {
@@ -31,7 +52,7 @@ if (fs.existsSync(publicDir)) {
       }
     });
   } catch (err) {
-    console.error("[Asset Optimization Error] Failed to copy/normalize videos:", err);
+    console.error("[Asset Optimization Error] Failed to copy/normalize assets:", err);
   }
 }
 

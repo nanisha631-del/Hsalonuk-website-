@@ -34,15 +34,15 @@
 }
 
 .animate-marquee {
-  animation: scroll-left 40s linear infinite;
+  animation: scroll-left 78s linear infinite;
 }
 
 .animate-marquee-reverse {
-  animation: scroll-left 40s linear infinite reverse;
+  animation: scroll-left 78s linear infinite reverse;
 }
 
 .animate-marquee-fast {
-  animation: scroll-left 25s linear infinite;
+  animation: scroll-left 52s linear infinite;
 }
 
 /* Hide scrollbars but preserve scrolling */

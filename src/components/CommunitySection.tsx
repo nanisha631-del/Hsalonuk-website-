@@ -11,49 +11,72 @@ interface UgcItem {
   id: string;
   imageUrl: string;
   handle: string;
+  instagramUrl: string;
 }
 
 const UGC_ITEMS: UgcItem[] = [
   {
     id: "g1",
-    imageUrl: "https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=600&auto=format&fit=crop&q=80",
-    handle: "@aura_skin"
+    imageUrl: "/instagram_1.jpg",
+    handle: "@hsalonapothecary",
+    instagramUrl: "https://www.instagram.com/p/DZc6RWQIYrI/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA=="
   },
   {
     id: "g2",
-    imageUrl: "https://images.unsplash.com/photo-1617897903246-719242758050?w=600&auto=format&fit=crop&q=80",
-    handle: "@glow_beauty"
+    imageUrl: "/instagram_2.jpg",
+    handle: "@hsalonapothecary",
+    instagramUrl: "https://www.instagram.com/p/DZfu24OI7LI/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA=="
   },
   {
     id: "g3",
-    imageUrl: "https://images.unsplash.com/photo-1620802631468-911c03ae793e?w=600&auto=format&fit=crop&q=80",
-    handle: "@lucia_dew"
+    imageUrl: "/instagram_3.jpg",
+    handle: "@yatra.signature",
+    instagramUrl: "https://www.instagram.com/p/DYzNHGMiEVC/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA=="
   },
   {
     id: "g4",
-    imageUrl: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=600&auto=format&fit=crop&q=80",
-    handle: "@min_glow"
+    imageUrl: "/instagram_4.jpg",
+    handle: "@hsalonapothecary",
+    instagramUrl: "https://www.instagram.com/p/DXy_yGiiAGq/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA=="
   },
   {
     id: "g5",
-    imageUrl: "https://images.unsplash.com/photo-1631214499551-772e2c24255b?w=600&auto=format&fit=crop&q=80",
-    handle: "@studioprisma"
+    imageUrl: "/instagram_5.jpg",
+    handle: "@hsalon.chelsea",
+    instagramUrl: "https://www.instagram.com/p/DU0XKoGDseG/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA=="
   },
   {
     id: "g6",
-    imageUrl: "https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?w=600&auto=format&fit=crop&q=80",
-    handle: "@violet_glow"
+    imageUrl: "/instagram_6.jpg",
+    handle: "@scalpsilk.cannes",
+    instagramUrl: "https://www.instagram.com/p/DUnS8rEiCQu/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA=="
+  },
+  {
+    id: "g7",
+    imageUrl: "/instagram_7.jpg",
+    handle: "@hsalonapothecary",
+    instagramUrl: "https://www.instagram.com/p/DQpGtfhiCxS/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA=="
+  },
+  {
+    id: "g8",
+    imageUrl: "/instagram_8.jpg",
+    handle: "@love.hsalon",
+    instagramUrl: "https://www.instagram.com/p/DNSSA2QzoVc/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA=="
   }
 ];
 
 export default function CommunitySection() {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+  const [isPaused, setIsPaused] = useState(false);
 
   // Triple the items so we have a long continuous loop for infinite marquee effect
   const TRIPLE_ITEMS = [...UGC_ITEMS, ...UGC_ITEMS, ...UGC_ITEMS];
 
   return (
-    <section id="community-ugc" className="bg-white text-brand-black w-full py-12 px-4 md:px-12 relative overflow-hidden select-none border-t border-brand-black/5">
+    <section 
+      id="community-ugc" 
+      className="bg-white text-brand-black w-full py-12 px-4 md:px-12 relative overflow-hidden select-none border-t border-brand-black/5"
+    >
       <div className="max-w-7xl mx-auto flex flex-col items-center gap-8 text-center">
         
         {/* Giant Centered Stats Headers - Tightened and Sleeker */}
@@ -76,13 +99,23 @@ export default function CommunitySection() {
         </div>
 
         {/* UGC Horizontal Sliding Marquee with Hover Pause */}
-        <div className="w-full relative overflow-hidden py-3 bg-white mt-1 select-none">
+        <div 
+          className="w-full relative overflow-hidden py-3 bg-white mt-1 select-none"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
           {/* Scrolling Row */}
-          <div className="flex w-max gap-4 sm:gap-6 animate-marquee shrink-0 hover:[animation-play-state:paused]">
+          <div 
+            className="flex w-max gap-4 sm:gap-6 animate-marquee shrink-0"
+            style={{ animationPlayState: isPaused ? "paused" : "running" }}
+          >
             {TRIPLE_ITEMS.map((item, idx) => (
-              <div
+              <a
                 key={`${item.id}-${idx}`}
-                className="w-[180px] h-[180px] sm:w-[220px] sm:h-[220px] relative overflow-hidden bg-brand-offwhite rounded-[24px] sm:rounded-[32px] cursor-pointer group shadow-xs shrink-0 border border-brand-black/5"
+                href={item.instagramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-[180px] h-[180px] sm:w-[220px] sm:h-[220px] relative overflow-hidden bg-brand-offwhite rounded-[24px] sm:rounded-[32px] cursor-pointer group shadow-xs shrink-0 border border-brand-black/5 block"
                 onMouseEnter={() => setHoveredIdx(idx)}
                 onMouseLeave={() => setHoveredIdx(null)}
               >
@@ -108,7 +141,7 @@ export default function CommunitySection() {
                   </div>
                   <ArrowUpRight className="w-3.5 h-3.5 text-gray-400 shrink-0" />
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         </div>

@@ -91,7 +91,13 @@ const DOUBLE_ITEMS = [...FEEDBACK_ITEMS, ...FEEDBACK_ITEMS];
 
 export default function AutoScrollCards() {
   const settings = getShopifySettings();
-  const speed = settings.marquee_card_speed || "25s";
+  let speed = settings.marquee_card_speed || "50s";
+  if (speed.endsWith("s")) {
+    const numericPart = parseFloat(speed);
+    if (!isNaN(numericPart)) {
+      speed = `${numericPart * 1.8}s`;
+    }
+  }
   const [isPaused, setIsPaused] = useState(false);
 
   return (

@@ -99,8 +99,8 @@ export default function Navbar({
           onClick={onGoHome}
           className="flex items-center gap-1.5 hover:opacity-80 transition-all duration-300 cursor-pointer select-none uppercase leading-none"
         >
-          <span className="font-sans font-black text-[32px] sm:text-[38px] tracking-tighter text-brand-black">H</span>
-          <div className="flex flex-col items-start text-[8px] sm:text-[10px] font-black tracking-[0.16em] leading-[0.95] text-left text-brand-black pt-[2px]">
+          <span className="font-sans font-black text-[33px] sm:text-[39px] tracking-tighter text-brand-black" style={{ fontFamily: '"Space Grotesk", "Inter", sans-serif' }}>H</span>
+          <div className="flex flex-col items-start text-[8px] sm:text-[9.5px] font-medium tracking-[0.22em] leading-[0.98] text-left text-brand-black pt-[3px]" style={{ fontFamily: '"Space Grotesk", "Inter", sans-serif' }}>
             <span>SAL</span>
             <span>ON</span>
           </div>

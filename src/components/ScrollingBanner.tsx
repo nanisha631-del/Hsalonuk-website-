@@ -3,15 +3,20 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { useState } from "react";
 import { motion } from "motion/react";
 import ScrollReveal from "./ScrollReveal";
 
 export default function ScrollingBanner() {
   const textItem = "PURA VIDA • DEEP NOURISHMENT • CROWN TREATMENT • APOTHECARY SHINE • SPA LUXURY ";
   const fullText = Array(12).fill(textItem).join(" • ");
+  const [isPaused, setIsPaused] = useState(false);
 
   return (
-    <section id="scrolling-banner" className="w-full h-[500px] md:h-[600px] relative overflow-hidden select-none">
+    <section 
+      id="scrolling-banner" 
+      className="w-full h-[500px] md:h-[600px] relative overflow-hidden select-none"
+    >
       <ScrollReveal className="w-full h-full">
         {/* Background Ken Burns Animating Image */}
         <motion.div
@@ -40,19 +45,21 @@ export default function ScrollingBanner() {
         </motion.div>
 
         {/* Text Marquee Overlay strip at bottom */}
-        <div className="absolute bottom-0 left-0 w-full bg-brand-black/25 backdrop-blur-[1px] py-6 border-t border-white/5 overflow-hidden z-20">
-          <div className="flex whitespace-nowrap">
-            <motion.div
-              animate={{ x: [0, -1000] }}
-              transition={{
-                repeat: Infinity,
-                ease: "linear",
-                duration: 25,
+        <div 
+          className="absolute bottom-0 left-0 w-full bg-brand-black/25 backdrop-blur-[1px] py-6 border-t border-white/5 overflow-hidden z-20 cursor-pointer"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
+          <div className="flex whitespace-nowrap overflow-hidden">
+            <div
+              className="font-serif italic text-[36px] md:text-[50px] font-medium text-white flex gap-6 tracking-wide text-nowrap pl-6 uppercase animate-marquee shrink-0"
+              style={{ 
+                animationDuration: "60s",
+                animationPlayState: isPaused ? "paused" : "running"
               }}
-              className="font-serif italic text-[36px] md:text-[50px] font-medium text-white flex gap-6 tracking-wide text-nowrap pl-6 uppercase"
             >
               {fullText}
-            </motion.div>
+            </div>
           </div>
         </div>
       </ScrollReveal>
