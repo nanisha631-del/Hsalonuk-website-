@@ -130,9 +130,13 @@ export default function Footer({ onGoHome }: FooterProps) {
               scale: logoScale,
               opacity: logoOpacity
             }}
-            className="font-serif font-black text-[60px] sm:text-[90px] md:text-[145px] leading-none tracking-[-0.03em] text-brand-lilac/80 hover:text-brand-lilac transition-[#color] duration-300 block cursor-pointer select-none origin-center text-center mx-auto uppercase"
+            className="flex items-center gap-3 sm:gap-4 hover:opacity-90 transition-opacity duration-300 cursor-pointer select-none text-brand-lilac/80 hover:text-brand-lilac justify-center origin-center mx-auto uppercase leading-none"
           >
-            H salon
+            <span className="font-sans font-black text-[90px] sm:text-[140px] md:text-[180px] tracking-tighter">H</span>
+            <div className="flex flex-col items-start text-[22px] sm:text-[34px] md:text-[44px] font-black tracking-[0.2em] leading-[0.95] text-left">
+              <span>SAL</span>
+              <span>ON</span>
+            </div>
           </motion.button>
         </div>
 

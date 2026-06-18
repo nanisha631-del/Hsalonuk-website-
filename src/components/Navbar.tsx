@@ -97,10 +97,13 @@ export default function Navbar({
       <div className="shrink-0 px-1 flex justify-center items-center min-w-[130px] z-10">
         <button
           onClick={onGoHome}
-          className="font-serif text-[21px] xs:text-[24px] sm:text-[28px] md:text-[32px] font-bold tracking-[-0.01em] hover:opacity-80 transition-all duration-300 cursor-pointer whitespace-nowrap overflow-visible select-none leading-none pt-0.5"
-          style={logoStyle}
+          className="flex items-center gap-1.5 hover:opacity-80 transition-all duration-300 cursor-pointer select-none uppercase leading-none"
         >
-          {logoText}
+          <span className="font-sans font-black text-[32px] sm:text-[38px] tracking-tighter text-brand-black">H</span>
+          <div className="flex flex-col items-start text-[8px] sm:text-[10px] font-black tracking-[0.16em] leading-[0.95] text-left text-brand-black pt-[2px]">
+            <span>SAL</span>
+            <span>ON</span>
+          </div>
         </button>
       </div>
 
