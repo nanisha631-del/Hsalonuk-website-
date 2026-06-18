@@ -122,12 +122,23 @@ export function useSharedState() {
   const handleSelectProduct = (productId: string) => {
     updateState({ selectedProductId: productId, currentView: "product" });
     
-    // Check if we are running in a live Shopify store vs local / AI Studio preview
-    const isShopifyLive = typeof window !== "undefined" && !(
+    // Check if we have active Shopify integration markers (global object or customizer scripts)
+    const isShopifyTheme = typeof window !== "undefined" && (
+      (window as any).Shopify !== undefined ||
+      document.getElementById("shopify-section-settings") !== null ||
+      document.querySelectorAll(".shopify-react-section").length > 0
+    );
+
+    const isLocalOrPreview = typeof window !== "undefined" && (
       window.location.hostname.includes("run.app") ||
       window.location.hostname.includes("localhost") ||
-      window.location.hostname.includes("127.0.0.1")
+      window.location.hostname.includes("127.0.0.1") ||
+      window.location.hostname.includes("vercel.app") ||
+      window.location.hostname.includes("netlify.app") ||
+      window.location.hostname.includes("github.io")
     );
+
+    const isShopifyLive = isShopifyTheme && !isLocalOrPreview;
 
     if (isShopifyLive) {
       window.location.href = `/products/${productId}`;
@@ -139,12 +150,23 @@ export function useSharedState() {
   const handleGoHome = () => {
     updateState({ currentView: "home" });
 
-    // Check if we are running in a live Shopify store vs local / AI Studio preview
-    const isShopifyLive = typeof window !== "undefined" && !(
+    // Check if we have active Shopify integration markers (global object or customizer scripts)
+    const isShopifyTheme = typeof window !== "undefined" && (
+      (window as any).Shopify !== undefined ||
+      document.getElementById("shopify-section-settings") !== null ||
+      document.querySelectorAll(".shopify-react-section").length > 0
+    );
+
+    const isLocalOrPreview = typeof window !== "undefined" && (
       window.location.hostname.includes("run.app") ||
       window.location.hostname.includes("localhost") ||
-      window.location.hostname.includes("127.0.0.1")
+      window.location.hostname.includes("127.0.0.1") ||
+      window.location.hostname.includes("vercel.app") ||
+      window.location.hostname.includes("netlify.app") ||
+      window.location.hostname.includes("github.io")
     );
+
+    const isShopifyLive = isShopifyTheme && !isLocalOrPreview;
 
     if (isShopifyLive) {
       window.location.href = "/";
