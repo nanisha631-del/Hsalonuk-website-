@@ -242,7 +242,7 @@ export default function ShopAllPage({
           </div>
 
           {/* RIGHT: Product Showcase Grid (9 columns wide) */}
-          <div className="lg:col-span-9 animate-fade-in">
+          <div className="lg:col-span-9">
             {processedProducts.length === 0 ? (
               <div className="w-full py-16 bg-white border border-brand-black/5 rounded-xl text-center p-8 flex flex-col items-center justify-center">
                 <Search className="w-12 h-12 text-[#82D8C5]/40 mb-3" />
@@ -257,12 +257,12 @@ export default function ShopAllPage({
               </div>
             ) : (
               <motion.div
-                key={`${selectedCategory}-${searchQuery}-${sortBy}-${selectedPriceMax}`}
+                key={selectedCategory}
                 variants={{
                   hidden: {},
                   show: {
                     transition: {
-                      staggerChildren: 0.35,
+                      staggerChildren: 0.1,
                     }
                   }
                 }}
@@ -276,23 +276,24 @@ export default function ShopAllPage({
                   return (
                     <motion.div 
                       key={p.id}
+                      layout
                       variants={{
                         hidden: {
                           opacity: 0,
-                          y: 90,
-                          scale: 1.05,
+                          y: 50,
+                          scale: 0.98,
                         },
                         show: {
                           opacity: 1,
                           y: 0,
                           scale: 1,
                           transition: {
-                            duration: 1.35,
+                            duration: 0.85,
                             ease: [0.19, 1, 0.22, 1],
                           }
                         }
                       }}
-                      className="group bg-white border border-brand-black/5 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col justify-between"
+                      className="group bg-white border border-brand-black/5 rounded-xl overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col justify-between"
                     >
                       {/* Product image stage */}
                       <div className="aspect-square relative w-full overflow-hidden bg-brand-offwhite p-6 flex items-center justify-center select-none">

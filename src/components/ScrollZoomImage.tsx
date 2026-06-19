@@ -31,7 +31,7 @@ export default function ScrollZoomImage({
         onClick={onClick}
         initial={{ scale: 1.09 }}
         whileInView={{ scale: 1.01 }}
-        viewport={{ once: false, amount: 0.1 }}
+        viewport={{ once: true, amount: 0.1 }}
         whileHover={{ scale: 1.06 }}
         transition={{ 
           scale: { duration: 1.5, ease: [0.25, 1, 0.5, 1] },

@@ -38,23 +38,22 @@ interface FluidTabHeaderButtonProps {
   label: string;
   isActive: boolean;
   onClick: () => void;
+  onMouseEnter?: () => void;
 }
 
-const FluidTabHeaderButton = ({ label, isActive, onClick }: FluidTabHeaderButtonProps) => {
-  const [isHovered, setIsHovered] = useState(false);
+const FluidTabHeaderButton = ({ label, isActive, onClick, onMouseEnter }: FluidTabHeaderButtonProps) => {
   return (
     <button
       onClick={onClick}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={onMouseEnter}
       className={`relative px-5 py-2.5 rounded-xl font-sans text-xs font-black uppercase tracking-wider overflow-hidden transition-colors duration-500 cursor-pointer text-center select-none ${
-        isActive || isHovered ? "text-brand-black" : "text-white bg-white/10"
+        isActive ? "text-brand-black" : "text-white bg-white/10 hover:bg-white/15"
       }`}
     >
       <span className="relative z-10">{label}</span>
       <span
         style={{
-          width: isActive || isHovered ? "100%" : "0%",
+          width: isActive ? "100%" : "0%",
           transition: "width 0.8s cubic-bezier(0.19, 1, 0.22, 1)",
         }}
         className="absolute inset-y-0 left-0 bg-[#82D8C5] z-0 rounded-xl"
@@ -196,16 +195,25 @@ export default function BestsellersPage({
               label="All Winners"
               isActive={activeTab === "all"}
               onClick={() => setActiveTab("all")}
+              onMouseEnter={() => {
+                if (window.innerWidth >= 1024) setActiveTab("all");
+              }}
             />
             <FluidTabHeaderButton
               label="Scalp Restoratives"
               isActive={activeTab === "volume"}
               onClick={() => setActiveTab("volume")}
+              onMouseEnter={() => {
+                if (window.innerWidth >= 1024) setActiveTab("volume");
+              }}
             />
             <FluidTabHeaderButton
               label="High-Gloss Elixirs"
               isActive={activeTab === "nourish"}
               onClick={() => setActiveTab("nourish")}
+              onMouseEnter={() => {
+                if (window.innerWidth >= 1024) setActiveTab("nourish");
+              }}
             />
           </div>
         </div>
@@ -230,7 +238,7 @@ export default function BestsellersPage({
             hidden: {},
             show: {
               transition: {
-                staggerChildren: 0.35
+                staggerChildren: 0.1
               }
             }
           }}
@@ -243,23 +251,24 @@ export default function BestsellersPage({
             return (
               <motion.div 
                 key={p.id}
+                layout
                 variants={{
                   hidden: {
                     opacity: 0,
-                    y: 90,
-                    scale: 1.02,
+                    y: 50,
+                    scale: 0.98,
                   },
                   show: {
                     opacity: 1,
                     y: 0,
                     scale: 1,
                     transition: {
-                      duration: 1.35,
+                      duration: 0.85,
                       ease: [0.19, 1, 0.22, 1],
                     }
                   }
                 }}
-                className="bg-white rounded-2xl border border-brand-black/5 p-6 md:p-8 flex flex-col lg:flex-row items-center gap-8 hover:shadow-xl transition-all duration-300"
+                className="bg-white rounded-2xl border border-brand-black/5 p-6 md:p-8 flex flex-col lg:flex-row items-center gap-8 hover:shadow-xl transition-shadow duration-300"
               >
                 {/* Image panel with badge */}
                 <div 
