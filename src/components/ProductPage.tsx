@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ArrowLeft, Star, ChevronLeft, ChevronRight, Plus, Minus, Check, Heart, ShieldCheck, Sparkles, HelpCircle } from "lucide-react";
+import { ArrowLeft, Star, ChevronLeft, ChevronRight, Plus, Minus, Check, Heart, ShieldCheck, Sparkles, HelpCircle, Play, Pause, Volume2, Award, Clock, BookOpen, Droplets } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { Product } from "../types";
 import { PRODUCTS } from "../data";
@@ -7,6 +7,7 @@ import ScrollReveal from "./ScrollReveal";
 import ScrollZoomImage from "./ScrollZoomImage";
 import { getShopifySettings } from "../shopifySettings";
 import ScenicReviews from "./ScenicReviews";
+import BundlePackSection from "./BundlePackSection";
 
 interface ProductPageProps {
   product: Product;
@@ -39,6 +40,165 @@ const getProductBadges = (productId: string) => {
   }
 };
 
+const getRitualForProduct = (productId: string) => {
+  switch (productId) {
+    case "snail-silk-serum":
+      return {
+        title: "The Serene Crown Calming Ritual",
+        steps: [
+          "Apply 4–5 drops of the Serene Scalp Treatment directly to your hair parts, focusing on areas of tension or dryness.",
+          "Beloved aromatherapy: Rub leftover elixir onto your palms, cup over your face, and take 3 deep, mindful breaths of cooling peppermint and tea tree.",
+          "Crown massage: Using light circular fingertip pressure, massage from your temples up to the crown for 2 minutes to stimulate oxygen flow and release mental pressure."
+        ],
+        benefit: "Activates instant micro-cooling relief while grounding your nervous system for ultimate serenity."
+      };
+    case "snail-silk-scalp-mask":
+      return {
+        title: "The Sensory Bathing Masque Ritual",
+        steps: [
+          "After cleansing, smooth a generous palmful of the Serene Scalp Masque from roots to tips.",
+          "Thermal Wrap: Wrap hair in a warm, damp towel to let the active jojoba esters and quinoa proteins deeply penetrate under gentle steam.",
+          "Meditation pause: Close your eyes and practice 4-7-8 breathing (inhale for 4s, hold for 7s, exhale for 8s) for 5 minutes during activation.",
+          "Rinse & Restore: Rinse slowly with cool water to stimulate scalp circulation and seal the protective moisture barrier."
+        ],
+        benefit: "Deeply hydrates scalp moisture levels, leaving hair silken-soft and scalp intensely calm."
+      };
+    case "snail-silk-scalp-oil":
+      return {
+        title: "The Liquid Gold High-Gloss Ritual",
+        steps: [
+          "Warm 2–3 drops of Gold Lust Hair Oil in your palms to activate the botanical extracts.",
+          "Inhale the signature Côte d'Azur fragrance, designed to evoke light and elevate sensory focus.",
+          "Smooth gently through damp hair mid-shaft to ends, channeling downward motions to align hair cuticles.",
+          "For therapy: Use as a nighttime restorative scalp massage, leaving overnight to heal color-treated or dry strands."
+        ],
+        benefit: "Provides weightless, high-gloss shine and shields locks from environmental stress."
+      };
+    case "ground-recovery-oil":
+      return {
+        title: "The Sunset Grounding Face Ritual",
+        steps: [
+          "Warm 3–4 drops of the active Jasmine and Rosewood oil between clean palms.",
+          "Hold palms 2 inches from your nose; inhale deeply for 4 seconds, pausing, and exhaling slow tension.",
+          "Press (don't rub) the oil into cheeks, forehead, and chin, using upward lifting motions toward the hair line.",
+          "Using your knuckles, gently stroke down the sides of your neck to encourage lymphatic drainage and sound sleep."
+        ],
+        benefit: "Soothes skin redness overnight while guiding your evening thoughts into peaceful calm."
+      };
+    case "gym-silk":
+      return {
+        title: "The Active Renewal Limbs Ritual",
+        steps: [
+          "Post-shower, apply a generous amount of Active Body Oil to damp limbs while muscles are warm and receptive.",
+          "Use firm, sweeping hand movements toward your heart to stimulate healthy lymphatic circulation.",
+          "Spend extra time kneading tight shoulder knots or calf muscles, breathing in the awakening Eucalyptus & Ginger oils."
+        ],
+        benefit: "Invigorates sore muscle fibers and eases physical tension after high performance or exercise."
+      };
+    case "halo-highlighter":
+      return {
+        title: "The Halo Luminosity Shield Ritual",
+        steps: [
+          "Apply 2 pumps of Elixir Ultime into hands. Stroke from mid-lengths to the very ends of dry hair.",
+          "Anti-humidity sealing: Gently press the palms against flyaways to activate the Marula-lipid protective shield.",
+          "Brush through with a wide-tooth comb to distribute the nourishing camellia coat evenly."
+        ],
+        benefit: "Adds up to 48 hours of luxury high-gloss shine and provides solid thermal protection."
+      };
+    case "color-mascara":
+      return {
+        title: "The Intense Moisture Infusion Ritual",
+        steps: [
+          "Blend 3 drops of the Hydration Booster with your shampoo or apply directly as a targeted scalp shot.",
+          "Massage in a slow, circular wave-like motion over the parietal bones to encourage deep scalp hydration absorption.",
+          "Allow 2 minutes of quiet scalp contact before continuing with styling or rinsing."
+        ],
+        benefit: "Micro-targets hyper-dry zones to inject active 2% Hyaluronic Acid and restore cuticle strength."
+      };
+    case "eye-shadow-stick":
+      return {
+        title: "The Celestial Caviar Pearl Ritual",
+        steps: [
+          "Dispense 2-3 pumps, watching the precious peptide pearls burst and fresh active extracts fuse.",
+          "Gently smooth over the scalp, moving in horizontal zones from front hairline back to the nape.",
+          "Press down on the hollow acupressure point at the base of your skull for 10 seconds to relieve mental pressure."
+        ],
+        benefit: "Intensely regenerates hair vitality, adding a bouncy, youth-restored volume and natural polish."
+      };
+    case "concealer":
+      return {
+        title: "The Nighttime Serenity Balm Ritual",
+        steps: [
+          "Melt a pea-sized amount of Sleep Balm between your thumbs and index fingers, releasing therapeutic lavender vapor.",
+          "Apply directly to temples, wrists, and over the collarbone.",
+          "Massage the brow bone and jawline in small, soothing circular motions to release daytime facial holding patterns.",
+          "Inhale deeply as the organic shea and chamomile establish a sleep-inducing atmosphere."
+        ],
+        benefit: "Melts away facial tension to offer an incredibly rested, organic, well-nourished morning glow."
+      };
+    case "eyeliner":
+      return {
+        title: "The Anti-Damage Shielding Ritual",
+        steps: [
+          "Apply a dime-sized amount to your palms and work evenly through fresh, damp hair.",
+          "Anti-friction coat: Press down lightly along the hair shaft to encourage bond protection shield sealing.",
+          "Air-dry or diffuse on low heat, focusing your mind on structural strength and internal resilience."
+        ],
+        benefit: "Patented disulfide bond repair shields your hair from heat styling and daily environmental damage."
+      };
+    case "lip-gloss":
+      return {
+        title: "The Cuticle Rescue Seal Ritual",
+        steps: [
+          "Apply several drops of nutritive serum directly to dry or split hair tips.",
+          "Press the tips gently between flat palms to feed plant proteins and niacinamide into porous fibers.",
+          "Stroke any remaining serum over frizzy crown layers to bring an instant high-gloss glaze."
+        ],
+        benefit: "Seals split ends immediately and protects vulnerable hair tips from high winds and dry air."
+      };
+    case "makeup-pouch":
+      return {
+        title: "The Mindful Sensory Packing Ritual",
+        steps: [
+          "Unzip your quilted velvet pouch slowly, enjoying the tactile feel of heavy double-stitched cotton.",
+          "Arrange your glass apothecary dropper bottles, oils, and combs into their secure inside sleeves.",
+          "Close the brass zip with intention, knowing your daily wellness and therapy tools are sheltered."
+        ],
+        benefit: "Keeps your luxurious hair therapy products organized, safe, and ready for any hotel wellness retreat."
+      };
+    case "h-salon-cap":
+      return {
+        title: "The Post-Treatment Crown Shield Ritual",
+        steps: [
+          "After a deep hair masque or scalp oil treatment, secure your signature cap comfortably over hair.",
+          "Adjust the back brass clasp to apply a light, comforting hug to your crown bones.",
+          "Wear during outdoor walks to safeguard your sensitive, nutrient-rich scalp from harsh solar UV rays and wind."
+        ],
+        benefit: "Protects treated follicles while creating a polished, structured look that complements your style."
+      };
+    case "h-salon-comb":
+      return {
+        title: "The Meridians Scalp Stimulation Ritual",
+        steps: [
+          "Hold the hand-polished celluloid comb at a 45-degree angle against your clean scalp.",
+          "Stroke gently from your front hairline all the way back to the neck nape in long, continuous passes.",
+          "Repeat this motion 10 times across different channels to stimulate over 60 scalp pressure meridians."
+        ],
+        benefit: "Perfect for distributing rich hair oils or sleeping scalp treatments evenly before rest."
+      };
+    default:
+      return {
+        title: "Signature Hair Therapy Ritual",
+        steps: [
+          "Integrate the botanical treatment into your weekly wellness or bathing routines with deep breathing.",
+          "Massage gently using slow circular motions to stimulate target fibers.",
+          "Close your eyes and focus on your inner calm."
+        ],
+        benefit: "Deeply restores balance, vitality, and high-gloss beauty."
+      };
+  }
+};
+
 export default function ProductPage({
   product,
   onBack,
@@ -52,6 +212,7 @@ export default function ProductPage({
   );
   const [quantity, setQuantity] = useState(1);
   const [openTabs, setOpenTabs] = useState<Record<string, boolean>>({
+    ritual: true,
     description: false,
     "how-to-use": false,
     ingredients: false,
@@ -94,7 +255,7 @@ export default function ProductPage({
   };
 
   return (
-    <div className="bg-brand-offwhite min-h-screen pt-24 md:pt-32 pb-24 px-4 md:px-12 select-none">
+    <div className="bg-brand-offwhite min-h-screen pt-36 md:pt-44 pb-24 px-4 md:px-12 select-none">
       
       {/* Outer Grid Container wrapped in ScrollReveal to fade in gracefully on entry */}
       <ScrollReveal className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10">
@@ -296,6 +457,60 @@ export default function ProductPage({
           {/* Collapsible Tabs: DESCRIPTION, HOW TO USE, INGREDIENTS, SHIPPING & RETURNS - extremely compact */}
           <div className="flex flex-col gap-1 mt-0">
             
+            {/* Therapeutic Ritual Tab */}
+            {(() => {
+              const ritual = getRitualForProduct(product.id);
+              return (
+                <div className="bg-[#EDEDE9]/75 rounded-xl transition-all duration-300 border border-[#82D8C5]/30 hover:bg-[#E4E4DC]">
+                  <button
+                    onClick={() => toggleTab("ritual")}
+                    className="w-full flex items-center justify-between text-left font-serif text-[13px] font-bold uppercase tracking-wider text-brand-black px-4 py-2.5 cursor-pointer select-none"
+                  >
+                    <span className="flex items-center gap-1.5 text-[#3D4A3E] font-extrabold text-[11px] tracking-wider uppercase font-sans">
+                      <Sparkles className="w-3.5 h-3.5 text-[#82D8C5] fill-[#82D8C5]" />
+                      Therapeutic Ritual
+                    </span>
+                    {openTabs["ritual"] ? <Minus className="w-3.5 h-3.5 text-brand-black" /> : <Plus className="w-3.5 h-3.5 text-brand-black" />}
+                  </button>
+                  <AnimatePresence initial={false}>
+                    {openTabs["ritual"] && (
+                      <motion.div
+                        initial="collapsed"
+                        animate="open"
+                        exit="collapsed"
+                        variants={{
+                          open: { opacity: 1, height: "auto" },
+                          collapsed: { opacity: 0, height: 0 }
+                        }}
+                        transition={{ duration: 0.4, ease: [0.25, 1, 0.5, 1] }}
+                        className="overflow-hidden"
+                      >
+                        <div className="px-4 pb-3.5 text-[12px] text-gray-700 font-sans leading-relaxed flex flex-col gap-2.5 border-t border-brand-black/5 pt-2.5">
+                          <h4 className="font-serif text-[14px] font-bold text-[#2A342B] italic leading-tight">
+                            {ritual.title}
+                          </h4>
+                          <div className="flex flex-col gap-2">
+                            {ritual.steps.map((step, idx) => (
+                              <div key={idx} className="flex gap-2 items-start">
+                                <span className="w-4.5 h-4.5 rounded-full bg-[#82D8C5]/30 text-[#2A342B] text-[9.5px] font-bold flex items-center justify-center shrink-0 mt-0.5">
+                                  {idx + 1}
+                                </span>
+                                <p className="text-gray-600 text-[11.5px] leading-relaxed">{step}</p>
+                              </div>
+                            ))}
+                          </div>
+                          <div className="mt-0.5 p-2 bg-white/70 rounded-lg border border-[#82D8C5]/15 text-[11px] text-[#3D4A3E] font-serif italic">
+                            <span className="font-sans font-bold uppercase text-[9.5px] tracking-wider not-italic text-[#2A342B] block mb-0.5">Therapeutic Benefit</span>
+                            {ritual.benefit}
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            })()}
+
             {/* Description Tab */}
             <div className="bg-[#F0EEF3] rounded-xl transition-all duration-300 hover:bg-[#EAE8ED]">
               <button
@@ -545,10 +760,21 @@ export default function ProductPage({
         </p>
       </ScrollReveal>
 
+      {/* PREMIUM DYNAMIC ROUTINE BUNDLE PACK BUILDER */}
+      <BundlePackSection 
+        product={product}
+        onAddToCart={onAddToCart}
+        onSelectProduct={onSelectProduct}
+      />
+
+      {/* 4 PREMIUM INTERACTIVE ACADEMY SECTIONS */}
+      <AcademyProductEnhancements product={product} />
+
       {/* LUXURY SCROLL REVIEWS ANIMATION TRACK */}
       <ScenicReviews 
         onAddToCart={onAddToCart}
         onSelectProduct={onSelectProduct}
+        product={product}
       />
 
       {/* RECOMMENDATIONS CAROUSEL ROW - with ScrollReveal smooth entry */}
@@ -645,3 +871,865 @@ export default function ProductPage({
     </div>
   );
 }
+
+// ==========================================
+// 4 PREMIUM INTERACTIVE PRODUCT PAGE SECTIONS
+// ==========================================
+
+interface EnhancementIngredient {
+  name: string;
+  source: string;
+  potency: string;
+  bioavailability: string;
+  description: string;
+}
+
+interface EnhancementClinicals {
+  metric1: { name: string; value: number };
+  metric2: { name: string; value: number };
+  metric3: { name: string; value: number };
+  daysData: {
+    1: string;
+    7: string;
+    14: string;
+    28: string;
+  };
+}
+
+const getProductEnhancementData = (productId: string) => {
+  const defaults = {
+    ingredients: [
+      {
+        name: "Abyssine Peptide Extract",
+        source: "Deep-ocean hydrothermal valleys",
+        potency: "96.5% purity",
+        bioavailability: "98.2%",
+        description: "Deeply relieves cell distress, reducing skin sensitivity while binding broken cuticle keratin chains."
+      },
+      {
+        name: "Bio-Mimetic Squalane",
+        source: "Sustainable organic olives",
+        potency: "99% active concentration",
+        bioavailability: "95.0%",
+        description: "Perfect biocompatible hydration that mimics the body's natural moisture mantle to preserve cuticle shine."
+      },
+      {
+        name: "Cold-Pressed Jasminum Oil",
+        source: "South of France, dawn harvest",
+        potency: "Pure botanical concentrate",
+        bioavailability: "92.4%",
+        description: "Releases luxury aromatherapeutic scent vectors that stimulate olfactory tranquility while smoothening frizzy strands."
+      }
+    ] as EnhancementIngredient[],
+    clinicals: {
+      metric1: { name: "Fiber Tensile Strength", value: 85 },
+      metric2: { name: "Scalp Moisture Retention", value: 120 },
+      metric3: { name: "Micro-Redness Reduction", value: 65 },
+      daysData: {
+        1: "Immediate cooling sensory release. Follicular muscle contraction is lowered by 45% for direct relaxation.",
+        7: "Hydration reaches a peak. Dry scalp flakes are reduced by 60%, and early hair cuticle scales lay flat.",
+        14: "Dermal barrier thickness is increased. Root fibers are anchored with 78% reinforced hold.",
+        28: "Complete follicular rejuvenation. Hair looks visibly lustrous, bouncy, and highly resilient against friction."
+      }
+    } as EnhancementClinicals
+  };
+
+  switch (productId) {
+    case "snail-silk-serum":
+      return {
+        ingredients: [
+          {
+            name: "Premium Snail Secretion Filtrate",
+            source: "Zero-harm organic farm runs",
+            potency: "94.8% nutrient trace",
+            bioavailability: "99.1%",
+            description: "An incredibly potent multi-mucin complex that instantly seals microscopic fissures in both the scalp and follicle fibers."
+          },
+          {
+            name: "Peppermint Oil Vapor",
+            source: "English organic herb estates",
+            potency: "Pure pharmaceutical grade",
+            bioavailability: "93.0%",
+            description: "Triggers instant vascular micro-stimulation, bringing cool blood oxygen back to fatigued hair parts and dull roots."
+          },
+          {
+            name: "Botanical Saffron Flower",
+            source: "Hand-harvested Kashmiri stamens",
+            potency: "Ultra-potent antioxidant",
+            bioavailability: "89.5%",
+            description: "Protects delicate follicles from solar UV stress, neutralizes environmental pollutants, and retains natural color pitch."
+          }
+        ],
+        clinicals: {
+          metric1: { name: "Cuticle Fissure Sealing", value: 92 },
+          metric2: { name: "Scalp Microvolt Stimulation", value: 110 },
+          metric3: { name: "Follicular Elasticity", value: 88 },
+          daysData: {
+            1: "Instant 42% decrease in scalp tightness. Active menthol reserves provide ongoing sensory freshness.",
+            7: "Snail proteins rebuild active amino-bonds in dry hair tips. Microscopic split-ends start binding together.",
+            14: "Root moisture reserves surge. Up to 84% reduction in dry, itchy scalp spots.",
+            28: "Optimal clinical hydration. Hair grows with robust structure, exceptional thickness, and rich, glassy shine."
+          }
+        }
+      };
+    case "snail-silk-scalp-mask":
+      return {
+        ingredients: [
+          {
+            name: "Hydrolyzed Quinoa Proteins",
+            source: "High-altitude organic crops",
+            potency: "92.0% peptide structure",
+            bioavailability: "96.4%",
+            description: "Encapsulates weak or chemically processed hair strands in a protective protein envelope, restoring tensile stretch."
+          },
+          {
+            name: "English Rosemary Distillate",
+            source: "Hampshire premium valleys",
+            potency: "Double-distilled pure oil",
+            bioavailability: "91.8%",
+            description: "Highly stimulating botanical essence famous for unclogging sebum-locked hair follicles while nourishing roots."
+          },
+          {
+            name: "Organic Aloe Vera Extract",
+            source: "Volcanic soil farms",
+            potency: "Cold-extracted gel 200x",
+            bioavailability: "97.5%",
+            description: "Imparts continuous cooling relief, instantly soothing micro-inflammation and lowering cellular thermal tension."
+          }
+        ],
+        clinicals: {
+          metric1: { name: "Sebum-Lock Elimination", value: 95 },
+          metric2: { name: "Friction Damage Protection", value: 115 },
+          metric3: { name: "Flake Relief Index", value: 88.5 },
+          daysData: {
+            1: "Immediate hair softness. Flake irritations are reduced by 50% from the first warm-towel steam bath.",
+            7: "Follicle pores are purified. The natural moisture mantle is balanced, leaving hair airy and weightless.",
+            14: "Strand elasticity is boosted. Hair handles thermal blowouts with 70% fewer structural snap-breaks.",
+            28: "The scalp barrier is fully reinforced. Flakes drop to zero, leaving behind clean, luxurious hair growth."
+          }
+        }
+      };
+    case "snail-silk-scalp-oil":
+      return {
+        ingredients: [
+          {
+            name: "French Camellia Seed Extract",
+            source: "Protected coastal cliff groves",
+            potency: "A-Grade lipid extraction",
+            bioavailability: "95.5%",
+            description: "A decadent, non-comedogenic glaze that sinks deep into porous strands, restoring high-gloss light reflectance."
+          },
+          {
+            name: "Saffron Flower Concentrate",
+            source: "Organic Mediterranean valleys",
+            potency: "Pure botanical active",
+            bioavailability: "87.0%",
+            description: "Revitalizes hair cuticle colors, enhancing healthy golden, dark, or copper highlights with natural brilliance."
+          },
+          {
+            name: "Cold-Pressed Moroccan Argan",
+            source: "Empowered women's cooperatives",
+            potency: "First-press virgin luxury",
+            bioavailability: "94.2%",
+            description: "Infuses high-concentrations of Vitamin E and essential omega-lipids to anchor weak hair shafts tightly in place."
+          }
+        ],
+        clinicals: {
+          metric1: { name: "High-Gloss Brilliance", value: 150 },
+          metric2: { name: "Thermal Defense Barrier", value: 95 },
+          metric3: { name: "Frizz Humidity Control", value: 125 },
+          daysData: {
+            1: "Ultra-velvet glaze forms on hair surface. Light reflection is increased by 60% with zero heavy buildup.",
+            7: "Nutrients lock deep into dry mid-shafts. Split end breakage is reduced by 72% under styling stress.",
+            14: "The hair shaft is perfectly sealed. Moisture remains locked, defying dry winter air or styling high-heat.",
+            28: "Breathtaking luminosity and strength. Hair flows fluidly and requires 85% less styling detangle effort."
+          }
+        }
+      };
+    case "ground-recovery-oil":
+      return {
+        ingredients: [
+          {
+            name: "Night-Harvest Jasmyn Blossom",
+            source: "Premium southern gardens",
+            potency: "Pure absolute concrete",
+            bioavailability: "93.4%",
+            description: "Soothes raw skin layers while releasing warm sweet olfactory signals that guide brain waves into deep sleep states."
+          },
+          {
+            name: "Kupang Sandalwood Extract",
+            source: "Regenerated natural forests",
+            potency: "98% beta-santalol purity",
+            bioavailability: "90.0%",
+            description: "A thick, healing oil that reduces cellular heat and calms skin redness, making it perfect for sensitive crowns."
+          },
+          {
+            name: "Evening Primrose Seed Oil",
+            source: "UK organic fields",
+            potency: "Cold-pressed organic",
+            bioavailability: "94.8%",
+            description: "High in GLA, this repairs dry cellular lipid membranes, ensuring incredible morning elasticity and skin suppleness."
+          }
+        ],
+        clinicals: {
+          metric1: { name: "Overnight Cellular Healing", value: 130 },
+          metric2: { name: "Redness Soothing Index", value: 85 },
+          metric3: { name: "Dermal Suppleness", value: 98 },
+          daysData: {
+            1: "Instant neural calming. Sleep quality is boosted by warm botanical scent-therapy during inhalation.",
+            7: "Dry patch scaling is lowered by 65%. Redness around temples and forehead looks noticeably calmer.",
+            14: "The lipid moisture barrier is completely rebuilt, stopping dry heat moisture loss overnight.",
+            28: "Awake to an incredibly healthy, smooth skin glow with restored cellular bounce and flawless balance."
+          }
+        }
+      };
+    case "gym-silk":
+      return {
+        ingredients: [
+          {
+            name: "Encapsulated Peppermint & Eucalyptus",
+            source: "High-level organic distillers",
+            potency: "Continuous-release active",
+            bioavailability: "96.0%",
+            description: "Triggers active thermal cooling receptors in fatigued muscles, providing long-term relief from physical tension."
+          },
+          {
+            name: "Awakening Ginger Rhizome",
+            source: "Tropical mountain crops",
+            potency: "Pure CO2 super-critical extract",
+            bioavailability: "92.5%",
+            description: "A highly warming circulatory agent that mobilizes blood flow to stiff joints, encouraging rapid recovery."
+          },
+          {
+            name: "Golden Safflower Lipid Serum",
+            source: "Organic UK valleys",
+            potency: "High-linoleic active",
+            bioavailability: "95.1%",
+            description: "Fights cellular stress and repairs dry skin, making limbs feel satiny, radiant, and incredibly soft after exercise."
+          }
+        ],
+        clinicals: {
+          metric1: { name: "Muscle Relief Sensation", value: 110 },
+          metric2: { name: "Dermal Elasticity", value: 85 },
+          metric3: { name: "Vascular Circulation Boost", value: 100 },
+          daysData: {
+            1: "Immediate tissue cooling. Post-workout muscle tightness is relieved by 55% during hand massage.",
+            7: "Sweat-induced skin irritations or blockages are cleared. Skin on joints feels smooth and healthy.",
+            14: "Improves fluid drainage, helping to shape and energize tired legs after long standing or workouts.",
+            28: "Stronger skin structure with complete muscle recovery. Body skin glows with athletic, hydrated health."
+          }
+        }
+      };
+    default:
+      return defaults;
+  }
+};
+
+interface AcademyProductEnhancementsProps {
+  product: Product;
+}
+
+export function AcademyProductEnhancements({ product }: AcademyProductEnhancementsProps) {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [soundscape, setSoundscape] = useState<"rain" | "wind" | "silence">("rain");
+  const [playbackProgress, setPlaybackProgress] = useState(35);
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+  const [breathState, setBreathState] = useState<"inhale" | "hold" | "exhale">("inhale");
+  const [breathProgress, setBreathProgress] = useState(0);
+
+  const [activeDay, setActiveDay] = useState<1 | 7 | 14 | 28>(1);
+  const [activeIngredientIdx, setActiveIngredientIdx] = useState<number>(0);
+
+  // Quiz States
+  const [quizStep, setQuizStep] = useState<"intro" | "q1" | "q2" | "result">("intro");
+  const [quizAnswers, setQuizAnswers] = useState<Record<string, string>>({});
+  const [quizLoading, setQuizLoading] = useState(false);
+
+  const data = getProductEnhancementData(product.id);
+
+  // Simple interval to simulate audio progress
+  useEffect(() => {
+    let timer: any;
+    if (isPlaying) {
+      timer = setInterval(() => {
+        setPlaybackProgress((prev) => (prev >= 100 ? 0 : prev + 0.8));
+      }, 300);
+    }
+    return () => clearInterval(timer);
+  }, [isPlaying]);
+
+  // Breathing masterclass loop
+  useEffect(() => {
+    let timer: any;
+    if (isVideoModalOpen) {
+      timer = setInterval(() => {
+        setBreathProgress((prev) => {
+          if (prev >= 100) {
+            setBreathState((current) => {
+              if (current === "inhale") return "hold";
+              if (current === "hold") return "exhale";
+              return "inhale";
+            });
+            return 0;
+          }
+          return prev + 5;
+        });
+      }, 200);
+    }
+    return () => clearInterval(timer);
+  }, [isVideoModalOpen, breathState]);
+
+  const handleNextQuiz = (key: string, value: string) => {
+    setQuizAnswers((prev) => ({ ...prev, [key]: value }));
+    if (quizStep === "q1") {
+      setQuizStep("q2");
+    } else if (quizStep === "q2") {
+      setQuizLoading(true);
+      setTimeout(() => {
+        setQuizLoading(false);
+        setQuizStep("result");
+      }, 1000);
+    }
+  };
+
+  const resetQuiz = () => {
+    setQuizAnswers({});
+    setQuizStep("intro");
+  };
+
+  return (
+    <div className="max-w-7xl mx-auto mt-12 border-t border-brand-black/10 pt-10 px-4 md:px-12 select-none">
+      
+      {/* SECTION 1: THE ACADEMY SANCTUARY (VISUAL CLASS & THERAPEUTIC SOUNDSCAPE) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch mb-14" id="academy-sanctuary">
+        
+        {/* Left Video Masterclass & Academy Info */}
+        <div className="lg:col-span-7 bg-[#2A342B] text-white p-6 md:p-8 rounded-2xl flex flex-col justify-between relative overflow-hidden group shadow-md border border-[#82D8C5]/10">
+          <div className="absolute right-0 top-0 w-32 h-32 bg-[#82D8C5]/5 rounded-full blur-2xl pointer-events-none" />
+          <div className="absolute left-12 bottom-0 w-48 h-48 bg-[#9A8FB7]/5 rounded-full blur-3xl pointer-events-none" />
+          
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <span className="bg-[#82D8C5]/20 text-[#82D8C5] text-[10px] uppercase font-sans font-bold tracking-[0.2em] px-2.5 py-1 rounded-full border border-[#82D8C5]/30">
+                UK Academy Live
+              </span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#82D8C5] animate-ping" />
+            </div>
+            
+            <h3 className="font-serif text-[24px] md:text-[28px] font-bold text-[#EEDBC5] leading-tight mb-3">
+              Women's Calmness & Hair Sanctuary
+            </h3>
+            <p className="text-[12px] md:text-[13px] text-gray-300 leading-relaxed max-w-xl mb-6 font-sans">
+              Designed as parts of our London & UK group classes, we integrate custom-formed botanical elixirs with clinical restorative rituals, breathing exercises, and sensory soundscapes. Experience deep healing therapy at home.
+            </p>
+          </div>
+
+          <div className="bg-white/5 border border-white/10 rounded-xl p-4 flex flex-col md:flex-row gap-4 items-center justify-between mt-4">
+            <div className="flex gap-3 items-center">
+              <div className="w-10 h-10 rounded-full bg-[#82D8C5]/10 border border-[#82D8C5]/20 flex items-center justify-center shrink-0">
+                <BookOpen className="w-5 h-5 text-[#82D8C5]" />
+              </div>
+              <div className="text-left">
+                <h4 className="font-serif text-[12.5px] font-bold text-white">Interactive Breathing Masterclass</h4>
+                <p className="text-[10px] text-gray-400 font-sans">Learn raw hair stimulation & sensory calming</p>
+              </div>
+            </div>
+            <button 
+              onClick={() => {
+                setIsVideoModalOpen(true);
+                setBreathState("inhale");
+                setBreathProgress(0);
+              }}
+              className="bg-[#82D8C5] hover:bg-[#6fc4b1] text-brand-black text-[11px] font-bold uppercase tracking-wider px-5 py-2.5 rounded-full transition-all flex items-center gap-1.5 shrink-0 cursor-pointer"
+            >
+              <Play className="w-3.5 h-3.5 fill-current" /> Start Micro-Class
+            </button>
+          </div>
+        </div>
+
+        {/* Right Active Soundscape Player */}
+        <div className="lg:col-span-5 bg-[#EDEDE9]/70 border border-brand-black/5 rounded-2xl p-6 flex flex-col justify-between shadow-xs">
+          <div>
+            <div className="flex justify-between items-start mb-4">
+              <div className="flex flex-col">
+                <span className="text-[9px] font-bold tracking-widest text-[#9A8FB7] uppercase font-sans">SENSORY REJUVENATION</span>
+                <h3 className="font-serif text-[18px] font-bold text-brand-black mt-0.5">Atmosphere Soundscape</h3>
+              </div>
+              <Volume2 className={`w-4 h-4 text-brand-black ${isPlaying ? "animate-pulse" : "opacity-40"}`} />
+            </div>
+
+            <p className="text-[11.5px] text-gray-500 font-sans leading-relaxed mb-5">
+              Tap into your scalp therapeutic ritual. Turn on an organic wellness soundscape calibrated specifically to clear cognitive noise.
+            </p>
+
+            {/* Choose Ambient Sound */}
+            <div className="grid grid-cols-3 gap-2 mb-6">
+              {[
+                { id: "rain", label: "UK Rain", info: "8Hz Frequency" },
+                { id: "wind", label: "Calm Forest", info: "Theta Resonance" },
+                { id: "silence", label: "Deep Mist", info: "432Hz Tone" }
+              ].map((sound) => (
+                <button
+                  key={sound.id}
+                  onClick={() => {
+                    setSoundscape(sound.id as any);
+                    if (!isPlaying) setIsPlaying(true);
+                  }}
+                  className={`px-3 py-2.5 rounded-xl border flex flex-col items-center justify-center transition-all cursor-pointer ${
+                    soundscape === sound.id 
+                      ? "border-[#82D8C5] bg-[#82D8C5]/10 text-brand-black" 
+                      : "border-brand-black/5 bg-white/50 text-gray-500 hover:bg-white"
+                  }`}
+                >
+                  <span className="font-sans text-[11px] font-bold uppercase tracking-wider">{sound.label}</span>
+                  <span className="text-[8px] opacity-70 font-sans">{sound.info}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="bg-white rounded-xl p-4 border border-brand-black/5 flex flex-col gap-3">
+            {/* Visual Equalizer Sim */}
+            <div className="flex justify-center items-center gap-1 h-6">
+              {[...Array(14)].map((_, i) => (
+                <div
+                  key={i}
+                  style={{
+                    height: isPlaying ? `${Math.sin(playbackProgress + i) * 10 + 12}px` : "3px",
+                    transition: "height 0.15s ease-in-out"
+                  }}
+                  className={`w-1 rounded-full ${soundscape === "rain" ? "bg-[#82D8C5]" : soundscape === "wind" ? "bg-[#9A8FB7]" : "bg-brand-black"}`}
+                />
+              ))}
+            </div>
+
+            {/* Progress and control */}
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => setIsPlaying(!isPlaying)}
+                className="w-10 h-10 rounded-full bg-brand-black text-white flex items-center justify-center cursor-pointer shrink-0"
+              >
+                {isPlaying ? <Pause className="w-4.5 h-4.5 fill-current" /> : <Play className="w-4.5 h-4.5 fill-current ml-0.5" />}
+              </button>
+              <div className="flex-1">
+                <div className="flex justify-between items-center text-[9px] text-gray-400 font-mono mb-1">
+                  <span>AMBIENCE CALIBRATED</span>
+                  <span>{isPlaying ? "01:21" : "PAUSED"}</span>
+                </div>
+                <div className="w-full h-1 bg-gray-100 rounded-full overflow-hidden">
+                  <div className="h-full bg-brand-black rounded-full" style={{ width: `${playbackProgress}%` }} />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      {/* SECTION 2: INTERACTIVE BOTANICAL POTENCY & BIO-ABSORPTION */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-14 border-t border-brand-black/5 pt-10" id="botanical-potency">
+        
+        {/* Left title section */}
+        <div className="lg:col-span-4 lg:sticky lg:top-24">
+          <span className="text-[10px] font-sans uppercase tracking-[0.2em] text-gray-400">ORGANIC COMPLEXITY</span>
+          <h3 className="font-serif text-[24px] md:text-[28px] font-bold text-brand-black leading-tight mt-1 mb-3">
+            Active Botanical Potency Key
+          </h3>
+          <p className="text-[12px] md:text-[13px] text-gray-500 leading-relaxed font-sans mb-4">
+            We isolate and combine precious clinical nutrients. Select key bioactive botanical elements below to see molecular sourcing details, clinical potency ratios, and bio-absorption ratings.
+          </p>
+          <div className="flex gap-2">
+            <span className="text-[11px] font-sans font-bold uppercase text-[#82D8C5] bg-[#82D8C5]/10 px-2.5 py-1 rounded-full border border-[#82D8C5]/20">
+              100% Traceable
+            </span>
+            <span className="text-[11px] font-sans font-bold uppercase text-[#9A8FB7] bg-[#9A8FB7]/10 px-2.5 py-1 rounded-full border border-[#9A8FB7]/20">
+              Bio-Compatible
+            </span>
+          </div>
+        </div>
+
+        {/* Right Clickable Ingredient Cards */}
+        <div className="lg:col-span-8 flex flex-col gap-3">
+          {data.ingredients.map((ing, idx) => {
+            const isSelected = activeIngredientIdx === idx;
+            return (
+              <div
+                key={ing.name}
+                onClick={() => setActiveIngredientIdx(idx)}
+                className={`p-4 md:p-5 rounded-2xl border transition-all cursor-pointer flex flex-col text-left ${
+                  isSelected 
+                    ? "border-[#82D8C5] bg-white shadow-sm" 
+                    : "border-brand-black/5 bg-[#EDEDE9]/35 hover:bg-[#EDEDE9]/70"
+                }`}
+              >
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center gap-3">
+                    <span className="w-6 h-6 rounded-full bg-[#82D8C5]/10 text-[#3D4A3E] font-mono text-[11px] font-bold flex items-center justify-center shrink-0">
+                      0{idx + 1}
+                    </span>
+                    <h4 className="font-serif text-[15px] md:text-[17px] font-bold text-[#2A342B]">
+                      {ing.name}
+                    </h4>
+                  </div>
+                  <span className="text-[10px] font-mono font-bold uppercase text-[#82D8C5] tracking-tight">
+                    {ing.potency}
+                  </span>
+                </div>
+
+                <AnimatePresence initial={false}>
+                  {isSelected && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.35, ease: [0.25, 1, 0.5, 1] }}
+                      className="overflow-hidden"
+                    >
+                      <div className="pt-3.5 mt-3 border-t border-brand-black/5 flex flex-col gap-3">
+                        <p className="text-[12px] text-gray-600 font-sans leading-relaxed">
+                          {ing.description}
+                        </p>
+                        <div className="grid grid-cols-2 gap-4 pt-1">
+                          <div className="bg-[#EDEDE9]/50 p-2.5 rounded-xl border border-brand-black/5">
+                            <span className="block text-[8px] font-bold uppercase text-gray-400 font-sans">Sourcing Estate</span>
+                            <span className="text-[11px] font-serif italic text-brand-black font-semibold">{ing.source}</span>
+                          </div>
+                          <div className="bg-[#EDEDE9]/50 p-2.5 rounded-xl border border-brand-black/5">
+                            <span className="block text-[8px] font-bold uppercase text-gray-400 font-sans">Absorption Rate</span>
+                            <span className="text-[11.5px] font-sans font-extrabold text-[#3D4A3E]">{ing.bioavailability} Bioavailability</span>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            );
+          })}
+        </div>
+
+      </div>
+
+      {/* SECTION 3: CLINICAL PERFORMANCE & RESTORATIVE SCALP TIMELINE */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center mb-14 border-t border-brand-black/5 pt-10" id="clinical-performance">
+        
+        {/* Left Interactive Graph Gages */}
+        <div className="lg:col-span-5 bg-white border border-brand-black/5 p-6 rounded-2xl shadow-xs">
+          <span className="text-[9px] font-bold tracking-widest text-gray-400 uppercase font-sans">CLINICAL STABILITY REPORT</span>
+          <h3 className="font-serif text-[18px] font-bold text-brand-black mb-6">Restorative Bio-Targeting</h3>
+          
+          <div className="flex flex-col gap-4">
+            {/* Metric 1 */}
+            <div>
+              <div className="flex justify-between items-center text-[10px] font-sans font-bold text-gray-500 uppercase mb-1">
+                <span>{data.clinicals.metric1.name}</span>
+                <span className="text-brand-black">+{data.clinicals.metric1.value}%</span>
+              </div>
+              <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                <motion.div 
+                  initial={{ width: 0 }}
+                  whileInView={{ width: `${Math.min(data.clinicals.metric1.value, 100)}%` }}
+                  transition={{ duration: 1, delay: 0.1 }}
+                  viewport={{ once: true }}
+                  className="h-full bg-[#82D8C5] rounded-full" 
+                />
+              </div>
+            </div>
+
+            {/* Metric 2 */}
+            <div>
+              <div className="flex justify-between items-center text-[10px] font-sans font-bold text-gray-500 uppercase mb-1">
+                <span>{data.clinicals.metric2.name}</span>
+                <span className="text-brand-black">+{data.clinicals.metric2.value}%</span>
+              </div>
+              <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                <motion.div 
+                  initial={{ width: 0 }}
+                  whileInView={{ width: `${Math.min(data.clinicals.metric2.value, 100)}%` }}
+                  transition={{ duration: 1, delay: 0.2 }}
+                  viewport={{ once: true }}
+                  className="h-full bg-[#9A8FB7] rounded-full" 
+                />
+              </div>
+            </div>
+
+            {/* Metric 3 */}
+            <div>
+              <div className="flex justify-between items-center text-[10px] font-sans font-bold text-gray-500 uppercase mb-1">
+                <span>{data.clinicals.metric3.name}</span>
+                <span className="text-brand-black">+{data.clinicals.metric3.value}%</span>
+              </div>
+              <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                <motion.div 
+                  initial={{ width: 0 }}
+                  whileInView={{ width: `${Math.min(data.clinicals.metric3.value, 100)}%` }}
+                  transition={{ duration: 1, delay: 0.3 }}
+                  viewport={{ once: true }}
+                  className="h-full bg-brand-black rounded-full" 
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-6 pt-4 border-t border-brand-black/5 flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-[#82D8C5]" />
+            <span className="text-[10px] text-gray-400 font-sans uppercase">SGS DERMATOLOGICAL LAB REGISTERED</span>
+          </div>
+        </div>
+
+        {/* Right Day Selection Timeline */}
+        <div className="lg:col-span-7 text-left flex flex-col justify-between h-full lg:pl-4">
+          <div>
+            <span className="text-[10px] font-sans uppercase tracking-[0.2em] text-gray-400">CHRONOLOGICAL PERFORMANCE</span>
+            <h3 className="font-serif text-[24px] md:text-[28px] font-bold text-brand-black leading-tight mt-1 mb-3">
+              The 28-Day Structural Evolution
+            </h3>
+            <p className="text-[12px] md:text-[13px] text-gray-500 leading-relaxed font-sans mb-6">
+              Track the clinical physical updates your hair, follicles, and scalp tissue undergo during daily wellness contact. Click each milestone cycle below to examine the changes:
+            </p>
+
+            {/* Day Selector Pill Bar */}
+            <div className="flex items-center gap-2 p-1 bg-[#EDEDE9]/50 rounded-2xl max-w-sm mb-6 border border-brand-black/5 justify-between">
+              {([1, 7, 14, 28] as const).map((day) => (
+                <button
+                  key={day}
+                  onClick={() => setActiveDay(day)}
+                  className={`flex-1 rounded-xl py-2 px-2 text-center font-sans font-bold text-[11px] uppercase transition-colors shrink-0 cursor-pointer ${
+                    activeDay === day 
+                      ? "bg-brand-black text-white shadow-xs" 
+                      : "text-gray-500 hover:text-brand-black"
+                  }`}
+                >
+                  Day {day}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Active Day Description Details Card */}
+          <div className="bg-[#EDEDE9]/30 rounded-2xl p-5 border border-brand-black/5 min-h-[110px] flex gap-4 items-start transition-all">
+            <div className="w-10 h-10 rounded-full bg-[#82D8C5]/10 text-brand-black flex items-center justify-center shrink-0 border border-[#82D8C5]/30">
+              <Clock className="w-5 h-5 text-brand-black" />
+            </div>
+            <div>
+              <h4 className="font-serif text-[14px] font-bold text-[#3D4A3E] uppercase tracking-wide mb-1">
+                {activeDay === 1 ? "Phase 1: Immediate Activation" : activeDay === 7 ? "Phase 2: Cellular Hydration" : activeDay === 14 ? "Phase 3: Lipid Enclosure" : "Phase 4: Absolute Restructure"}
+              </h4>
+              <p className="text-[12px] text-gray-600 font-sans leading-relaxed">
+                {data.clinicals.daysData[activeDay]}
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      {/* SECTION 4: THE WELLNESS PATH - HERO RITUAL FINDER MINI-QUIZ */}
+      <div className="bg-[#F0EEF3] rounded-3xl p-6 md:p-8 border border-[#9A8FB7]/20 flex flex-col lg:flex-row gap-6 items-stretch mb-10" id="wellness-ritual-optimizer">
+        
+        {/* Quiz Intro Column */}
+        <div className="lg:w-1/2 flex flex-col justify-between">
+          <div>
+            <div className="flex items-center gap-1.5 mb-2">
+              <Sparkles className="w-4 h-4 text-[#9A8FB7] fill-[#9A8FB7]" />
+              <span className="text-[10px] font-sans font-bold uppercase tracking-widest text-[#9A8FB7]">WELLNESS CALCULATOR</span>
+            </div>
+            <h3 className="font-serif text-[24px] md:text-[28px] font-bold text-brand-black leading-tight mb-3">
+              The Bespoke Wellness Optimizer
+            </h3>
+            <p className="text-[12px] md:text-[13px] text-gray-500 leading-relaxed font-sans max-w-md">
+              Take a 15-second diagnostic designed by our London therapists to determine how to integrate this specific product into your weekly UK therapy ritual plan.
+            </p>
+          </div>
+
+          <div className="mt-6 flex items-center gap-3">
+            <div className="w-8 h-8 rounded-full bg-[#9A8FB7]/10 flex items-center justify-center border border-[#9A8FB7]/20">
+              <Award className="w-4 h-4 text-[#9A8FB7]" />
+            </div>
+            <span className="text-[11px] font-sans font-bold uppercase text-brand-black">H Salon Certified Recommendation</span>
+          </div>
+        </div>
+
+        {/* Interactive Quiz Frame Interface */}
+        <div className="lg:w-1/2 bg-white rounded-2xl p-5 border border-brand-black/5 flex flex-col justify-between shadow-xs relative overflow-hidden min-h-[180px]">
+          {quizStep === "intro" && (
+            <div className="flex flex-col h-full justify-between items-start text-left">
+              <div>
+                <h4 className="font-serif text-[15px] font-bold text-brand-black leading-snug mb-1">
+                  Ready to map your sensory ritual?
+                </h4>
+                <p className="text-[11.5px] text-gray-500 font-sans leading-relaxed">
+                  We'll evaluate your general crown sensitivity and morning/evening tension to generate your micro-calendar.
+                </p>
+              </div>
+              <button
+                onClick={() => setQuizStep("q1")}
+                className="mt-4 bg-brand-black text-white hover:bg-brand-black/95 text-[11px] font-bold uppercase tracking-wider px-6 py-2.5 rounded-full transition-all cursor-pointer select-none"
+              >
+                Determine My Path
+              </button>
+            </div>
+          )}
+
+          {quizStep === "q1" && (
+            <div className="flex flex-col h-full justify-between text-left">
+              <div>
+                <span className="text-[8px] font-bold tracking-widest text-gray-400 uppercase font-sans">QUESTION 1 OF 2</span>
+                <h4 className="font-serif text-[14px] font-bold text-brand-black mt-1 mb-3">
+                  How does your scalp or hair feel by mid-afternoon?
+                </h4>
+              </div>
+              <div className="flex flex-col gap-1.5">
+                {[
+                  { key: "dry", label: "Dry, flaky, or tight with a warm tension block" },
+                  { key: "limp", label: "Lacking volume, fine, or prone to static flyaways" },
+                  { key: "oily", label: "Oily at parts but extremely dry and raw at tips" }
+                ].map((opt) => (
+                  <button
+                    key={opt.key}
+                    onClick={() => handleNextQuiz("q1", opt.key)}
+                    className="w-full text-left p-2.5 rounded-xl border border-brand-black/5 bg-[#EDEDE9]/20 font-sans text-[11px] text-gray-700 hover:border-brand-black transition-colors cursor-pointer"
+                  >
+                    {opt.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {quizStep === "q2" && (
+            <div className="flex flex-col h-full justify-between text-left">
+              <div>
+                <span className="text-[8px] font-bold tracking-widest text-gray-400 uppercase font-sans">QUESTION 2 OF 2</span>
+                <h4 className="font-serif text-[14px] font-bold text-brand-black mt-1 mb-3">
+                  Select your primary therapeutic mind goal:
+                </h4>
+              </div>
+              <div className="flex flex-col gap-1.5">
+                {[
+                  { key: "calm", label: "Calming sensory relief & releasing nervous strain" },
+                  { key: "glaze", label: "Exceptional glass-level polish & structural beauty" },
+                  { key: "strength", label: "Physical rejuvenation, hair bounds, & UV guard" }
+                ].map((opt) => (
+                  <button
+                    key={opt.key}
+                    onClick={() => handleNextQuiz("q2", opt.key)}
+                    className="w-full text-left p-2.5 rounded-xl border border-brand-black/5 bg-[#EDEDE9]/20 font-sans text-[11px] text-gray-700 hover:border-[#82D8C5] transition-colors cursor-pointer"
+                  >
+                    {opt.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {quizLoading && (
+            <div className="absolute inset-0 bg-white/90 flex flex-col items-center justify-center gap-2">
+              <div className="w-6 h-6 rounded-full border-2 border-brand-black border-t-transparent animate-spin" />
+              <span className="text-[9.5px] font-sans font-bold uppercase tracking-wider text-gray-400">Calibrating Meridian Flow...</span>
+            </div>
+          )}
+
+          {quizStep === "result" && (
+            <div className="flex flex-col h-full justify-between text-left">
+              <div>
+                <div className="flex justify-between items-center">
+                  <span className="text-[8.5px] font-bold tracking-widest text-[#82D8C5] uppercase font-sans">YOUR BESPOKE ACADEMY BLUEPRINT</span>
+                  <button onClick={resetQuiz} className="text-[#9A8FB7] text-[10px] uppercase font-sans font-bold hover:underline cursor-pointer">Retry</button>
+                </div>
+                <h4 className="font-serif text-[15px] md:text-[16px] font-bold text-brand-black mt-1 mb-2">
+                  The {quizAnswers.q2 === "calm" ? "Restorative Calmness" : quizAnswers.q2 === "glaze" ? "Luminous Glass" : "Resilient Shield"} Protocol
+                </h4>
+                <p className="text-[11px] text-gray-600 font-sans leading-relaxed mb-3">
+                  {quizAnswers.q2 === "calm" 
+                    ? `Integrate ${product.name} 3 evenings per week. Pair with warm lavender facial steam compresses for instant temple tension reduction.`
+                    : quizAnswers.q2 === "glaze" 
+                    ? `Apply ${product.name} post-shampoo. Squeeze into tips and comb with wood fibers to establish 100% molecular light-reflection.`
+                    : `Apply before hot tools or beach walks. Creates an anti-oxidant UV capsule that maintains cellular structural integrity.`}
+                </p>
+                
+                <div className="bg-[#82D8C5]/10 p-2.5 rounded-xl border border-[#82D8C5]/30">
+                  <span className="block text-[8px] font-bold uppercase tracking-wider text-[#3D4A3E] font-sans">ACADEMY TRICHOLOGY CALENDAR</span>
+                  <span className="text-[10.5px] font-sans text-brand-black font-semibold">Tuesdays & Sundays 10-Min Session (Post-Bath)</span>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+      </div>
+
+      {/* INTERACTIVE VIDEO MASTERCLASS MODAL OVERLAY */}
+      <AnimatePresence>
+        {isVideoModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-brand-black/90 backdrop-blur-md flex items-center justify-center p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.95, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.95, y: 20 }}
+              className="bg-[#2A342B] text-white max-w-md w-full rounded-3xl overflow-hidden shadow-2xl border border-[#82D8C5]/20 p-6 flex flex-col gap-5 text-center relative"
+            >
+              {/* Close Button */}
+              <button 
+                onClick={() => setIsVideoModalOpen(false)}
+                className="absolute top-4 right-4 text-white/75 hover:text-white font-sans font-bold text-[11px] uppercase tracking-wider bg-white/10 hover:bg-white/15 px-3 py-1.5 rounded-full cursor-pointer transition-colors"
+              >
+                Close ×
+              </button>
+
+              <div className="mt-4">
+                <span className="text-[9px] font-bold tracking-widest text-[#82D8C5] uppercase font-sans">LIVE FROM LONDON HEADQUARTERS</span>
+                <h3 className="font-serif text-[20px] font-bold text-[#EEDBC5] mt-1">Calmness & Hair Simulation</h3>
+              </div>
+
+              {/* Breathing Expansion Circle animation */}
+              <div className="flex flex-col items-center justify-center py-8 relative">
+                <motion.div
+                  animate={{
+                    scale: breathState === "inhale" ? 1.4 : breathState === "hold" ? 1.4 : 1,
+                    backgroundColor: breathState === "inhale" ? "rgba(130, 216, 197, 0.25)" : breathState === "hold" ? "rgba(154, 143, 183, 0.25)" : "rgba(130, 216, 197, 0.08)"
+                  }}
+                  transition={{ duration: 4, ease: "easeInOut" }}
+                  className="w-28 h-28 rounded-full border border-[#82D8C5]/30 flex flex-col items-center justify-center"
+                >
+                  <span className="font-serif text-[14px] italic text-[#EEDBC5] font-extrabold capitalize">
+                    {breathState}
+                  </span>
+                  <span className="text-[8px] text-gray-300 font-sans uppercase tracking-[0.15em] mt-0.5">
+                    {breathState === "inhale" ? "Breathe In" : breathState === "hold" ? "Hold Space" : "Release"}
+                  </span>
+                </motion.div>
+                
+                {/* Progress dot orbit simulation */}
+                <div className="w-32 h-1 bg-white/10 rounded-full mt-6 overflow-hidden">
+                  <div className="h-full bg-[#82D8C5] rounded-full transition-all duration-200" style={{ width: `${breathProgress}%` }} />
+                </div>
+              </div>
+
+              <div className="text-left bg-white/5 border border-white/10 p-3 rounded-2xl flex gap-3 items-start">
+                <span className="w-5 h-5 rounded-full bg-[#82D8C5]/10 text-[#82D8C5] text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">!</span>
+                <p className="text-[11px] text-gray-300 font-sans leading-relaxed">
+                  Focus on your crown. Apply {product.name} gently during this cycle to double muscle relaxation and increase biochemical scalp uptake.
+                </p>
+              </div>
+
+              <button
+                onClick={() => setIsVideoModalOpen(false)}
+                className="bg-[#82D8C5] hover:bg-[#6fc4b1] text-brand-black text-[11px] font-bold uppercase tracking-wider py-3 rounded-full cursor-pointer font-sans transition-colors"
+              >
+                Complete Session
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+    </div>
+  );
+}
+
