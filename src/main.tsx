@@ -33,6 +33,7 @@ import InteractiveConsultation from './components/InteractiveConsultation';
 import UgcVideoGrid from './components/UgcVideoGrid';
 import BotanicalLab from './components/BotanicalLab';
 import BeforeAfterSection from './components/BeforeAfterSection';
+import SearchDrawer from './components/SearchDrawer';
 
 import { useSharedState } from './useSharedState';
 
@@ -45,7 +46,7 @@ const shopifyReactRoots: Root[] = [];
  * across individual templates on your live Shopify site.
  */
 function GlobalOverlays() {
-  const { state, updateState, handleRemoveItem, handleUpdateQuantity } = useSharedState();
+  const { state, updateState, handleRemoveItem, handleUpdateQuantity, handleSelectProduct, handleAddToCart } = useSharedState();
   return (
     <>
       <CartDrawer
@@ -58,6 +59,12 @@ function GlobalOverlays() {
       <ShopifyInstructionModal
         isOpen={state.shopifyModalOpen}
         onClose={() => updateState({ shopifyModalOpen: false })}
+      />
+      <SearchDrawer
+        isOpen={state.searchOpen}
+        onClose={() => updateState({ searchOpen: false })}
+        onSelectProduct={handleSelectProduct}
+        onAddToCart={handleAddToCart}
       />
     </>
   );
@@ -76,11 +83,14 @@ function NavbarSectionWrapper() {
       currentView={state.currentView}
       onGoHome={handleGoHome}
       onSearchClick={() => {
-        alert("Dynamic Instant Search will look up collections in active store database!");
+        updateState({ searchOpen: true });
       }}
-      onMenuClick={() => {
-        const side = document.getElementById("bestsellers-section");
-        if (side) side.scrollIntoView({ behavior: "smooth" });
+      onNavigate={(view, category) => {
+        const updates: any = { currentView: view };
+        if (category) {
+          updates.selectedCategory = category;
+        }
+        updateState(updates);
       }}
     />
   );

@@ -7,12 +7,14 @@ import { useState, useEffect } from "react";
 import { Product, CartItem } from "./types";
 
 interface SharedState {
-  currentView: "home" | "product";
+  currentView: "home" | "product" | "shop_all" | "bestsellers" | "about" | "contact";
   selectedProductId: string;
   cartOpen: boolean;
+  searchOpen: boolean;
   cartItems: CartItem[];
   shopifyModalOpen: boolean;
   bestsellersTab: "BESTSELLERS" | "WHATS HOT";
+  selectedCategory: string;
 }
 
 const listeners = new Set<() => void>();
@@ -21,9 +23,11 @@ let globalState: SharedState = {
   currentView: "home",
   selectedProductId: "halo-highlighter",
   cartOpen: false,
+  searchOpen: false,
   cartItems: [],
   shopifyModalOpen: false,
   bestsellersTab: "BESTSELLERS",
+  selectedCategory: "all",
 };
 
 // Seed initial cart item list from local storage securely

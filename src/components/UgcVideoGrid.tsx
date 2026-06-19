@@ -257,16 +257,16 @@ export default function UgcVideoGrid() {
         </div>
 
         {/* The Grid displaying Autoplay/Muted videos directly inside the frames with independent manual overlays */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 lg:gap-8">
+        <div className="flex flex-row overflow-x-auto gap-6 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 lg:gap-8 snap-x snap-mandatory pb-4 select-none scrollbar-none">
           {reels.map((reel, idx) => {
             const hasStatus = gridStatuses[reel.id] || { play: true, muted: true };
             return (
               <motion.div
                 key={reel.id}
                 onClick={() => handleOpenReel(idx)}
-                whileHover={{ y: -6 }}
+                whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.35, ease: "easeOut" }}
-                className="relative aspect-[9/16] bg-zinc-200 rounded-3xl overflow-hidden cursor-pointer group shadow-sm border border-black/10 transition-shadow hover:shadow-md"
+                className="relative aspect-[9/16] bg-zinc-200 rounded-3xl overflow-hidden cursor-pointer group shadow-sm border border-black/10 transition-shadow hover:shadow-md shrink-0 w-[285px] sm:w-auto snap-center"
               >
                 {/* Autoplay Video Loop */}
                 <video
@@ -353,11 +353,11 @@ export default function UgcVideoGrid() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
               transition={{ type: "spring", damping: 25, stiffness: 220 }}
-              className="relative w-full max-w-4xl bg-[#121212] rounded-3xl overflow-hidden shadow-2xl flex flex-col lg:flex-row aspect-video lg:h-[600px] z-50 border border-white/10"
+              className="relative w-full max-w-sm lg:max-w-4xl bg-[#121212] rounded-3xl overflow-hidden shadow-2xl flex flex-col lg:flex-row h-auto max-h-[92vh] lg:h-[600px] z-50 border border-white/10"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Left Side: Immersive Portrait Video Screen */}
-              <div className="relative w-full lg:w-[48%] h-[320px] lg:h-full bg-black flex items-center justify-center overflow-hidden border-b lg:border-b-0 lg:border-r border-white/5">
+              <div className="relative w-full lg:w-[46%] h-[380px] lg:h-full bg-black flex items-center justify-center overflow-hidden border-b lg:border-b-0 lg:border-r border-white/5 shrink-0">
                 <video
                   ref={modalVideoRef}
                   src={reels[activeReelIndex].videoUrl}
@@ -366,7 +366,7 @@ export default function UgcVideoGrid() {
                   playsInline
                   muted={isModalMuted}
                   onClick={toggleModalPlay}
-                  className="w-full h-full object-cover cursor-pointer"
+                  className="w-full h-full object-cover cursor-pointer text-center"
                 />
 
                 {/* HUD Overlay for manual play/pause and mute/unmute */}
@@ -394,18 +394,18 @@ export default function UgcVideoGrid() {
                 </div>
 
                 {/* User tag & captions overlaid at critical focus bottom */}
-                <div className="absolute bottom-4 inset-x-4 z-20 flex flex-col pointer-events-none text-white bg-gradient-to-t from-black/80 via-black/20 to-transparent p-4 rounded-xl">
-                  <div className="flex items-center gap-2 mb-2">
+                <div className="absolute bottom-4 inset-x-4 z-20 flex flex-col pointer-events-none text-white bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 rounded-xl">
+                  <div className="flex items-center gap-2 mb-1.5">
                     <img
                       src={reels[activeReelIndex].userAvatar}
                       alt={reels[activeReelIndex].username}
-                      className="w-8 h-8 rounded-full border border-white/30"
+                      className="w-7 h-7 rounded-full border border-white/30"
                     />
-                    <span className="font-sans text-[11px] font-bold tracking-wide">
+                    <span className="font-sans text-[11px] font-semibold tracking-wide">
                       {reels[activeReelIndex].username}
                     </span>
                   </div>
-                  <p className="font-sans text-xs text-white/90 leading-relaxed">
+                  <p className="font-sans text-[11px] text-white/90 leading-normal line-clamp-2">
                     {reels[activeReelIndex].caption}
                   </p>
                 </div>
@@ -416,8 +416,8 @@ export default function UgcVideoGrid() {
                     onClick={toggleModalPlay}
                     className="absolute inset-0 bg-black/40 flex items-center justify-center cursor-pointer z-10"
                   >
-                    <div className="w-14 h-14 rounded-full bg-[#82D8C5] text-brand-black flex items-center justify-center shadow-lg">
-                      <Play className="w-5 h-5 fill-current ml-0.5" />
+                    <div className="w-12 h-12 rounded-full bg-[#82D8C5] text-brand-black flex items-center justify-center shadow-lg">
+                      <Play className="w-4 h-4 fill-current ml-0.5" />
                     </div>
                   </div>
                 )}
@@ -425,20 +425,20 @@ export default function UgcVideoGrid() {
                 {/* Slider Chevrons */}
                 <button
                   onClick={handlePrevReel}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/50 text-white flex items-center justify-center hover:bg-black/85 transition-colors z-20 cursor-pointer border border-white/5"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/50 text-white flex items-center justify-center hover:bg-[#82D8C5] hover:text-brand-black transition-colors z-20 cursor-pointer border border-white/5"
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </button>
                 <button
                   onClick={handleNextReel}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/50 text-white flex items-center justify-center hover:bg-black/85 transition-colors z-20 cursor-pointer border border-white/5"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/50 text-white flex items-center justify-center hover:bg-[#82D8C5] hover:text-brand-black transition-colors z-20 cursor-pointer border border-white/5"
                 >
                   <ChevronRight className="w-4 h-4" />
                 </button>
               </div>
 
               {/* Right Side: Editorial Shoppable Product Drawer */}
-              <div className="w-full lg:w-[52%] h-[280px] lg:h-full bg-[#181818] p-6 lg:p-10 flex flex-col justify-between text-white relative">
+              <div className="w-full lg:w-[54%] h-auto lg:h-full bg-[#181818] p-6 lg:p-10 flex flex-col justify-between text-white relative">
                 <button
                   onClick={handleCloseReel}
                   className="absolute top-6 right-6 w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 hover:text-white transition-colors cursor-pointer text-white/50"

@@ -41,6 +41,11 @@ import CustomCursor from "./components/CustomCursor";
 import UgcVideoGrid from "./components/UgcVideoGrid";
 import BotanicalLab from "./components/BotanicalLab";
 import BeforeAfterSection from "./components/BeforeAfterSection";
+import ShopAllPage from "./components/ShopAllPage";
+import BestsellersPage from "./components/BestsellersPage";
+import AboutUsPage from "./components/AboutUsPage";
+import ContactUsPage from "./components/ContactUsPage";
+import SearchDrawer from "./components/SearchDrawer";
 import { getShopifySettings } from "./shopifySettings";
 import { useSharedState } from "./useSharedState";
 
@@ -111,7 +116,7 @@ export default function App() {
 
   // Scroll to top on page or view transition
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: "instant" as any });
   }, [currentView]);
 
   // Derive cart elements total count
@@ -151,11 +156,14 @@ export default function App() {
           currentView={currentView}
           onGoHome={handleGoHome}
           onSearchClick={() => {
-            alert("Dynamic Instant Search will look up collections in active store database!");
+            updateState({ searchOpen: true });
           }}
-          onMenuClick={() => {
-            const side = document.getElementById("bestsellers-section");
-            if (side) side.scrollIntoView({ behavior: "smooth" });
+          onNavigate={(view, category) => {
+            const updates: any = { currentView: view };
+            if (category) {
+              updates.selectedCategory = category;
+            }
+            updateState(updates);
           }}
         />
       </header>
@@ -163,13 +171,13 @@ export default function App() {
       {/* VIEW ROUTER */}
       <main className="flex-1 w-full relative">
         <AnimatePresence mode="wait">
-          {currentView === "home" ? (
+          {currentView === "home" && (
             <motion.div
               key="homepage-wrapper"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.4 }}
+              transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
               className="flex flex-col w-full"
             >
               {/* SECTION 2 — HERO SECTION */}
@@ -233,13 +241,80 @@ export default function App() {
               <CommunitySection />
 
             </motion.div>
-          ) : (
+          )}
+
+          {currentView === "shop_all" && (
+            <motion.div
+              key="shop-all-wrapper"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+              className="w-full"
+            >
+              <ShopAllPage 
+                initialCategory={(state as any).selectedCategory || "all"}
+                onSelectProduct={handleSelectProduct}
+                onAddToCart={handleAddToCart}
+                onBackToHome={handleGoHome}
+              />
+            </motion.div>
+          )}
+
+          {currentView === "bestsellers" && (
+            <motion.div
+              key="bestsellers-wrapper"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+              className="w-full"
+            >
+              <BestsellersPage 
+                onSelectProduct={handleSelectProduct}
+                onAddToCart={handleAddToCart}
+                onBackToHome={handleGoHome}
+              />
+            </motion.div>
+          )}
+
+          {currentView === "about" && (
+            <motion.div
+              key="about-wrapper"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+              className="w-full"
+            >
+              <AboutUsPage 
+                onBackToHome={handleGoHome}
+              />
+            </motion.div>
+          )}
+
+          {currentView === "contact" && (
+            <motion.div
+              key="contact-wrapper"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+              className="w-full"
+            >
+              <ContactUsPage 
+                onBackToHome={handleGoHome}
+              />
+            </motion.div>
+          )}
+
+          {currentView === "product" && (
             <motion.div
               key="productpage-wrapper"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.4 }}
+              transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
               className="w-full"
             >
               {/* SECTION 11 Product Page view details */}
@@ -264,6 +339,14 @@ export default function App() {
         cartItems={cartItems}
         onRemoveItem={handleRemoveItem}
         onUpdateQuantity={handleUpdateQuantity}
+      />
+
+      {/* DYNAMIC SEARCH DRAWER POPUP */}
+      <SearchDrawer
+        isOpen={state.searchOpen}
+        onClose={() => updateState({ searchOpen: false })}
+        onSelectProduct={handleSelectProduct}
+        onAddToCart={handleAddToCart}
       />
 
     </div>

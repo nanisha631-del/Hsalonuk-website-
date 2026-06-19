@@ -37,6 +37,28 @@ export default function Footer({ onGoHome }: FooterProps) {
     setActiveTab(activeTab === tabName ? null : tabName);
   };
 
+  // Reusable sub-component to render smooth liquid color-filling from left to right on hover/activation
+  const LiquidFillText = ({ text, isActive }: { text: string; isActive: boolean }) => {
+    return (
+      <span className="relative inline-block overflow-hidden pb-0.5">
+        {/* Base Layer (Classic muted black) */}
+        <span className="text-brand-black transition-colors duration-400">
+          {text}
+        </span>
+        {/* Liquid Herbal green Active Layer */}
+        <span
+          style={{
+            width: isActive ? "100%" : "0%",
+            transition: "width 0.55s cubic-bezier(0.19, 1, 0.22, 1)",
+          }}
+          className="absolute top-0 left-0 h-full text-[#2E6C4E] whitespace-nowrap overflow-hidden inline-block font-black select-none"
+        >
+          {text}
+        </span>
+      </span>
+    );
+  };
+
   return (
     <footer id="brand-footer" ref={footerRef} className="bg-[#F1EEF4] text-brand-black w-full pt-16 pb-12 px-4 md:px-12 relative select-none border-t border-brand-black/5 mt-auto">
       <div className="max-w-7xl mx-auto flex flex-col gap-10">
@@ -51,17 +73,27 @@ export default function Footer({ onGoHome }: FooterProps) {
           </p>
         </div>
 
-        {/* SHOP + SUPPORT Collapsible accordions matching product page & image 8 */}
+        {/* SHOP + SUPPORT Collapsible accordions with liquid color fill and hover triggers */}
         <div className="flex flex-col border-t border-brand-black/10 mt-4 max-w-xl">
           
-          {/* Shop Tab */}
-          <div className="border-b border-brand-black/10 py-4">
+          {/* Shop Tab with desktop mouse hover trigger */}
+          <div 
+            className="border-b border-brand-black/10 py-4 transition-colors duration-300"
+            onMouseEnter={() => {
+              if (window.innerWidth >= 1024) setActiveTab("shop");
+            }}
+            onMouseLeave={() => {
+              if (window.innerWidth >= 1024) setActiveTab(null);
+            }}
+          >
             <button
               onClick={() => toggleTab("shop")}
-              className="w-full flex items-center justify-between text-left font-serif text-[17px] font-bold uppercase tracking-wider text-brand-black cursor-pointer"
+              className="w-full flex items-center justify-between text-left font-serif text-[17px] font-bold uppercase tracking-wider text-brand-black cursor-pointer group/tab"
             >
-              <span>Shop</span>
-              {activeTab === "shop" ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+              <LiquidFillText text="Shop" isActive={activeTab === "shop"} />
+              <div className={`transition-transform duration-300 ${activeTab === "shop" ? "rotate-180" : ""}`}>
+                {activeTab === "shop" ? <Minus className="w-4 h-4 text-[#2E6C4E]" /> : <Plus className="w-4 h-4" />}
+              </div>
             </button>
             <AnimatePresence initial={false}>
               {activeTab === "shop" && (
@@ -70,13 +102,13 @@ export default function Footer({ onGoHome }: FooterProps) {
                   animate="open"
                   exit="collapsed"
                   variants={{
-                    open: { opacity: 1, height: "auto" },
-                    collapsed: { opacity: 0, height: 0 }
+                    open: { opacity: 1, height: "auto", marginTop: 12 },
+                    collapsed: { opacity: 0, height: 0, marginTop: 0 }
                   }}
-                  transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{ duration: 0.35, ease: [0.19, 1, 0.22, 1] }}
                   className="overflow-hidden"
                 >
-                  <ul className="pt-3 pb-1 flex flex-col gap-2.5 text-xs text-gray-500 font-sans pl-1">
+                  <ul className="pb-1 flex flex-col gap-2.5 text-xs text-gray-500 font-sans pl-1">
                     <li><button className="hover:text-black hover:underline cursor-pointer">Bestsellers</button></li>
                     <li><button className="hover:text-black hover:underline cursor-pointer">Scalp & Root Care</button></li>
                     <li><button className="hover:text-black hover:underline cursor-pointer">Wellbeing Face Oils</button></li>
@@ -87,14 +119,24 @@ export default function Footer({ onGoHome }: FooterProps) {
             </AnimatePresence>
           </div>
 
-          {/* Support Tab */}
-          <div className="border-b border-brand-black/10 py-4">
+          {/* Support Tab with desktop mouse hover trigger */}
+          <div 
+            className="border-b border-brand-black/10 py-4 transition-colors duration-300"
+            onMouseEnter={() => {
+              if (window.innerWidth >= 1024) setActiveTab("support");
+            }}
+            onMouseLeave={() => {
+              if (window.innerWidth >= 1024) setActiveTab(null);
+            }}
+          >
             <button
               onClick={() => toggleTab("support")}
-              className="w-full flex items-center justify-between text-left font-serif text-[17px] font-bold uppercase tracking-wider text-brand-black cursor-pointer"
+              className="w-full flex items-center justify-between text-left font-serif text-[17px] font-bold uppercase tracking-wider text-brand-black cursor-pointer group/tab"
             >
-              <span>Support</span>
-              {activeTab === "support" ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+              <LiquidFillText text="Support" isActive={activeTab === "support"} />
+              <div className={`transition-transform duration-300 ${activeTab === "support" ? "rotate-180" : ""}`}>
+                {activeTab === "support" ? <Minus className="w-4 h-4 text-[#2E6C4E]" /> : <Plus className="w-4 h-4" />}
+              </div>
             </button>
             <AnimatePresence initial={false}>
               {activeTab === "support" && (
@@ -103,13 +145,13 @@ export default function Footer({ onGoHome }: FooterProps) {
                   animate="open"
                   exit="collapsed"
                   variants={{
-                    open: { opacity: 1, height: "auto" },
-                    collapsed: { opacity: 0, height: 0 }
+                    open: { opacity: 1, height: "auto", marginTop: 12 },
+                    collapsed: { opacity: 0, height: 0, marginTop: 0 }
                   }}
-                  transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{ duration: 0.35, ease: [0.19, 1, 0.22, 1] }}
                   className="overflow-hidden"
                 >
-                  <ul className="pt-3 pb-1 flex flex-col gap-2.5 text-xs text-gray-500 font-sans pl-1">
+                  <ul className="pb-1 flex flex-col gap-2.5 text-xs text-gray-500 font-sans pl-1">
                     <li><button className="hover:text-black hover:underline cursor-pointer">Help center</button></li>
                     <li><button className="hover:text-black hover:underline cursor-pointer">Shipping policy</button></li>
                     <li><button className="hover:text-black hover:underline cursor-pointer">Free returns</button></li>

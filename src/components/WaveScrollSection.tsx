@@ -12,7 +12,7 @@ export default function WaveScrollSection() {
 
   // Settings customizable in Shopify
   const textContent = settings.wave_text || "Kind to your skin, gentle on the planet. • Pure active botanicals. • Kind to your skin, gentle on the planet.";
-  const speedSeconds = (Number(settings.wave_speed_seconds) || 24) * 2.1;
+  const speedSeconds = (Number(settings.wave_speed_seconds) || 11) * 0.9;
 
   const [offset, setOffset] = useState(10);
   const [isPaused, setIsPaused] = useState(false);
@@ -95,13 +95,11 @@ export default function WaveScrollSection() {
         {/* Compact SVG Container with minimal top and bottom helper margins */}
         <div 
           className="w-full relative h-[180px] sm:h-[210px] md:h-[230px] flex items-center justify-center cursor-pointer"
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
         >
           <svg
             viewBox={isMobile ? "0 0 450 260" : "0 0 1440 220"}
-            className="w-full h-full overflow-visible pointer-events-none"
-            style={{ width: "100%", height: "100%" }}
+            className="w-full h-full overflow-visible"
+            style={{ width: "100%", height: "100%", pointerEvents: "none" }}
             xmlns="http://www.w3.org/2000/svg"
           >
             <defs>
@@ -116,14 +114,19 @@ export default function WaveScrollSection() {
                 <stop offset="100%" stopColor="#0B0B0B" stopOpacity="0" />
               </linearGradient>
             </defs>
-
+ 
             {/* Render curved animated marquee text matching elegant styling */}
             <text 
-              className="text-[19px] sm:text-[25px] md:text-[30px] text-brand-black tracking-widest font-normal uppercase fill-current"
+              className="text-[19px] sm:text-[25px] md:text-[30px] text-brand-black tracking-widest font-normal uppercase fill-current cursor-pointer select-none"
               style={{
                 fontFamily: "'Playfair Display', 'Cormorant Garamond', 'Georgia', serif",
-                fontStyle: "italic"
+                fontStyle: "italic",
+                pointerEvents: "auto"
               }}
+              onMouseEnter={() => setIsPaused(true)}
+              onMouseLeave={() => setIsPaused(false)}
+              onTouchStart={() => setIsPaused(true)}
+              onTouchEnd={() => setIsPaused(false)}
             >
               <textPath 
                 href="#waveScrollingPath" 

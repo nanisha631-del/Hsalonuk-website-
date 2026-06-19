@@ -15,6 +15,30 @@ interface ProductPageProps {
   onSelectProduct: (productId: string) => void;
 }
 
+// Helper to define sparse product badge hierarchy to avoid overcrowding cards
+const getProductBadges = (productId: string) => {
+  switch (productId) {
+    case "snail-silk-serum":
+      return { leftBadge: "BESTSELLER" };
+    case "snail-silk-scalp-mask":
+      return { leftBadge: "NEW", rightBadge: "10% OFF" };
+    case "snail-silk-scalp-oil":
+      return { leftBadge: "WHATS HOT" };
+    case "h-salon-cap":
+      return { leftBadge: "NEW" };
+    case "h-salon-comb":
+      return { rightBadge: "15% OFF" };
+    case "gym-silk":
+      return { rightBadge: "20% OFF" };
+    case "halo-highlighter":
+      return { leftBadge: "BESTSELLER" };
+    case "eye-shadow-stick":
+      return { rightBadge: "10% OFF" };
+    default:
+      return {};
+  }
+};
+
 export default function ProductPage({
   product,
   onBack,
@@ -87,9 +111,17 @@ export default function ProductPage({
               BACK
             </button>
 
-            {product.tags && product.tags.length > 0 && (
-              <span className="absolute top-4 right-4 z-10 bg-brand-lilac text-brand-black text-[9.5px] font-bold py-0.5 px-2.5 uppercase tracking-wider rounded-full">
-                {product.tags[0]}
+             {/* Hierarchical Sparse Status Badge (Left) */}
+            {getProductBadges(product.id).leftBadge && (
+              <span className="absolute top-4 right-4 z-10 bg-brand-black text-[#82D8C5] text-[9.5px] font-extrabold py-1 px-3 uppercase tracking-wider rounded-sm shadow-sm select-none">
+                {getProductBadges(product.id).leftBadge}
+              </span>
+            )}
+
+            {/* Small discount badge (Right, if leftBadge is missing) */}
+            {!getProductBadges(product.id).leftBadge && getProductBadges(product.id).rightBadge && (
+              <span className="absolute top-4 right-4 z-10 bg-[#E76F51] text-white text-[9.5px] font-black py-1 px-3 uppercase tracking-wider rounded-xs shadow-xs select-none">
+                {getProductBadges(product.id).rightBadge}
               </span>
             )}
             

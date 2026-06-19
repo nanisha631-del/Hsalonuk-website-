@@ -60,7 +60,7 @@ export default function BestsellersCarousel() {
   };
 
   return (
-    <section id="bestsellers-section" className="bg-brand-offwhite pt-1 md:pt-12 pb-12 px-4 md:px-12 relative select-none">
+    <section id="bestsellers-section" className="bg-brand-offwhite pt-12 md:pt-16 pb-12 px-4 md:px-12 relative select-none">
       <div className="max-w-7xl mx-auto flex flex-col gap-6">
         
         {/* Heading container and tabs */}

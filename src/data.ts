@@ -15,7 +15,7 @@ export const PRODUCTS: Product[] = [
     images: [
       "/snail silk face serum.webp"
     ],
-    category: "skincare",
+    category: "scalp-care",
     description: "This lightweight, fast-absorbing leave-on treatment provides instant, long-lasting relief from scalp irritation, dryness, and flaking. Formulated with cooling peppermint, tea tree, and chamomile extracts to calm and soothe the scalp.",
     intro: "A spa-grade scalp elixir that cools instantly and relieves redness and dry irritation.",
     bullets: [
@@ -37,7 +37,7 @@ export const PRODUCTS: Product[] = [
     images: [
       "/snail silk scalp mask.webp"
     ],
-    category: "skincare",
+    category: "scalp-care",
     description: "This intensive soothing treatment masque deeply hydrates and balances the scalp while conditioning and detangling hair. It leaves the scalp calm and hair silken-soft.",
     intro: "A luxurious conditioning treatment masque that removes flakes and rejuvenates hair and scalp.",
     bullets: [
@@ -59,7 +59,7 @@ export const PRODUCTS: Product[] = [
     images: [
       "/snail silk scalp oil.webp"
     ],
-    category: "skincare",
+    category: "hair-oils",
     description: "This luxurious, lightweight oil absorbs instantly to restore hair to its prime. Infused with a rich blend of jasmine, edelweiss, lychee, sandalwood, and argan extracts, it penetrates to condition and strengthen.",
     intro: "Liquid gold that provides elite protection, intense shine, and frizz control without weight.",
     bullets: [
@@ -81,7 +81,7 @@ export const PRODUCTS: Product[] = [
     images: [
       "/ground recovery oil.webp"
     ],
-    category: "skincare",
+    category: "recovery-botanicals",
     description: "An overnight lipid barrier repair oil formulated to replenish skin elasticity, soothe skin redness, and ground your evening skincare ritual. Blended with active Jasmine, Rosewood, sweet almond, avocado, and cucumber oils.",
     intro: "Comforts and replenishes tired skin overnight to lock in essential moisture and restore radiance.",
     bullets: [
@@ -103,7 +103,7 @@ export const PRODUCTS: Product[] = [
     images: [
       "/Gym silk.webp"
     ],
-    category: "skincare",
+    category: "recovery-botanicals",
     description: "An energizing, stimulating body oil crafted with therapeutic aromatherapy to soothe tired muscles and support athletic recovery. Infuse and revitalize the senses with cold-pressed botanical oils.",
     intro: "Blends cooling Eucalyptus, warming Black Pepper, Rosemary, and Ginger to stimulate blood flow and ease tension.",
     bullets: [
@@ -125,11 +125,7 @@ export const PRODUCTS: Product[] = [
     images: [
       "/snail silk scalp oil.webp"
     ],
-    colors: [
-      { name: "Original Gold", hex: "#D4AF37" },
-      { name: "Rose Millésime", hex: "#C39B9B" }
-    ],
-    category: "face",
+    category: "hair-oils",
     description: "Our signature multi-use hair oil delivers deep nourishment and up to 48 hours of high-performance shine. Infused with a sacred blend of Marula, Camellia, and Argan oils to seal split ends and provide thermal protection up to 450°F.",
     intro: "Formulated for hair that breathes of luxurious gloss. Micro-repair lipid particles adapt to dry fibers.",
     bullets: [
@@ -149,10 +145,9 @@ export const PRODUCTS: Product[] = [
     price: 28.00,
     rating: 4,
     images: [
-      "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=1000&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=1000&auto=format&fit=crop&q=80"
+      "/snail silk face serum.webp"
     ],
-    category: "eye",
+    category: "boosters",
     description: "An innovative, highly concentrated scalp and hair serum boost engineered to deliver deep hydration. Formulated with 2% Hyaluronic Acid and Creatine to reconstruct strength, smoothness, and flexibility.",
     intro: "Hydration booster elixirs that coat each individual follicle with botanical restorative nutrients.",
     bullets: [
@@ -170,13 +165,11 @@ export const PRODUCTS: Product[] = [
     name: "Kérastase Chronologiste Caviar Serum",
     subtitle: "Regenerating Scalp & Hair Pearls by Kérastase",
     price: 42.00,
-    originalPrice: 62.00,
     rating: 5,
     images: [
-      "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=1000&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?w=1000&auto=format&fit=crop&q=80"
+      "/snail silk scalp mask.webp"
     ],
-    category: "eye",
+    category: "boosters",
     description: "A luxury youth-forward caviar peptide serum that transforms dry hair and scalp. Micro-encapsulated pearls burst on contact to release Abyssine, Vitamin E, and Hyaluronic Acid to intensely hydrate, soothe, and pump up hair bounce.",
     intro: "An effortless 10-second sweep that regenerates hair vitality and holds absolute salon freshness all day.",
     bullets: [
@@ -187,7 +180,7 @@ export const PRODUCTS: Product[] = [
     ],
     howToUse: "Apply 2-3 pumps directly to the scalp and damp or dry hair. Massage gently from roots to tips to burst and distribute active caviar nutrient pearls.",
     ingredients: "Aqua, Glycerin, Abyssine Extract, Sodium Hyaluronate, Tocopheryl Acetate, Caviar Peptide Complexes, Argania Spinosa Extract, Perfume/Fragrance.",
-    tags: ["SAVE UP TO 32%"]
+    tags: ["BESTSELLER"]
   },
   {
     id: "concealer",
@@ -196,10 +189,9 @@ export const PRODUCTS: Product[] = [
     price: 68.00,
     rating: 5,
     images: [
-      "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=1000&auto=format&fit=crop&q=80",
-      "https://images.unsplash.com/photo-1620802631468-911c03ae793e?w=1000&auto=format&fit=crop&q=80"
+      "/ground recovery oil.webp"
     ],
-    category: "face",
+    category: "recovery-botanicals",
     description: "An ultra-creamy, decadent night balm infused with soothing organic chamomile, lavender, and sweet almond. Formulated to deeply nourish skin, relieve facial tension, and support an deep, restful state.",
     intro: "Soothing natural botanical waxes that melt into skin to give an incredibly rested, organic glow.",
     bullets: [
@@ -221,7 +213,7 @@ export const PRODUCTS: Product[] = [
     images: [
       "/snail silk scalp mask.webp"
     ],
-    category: "eye",
+    category: "boosters",
     description: "A weightless, silicone-free antioxidant hair serum that shields locks from pollution and high heat styling for up to 48 hours. Powered by Olaplex's patented Bond Building Technology to rebuild broken disulfide bonds.",
     intro: "Anti-pollution, anti-tangle, and heat-protective hair shield serum for pristine everyday luxury results.",
     bullets: [
@@ -243,7 +235,7 @@ export const PRODUCTS: Product[] = [
     images: [
       "/snail silk face serum.webp"
     ],
-    category: "lip",
+    category: "hair-oils",
     description: "An incredibly nutritive, lightweight split-end serum hybrid. Adds immediate sensory hydration and seals fiber split-ends instantly. Infused with plant-based proteins and niacinamide to nurture cuticle locks.",
     intro: "Nourishing, non-sticky luxury oil-gel that coats hair tips in a high-shine glaze of intense hydration.",
     bullets: [
@@ -256,44 +248,6 @@ export const PRODUCTS: Product[] = [
     ingredients: "Isododecane, Dimethicone, Wheat Protein Amino Acids, Soy Protein, Niacinamide, Hydrolyzed Wheat Gluten, Benzyl Salicylate, Geraniol.",
     tags: ["BESTSELLER"]
   },
-  // Brushes (Tools)
-  {
-    id: "buffer-brush",
-    name: "Silicon Scalp Massage Brush",
-    subtitle: "Exfoliating Root Circulation Stimulator",
-    price: 24.00,
-    rating: 4,
-    images: ["https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=1000&auto=format&fit=crop&q=80"],
-    category: "brush",
-    description: "A premium luxury silicone scalp massager featuring soft, flexible bristles that stimulate blood flow to promote hair growth and deeply exfoliate hair follicles during shampooing.",
-    howToUse: "Gently press against scalp in small circular motions while lathering shampoo or working elixirs into hair roots. Can be used wet or dry.",
-    ingredients: "100% Medical-Grade Hypoallergenic Soft Silicone, Anti-Slip Ergonomic Shell Handle."
-  },
-  {
-    id: "blend-brush",
-    name: "Rose Quartz Facial Gua Sha",
-    subtitle: "Lymphatic Drainage & Contouring Stone",
-    price: 18.00,
-    rating: 5,
-    images: ["https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=1000&auto=format&fit=crop&q=80"],
-    category: "brush",
-    description: "A hand-carved, genuine grade-A rose quartz gua sha tool designed to lift facial muscles, speed up lymphatic drainage, and assist deep absorption of face wellness oils.",
-    howToUse: "Warm face oil on the templates, hold the stone flat against skin and scrape upward and outward from the center of chin, cheeks, and forehead.",
-    ingredients: "100% Brazilian Grade-A Natural Rose Quartz Crystal."
-  },
-  {
-    id: "angled-brush",
-    name: "Obsidian Face Roller",
-    subtitle: "Cooling De-Puffing Beauty Tool",
-    price: 21.00,
-    rating: 5,
-    images: ["https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=1000&auto=format&fit=crop&q=80"],
-    category: "brush",
-    description: "A therapeutic, double-sided natural black obsidian facial roller that provides instant cooling de-puffing benefits, minimizes pores, and relieves structural head tension.",
-    howToUse: "Roll the large obsidian stone gently outward from the nose to cheekbones, and use the smaller roller around delicate eye regions.",
-    ingredients: "100% Natural Volcanic Black Obsidian Protective Gemstone."
-  },
-  // Makeup Pouch
   {
     id: "makeup-pouch",
     name: "The Velvet Spa Kit Pouch",
@@ -304,7 +258,7 @@ export const PRODUCTS: Product[] = [
       "/the main image frame pouch.jpeg",
       "/the secondary insdert image frame.jpeg"
     ],
-    category: "pouch",
+    category: "accessories",
     description: "A gorgeous, padded luxury spa kit pouch designed to house your Oribe, Kérastase, and Ground Wellbeing elixirs. Crafted with double-stitch quilted velvet, splash-proof lining, and a polished heavy brass zip closure.",
     intro: "Premium space-saving beauty pouch featuring quick-slide dual metals and easy waterproof storage.",
     bullets: [
@@ -326,7 +280,7 @@ export const PRODUCTS: Product[] = [
     images: [
       "/cap h salon product image.jpg"
     ],
-    category: "pouch",
+    category: "accessories",
     description: "A premium-crafted signature cap designed for the perfect post-treatment aesthetic or casual day wear. Embroidered with the elegant H Salon logo, featuring a fully adjustable brass buckle clasp and breathable structured organic cotton.",
     intro: "Style meets scalp care. Keep hair protected from wind, UV rays, and styling stress in our custom logo cap.",
     bullets: [
@@ -348,7 +302,7 @@ export const PRODUCTS: Product[] = [
     images: [
       "/h salon comb.webp"
     ],
-    category: "brush",
+    category: "accessories",
     description: "An ultra-smooth, hand-carved finishing and detangling comb designed to glide effortlessly through hair without causing cuticle friction, static, or breakage. Perfect for distributing hair oils and scalp masques.",
     intro: "The ultimate styling tool. Gently detangles wet or dry strands while massaging and stimulating scalp circulation.",
     bullets: [
@@ -358,7 +312,7 @@ export const PRODUCTS: Product[] = [
       "Ideal for spreading scalp treatment oils and cream masques evenly"
     ],
     howToUse: "Glide gently from scalp roots to ends. Perfect for detangling wet hair in the shower or finishing dry styles with luxury high-shine polish.",
-    ingredients: "100% Eco-Friendly Cellulose Acetate, Hand-Polished Finish.",
+    ingredients: "Eco-Friendly Cellulose Acetate, Hand-Polished Finish.",
     tags: ["BESTSELLER", "NEW"]
   }
 ];

@@ -14,8 +14,33 @@ interface ProductCardProps {
   onQuickAdd: (product: Product, event: React.MouseEvent) => void;
 }
 
+// Helper to define sparse product badge hierarchy to avoid overcrowding cards
+const getProductBadges = (productId: string) => {
+  switch (productId) {
+    case "snail-silk-serum":
+      return { leftBadge: "BESTSELLER" };
+    case "snail-silk-scalp-mask":
+      return { leftBadge: "NEW", rightBadge: "10% OFF" };
+    case "snail-silk-scalp-oil":
+      return { leftBadge: "WHATS HOT" };
+    case "h-salon-cap":
+      return { leftBadge: "NEW" };
+    case "h-salon-comb":
+      return { rightBadge: "15% OFF" };
+    case "gym-silk":
+      return { rightBadge: "20% OFF" };
+    case "halo-highlighter":
+      return { leftBadge: "BESTSELLER" };
+    case "eye-shadow-stick":
+      return { rightBadge: "10% OFF" };
+    default:
+      return {};
+  }
+};
+
 export default function ProductCard({ product, onSelect, onQuickAdd }: ProductCardProps) {
   const [isHovered, setIsHovered] = useState(false);
+  const badges = getProductBadges(product.id);
 
   return (
     <div
@@ -30,17 +55,21 @@ export default function ProductCard({ product, onSelect, onQuickAdd }: ProductCa
     >
       {/* Product Image Container */}
       <div className="relative aspect-square overflow-hidden bg-[#E0DEDA]">
-        {/* Badges */}
-        {product.tags && product.tags.length > 0 && (
-          <div className="absolute top-3 left-3 z-10 flex flex-col gap-1">
-            {product.tags.map((tag, idx) => (
-              <span
-                key={idx}
-                className="bg-brand-lilac text-brand-black text-[9px] md:text-[10px] font-sans font-bold uppercase tracking-wider px-2 py-0.5 rounded-full"
-              >
-                {tag}
-              </span>
-            ))}
+        {/* Hierarchical Sparse Status Badge (Left) */}
+        {badges.leftBadge && (
+          <div className="absolute top-3 left-3 z-10">
+            <span className="bg-brand-black text-[#82D8C5] text-[9px] md:text-[10px] font-sans font-extrabold uppercase tracking-widest px-2.5 py-1 rounded-sm shadow-sm select-none">
+              {badges.leftBadge}
+            </span>
+          </div>
+        )}
+
+        {/* Small discount badge (Right) */}
+        {badges.rightBadge && (
+          <div className="absolute top-3 right-3 z-10">
+            <span className="bg-[#E76F51] text-white text-[9px] md:text-[10px] font-sans font-black uppercase tracking-wider px-2 py-1 rounded-xs shadow-xs select-none">
+              {badges.rightBadge}
+            </span>
           </div>
         )}
 
@@ -49,17 +78,29 @@ export default function ProductCard({ product, onSelect, onQuickAdd }: ProductCa
           alt={product.name}
         />
 
-        {/* Quick Add Overlay Button - slides up on hover */}
+        {/* PREMIUM EXPANDING CAPSULE QUICK ADD BUTTONS */}
+        {/* Laptop/Desktop responsive hover variant */}
         <button
           onClick={(e) => onQuickAdd(product, e)}
-          className="absolute bottom-0 left-0 w-full bg-brand-black text-white text-[12px] md:text-[13px] uppercase tracking-widest font-sans font-bold py-3.5 transition-all duration-300 ease-out flex items-center justify-center gap-2 hover:bg-brand-black/90 active:bg-brand-black/95 cursor-pointer z-10"
-          style={{
-            transform: isHovered ? "translateY(0)" : "translateY(100%)",
-            opacity: isHovered ? 1 : 0
-          }}
+          className="absolute bottom-3 right-3 z-20 h-10 w-10 hover:w-28 bg-brand-black hover:bg-[#82D8C5] text-[#82D8C5] hover:text-brand-black rounded-full hidden lg:flex items-center justify-start overflow-hidden transition-all duration-300 ease-out cursor-pointer group/bag shadow-lg opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0"
+          title={`Quick Buy ${product.name}`}
+        >
+          <div className="flex items-center justify-center min-w-10 h-10 shrink-0">
+            <ShoppingBag className="w-4 h-4 shrink-0" />
+          </div>
+          <span className="opacity-0 group-hover/bag:opacity-100 transition-opacity duration-350 font-sans font-black text-[9px] tracking-widest uppercase truncate whitespace-nowrap leading-none pr-3">
+            Quick Buy
+          </span>
+        </button>
+
+        {/* Mobile/Tablet touch-friendly constant variant */}
+        <button
+          onClick={(e) => onQuickAdd(product, e)}
+          className="absolute bottom-3 right-3 z-20 h-10 w-10 bg-brand-black active:bg-[#82D8C5] text-[#82D8C5] active:text-brand-black rounded-full lg:hidden flex items-center justify-center cursor-pointer shadow-md active:scale-90 transition-all duration-150"
+          title={`Quick Buy ${product.name}`}
+          aria-label={`Quick Buy ${product.name}`}
         >
           <ShoppingBag className="w-4 h-4" />
-          Quick Add
         </button>
       </div>
 

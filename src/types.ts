@@ -12,7 +12,7 @@ export interface Product {
   rating: number;
   images: string[];
   colors?: { name: string; hex: string; bgImage?: string }[];
-  category: "lip" | "face" | "eye" | "brush" | "pouch" | "skincare";
+  category: "scalp-care" | "hair-oils" | "recovery-botanicals" | "boosters" | "accessories" | "lip" | "face" | "eye" | "brush" | "pouch" | "skincare";
   description?: string;
   intro?: string;
   bullets?: string[];
