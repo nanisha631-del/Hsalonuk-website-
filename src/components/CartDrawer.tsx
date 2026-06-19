@@ -3,9 +3,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { X, Plus, Minus, Trash, ShoppingBag, ArrowRight } from "lucide-react";
 import { CartItem } from "../types";
+import { createShopifyCheckoutRedirect } from "../lib/shopify";
+import { PRODUCTS } from "../data";
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -22,6 +25,22 @@ export default function CartDrawer({
   onUpdateQuantity,
   onRemoveItem
 }: CartDrawerProps) {
+  const [isRedirecting, setIsRedirecting] = useState(false);
+  const [checkoutError, setCheckoutError] = useState<string | null>(null);
+
+  const handleCheckout = async () => {
+    setIsRedirecting(true);
+    setCheckoutError(null);
+    try {
+      const checkoutUrl = await createShopifyCheckoutRedirect(cartItems, PRODUCTS);
+      window.location.href = checkoutUrl;
+    } catch (err: any) {
+      console.error("Shopify Checkout Error:", err);
+      setCheckoutError(err.message || "Failed to start checkout. Ensure titles match Shopify.");
+      setIsRedirecting(false);
+    }
+  };
+
   const subtotal = cartItems.reduce(
     (total, item) => total + item.product.price * item.quantity,
     0
@@ -216,14 +235,23 @@ export default function CartDrawer({
                   Shipping and taxes calculated at checkout
                 </p>
 
+                {checkoutError && (
+                  <div className="p-3 bg-red-50 text-red-700 text-xs rounded border border-red-150 font-sans leading-relaxed text-center">
+                    {checkoutError}
+                  </div>
+                )}
+
                 {/* Checkout CTA */}
                 <button
                   id="checkout-trigger"
-                  onClick={() => alert("Secure Checkout is locked in pre-production. Excellent choice!")}
-                  className="w-full bg-brand-black hover:bg-brand-black/95 text-white py-4 text-[13px] font-bold uppercase tracking-[0.2em] hover:opacity-95 active:scale-98 transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer"
+                  onClick={handleCheckout}
+                  disabled={isRedirecting}
+                  className={`w-full bg-brand-black hover:bg-brand-black/95 text-white py-4 text-[13px] font-bold uppercase tracking-[0.2em] hover:opacity-95 active:scale-98 transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer ${
+                    isRedirecting ? "opacity-75 cursor-not-allowed" : ""
+                  }`}
                 >
-                  CHECKOUT NOW
-                  <ArrowRight className="w-4 h-4" />
+                  {isRedirecting ? "Redirecting to Shopify..." : "CHECKOUT NOW"}
+                  <ArrowRight className="w-4 h-4 animate-pulse" />
                 </button>
               </div>
             )}

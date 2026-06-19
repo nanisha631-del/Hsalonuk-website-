@@ -48,6 +48,7 @@ import ContactUsPage from "./components/ContactUsPage";
 import SearchDrawer from "./components/SearchDrawer";
 import { getShopifySettings } from "./shopifySettings";
 import { useSharedState } from "./useSharedState";
+import { fetchShopifyProducts } from "./lib/shopify";
 
 // Staggered animation triggers from left to right as requested (slowly like a 1, 2, 3, 4 counting)
 const bestsellerContainerVariants = {
@@ -113,6 +114,38 @@ export default function App() {
       document.documentElement.style.setProperty('--color-brand-lilac', settings.brand_primary_color);
     }
   }, [settings.brand_primary_color]);
+
+  // Synchronize Shopify product variant names and prices dynamically to provide live data
+  useEffect(() => {
+    fetchShopifyProducts(PRODUCTS)
+      .then((mappings) => {
+        let hasChanged = false;
+        PRODUCTS.forEach((prod) => {
+          const map = mappings[prod.id];
+          if (map) {
+            // Check and sync real name from Shopify
+            if (map.shopifyTitle && prod.name !== map.shopifyTitle) {
+              console.log(`Live Name: Synced "${prod.name}" to Shopify title: "${map.shopifyTitle}"`);
+              prod.name = map.shopifyTitle;
+              hasChanged = true;
+            }
+            // Check and sync real price from Shopify
+            if (map.price !== undefined && Math.abs(prod.price - map.price) > 0.01) {
+              console.log(`Live Pricing: Synced "${prod.name}" price with Shopify rate: $${map.price} (was $${prod.price})`);
+              prod.price = map.price;
+              hasChanged = true;
+            }
+          }
+        });
+        if (hasChanged) {
+          // Force active UI to trigger refresh with matched Shopify properties
+          updateState((prev) => ({ ...prev }));
+        }
+      })
+      .catch((err) => {
+        console.warn("Could not sync with Shopify, running on local defaults gracefully.", err);
+      });
+  }, []);
 
   // Scroll to top on page or view transition
   useEffect(() => {
