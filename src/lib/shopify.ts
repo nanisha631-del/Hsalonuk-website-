@@ -267,9 +267,7 @@ export async function createShopifyCheckoutRedirect(cartItems: any[], localProdu
   };
 
   const data = await queryStorefront(mutation, variables);
-  const checkoutUrl = data?.cartCreate?.cart?.checkoutUrl
-  ? data?.cartCreate?.cart?.checkoutUrl + "?return_to=" + encodeURIComponent("https://hsalonuk-website.vercel.app")
-  : undefined;
+  const checkoutUrl = data?.cartCreate?.cart?.checkoutUrl;
   const userErrors = data?.cartCreate?.userErrors || [];
 
   if (userErrors.length > 0) {
