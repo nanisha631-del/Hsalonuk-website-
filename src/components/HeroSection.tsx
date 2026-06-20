@@ -25,6 +25,8 @@ export default function HeroSection() {
                 src={settings.hero_image_url || "/hero section image.jpeg"}
                 alt="Radiant Hair and Scalp Elixir Hero Background"
                 className="brightness-[0.80] object-center"
+                loading="eager"
+                fetchPriority="high"
               />
             </div>
             {/* Mobile view image */}
@@ -33,6 +35,8 @@ export default function HeroSection() {
                 src="/hero section mobile view.jpeg"
                 alt="Radiant Hair and Scalp Elixir Hero Mobile Background"
                 className="brightness-[0.80] object-center"
+                loading="eager"
+                fetchPriority="high"
               />
             </div>
           </div>

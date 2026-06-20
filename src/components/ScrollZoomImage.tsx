@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { motion } from "motion/react";
+import { useState } from "react";
 
 interface ScrollZoomImageProps {
   src: string;
@@ -12,6 +12,8 @@ interface ScrollZoomImageProps {
   referrerPolicy?: "no-referrer" | "no-referrer-when-downgrade" | "origin" | "origin-when-cross-origin" | "same-origin" | "strict-origin" | "strict-origin-when-cross-origin" | "unsafe-url";
   onClick?: () => void;
   id?: string;
+  loading?: "lazy" | "eager";
+  fetchPriority?: "high" | "low" | "auto";
 }
 
 export default function ScrollZoomImage({
@@ -20,24 +22,31 @@ export default function ScrollZoomImage({
   className = "",
   referrerPolicy = "no-referrer",
   onClick,
-  id
+  id,
+  loading = "lazy",
+  fetchPriority = "auto"
 }: ScrollZoomImageProps) {
+  const [isLoaded, setIsLoaded] = useState(false);
+
   return (
-    <div className="overflow-hidden w-full h-full relative" id={id}>
-      <motion.img
+    <div className="overflow-hidden w-full h-full relative bg-zinc-200/50" id={id}>
+      {/* Delicate, shimmering ambient gradient loader background */}
+      {!isLoaded && (
+        <div className="absolute inset-0 bg-gradient-to-r from-zinc-200 via-zinc-100 to-zinc-200 animate-pulse z-0" />
+      )}
+      <img
         src={src}
         alt={alt}
         referrerPolicy={referrerPolicy}
         onClick={onClick}
-        initial={{ scale: 1.09 }}
-        whileInView={{ scale: 1.01 }}
-        viewport={{ once: true, amount: 0.1 }}
-        whileHover={{ scale: 1.06 }}
-        transition={{ 
-          scale: { duration: 1.5, ease: [0.25, 1, 0.5, 1] },
-          default: { duration: 0.4 }
-        }}
-        className={`w-full h-full object-cover select-none ${className}`}
+        loading={loading}
+        // Custom attribute for prioritizing above-the-fold content
+        {...({ fetchPriority: fetchPriority } as any)}
+        onLoad={() => setIsLoaded(true)}
+        decoding="async"
+        className={`w-full h-full object-cover select-none transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] z-10 ${
+          isLoaded ? "opacity-100 scale-100 blur-0" : "opacity-0 scale-[1.04] blur-[3px]"
+        } ${className}`}
       />
     </div>
   );

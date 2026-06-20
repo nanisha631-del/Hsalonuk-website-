@@ -245,6 +245,39 @@ export default function ShopifyInstructionModal({ isOpen, onClose }: ShopifyInst
                   </ul>
                 </div>
 
+                {/* Redirect Fix section */}
+                <div className="p-4 bg-emerald-50 border border-emerald-200/60 rounded-xl text-left text-gray-800 space-y-2.5">
+                  <div className="flex items-center gap-2 text-emerald-800 font-bold text-xs uppercase tracking-wide">
+                    <svg className="w-4.5 h-4.5 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                    Fixing "Continue Shopping" Redirection (Go back to your Website)
+                  </div>
+                  <p className="text-[12px] leading-relaxed text-gray-650">
+                    When customers finish their order on Shopify's checkout page and click <strong>"Continue shopping"</strong>, Shopify looks at the custom storefront's registered link in the Headless settings. Since it's currently empty, it falls back to the default <em>Horizon / Dawn</em> theme. Follow these quick steps to make it go back to your beautiful website:
+                  </p>
+                  <ol className="list-decimal pl-4 text-[12px] space-y-2 text-gray-600 marker:font-semibold">
+                    <li>
+                      Log into your <strong>Shopify Admin</strong> and look at the sidebar or search bar to go to <strong>Sales channels</strong> → <strong className="text-gray-900 font-semibold">Headless</strong>.
+                    </li>
+                    <li>
+                      This will load the list of your custom headless storefronts. (If you are already inside the details page of "<em>Hsalon Uk Store Headless 02</em>" shown in your screenshots, go <strong>one step back</strong> to the main Headless app overview page).
+                    </li>
+                    <li>
+                      In the table of custom storefronts, look at the row for <strong className="text-gray-900">Hsalon Uk Store Headless 02</strong> and find the <strong className="text-emerald-700">Storefront URL</strong> column.
+                    </li>
+                    <li>
+                      Hover over that cell and click the <strong>Pencil/Edit icon</strong>, or edit the empty input field directly.
+                    </li>
+                    <li>
+                      Paste your custom website URL (e.g., <code className="bg-gray-100 px-1 py-0.5 rounded text-emerald-800 font-mono text-[11px]">https://hsalonuk.vercel.app</code> or your dynamic development/Vercel address) and click <strong className="font-semibold text-gray-900">Save</strong>.
+                    </li>
+                  </ol>
+                  <div className="bg-emerald-100/50 rounded-lg p-2.5 text-[11px] text-emerald-950 font-medium leading-relaxed">
+                    ✨ That's it! Shopify's secure checkout page will immediately recognize this custom Storefront URL and smoothly redirect any customer who clicks <strong>"Continue shopping"</strong> straight back to your custom H Salon website instead of the default Online Store!
+                  </div>
+                </div>
+
               </div>
             </div>
 
