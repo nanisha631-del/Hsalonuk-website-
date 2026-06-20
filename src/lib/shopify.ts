@@ -12,8 +12,8 @@ export interface ShopifyProductMap {
   shopifyTitle?: string;
 }
 
-const SHOPIFY_DOMAIN = "ak00f8-p2.myshopify.com";
-const STOREFRONT_ACCESS_TOKEN = "28415d841185cd88a0e4df20ce8a8253";
+const SHOPIFY_DOMAIN = "hsalonuk.myshopify.com";
+const STOREFRONT_ACCESS_TOKEN = "65c0a804690c35ca301d8483d2891bf5";
 
 // Map to cache active Shopify variants by local id
 let shopifyProductCache: Record<string, ShopifyProductMap> = {};
