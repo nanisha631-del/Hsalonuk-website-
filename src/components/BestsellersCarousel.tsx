@@ -81,7 +81,7 @@ export default function BestsellersCarousel() {
             variants={bestsellerContainerVariants}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.15 }}
+            viewport={{ once: false, amount: 0.15 }}
             ref={carouselContainerRef}
             className="flex gap-5 overflow-x-auto select-none py-4 px-1 scroll-smooth w-full no-scrollbar relative snap-x snap-mandatory"
           >
