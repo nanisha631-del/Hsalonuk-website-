@@ -8,6 +8,7 @@ import { useState } from "react";
 interface ScrollZoomImageProps {
   src: string;
   alt: string;
+  secondarySrc?: string;
   className?: string;
   referrerPolicy?: "no-referrer" | "no-referrer-when-downgrade" | "origin" | "origin-when-cross-origin" | "same-origin" | "strict-origin" | "strict-origin-when-cross-origin" | "unsafe-url";
   onClick?: () => void;
@@ -19,6 +20,7 @@ interface ScrollZoomImageProps {
 export default function ScrollZoomImage({
   src,
   alt,
+  secondarySrc,
   className = "",
   referrerPolicy = "no-referrer",
   onClick,
@@ -27,6 +29,7 @@ export default function ScrollZoomImage({
   fetchPriority = "auto"
 }: ScrollZoomImageProps) {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isSecondaryLoaded, setIsSecondaryLoaded] = useState(false);
 
   return (
     <div className="overflow-hidden w-full h-full relative bg-zinc-200/50" id={id}>
@@ -48,6 +51,20 @@ export default function ScrollZoomImage({
           isLoaded ? "opacity-100 blur-0" : "opacity-0 scale-[1.03] blur-[2px]"
         } ${className}`}
       />
+
+      {secondarySrc && (
+        <img
+          src={secondarySrc}
+          alt={`${alt} Detail`}
+          referrerPolicy={referrerPolicy}
+          loading={loading}
+          onLoad={() => setIsSecondaryLoaded(true)}
+          decoding="async"
+          className={`absolute inset-0 w-full h-full object-cover select-none split-reveal-img luxury-zoom z-15 ${
+            isSecondaryLoaded ? "opacity-100" : "opacity-0"
+          } ${className}`}
+        />
+      )}
     </div>
   );
 }

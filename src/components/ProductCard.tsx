@@ -68,6 +68,7 @@ export default function ProductCard({ product, onSelect, onQuickAdd }: ProductCa
 
         <ScrollZoomImage
           src={product.images[0]}
+          secondarySrc={product.images.length > 1 ? product.images[1] : undefined}
           alt={product.name}
         />
 

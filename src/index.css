@@ -66,6 +66,17 @@
   transform: scale(1.07) translateZ(0) !important;
 }
 
+/* Elegant horizontal split reveal effect for secondary product images on hover */
+.split-reveal-img {
+  clip-path: inset(0 50% 0 50%);
+  transition: clip-path 1.2s cubic-bezier(0.25, 1, 0.25, 1), opacity 0.8s ease-out !important;
+  will-change: clip-path, transform, opacity !important;
+}
+
+.group:hover .split-reveal-img {
+  clip-path: inset(0 0 0 0);
+}
+
 /* Intersection observer transitions */
 .reveal-on-scroll {
   opacity: 0;

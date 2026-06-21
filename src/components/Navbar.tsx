@@ -21,6 +21,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { getShopifySettings } from "../shopifySettings";
 import { PRODUCTS } from "../data";
 import { Product } from "../types";
+import ScrollZoomImage from "./ScrollZoomImage";
 
 interface NavbarProps {
   cartCount: number;
@@ -548,13 +549,13 @@ export default function Navbar({
                       className="group border border-brand-black/5 rounded-lg p-3 bg-brand-offwhite cursor-pointer hover:shadow-md transition-all duration-300 text-center"
                     >
                       <div className="aspect-square rounded-md overflow-hidden relative mb-3 bg-white">
-                        <img 
+                        <ScrollZoomImage 
                           src={product.images[0]} 
+                          secondarySrc={product.images.length > 1 ? product.images[1] : undefined}
                           alt={product.name}
-                          className="object-contain w-full h-full p-2 group-hover:scale-[1.06] hover:scale-[1.06] transition-transform duration-[1500ms] ease-[cubic-bezier(0.25,1,0.5,1)] [will-change:transform]"
-                          referrerPolicy="no-referrer"
+                          className="p-2"
                         />
-                        <span className="absolute top-2 left-2 bg-[#82D8C5] text-brand-black text-[9px] font-extrabold px-1.5 py-0.5 rounded-xs tracking-wider uppercase">
+                        <span className="absolute top-2 left-2 bg-[#82D8C5] text-brand-black text-[9px] font-extrabold px-1.5 py-0.5 rounded-xs tracking-wider uppercase z-20">
                           ★ {product.rating}.0
                         </span>
                       </div>
