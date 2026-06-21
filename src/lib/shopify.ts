@@ -267,9 +267,7 @@ export async function createShopifyCheckoutRedirect(cartItems: any[], localProdu
   };
 
   const data = await queryStorefront(mutation, variables);
- const checkoutUrl = data?.cartCreate?.cart?.checkoutUrl
-  ? data?.cartCreate?.cart?.checkoutUrl + "?return_to=" + encodeURIComponent("https://hsalonuk-website.vercel.app")
-  : undefined;
+  const checkoutUrl = data?.cartCreate?.cart?.checkoutUrl;
   const userErrors = data?.cartCreate?.userErrors || [];
 
   if (userErrors.length > 0) {
@@ -280,5 +278,16 @@ export async function createShopifyCheckoutRedirect(cartItems: any[], localProdu
     throw new Error("Unable to create checkout session link from Shopify Storefront API.");
   }
 
-  return checkoutUrl;
+  // Save the actual checkout URL to session storage for the OrderSuccess page lookup
+  if (typeof window !== "undefined") {
+    try {
+      sessionStorage.setItem("shopify_checkout_url", checkoutUrl);
+      localStorage.setItem("shopify_checkout_url", checkoutUrl);
+    } catch (e) {
+      console.warn("Storage write failed:", e);
+    }
+  }
+
+  // Instead of redirecting to the Shopify checkout URL directly, redirect to the /order-success page on our website
+  return `/order-success?checkoutUrl=${encodeURIComponent(checkoutUrl)}`;
 }
