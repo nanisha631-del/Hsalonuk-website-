@@ -123,7 +123,7 @@ export default function CommunitySection() {
                   src={item.imageUrl}
                   alt={`Community Post ${idx}`}
                   referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-104"
+                  className="w-full h-full object-cover transition-transform duration-[1500ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-[1.06] hover:scale-[1.06] [will-change:transform]"
                 />
 
                 {/* Subtle White Glassmorphism Overlay with Slide-to-top */}

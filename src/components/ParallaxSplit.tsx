@@ -14,6 +14,25 @@ export default function ParallaxSplit() {
   const [isMobile, setIsMobile] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
   const settings = getShopifySettings();
+  const [isInView, setIsInView] = useState(false);
+  const underlineRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+    if (underlineRef.current) {
+      observer.observe(underlineRef.current);
+    }
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   const title1 = settings.parallax_title_line_1 || "HAIR & SCALP,";
   const title2 = settings.parallax_title_line_2_italic || "effortless.";
@@ -136,7 +155,13 @@ export default function ParallaxSplit() {
                 {title1} <br />
                 <span className="relative inline-block z-10 whitespace-nowrap text-brand-black italic font-light lowercase font-serif py-1">
                   {title2}
-                  <span className="absolute bottom-2 left-0 right-0 h-2 sm:h-3 bg-[#E1D1FF] -z-10 rounded-full scale-x-105 origin-left transform -rotate-1 opacity-70" style={settings.brand_primary_color ? { backgroundColor: settings.brand_primary_color } : {}} />
+                  <span 
+                    ref={underlineRef}
+                    className={`absolute bottom-2 left-0 right-0 h-2 sm:h-3 bg-[#82D8C5] -z-10 rounded-full origin-left transform -rotate-1 opacity-90 transition-transform duration-[1500ms] ease-[cubic-bezier(0.25,1,0.5,1)] ${
+                      isInView ? "scale-x-105" : "scale-x-0"
+                    }`}
+                    style={settings.brand_primary_color ? { backgroundColor: settings.brand_primary_color } : {}}
+                  />
                 </span>
               </h2>
               

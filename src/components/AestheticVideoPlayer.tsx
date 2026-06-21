@@ -151,7 +151,7 @@ export default function AestheticVideoPlayer() {
           onPlaying={onNativePlaying}
           onWaiting={onNativeWaiting}
           onCanPlay={() => setIsLoading(false)}
-          className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+          className="w-full h-full object-cover transition-transform duration-[1500ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-[1.06] hover:scale-[1.06] [will-change:transform]"
         />
       )}
 

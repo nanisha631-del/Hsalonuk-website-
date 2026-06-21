@@ -304,7 +304,7 @@ export default function ShopAllPage({
                           src={p.images[0]} 
                           alt={p.name}
                           onClick={() => onSelectProduct(p.id)}
-                          className="object-contain w-full h-full group-hover:scale-105 transition-transform duration-500 cursor-pointer"
+                          className="object-contain w-full h-full group-hover:scale-[1.06] hover:scale-[1.06] transition-transform duration-[1500ms] ease-[cubic-bezier(0.25,1,0.5,1)] cursor-pointer [will-change:transform]"
                           referrerPolicy="no-referrer"
                         />
                         {/* Sparse Status badges */}

@@ -8,6 +8,7 @@ import ScrollZoomImage from "./ScrollZoomImage";
 import { getShopifySettings } from "../shopifySettings";
 import ScenicReviews from "./ScenicReviews";
 import BundlePackSection from "./BundlePackSection";
+import LuxuryButton from "./LuxuryButton";
 
 interface ProductPageProps {
   product: Product;
@@ -431,14 +432,14 @@ export default function ProductPage({
 
           {/* Actions: ADD TO BAG & BUY IT NOW pill shapes - highly compact */}
           <div className="flex flex-col gap-2 border-b border-brand-black/5 pb-3 mt-1">
-            <button
+            <LuxuryButton
               onClick={() => onAddToCart(product, quantity, selectedColor)}
               className="w-full bg-brand-black hover:bg-brand-black/95 text-white font-sans font-bold py-3 text-[12px] uppercase tracking-[0.12em] transition-all hover:scale-[1.01] active:scale-98 cursor-pointer shadow-xs rounded-full flex items-center justify-center gap-1"
             >
               ADD TO CART • ${(product.price * quantity).toFixed(2)}
-            </button>
+            </LuxuryButton>
             
-            <button
+            <LuxuryButton
               onClick={() => {
                 onAddToCart(product, quantity, selectedColor);
                 alert("Redirecting securely to test checkout gateway!");
@@ -446,7 +447,7 @@ export default function ProductPage({
               className="w-full bg-white hover:bg-brand-black/5 border border-brand-black text-brand-black font-sans font-bold py-3 text-[12px] uppercase tracking-[0.12em] transition-all hover:scale-[1.01] active:scale-98 cursor-pointer rounded-full flex items-center justify-center shadow-xs"
             >
               BUY IT NOW
-            </button>
+            </LuxuryButton>
 
             {/* Demostore Notice matching original Screenshot 3 */}
             <div className="text-center text-[10.5px] text-gray-400 font-sans tracking-wide py-1 leading-none">

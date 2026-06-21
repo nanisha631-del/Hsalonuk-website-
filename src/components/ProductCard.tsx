@@ -43,7 +43,7 @@ export default function ProductCard({ product, onSelect, onQuickAdd }: ProductCa
 
   return (
     <div
-      className="group relative bg-[#EDEDE9]/30 rounded-none overflow-hidden cursor-pointer flex flex-col justify-between h-full transition-[transform,box-shadow] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] [will-change:transform] hover:-translate-y-1.5 hover:shadow-[0_12px_30px_rgba(0,0,0,0.06)]"
+      className="group relative bg-[#EDEDE9]/30 rounded-none overflow-hidden cursor-pointer flex flex-col justify-between h-full transition-shadow duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.04)]"
       onClick={() => onSelect(product.id)}
     >
       {/* Product Image Container */}

@@ -172,7 +172,7 @@ export default function AutoScrollCards() {
                     src={item.imageUrl}
                     alt="Customer aesthetic photo"
                     referrerPolicy="no-referrer"
-                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-[1500ms] ease-[cubic-bezier(0.25,1,0.5,1)] hover:scale-[1.06] [will-change:transform]"
                   />
                 </div>
               );

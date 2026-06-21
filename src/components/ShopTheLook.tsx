@@ -264,7 +264,7 @@ export default function ShopTheLook({ onSelectProduct, onAddToCart }: ShopTheLoo
                     onMouseLeave={() => setActiveProductId(null)}
                     className={`w-[220px] sm:w-[255px] bg-white border rounded-[16px] overflow-hidden flex-shrink-0 flex flex-col justify-between group transition-all duration-300 ${
                       isActive 
-                        ? "border-[#82D8C5] shadow-lg -translate-y-1" 
+                        ? "border-[#82D8C5] shadow-lg" 
                         : "border-[#D8D3CC]/60 shadow-xs"
                     }`}
                   >

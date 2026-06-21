@@ -44,8 +44,8 @@ export default function ScrollZoomImage({
         {...({ fetchPriority: fetchPriority } as any)}
         onLoad={() => setIsLoaded(true)}
         decoding="async"
-        className={`w-full h-full object-cover select-none transition-[opacity,transform,filter] duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] translate-z-0 z-10 [will-change:transform,opacity,filter] ${
-          isLoaded ? "opacity-100 scale-100 blur-0" : "opacity-0 scale-[1.03] blur-[2px]"
+        className={`w-full h-full object-cover select-none luxury-zoom z-10 ${
+          isLoaded ? "opacity-100 blur-0" : "opacity-0 scale-[1.03] blur-[2px]"
         } ${className}`}
       />
     </div>

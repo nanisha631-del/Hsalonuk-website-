@@ -183,7 +183,7 @@ export default function SearchDrawer({
                               <img
                                 src={p.images[0]}
                                 alt={p.name}
-                                className="object-contain w-full h-full group-hover:scale-105 transition-transform duration-300"
+                                className="object-contain w-full h-full group-hover:scale-[1.06] hover:scale-[1.06] transition-transform duration-[1500ms] ease-[cubic-bezier(0.25,1,0.5,1)] [will-change:transform]"
                                 referrerPolicy="no-referrer"
                               />
                             </div>

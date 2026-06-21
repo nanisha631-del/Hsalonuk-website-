@@ -54,6 +54,18 @@
   scrollbar-width: none;
 }
 
+/* Custom luxury slow transitions for images shown in cards, hero, and carousel */
+.luxury-zoom {
+  transition: transform 2.0s cubic-bezier(0.25, 1, 0.25, 1), opacity 0.8s ease-out, filter 0.8s ease-out !important;
+  will-change: transform !important;
+  transform: scale(1) translateZ(0); /* force hardware acceleration */
+}
+
+.luxury-zoom:hover,
+.group:hover .luxury-zoom {
+  transform: scale(1.07) translateZ(0) !important;
+}
+
 /* Intersection observer transitions */
 .reveal-on-scroll {
   opacity: 0;
@@ -64,6 +76,66 @@
 .reveal-on-scroll.show {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Confetti party poppers animations - GPU accelerated */
+@keyframes pop-left {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(0);
+    opacity: 1;
+  }
+  15% {
+    transform: translate3d(var(--x-dist), var(--y-up), 0) rotate(140deg) scale(1);
+    opacity: 1;
+  }
+  30% {
+    transform: translate3d(calc(var(--x-dist) * 1.15), calc(var(--y-up) + 40px), 0) rotate(220deg) scale(0.95);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(calc(var(--x-dist) * 1.35), calc(var(--y-up) + 480px), 0) rotate(420deg) scale(0.35);
+    opacity: 0;
+  }
+}
+
+@keyframes pop-right {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(0);
+    opacity: 1;
+  }
+  15% {
+    transform: translate3d(calc(-1 * var(--x-dist)), var(--y-up), 0) rotate(-140deg) scale(1);
+    opacity: 1;
+  }
+  30% {
+    transform: translate3d(calc(-1.15 * var(--x-dist)), calc(var(--y-up) + 40px), 0) rotate(-220deg) scale(0.95);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(calc(-1.35 * var(--x-dist)), calc(var(--y-up) + 480px), 0) rotate(-420deg) scale(0.35);
+    opacity: 0;
+  }
+}
+
+.animate-pop-left {
+  animation: pop-left 3.0s cubic-bezier(0.12, 0.85, 0.35, 1) forwards;
+}
+
+.animate-pop-right {
+  animation: pop-right 3.0s cubic-bezier(0.12, 0.85, 0.35, 1) forwards;
+}
+
+@keyframes shine-sweep {
+  0% {
+    transform: translateX(-150%) skewX(-25deg);
+  }
+  100% {
+    transform: translateX(250%) skewX(-25deg);
+  }
+}
+
+.animate-shine-sweep {
+  animation: shine-sweep 1.8s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
 }
 
 /* Reduced motion preference */

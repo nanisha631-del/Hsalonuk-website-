@@ -210,7 +210,7 @@ export default function App() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+              transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
               className="flex flex-col w-full"
             >
               {/* SECTION 2 — HERO SECTION */}
@@ -249,9 +249,6 @@ export default function App() {
               {/* SECTION 9 — TEXT FILL ON SCROLL */}
               <GreetingSection />
 
-              {/* NEW PREMIUM SECTION — BOTANICAL LAB ACTIVE INGREDIENTS SPOTLIGHT */}
-              <BotanicalLab />
-
               {/* NEW PREMIUM SECTION — BEFORE AND AFTER SLIDER REVELATION */}
               <BeforeAfterSection />
 
@@ -282,7 +279,7 @@ export default function App() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+              transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
               className="w-full"
             >
               <ShopAllPage 
@@ -300,7 +297,7 @@ export default function App() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+              transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
               className="w-full"
             >
               <BestsellersPage 
@@ -317,11 +314,12 @@ export default function App() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+              transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
               className="w-full"
             >
               <AboutUsPage 
                 onBackToHome={handleGoHome}
+                onNavigateToShop={() => updateState({ currentView: "shop_all", selectedCategory: "all" })}
               />
             </motion.div>
           )}
@@ -332,7 +330,7 @@ export default function App() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+              transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
               className="w-full"
             >
               <ContactUsPage 
@@ -347,7 +345,7 @@ export default function App() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+              transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
               className="w-full"
             >
               {/* SECTION 11 Product Page view details */}

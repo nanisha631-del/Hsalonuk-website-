@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion } from "motion/react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { PRODUCTS } from "../data";
@@ -15,7 +15,7 @@ const bestsellerContainerVariants = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.45, // Deliberate gentle delay to show products one after another
+      staggerChildren: 0.18, // Adjusted stagger to make sequential entry feels beautifully snappy but distinct
     }
   }
 };
@@ -23,8 +23,8 @@ const bestsellerContainerVariants = {
 const bestsellerCardVariants = {
   hidden: {
     opacity: 0,
-    y: 40, // Elegant smooth vertical translation
-    filter: "blur(4px)", // Perfectly soft and highly optimized cinematic blur
+    y: 35, // Smooth rising translation
+    filter: "blur(3px)", // Perfect soft cinematic blur
     scale: 0.99,
   },
   visible: {
@@ -33,16 +33,22 @@ const bestsellerCardVariants = {
     filter: "blur(0px)",
     scale: 1,
     transition: {
-      duration: 1.2, // Slightly adjusted duration for immediate snappiness and peak GPU rendering efficiency
-      ease: [0.16, 1, 0.3, 1], // Perfect cubic-bezier curve for high-framerate fluid translation
+      duration: 1.0, 
+      ease: [0.16, 1, 0.3, 1], // Fluid cubic-bezier
     }
   }
 };
 
 export default function BestsellersCarousel() {
   const settings = getShopifySettings();
-  const { handleAddToCart, handleSelectProduct } = useSharedState();
+  const { handleAddToCart, handleSelectProduct, updateState } = useSharedState();
   const carouselContainerRef = useRef<HTMLDivElement>(null);
+  
+  // Custom mount state key to force-animate child items on any direct browser refresh/load event
+  const [mountKey, setMountKey] = useState(0);
+  useEffect(() => {
+    setMountKey((prev) => prev + 1);
+  }, []);
 
   const filteredProducts = [
     ...PRODUCTS.filter((p) => p.id === "h-salon-cap" || p.id === "h-salon-comb"),
@@ -78,6 +84,7 @@ export default function BestsellersCarousel() {
         {/* Slider and arrows row */}
         <div className="relative w-full overflow-hidden">
           <motion.div
+            key={mountKey}
             variants={bestsellerContainerVariants}
             initial="hidden"
             whileInView="visible"
@@ -126,8 +133,8 @@ export default function BestsellersCarousel() {
           <button
             id="view-collection-button"
             onClick={() => {
-              const firstProduct = PRODUCTS[0];
-              handleSelectProduct(firstProduct.id);
+              updateState({ currentView: "shop_all", selectedCategory: "all" });
+              window.scrollTo({ top: 0, behavior: "smooth" });
             }}
             className="bg-brand-lilac/20 hover:bg-brand-lilac/30 text-brand-black font-sans font-bold text-xs uppercase tracking-[0.2em] px-10 py-4 transition-colors cursor-pointer"
           >

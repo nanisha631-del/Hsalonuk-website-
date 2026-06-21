@@ -9,6 +9,7 @@ import { Sparkles, ArrowRight, RotateCcw, Check, ShoppingBag, Star, HelpCircle }
 import { useSharedState } from "../useSharedState";
 import { PRODUCTS } from "../data";
 import { Product } from "../types";
+import LuxuryButton from "./LuxuryButton";
 
 export default function InteractiveConsultation() {
   const { handleAddToCart } = useSharedState();
@@ -106,7 +107,7 @@ export default function InteractiveConsultation() {
                   src="/01 frame.jpeg" 
                   alt="Custom diagnostics consult - luxury cosmetics setup"
                   referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 brightness-[0.94]"
+                  className="w-full h-full object-cover group-hover:scale-[1.06] hover:scale-[1.06] transition-transform duration-[1500ms] ease-[cubic-bezier(0.25,1,0.5,1)] brightness-[0.94] [will-change:transform]"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
                 <div className="absolute bottom-6 left-6 right-6 text-white text-left">
@@ -135,13 +136,13 @@ export default function InteractiveConsultation() {
                   Spend 30 seconds with our interactive curation tool. We will analyze your concerns and custom-match an elite apothecary therapy just for you.
                 </p>
                 
-                <button
+                <LuxuryButton
                   onClick={() => setStep("q1")}
                   className="group flex items-center gap-3 bg-brand-black text-white hover:bg-[#82D8C5] hover:text-brand-black px-10 py-4 rounded-full text-xs font-bold uppercase tracking-[0.2em] hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer shadow-md"
                 >
                   Begin Curation
                   <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-                </button>
+                </LuxuryButton>
               </div>
             </motion.div>
           )}
@@ -304,7 +305,7 @@ export default function InteractiveConsultation() {
                 <img
                   src={recommendedProduct.images[0]}
                   alt={recommendedProduct.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  className="w-full h-full object-cover group-hover:scale-[1.06] hover:scale-[1.06] transition-transform duration-[1500ms] ease-[cubic-bezier(0.25,1,0.5,1)] [will-change:transform]"
                   referrerPolicy="no-referrer"
                 />
                 <div className="absolute top-4 left-4 bg-brand-black text-[#82D8C5] font-sans text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full select-none shadow-md">

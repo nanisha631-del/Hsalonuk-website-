@@ -11,6 +11,7 @@ interface ScrollRevealProps {
   delay?: number;
   direction?: "up" | "down" | "left" | "right" | "zoom" | "none";
   distance?: number;
+  once?: boolean;
 }
 
 export default function ScrollReveal({ 
@@ -18,7 +19,8 @@ export default function ScrollReveal({
   className = "", 
   delay = 0,
   direction = "up",
-  distance = 25
+  distance = 25,
+  once = false
 }: ScrollRevealProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -28,7 +30,13 @@ export default function ScrollReveal({
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-          observer.unobserve(entry.target);
+          if (once) {
+            observer.unobserve(entry.target);
+          }
+        } else {
+          if (!once) {
+            setIsVisible(false);
+          }
         }
       },
       {
@@ -78,7 +86,7 @@ export default function ScrollReveal({
         opacity: isVisible ? 1 : 0,
         transform: getInitialTransform(),
         transitionProperty: "opacity, transform",
-        transitionDuration: "850ms",
+        transitionDuration: "1400ms",
         transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
         transitionDelay: `${delay}ms`,
         willChange: "opacity, transform",

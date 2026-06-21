@@ -185,20 +185,20 @@ export default function Navbar({
           {/* Laptop view left-aligned brand logo */}
           <button
             onClick={onGoHome}
-            className="hidden lg:flex items-center gap-2 hover:opacity-80 transition-all duration-300 cursor-pointer select-none uppercase leading-none"
+            className="hidden lg:flex items-center gap-1.5 hover:opacity-85 transition-opacity duration-300 cursor-pointer select-none uppercase leading-none"
           >
             <span 
-              className="font-sans font-black text-[50px] tracking-tighter text-brand-black" 
-              style={{ fontFamily: '"Space Grotesk", "Inter", sans-serif' }}
+              className="font-sans font-extralight text-[56px] tracking-tighter text-brand-black select-none leading-none" 
+              style={{ fontFamily: '"Inter", sans-serif', fontWeight: 200 }}
             >
               H
             </span>
             <div 
-              className="flex flex-col items-start text-[11px] font-bold tracking-[0.25em] leading-[0.95] text-left text-brand-black pt-[6px]" 
-              style={{ fontFamily: '"Space Grotesk", "Inter", sans-serif' }}
+              className="flex flex-col justify-between h-[40px] items-start text-[16px] font-light tracking-[0.18em] leading-none text-left text-brand-black select-none pl-1" 
+              style={{ fontFamily: '"Inter", sans-serif', fontWeight: 300 }}
             >
-              <span>SAL</span>
-              <span>ON</span>
+              <span className="block mt-[-2px]">SAL</span>
+              <span className="block mb-[-2px]">ON</span>
             </div>
           </button>
         </div>
@@ -207,20 +207,20 @@ export default function Navbar({
         <div className="flex lg:hidden absolute left-1/2 -translate-x-1/2 items-center justify-center z-50">
           <button
             onClick={onGoHome}
-            className="flex items-center gap-2 hover:opacity-80 transition-all duration-300 cursor-pointer select-none uppercase leading-none"
+            className="flex items-center gap-1 hover:opacity-85 transition-opacity duration-300 cursor-pointer select-none uppercase leading-none"
           >
             <span 
-              className="font-sans font-black text-[39px] tracking-tighter text-brand-black" 
-              style={{ fontFamily: '"Space Grotesk", "Inter", sans-serif' }}
+              className="font-sans font-extralight text-[44px] tracking-tighter text-brand-black select-none leading-none" 
+              style={{ fontFamily: '"Inter", sans-serif', fontWeight: 200 }}
             >
               H
             </span>
             <div 
-              className="flex flex-col items-start text-[9px] font-bold tracking-[0.25em] leading-[0.95] text-left text-brand-black pt-[6px]" 
-              style={{ fontFamily: '"Space Grotesk", "Inter", sans-serif' }}
+              className="flex flex-col justify-between h-[31px] items-start text-[12.5px] font-light tracking-[0.18em] leading-none text-left text-brand-black select-none pl-0.5" 
+              style={{ fontFamily: '"Inter", sans-serif', fontWeight: 300 }}
             >
-              <span>SAL</span>
-              <span>ON</span>
+              <span className="block mt-[-1.5px]">SAL</span>
+              <span className="block mb-[-1.5px]">ON</span>
             </div>
           </button>
         </div>
@@ -402,7 +402,7 @@ export default function Navbar({
                       <img 
                         src="/snail silk face serum.webp" 
                         alt="Scalp Treatment"
-                        className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+                        className="object-cover w-full h-full group-hover:scale-[1.06] hover:scale-[1.06] transition-transform duration-[1500ms] ease-[cubic-bezier(0.25,1,0.5,1)] [will-change:transform]"
                       />
                       <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors" />
                     </div>
@@ -431,7 +431,7 @@ export default function Navbar({
                       <img 
                         src="/snail silk scalp oil.webp" 
                         alt="Gold Lust Hair Oil"
-                        className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+                        className="object-cover w-full h-full group-hover:scale-[1.06] hover:scale-[1.06] transition-transform duration-[1500ms] ease-[cubic-bezier(0.25,1,0.5,1)] [will-change:transform]"
                       />
                       <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors" />
                     </div>
@@ -460,7 +460,7 @@ export default function Navbar({
                       <img 
                         src="/ground recovery oil.webp" 
                         alt="Recovery Face Oil" 
-                        className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+                        className="object-cover w-full h-full group-hover:scale-[1.06] hover:scale-[1.06] transition-transform duration-[1500ms] ease-[cubic-bezier(0.25,1,0.5,1)] [will-change:transform]"
                       />
                       <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors" />
                     </div>
@@ -512,7 +512,7 @@ export default function Navbar({
                     hidden: {},
                     show: {
                       transition: {
-                        staggerChildren: 0.2, // Delicate staggered sequence
+                        staggerChildren: 0.3, // Match custom sweet delay of 0.3s
                       }
                     }
                   }}
@@ -524,13 +524,13 @@ export default function Navbar({
                     <motion.div 
                       key={product.id}
                       variants={{
-                        hidden: { opacity: 0, y: 30, filter: "blur(4px)", scale: 0.99 },
+                        hidden: { opacity: 0, y: 40, filter: "blur(4px)", scale: 0.99 },
                         show: { 
                           opacity: 1, 
                           y: 0, 
                           filter: "blur(0px)", 
                           scale: 1,
-                          transition: { duration: 1.0, ease: [0.16, 1, 0.3, 1] } 
+                          transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] } 
                         }
                       }}
                       style={{ willChange: "transform, opacity, filter" }}
@@ -541,7 +541,7 @@ export default function Navbar({
                         <img 
                           src={product.images[0]} 
                           alt={product.name}
-                          className="object-contain w-full h-full p-2 group-hover:scale-105 transition-transform duration-500"
+                          className="object-contain w-full h-full p-2 group-hover:scale-[1.06] hover:scale-[1.06] transition-transform duration-[1500ms] ease-[cubic-bezier(0.25,1,0.5,1)] [will-change:transform]"
                           referrerPolicy="no-referrer"
                         />
                         <span className="absolute top-2 left-2 bg-[#82D8C5] text-brand-black text-[9px] font-extrabold px-1.5 py-0.5 rounded-xs tracking-wider uppercase">
@@ -568,12 +568,12 @@ export default function Navbar({
               {/* Brand logo left */}
               <button
                 onClick={() => { onGoHome(); setMobileMenuOpen(false); }}
-                className="flex items-center gap-1.5 uppercase leading-none select-none text-left"
+                className="flex items-center gap-1 uppercase leading-none select-none text-left"
               >
-                <span className="font-sans font-black text-[33px] tracking-tighter text-brand-black" style={{ fontFamily: '"Space Grotesk", sans-serif' }}>H</span>
-                <div className="flex flex-col items-start text-[8px] font-extrabold tracking-[0.22em] leading-[0.98] text-brand-black pt-[3px]" style={{ fontFamily: '"Space Grotesk", sans-serif' }}>
-                  <span>SAL</span>
-                  <span>ON</span>
+                <span className="font-sans font-normal text-[32px] tracking-tighter text-brand-black select-none leading-none" style={{ fontFamily: '"Inter", sans-serif' }}>H</span>
+                <div className="flex flex-col justify-between h-[22.5px] items-start text-[9.5px] font-normal tracking-[0.16em] leading-none text-brand-black select-none pl-0.5" style={{ fontFamily: '"Inter", sans-serif' }}>
+                  <span className="block mt-[-0.8px]">SAL</span>
+                  <span className="block mb-[-1px]">ON</span>
                 </div>
               </button>
 

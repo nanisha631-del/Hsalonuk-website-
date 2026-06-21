@@ -6,6 +6,7 @@
 import { motion } from "motion/react";
 import ScrollZoomImage from "./ScrollZoomImage";
 import { getShopifySettings } from "../shopifySettings";
+import LuxuryButton from "./LuxuryButton";
 
 export default function HeroSection() {
   const settings = getShopifySettings();
@@ -61,7 +62,7 @@ export default function HeroSection() {
               transition={{ duration: 0.8, delay: 0.15, ease: "easeOut" }}
               className="mt-3.5"
             >
-              <button
+              <LuxuryButton
                 onClick={() => {
                   const next = document.getElementById("bestsellers-section");
                   if (next) next.scrollIntoView({ behavior: "smooth" });
@@ -69,7 +70,7 @@ export default function HeroSection() {
                 className="bg-white text-brand-black px-11 py-4 rounded-full text-[11px] font-extrabold uppercase tracking-[0.22em] hover:bg-white/95 hover:scale-[1.03] transition-all duration-300 shadow-md cursor-pointer whitespace-nowrap"
               >
                 {settings.hero_cta_text || "SHOP PRODUCTS"}
-              </button>
+              </LuxuryButton>
             </motion.div>
           </div>
 

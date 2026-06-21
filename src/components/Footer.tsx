@@ -172,12 +172,12 @@ export default function Footer({ onGoHome }: FooterProps) {
               scale: logoScale,
               opacity: logoOpacity
             }}
-            className="flex items-center gap-3 sm:gap-4 hover:opacity-90 transition-opacity duration-300 cursor-pointer select-none text-brand-lilac/80 hover:text-brand-lilac justify-center origin-center mx-auto uppercase leading-none"
+            className="flex items-center gap-1.5 sm:gap-2 hover:opacity-90 transition-opacity duration-300 cursor-pointer select-none text-brand-lilac/80 hover:text-brand-lilac justify-center origin-center mx-auto uppercase leading-none animate-fade-in"
           >
-            <span className="font-sans font-black text-[96px] sm:text-[144px] md:text-[184px] tracking-tighter" style={{ fontFamily: '"Space Grotesk", "Inter", sans-serif' }}>H</span>
-            <div className="flex flex-col items-start text-[22px] sm:text-[34px] md:text-[44px] font-medium tracking-[0.25em] leading-[0.98] text-left" style={{ fontFamily: '"Space Grotesk", "Inter", sans-serif' }}>
-              <span>SAL</span>
-              <span>ON</span>
+            <span className="font-sans font-normal text-[90px] sm:text-[130px] md:text-[170px] tracking-tighter" style={{ fontFamily: '"Inter", sans-serif' }}>H</span>
+            <div className="flex flex-col justify-between h-[64px] sm:h-[92px] md:h-[120px] items-start text-[27px] sm:text-[39px] md:text-[51px] font-normal tracking-[0.16em] leading-none pl-1 sm:pl-1.5 md:pl-2" style={{ fontFamily: '"Inter", sans-serif' }}>
+              <span className="block mt-[-2px]">SAL</span>
+              <span className="block mb-[-3.5px]">ON</span>
             </div>
           </motion.button>
         </div>

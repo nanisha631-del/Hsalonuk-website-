@@ -281,7 +281,7 @@ export default function BestsellersPage({
                   <img 
                     src={p.images[0]} 
                     alt={p.name}
-                    className="object-contain w-full h-full p-4 group-hover:scale-105 transition-transform duration-500"
+                    className="object-contain w-full h-full p-4 group-hover:scale-[1.06] hover:scale-[1.06] transition-transform duration-[1500ms] ease-[cubic-bezier(0.25,1,0.5,1)] [will-change:transform]"
                     referrerPolicy="no-referrer"
                   />
                   <div className="absolute top-4 left-4 bg-brand-black text-white px-3 py-1 rounded-md text-[10px] font-sans font-black tracking-widest uppercase flex items-center gap-1">
