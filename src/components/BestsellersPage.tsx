@@ -238,7 +238,7 @@ export default function BestsellersPage({
             hidden: {},
             show: {
               transition: {
-                staggerChildren: 0.1
+                staggerChildren: 0.3, // Deliberate gentle delay for one-by-one sequential showcasing
               }
             }
           }}
@@ -255,19 +255,22 @@ export default function BestsellersPage({
                 variants={{
                   hidden: {
                     opacity: 0,
-                    y: 50,
-                    scale: 0.98,
+                    y: 40, // Elegant smooth rising translation
+                    filter: "blur(4px)", // Perfectly soft blur entry
+                    scale: 0.99,
                   },
                   show: {
                     opacity: 1,
                     y: 0,
+                    filter: "blur(0px)",
                     scale: 1,
                     transition: {
-                      duration: 0.85,
-                      ease: [0.19, 1, 0.22, 1],
+                      duration: 1.2, // Continuous fluid motion
+                      ease: [0.16, 1, 0.3, 1], // GPU rendering optimized cubic bezier curve
                     }
                   }
                 }}
+                style={{ willChange: "transform, opacity, filter" }}
                 className="bg-white rounded-2xl border border-brand-black/5 p-6 md:p-8 flex flex-col lg:flex-row items-center gap-8 hover:shadow-xl transition-shadow duration-300"
               >
                 {/* Image panel with badge */}

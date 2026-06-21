@@ -200,7 +200,7 @@ export default function Footer({ onGoHome }: FooterProps) {
           </div>
 
           <div className="text-[12px] text-gray-400 font-sans tracking-wide">
-            © 2026, H salon. Powered by Palo Alto. These products are not for sale.
+            © 2026, H salon. Designed by Addy Growth Studio.
           </div>
         </div>
 

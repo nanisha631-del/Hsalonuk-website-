@@ -15,7 +15,7 @@ const bestsellerContainerVariants = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.35,
+      staggerChildren: 0.45, // Deliberate gentle delay to show products one after another
     }
   }
 };
@@ -23,16 +23,18 @@ const bestsellerContainerVariants = {
 const bestsellerCardVariants = {
   hidden: {
     opacity: 0,
-    y: 90,
-    scale: 1.05,
+    y: 40, // Elegant smooth vertical translation
+    filter: "blur(4px)", // Perfectly soft and highly optimized cinematic blur
+    scale: 0.99,
   },
   visible: {
     opacity: 1,
     y: 0,
+    filter: "blur(0px)",
     scale: 1,
     transition: {
-      duration: 1.35,
-      ease: [0.19, 1, 0.22, 1],
+      duration: 1.2, // Slightly adjusted duration for immediate snappiness and peak GPU rendering efficiency
+      ease: [0.16, 1, 0.3, 1], // Perfect cubic-bezier curve for high-framerate fluid translation
     }
   }
 };
@@ -79,7 +81,7 @@ export default function BestsellersCarousel() {
             variants={bestsellerContainerVariants}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.25 }}
+            viewport={{ once: true, amount: 0.15 }}
             ref={carouselContainerRef}
             className="flex gap-5 overflow-x-auto select-none py-4 px-1 scroll-smooth w-full no-scrollbar relative snap-x snap-mandatory"
           >
@@ -88,6 +90,7 @@ export default function BestsellersCarousel() {
                 key={p.id}
                 variants={bestsellerCardVariants}
                 className="snap-center w-[85vw] sm:w-[320px] md:w-[280px] shrink-0"
+                style={{ willChange: "transform, opacity, filter" }}
               >
                 <ProductCard
                   product={p}

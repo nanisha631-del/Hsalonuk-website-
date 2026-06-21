@@ -262,7 +262,7 @@ export default function ShopAllPage({
                   hidden: {},
                   show: {
                     transition: {
-                      staggerChildren: 0.1,
+                      staggerChildren: 0.25, // Deliberate gentle delay for beautiful sequential showcasing
                     }
                   }
                 }}
@@ -280,19 +280,22 @@ export default function ShopAllPage({
                       variants={{
                         hidden: {
                           opacity: 0,
-                          y: 50,
-                          scale: 0.98,
+                          y: 40, // Elegant rising translation
+                          filter: "blur(4px)", // Clean hardware-accelerated cinematic blur
+                          scale: 0.99,
                         },
                         show: {
                           opacity: 1,
                           y: 0,
+                          filter: "blur(0px)",
                           scale: 1,
                           transition: {
-                            duration: 0.85,
-                            ease: [0.19, 1, 0.22, 1],
+                            duration: 1.2, // Consistent smooth duration
+                            ease: [0.16, 1, 0.3, 1], // Ultra smooth cubic-bezier curve
                           }
                         }
                       }}
+                      style={{ willChange: "transform, opacity, filter" }}
                       className="group bg-white border border-brand-black/5 rounded-xl overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col justify-between"
                     >
                       {/* Product image stage */}

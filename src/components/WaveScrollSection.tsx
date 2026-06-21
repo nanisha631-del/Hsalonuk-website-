@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, useRef } from "react";
 import { getShopifySettings } from "../shopifySettings";
 
 export default function WaveScrollSection() {
@@ -14,8 +14,9 @@ export default function WaveScrollSection() {
   const textContent = settings.wave_text || "Kind to your skin, gentle on the planet. • Pure active botanicals. • Kind to your skin, gentle on the planet.";
   const speedSeconds = (Number(settings.wave_speed_seconds) || 11) * 0.9;
 
-  const [offset, setOffset] = useState(10);
   const [isPaused, setIsPaused] = useState(false);
+  const offsetRef = useRef(10);
+  const textPathRef = useRef<SVGTextPathElement>(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -36,15 +37,17 @@ export default function WaveScrollSection() {
       const delta = (now - lastTime) / 1000;
       lastTime = now;
       
-      setOffset(prev => {
-        // Scroll from 10% down to -40% (total span of 50%).
-        const speed = 50 / speedSeconds; // percent per second
-        let next = prev - speed * delta;
-        if (next < -40) {
-          next = 10;
-        }
-        return next;
-      });
+      // Scroll from 10% down to -40% (total span of 50%).
+      const speed = 50 / speedSeconds; // percent per second
+      let next = offsetRef.current - speed * delta;
+      if (next < -40) {
+        next = 10;
+      }
+      offsetRef.current = next;
+      
+      if (textPathRef.current) {
+        textPathRef.current.setAttribute("startOffset", `${next}%`);
+      }
       
       animId = requestAnimationFrame(tick);
     };
@@ -129,8 +132,9 @@ export default function WaveScrollSection() {
               onTouchEnd={() => setIsPaused(false)}
             >
               <textPath 
+                ref={textPathRef}
                 href="#waveScrollingPath" 
-                startOffset={`${offset}%`}
+                startOffset={`${offsetRef.current}%`}
                 fill="url(#textFadeGrad)"
               >
                 {repeatedText}

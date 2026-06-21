@@ -370,8 +370,31 @@ export default function Navbar({
                 </div>
 
                 {/* Graphical Showcase Right Section */}
-                <div className="col-span-6 grid grid-cols-3 gap-4">
-                  <div 
+                <motion.div 
+                  variants={{
+                    hidden: {},
+                    show: {
+                      transition: {
+                        staggerChildren: 0.2, // Delicate staggered sequence
+                      }
+                    }
+                  }}
+                  initial="hidden"
+                  animate="show"
+                  className="col-span-6 grid grid-cols-3 gap-4"
+                >
+                  <motion.div 
+                    variants={{
+                      hidden: { opacity: 0, y: 30, filter: "blur(4px)", scale: 0.99 },
+                      show: { 
+                        opacity: 1, 
+                        y: 0, 
+                        filter: "blur(0px)", 
+                        scale: 1,
+                        transition: { duration: 1.0, ease: [0.16, 1, 0.3, 1] } 
+                      }
+                    }}
+                    style={{ willChange: "transform, opacity, filter" }}
                     onClick={() => { onNavigate("product", "snail-silk-serum"); setActiveDropdown(null); }}
                     className="group relative rounded-lg overflow-hidden border border-brand-black/5 bg-brand-offwhite cursor-pointer hover:shadow-md transition-all duration-300"
                   >
@@ -387,9 +410,20 @@ export default function Navbar({
                       <h4 className="font-sans font-extrabold text-[12px] truncate text-brand-black text-left group-hover:text-[#82D8C5]">Scalp Treatment</h4>
                       <p className="font-mono text-[10px] text-brand-black/60 mt-0.5 text-left">$48.00 USD</p>
                     </div>
-                  </div>
+                  </motion.div>
 
-                  <div 
+                  <motion.div 
+                    variants={{
+                      hidden: { opacity: 0, y: 30, filter: "blur(4px)", scale: 0.99 },
+                      show: { 
+                        opacity: 1, 
+                        y: 0, 
+                        filter: "blur(0px)", 
+                        scale: 1,
+                        transition: { duration: 1.0, ease: [0.16, 1, 0.3, 1] } 
+                      }
+                    }}
+                    style={{ willChange: "transform, opacity, filter" }}
                     onClick={() => { onNavigate("product", "snail-silk-scalp-oil"); setActiveDropdown(null); }}
                     className="group relative rounded-lg overflow-hidden border border-brand-black/5 bg-brand-offwhite cursor-pointer hover:shadow-md transition-all duration-300"
                   >
@@ -405,9 +439,20 @@ export default function Navbar({
                       <h4 className="font-sans font-extrabold text-[12px] truncate text-brand-black text-left group-hover:text-[#82D8C5]">Gold Lust Hair Oil</h4>
                       <p className="font-mono text-[10px] text-brand-black/60 mt-0.5 text-left">$45.00 USD</p>
                     </div>
-                  </div>
+                  </motion.div>
 
-                  <div 
+                  <motion.div 
+                    variants={{
+                      hidden: { opacity: 0, y: 30, filter: "blur(4px)", scale: 0.99 },
+                      show: { 
+                        opacity: 1, 
+                        y: 0, 
+                        filter: "blur(0px)", 
+                        scale: 1,
+                        transition: { duration: 1.0, ease: [0.16, 1, 0.3, 1] } 
+                      }
+                    }}
+                    style={{ willChange: "transform, opacity, filter" }}
                     onClick={() => { onNavigate("product", "ground-recovery-oil"); setActiveDropdown(null); }}
                     className="group relative rounded-lg overflow-hidden border border-brand-black/5 bg-brand-offwhite cursor-pointer hover:shadow-md transition-all duration-300"
                   >
@@ -423,8 +468,8 @@ export default function Navbar({
                       <h4 className="font-sans font-extrabold text-[12px] truncate text-brand-black text-left group-hover:text-[#82D8C5]">Recovery Face Oil</h4>
                       <p className="font-mono text-[10px] text-brand-black/60 mt-0.5 text-left">$64.00 USD</p>
                     </div>
-                  </div>
-                </div>
+                  </motion.div>
+                </motion.div>
               </motion.div>
             </motion.div>
           )}
@@ -462,10 +507,33 @@ export default function Navbar({
                 </div>
 
                 {/* Bestseller Grid Preview list */}
-                <div className="grid grid-cols-4 gap-6">
+                <motion.div 
+                  variants={{
+                    hidden: {},
+                    show: {
+                      transition: {
+                        staggerChildren: 0.2, // Delicate staggered sequence
+                      }
+                    }
+                  }}
+                  initial="hidden"
+                  animate="show"
+                  className="grid grid-cols-4 gap-6"
+                >
                   {bestsellers.map((product) => (
-                    <div 
+                    <motion.div 
                       key={product.id}
+                      variants={{
+                        hidden: { opacity: 0, y: 30, filter: "blur(4px)", scale: 0.99 },
+                        show: { 
+                          opacity: 1, 
+                          y: 0, 
+                          filter: "blur(0px)", 
+                          scale: 1,
+                          transition: { duration: 1.0, ease: [0.16, 1, 0.3, 1] } 
+                        }
+                      }}
+                      style={{ willChange: "transform, opacity, filter" }}
                       onClick={() => { onNavigate("product", product.id); setActiveDropdown(null); }}
                       className="group border border-brand-black/5 rounded-lg p-3 bg-brand-offwhite cursor-pointer hover:shadow-md transition-all duration-300 text-center"
                     >
@@ -481,10 +549,10 @@ export default function Navbar({
                         </span>
                       </div>
                       <h4 className="font-sans font-bold text-xs truncate text-brand-black group-hover:text-[#82D8C5] transition-colors">{product.name}</h4>
-                      <p className="font-mono text-xs font-semibold text-brand-black/70 mt-1">${product.price.toFixed(2)} USD</p>
-                    </div>
+                      <p className="font-mono text-xs font-semibold text-[#82D8C5] mt-1">${product.price.toFixed(2)} USD</p>
+                    </motion.div>
                   ))}
-                </div>
+                </motion.div>
               </motion.div>
             </motion.div>
           )}

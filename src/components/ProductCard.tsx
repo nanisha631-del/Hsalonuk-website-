@@ -39,19 +39,11 @@ const getProductBadges = (productId: string) => {
 };
 
 export default function ProductCard({ product, onSelect, onQuickAdd }: ProductCardProps) {
-  const [isHovered, setIsHovered] = useState(false);
   const badges = getProductBadges(product.id);
 
   return (
     <div
-      className="group relative bg-[#EDEDE9]/30 rounded-none overflow-hidden cursor-pointer flex flex-col justify-between h-full"
-      style={{
-        transform: isHovered ? "translateY(-6px)" : "translateY(0)",
-        boxShadow: isHovered ? "0 12px 30px rgba(0,0,0,0.06)" : "none",
-        transition: "transform 500ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 500ms cubic-bezier(0.16, 1, 0.3, 1)"
-      }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      className="group relative bg-[#EDEDE9]/30 rounded-none overflow-hidden cursor-pointer flex flex-col justify-between h-full transition-[transform,box-shadow] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] [will-change:transform] hover:-translate-y-1.5 hover:shadow-[0_12px_30px_rgba(0,0,0,0.06)]"
       onClick={() => onSelect(product.id)}
     >
       {/* Product Image Container */}
