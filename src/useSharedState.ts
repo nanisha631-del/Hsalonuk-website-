@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import { Product, CartItem } from "./types";
 
 interface SharedState {
-  currentView: "home" | "product" | "shop_all" | "bestsellers" | "about" | "contact" | "order-success";
+  currentView: "home" | "product" | "shop_all" | "bestsellers" | "about" | "contact";
   selectedProductId: string;
   cartOpen: boolean;
   searchOpen: boolean;
@@ -43,9 +43,7 @@ if (typeof window !== "undefined") {
 
   // Synchronize dynamic routing on load based on browser pathing
   const path = window.location.pathname.toLowerCase();
-  if (path.includes("/order-success") || path.endsWith("/order-success")) {
-    globalState.currentView = "order-success";
-  } else if (path.includes("/products/") || path.includes("/product/")) {
+  if (path.includes("/products/") || path.includes("/product/")) {
     let matchedId = "halo-highlighter";
     if (path.includes("serum") || path.includes("treatment") || path.includes("snail-silk-serum")) {
       matchedId = "snail-silk-serum";
@@ -155,15 +153,6 @@ export function useSharedState() {
 
   const handleGoHome = () => {
     updateState({ currentView: "home" });
-
-    // Clean browser location address if on /order-success or when returning to home view
-    if (typeof window !== "undefined") {
-      try {
-        window.history.replaceState(null, "", "/");
-      } catch (e) {
-        console.warn("Could not clean address history:", e);
-      }
-    }
 
     // Check if we have active Shopify integration markers (global object or customizer scripts)
     const isShopifyTheme = typeof window !== "undefined" && (

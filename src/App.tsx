@@ -46,7 +46,6 @@ import BestsellersPage from "./components/BestsellersPage";
 import AboutUsPage from "./components/AboutUsPage";
 import ContactUsPage from "./components/ContactUsPage";
 import SearchDrawer from "./components/SearchDrawer";
-import OrderSuccess from "./components/OrderSuccess";
 import { getShopifySettings } from "./shopifySettings";
 import { useSharedState } from "./useSharedState";
 import { fetchShopifyProducts } from "./lib/shopify";
@@ -357,23 +356,6 @@ export default function App() {
                 onBack={handleGoHome}
                 onAddToCart={handleAddToCart}
                 onSelectProduct={handleSelectProduct}
-              />
-            </motion.div>
-          )}
-
-          {currentView === "order-success" && (
-            <motion.div
-              key="ordersuccess-wrapper"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
-              className="w-full"
-            >
-              <OrderSuccess
-                onContinueShopping={handleGoHome}
-                cartItems={cartItems}
-                onClearCart={() => updateState({ cartItems: [] })}
               />
             </motion.div>
           )}
