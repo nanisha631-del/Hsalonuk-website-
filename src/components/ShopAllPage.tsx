@@ -50,7 +50,7 @@ export default function ShopAllPage({
   const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<"featured" | "price-low-high" | "price-high-low" | "rating">("featured");
-  const [selectedPriceMax, setSelectedPriceMax] = useState<number>(100);
+  const [selectedPriceMax, setSelectedPriceMax] = useState<number>(300);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   // Sync initialCategory state
@@ -66,6 +66,7 @@ export default function ShopAllPage({
     { id: "boosters", name: "Concentrated Boosters" },
     { id: "recovery-botanicals", name: "Recovery Botanicals" },
     { id: "accessories", name: "Luxury Accessories" },
+    { id: "bundle", name: "Restorative Sets & Bundles" },
   ];
 
   // Filter and sort PRODUCTS
@@ -113,7 +114,7 @@ export default function ShopAllPage({
     setSelectedCategory("all");
     setSearchQuery("");
     setSortBy("featured");
-    setSelectedPriceMax(100);
+    setSelectedPriceMax(300);
   };
 
   return (
@@ -204,14 +205,14 @@ export default function ShopAllPage({
               <input 
                 type="range"
                 min="10"
-                max="100"
+                max="300"
                 value={selectedPriceMax}
                 onChange={(e) => setSelectedPriceMax(Number(e.target.value))}
                 className="w-full accent-[#82D8C5] cursor-pointer"
               />
               <div className="flex justify-between text-[10px] font-mono text-brand-black/40 mt-1">
                 <span>$10 USD</span>
-                <span>$100 USD</span>
+                <span>$300 USD</span>
               </div>
             </div>
 

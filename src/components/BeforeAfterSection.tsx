@@ -7,6 +7,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Sparkles, ArrowRight, Eye, ShieldCheck, Zap, Droplets, Scissors, ChevronLeft, ChevronRight } from "lucide-react";
 import { useSharedState } from "../useSharedState";
+import AnimatedUnderline from "./AnimatedUnderline";
 
 interface CaseStudy {
   id: string;
@@ -218,7 +219,7 @@ export default function BeforeAfterSection() {
             PROVEN PHYSICAL CLINICAL OUTCOMES
           </p>
           <h2 className="font-serif text-[42px] sm:text-[54px] md:text-[62px] font-black uppercase tracking-tight text-brand-black leading-[1.12] mb-6">
-            BEFORE AND AFTER RESULTS
+            BEFORE AND AFTER <AnimatedUnderline word="RESULTS" />
           </h2>
           <p className="font-sans text-xs sm:text-sm text-brand-black/60 leading-relaxed max-w-xl mx-auto">
             Witness the real, scientifically measured miracles of microalbumin silk elixirs and active lipids. These client results showcase pure cell nourishment, zero-irritation calming, and long-term cuticle restoration.

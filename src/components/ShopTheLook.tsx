@@ -10,6 +10,7 @@ import { Product } from "../types";
 import { PRODUCTS } from "../data";
 import ScrollZoomImage from "./ScrollZoomImage";
 import { getShopifySettings } from "../shopifySettings";
+import AnimatedUnderline from "./AnimatedUnderline";
 
 interface ShopTheLookProps {
   onSelectProduct: (id: string) => void;
@@ -120,7 +121,17 @@ export default function ShopTheLook({ onSelectProduct, onAddToCart }: ShopTheLoo
               {tagline}
             </span>
             <h2 className="font-serif text-[28px] md:text-[38px] font-bold tracking-tight text-brand-black uppercase leading-none">
-              {title}
+              {(() => {
+                const words = title.trim().split(" ");
+                const lastWord = words.pop() || "";
+                const remainingText = words.join(" ") + " ";
+                return (
+                  <>
+                    {remainingText}
+                    <AnimatedUnderline word={lastWord} />
+                  </>
+                );
+              })()}
             </h2>
           </div>
           

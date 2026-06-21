@@ -314,6 +314,138 @@ export const PRODUCTS: Product[] = [
     howToUse: "Glide gently from scalp roots to ends. Perfect for detangling wet hair in the shower or finishing dry styles with luxury high-shine polish.",
     ingredients: "Eco-Friendly Cellulose Acetate, Hand-Polished Finish.",
     tags: ["BESTSELLER", "NEW"]
+  },
+  {
+    id: "hair-and-scalp-circulation-set",
+    name: "Hair and Scalp Circulation Set",
+    subtitle: "Therapeutic Growth & Circulation Synergy",
+    price: 169.00,
+    rating: 5,
+    images: [
+      "/snail silk scalp oil.webp"
+    ],
+    category: "bundle",
+    description: "Our signature therapeutic combination to reverse thin textures and supercharge active hair roots. Promotes healthy microcirculation while moisturizing dry hair strands and feeding active scalp structures.",
+    intro: "The ultimate professional synergy to rejuvenate stagnant hair bases and feed follicles with vital clinical molecules.",
+    bullets: [
+      "Stimulates deep scalp blood circulation for faster growth",
+      "Purges toxic scalp congestion and hydrates dry cuticles",
+      "Features natural mint, argan oil, and active herbal minerals",
+      "Perfect for thinning, fragile, or highly irritated styling bases"
+    ],
+    howToUse: "Apply the treatment masque to calm redness, then follow with targeted circular movements using the massage tool and nutrient-dense gold oil.",
+    ingredients: "Active Peppermint, Pure Argan Extract, Organic Botanicals, Zinc & Magnesium Minerals.",
+    tags: ["BESTSELLER", "BUNDLE", "NEW"]
+  },
+  {
+    id: "hair-growth-set",
+    name: "Hair Growth Set",
+    subtitle: "Active Root Nourishment & Volume Program",
+    price: 88.00,
+    rating: 5,
+    images: [
+      "/snail silk face serum.webp"
+    ],
+    category: "bundle",
+    description: "Engender thick, robust strands from core to cuticle. Rebuilds and fortifies weak, broken fibers while soothing and clarifying the root system for an optimal growth environment.",
+    intro: "A clinically designed clinical duo to feed structural follicles, stop premature shedding, and thicken each lock.",
+    bullets: [
+      "Supplying vital proteins and amino acids directly to hair centers",
+      "Calms root inflammation to minimize premature hair fall",
+      "Deeply hydrates dry hair shafts without weight or greasiness",
+      "Unveils noticeable length, rich thickness, and long-term bounce"
+    ],
+    howToUse: "Massage serum into roots daily and distribute evenly. Use during periods of seasonal thinning or high styling strain.",
+    ingredients: "Hydrolized Wheat Protein, Cellular Peptide Complexes, Clover Extract, Biotin, Niacinamide.",
+    tags: ["BESTSELLER", "BUNDLE"]
+  },
+  {
+    id: "pure-balance-ritual-face-scalp-hair",
+    name: "Pure Balance Ritual: Face, Scalp & Hair",
+    subtitle: "Sovereign Face, Scalp & Fiber Rejuvenation",
+    price: 284.00,
+    rating: 5,
+    images: [
+      "/snail silk scalp mask.webp"
+    ],
+    category: "bundle",
+    description: "The complete botanical crown reset. Rebalance skin hydration and feed vital bio-cellular molecules to reverse fine lines, clarify itchy scalps, and lock in glossy hair luster.",
+    intro: "Indulge in a premium high-contrast routine that balances your skin, hair, and senses with supreme organic actives.",
+    bullets: [
+      "Corrects severe scalp dryness, irritation, and flaking",
+      "Infuses deep-level lipids to lock in facial moisture and radiance",
+      "Fortifies cuticle structures to repel wind, styling, and UV damage",
+      "100% pure premium medical-grade botanicals and active oils"
+    ],
+    howToUse: "A custom 20-minute evening wellness protocol. Inhale aromatherapy blends, apply lipid restorers to face/hair, and finish with static-free combing.",
+    ingredients: "Snail Silk Proteins, Lavender, Sandalwood, Avocado Lipid complex, Chamomile Extract.",
+    tags: ["BUNDLE", "WHATS HOT"]
+  },
+  {
+    id: "scalp-care-bundle",
+    name: "Scalp Care Bundle",
+    subtitle: "Clinical Anti-Irritation & Detangle Set",
+    price: 129.00,
+    rating: 5,
+    images: [
+      "/snail silk face serum.webp"
+    ],
+    category: "bundle",
+    description: "Designed specifically for highly sensitive, dry, or flake-prone scalps. Formulated with cooling peppermint, tea tree oil, and rich coconut-derived masques to restore absolute harmony to your base.",
+    intro: "A calming clinical-grade scalp cleansing sequence to lift scales, soothe redness, and detangle with a glossy drape.",
+    bullets: [
+      "Instantly relieves chronic scalp dryness, itching, and flaking",
+      "Cooling peppermint, tea tree, and chamomile calm scalp heat",
+      "Restores essential moisture to dry roots and vulnerable fibers",
+      "Safe for color, keratin, and chemically processed hair profiles"
+    ],
+    howToUse: "Use weekly as a complete treatment wash program, letting masques sit on roots for 10 minutes before rinsing and styling.",
+    ingredients: "Mentha Piperita, Tea Tree Extract, Salicylic Acid, Coconut Lipid Acids, Aloe Vera Leaf Juice.",
+    tags: ["BUNDLE", "POPULAR"]
+  },
+  {
+    id: "scalp-massage-set",
+    name: "Scalp Massage Set",
+    subtitle: "Deep Root Meridian Stimulation Combo",
+    price: 108.00,
+    rating: 5,
+    images: [
+      "/snail silk scalp oil.webp"
+    ],
+    category: "bundle",
+    description: "Unite therapeutic hand-crafted grooming tools with our rich active lipid elixirs. Maximizes deep root circulation, releases cranial muscle tension, and promotes optimal follicular delivery.",
+    intro: "An authentic physical scalp rehabilitation routine combining modern biotechnology and traditional meridians.",
+    bullets: [
+      "Promotes active blood flow to hair roots for healthier growth",
+      "Releases deep stress, tension, and tightness across the head",
+      "Spreads therapeutic masques and active oils uniformly",
+      "Handcrafted cellulous static-free comb protects vulnerable cuticles"
+    ],
+    howToUse: "Massage calming active lipids directly into roots, then use smooth hand-carved comb teeth in long crown-to-neck sweeping patterns for 5 minutes.",
+    ingredients: "Cellulose Acetate, Lavender Extract, Sweet Almond Oil, Squalane, Vitamin E.",
+    tags: ["BUNDLE", "WHATS HOT"]
+  },
+  {
+    id: "snail-silk-scalp-skin-ritual",
+    name: "Snail Silk® Scalp & Skin Ritual",
+    subtitle: "Duo-Active Microalbumin Cellular System",
+    price: 115.00,
+    rating: 5,
+    images: [
+      "/snail silk face serum.webp"
+    ],
+    category: "bundle",
+    description: "The pinnacle of physical skin and hair restoration. Harnesses premium microalbumin silk elixirs and active biolipids to form an invisible moisture shield, erase fine dehydration lines, and soothe scalp redness.",
+    intro: "Experience pure cell-level nourishment, zero-irritation calming, and long-term protective cuticle restoration.",
+    bullets: [
+      "Deeply nourishes dermal layers and hair roots with protein",
+      "Provides high-performance 48-hour moisture and environmental protection",
+      "Perfect for highly stressed, dry, or chemically altered fibers",
+      "Light organic aromatherapy reduces mental and physical stress on contact"
+    ],
+    howToUse: "Warm elixirs in fingers and massage over targets, letting active microalbumin compounds activate overnight.",
+    ingredients: "Microalbumin Silk Peptides, Active Ceramide Precursors, Hyaluronic Acid Complexes, White Tea Infusion.",
+    tags: ["BUNDLE", "BESTSELLER"]
   }
 ];
 

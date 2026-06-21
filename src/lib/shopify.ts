@@ -10,6 +10,7 @@ export interface ShopifyProductMap {
   price?: number;
   available?: boolean;
   shopifyTitle?: string;
+  shopifyImages?: string[];
 }
 
 const SHOPIFY_DOMAIN = "hsalonuk.myshopify.com";
@@ -82,6 +83,13 @@ export function fetchShopifyProducts(localProducts: any[]): Promise<Record<strin
                 id
                 title
                 handle
+                images(first: 5) {
+                  edges {
+                    node {
+                      url
+                    }
+                  }
+                }
                 variants(first: 5) {
                   edges {
                     node {
@@ -186,6 +194,7 @@ export function fetchShopifyProducts(localProducts: any[]): Promise<Record<strin
               price: parseFloat(firstVariant.price.amount),
               available: firstVariant.availableForSale,
               shopifyTitle: sProd.title, // Exact title from your Shopify Store
+              shopifyImages: sProd.images?.edges?.map((e: any) => e.node?.url).filter(Boolean) || [],
             };
             matchedLocalIds.add(pair.localId);
             matchedShopifyIds.add(sProd.id);

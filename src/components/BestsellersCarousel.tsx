@@ -46,14 +46,18 @@ export default function BestsellersCarousel() {
   
   // Custom mount state key to force-animate child items on any direct browser refresh/load event
   const [mountKey, setMountKey] = useState(0);
+  const [activeTab, setActiveTab] = useState<"BESTSELLERS" | "BUNDLES">("BESTSELLERS");
+  
   useEffect(() => {
     setMountKey((prev) => prev + 1);
-  }, []);
+  }, [activeTab]);
 
-  const filteredProducts = [
-    ...PRODUCTS.filter((p) => p.id === "h-salon-cap" || p.id === "h-salon-comb"),
-    ...PRODUCTS.filter((p) => p.id !== "h-salon-cap" && p.id !== "h-salon-comb" && p.category !== "brush" && p.category !== "pouch").slice(0, 4)
-  ];
+  const filteredProducts = activeTab === "BUNDLES"
+    ? PRODUCTS.filter((p) => p.category === "bundle")
+    : [
+        ...PRODUCTS.filter((p) => p.id === "h-salon-cap" || p.id === "h-salon-comb"),
+        ...PRODUCTS.filter((p) => p.id !== "h-salon-cap" && p.id !== "h-salon-comb" && p.category !== "brush" && p.category !== "pouch" && p.category !== "bundle").slice(0, 4)
+      ];
 
   const scrollCarouselLeft = () => {
     if (carouselContainerRef.current) {
@@ -73,11 +77,40 @@ export default function BestsellersCarousel() {
         
         {/* Heading container and tabs */}
         <div className="flex justify-between items-end border-b border-brand-black/10 pb-4">
-          <div>
-            <h2 className="text-[20px] sm:text-[30px] font-sans font-black uppercase tracking-tight pb-2 relative text-brand-black select-none">
+          <div className="flex items-center gap-6 sm:gap-10">
+            <button
+              onClick={() => {
+                setActiveTab("BESTSELLERS");
+              }}
+              className={`text-[18px] sm:text-[28px] font-sans font-black uppercase tracking-tight pb-3 relative transition-all duration-300 focus:outline-none cursor-pointer ${
+                activeTab === "BESTSELLERS" ? "text-brand-black" : "text-brand-black/35 hover:text-brand-black/70"
+              }`}
+            >
               {settings.bestsellers_title || "BESTSELLERS"}
-              <div className="absolute bottom-0 left-0 w-24 h-[3px] bg-brand-lilac" />
-            </h2>
+              {activeTab === "BESTSELLERS" && (
+                <motion.div 
+                  layoutId="activeBestsellerTabUnderline"
+                  className="absolute bottom-0 left-0 right-0 h-[3px] bg-[#82D8C5]" 
+                />
+              )}
+            </button>
+
+            <button
+              onClick={() => {
+                setActiveTab("BUNDLES");
+              }}
+              className={`text-[18px] sm:text-[28px] font-sans font-black uppercase tracking-tight pb-3 relative transition-all duration-300 focus:outline-none cursor-pointer ${
+                activeTab === "BUNDLES" ? "text-brand-black" : "text-brand-black/35 hover:text-brand-black/70"
+              }`}
+            >
+              BUNDLES
+              {activeTab === "BUNDLES" && (
+                <motion.div 
+                  layoutId="activeBestsellerTabUnderline"
+                  className="absolute bottom-0 left-0 right-0 h-[3px] bg-[#82D8C5]" 
+                />
+              )}
+            </button>
           </div>
         </div>
 
@@ -133,12 +166,15 @@ export default function BestsellersCarousel() {
           <button
             id="view-collection-button"
             onClick={() => {
-              updateState({ currentView: "shop_all", selectedCategory: "all" });
+              updateState({ 
+                currentView: "shop_all", 
+                selectedCategory: activeTab === "BUNDLES" ? "bundle" : "all" 
+              });
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}
             className="bg-brand-lilac/20 hover:bg-brand-lilac/30 text-brand-black font-sans font-bold text-xs uppercase tracking-[0.2em] px-10 py-4 transition-colors cursor-pointer"
           >
-            {settings.collection_button_text || "SHOP THE FULL COLLECTION"}
+            {activeTab === "BUNDLES" ? "SHOP ALL BUNDLES" : (settings.collection_button_text || "SHOP THE FULL COLLECTION")}
           </button>
         </div>
       </div>

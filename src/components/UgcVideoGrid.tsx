@@ -9,6 +9,7 @@ import { Play, Pause, X, Heart, ShoppingBag, ChevronLeft, ChevronRight, Volume2,
 import { useSharedState } from "../useSharedState";
 import { PRODUCTS } from "../data";
 import { Product } from "../types";
+import AnimatedUnderline from "./AnimatedUnderline";
 
 interface ReelItem {
   id: string;
@@ -245,7 +246,7 @@ export default function UgcVideoGrid() {
               </p>
             </div>
             <h2 className="font-serif text-[42px] sm:text-[54px] md:text-[62px] font-black uppercase tracking-tight text-brand-black leading-[1.12] mb-6">
-              Our Community’s Real Rituals
+              Our Community’s Real <AnimatedUnderline word="Rituals" />
             </h2>
             <p className="font-sans text-xs sm:text-sm text-brand-black/60 max-w-xl">
               Authentic luxury reviews and therapeutic recovery routines shared by real collectors, editors, and salon lovers. Click any setup to expand the immersive player and shop their custom apothecary matches.

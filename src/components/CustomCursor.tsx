@@ -72,20 +72,20 @@ export default function CustomCursor() {
   if (!enabled) return null;
 
   const getSize = () => {
-    if (hoverType === "product") return 74;
-    if (hoverType === "interactive") return 40;
-    return 16;
+    if (hoverType === "product") return 24;
+    if (hoverType === "interactive") return 20;
+    return 10;
   };
 
   const getBorderColor = () => {
-    if (hoverType === "product") return "rgba(0, 0, 0, 0.45)";
-    if (hoverType === "interactive") return "rgba(13, 13, 13, 0.15)";
-    return "rgba(13, 13, 13, 0.25)";
+    if (hoverType === "product") return "#82D8C5";
+    if (hoverType === "interactive") return "rgba(130, 216, 197, 0.5)";
+    return "rgba(13, 13, 13, 0.15)";
   };
 
   const getBgColor = () => {
-    if (hoverType === "product") return "rgba(255, 255, 255, 0.95)";
-    if (hoverType === "interactive") return "rgba(255, 255, 255, 0.2)";
+    if (hoverType === "product") return "rgba(130, 216, 197, 0.1)";
+    if (hoverType === "interactive") return "rgba(255, 255, 255, 0)";
     return "rgba(255, 255, 255, 0)";
   };
 
@@ -110,20 +110,9 @@ export default function CustomCursor() {
         transition={{ type: "spring", damping: 30, stiffness: 200 }}
         className="pointer-events-none z-[9999] rounded-full border border-solid flex items-center justify-center overflow-hidden shadow-xs"
       >
-        {/* Soft text inside the circular cursor when hovering products */}
-        {hoverType === "product" && (
-          <motion.span
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.25 }}
-            className="text-[8px] font-sans font-black tracking-[0.25em] text-black select-none uppercase text-center leading-none"
-          >
-            VIEW
-          </motion.span>
-        )}
       </motion.div>
 
-      {/* 2. Micro precise pinpoint cursor follower (Locks exactly at center coordinates for accurate clicking visual reference) */}
+      {/* 2. Micro precise pinpoint cursor follower */}
       <motion.div
         style={{
           position: "fixed",
@@ -133,8 +122,8 @@ export default function CustomCursor() {
           y: "-50%",
         }}
         animate={{
-          scale: hoverType !== "none" ? 0 : 1,
-          opacity: hoverType !== "none" ? 0 : 1,
+          scale: 1,
+          opacity: 1,
         }}
         transition={{ duration: 0.15 }}
         className="w-1.5 h-1.5 bg-brand-black rounded-full pointer-events-none z-[10000]"

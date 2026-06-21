@@ -5,6 +5,7 @@
 
 import ScrollReveal from "./ScrollReveal";
 import AestheticVideoPlayer from "./AestheticVideoPlayer";
+import AnimatedUnderline from "./AnimatedUnderline";
 
 export default function FunEditorialSection() {
   return (
@@ -17,7 +18,7 @@ export default function FunEditorialSection() {
             <h2 className="font-serif text-[42px] md:text-[62px] font-black leading-[1.15] text-brand-black tracking-tight uppercase">
               HAIRCARE SHOULD <br />
               BE HEALING. <br />
-              NOT COMPLICATED. <br />
+              NOT <AnimatedUnderline word="COMPLICATED" />. <br />
             </h2>
           </ScrollReveal>
           

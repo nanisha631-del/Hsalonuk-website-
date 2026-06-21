@@ -8,6 +8,7 @@ import { ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import ScrollReveal from "./ScrollReveal";
 import { getShopifySettings } from "../shopifySettings";
+import AnimatedUnderline from "./AnimatedUnderline";
 
 interface AccordionItem {
   id: string;
@@ -77,7 +78,18 @@ export default function CurrentlyObsessed() {
               {settings.obsessed_label || "WEEK WRAPUP"}
             </span>
             <h2 className="font-serif text-[28px] md:text-[38px] font-bold tracking-tight uppercase leading-none">
-              {settings.obsessed_title || "Currently Obsessed"}
+              {(() => {
+                const obsTitle = settings.obsessed_title || "Currently Obsessed";
+                const words = obsTitle.trim().split(" ");
+                const lastWord = words.pop() || "";
+                const remainingText = words.join(" ") + " ";
+                return (
+                  <>
+                    {remainingText}
+                    <AnimatedUnderline word={lastWord} />
+                  </>
+                );
+              })()}
             </h2>
             <p className="text-black/55 font-sans text-[11px] sm:text-xs uppercase tracking-widest max-w-lg mt-1 block">
               {settings.obsessed_desc || "Curated edits of our most-worn formulas and shades, thoughtfully grouped so you don't have to overthink it."}

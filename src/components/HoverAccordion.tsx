@@ -7,6 +7,7 @@ import { useState } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import ScrollReveal from "./ScrollReveal";
+import AnimatedUnderline from "./AnimatedUnderline";
 
 interface CategoryItem {
   id: string;
@@ -52,7 +53,7 @@ export default function HoverAccordion() {
           <div className="flex flex-col gap-1 border-b border-brand-black/5 pb-3">
             <span className="text-[10px] md:text-[11px] font-sans uppercase tracking-[0.2em] text-gray-400 font-bold">EXPLORE CATEGORIES</span>
             <h2 className="font-serif text-[28px] md:text-[38px] font-bold tracking-tight text-brand-black leading-none uppercase">
-              Apothecary Collections
+              Apothecary <AnimatedUnderline word="Collections" />
             </h2>
           </div>
         </ScrollReveal>

@@ -6,6 +6,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Beaker, ShieldCheck, Scale, Microscope, Droplet, Leaf, Sprout } from "lucide-react";
+import AnimatedUnderline from "./AnimatedUnderline";
 
 interface IngredientDetail {
   id: string;
@@ -98,7 +99,7 @@ export default function BotanicalLab() {
             H Salon Formulation Lab
           </p>
           <h2 className="font-serif text-[42px] sm:text-[54px] md:text-[62px] font-black uppercase tracking-tight text-brand-black leading-[1.12] mb-6">
-            Bespoke Biotechnological Actives
+            Bespoke Biotechnological <AnimatedUnderline word="Actives" />
           </h2>
           <p className="font-sans text-xs sm:text-sm text-brand-black/60 leading-relaxed max-w-xl mx-auto">
             We operate at the exact intersection of premium clinical medicine and pure organic apothecaries. Explore the active molecules powering our signature client therapies.

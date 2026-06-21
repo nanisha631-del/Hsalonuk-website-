@@ -115,7 +115,7 @@ export default function App() {
     }
   }, [settings.brand_primary_color]);
 
-  // Synchronize Shopify product variant names and prices dynamically to provide live data
+  // Synchronize Shopify product variant names, prices and images dynamically to provide live data
   useEffect(() => {
     fetchShopifyProducts(PRODUCTS)
       .then((mappings) => {
@@ -134,6 +134,16 @@ export default function App() {
               console.log(`Live Pricing: Synced "${prod.name}" price with Shopify rate: $${map.price} (was $${prod.price})`);
               prod.price = map.price;
               hasChanged = true;
+            }
+            // Check and sync real images from Shopify
+            if (map.shopifyImages && map.shopifyImages.length > 0) {
+              const matchesOld = prod.images.length === map.shopifyImages.length && 
+                prod.images.every((img, idx) => img === map.shopifyImages![idx]);
+              if (!matchesOld) {
+                console.log(`Live Images: Synced "${prod.name}" images with Shopify:`, map.shopifyImages);
+                prod.images = map.shopifyImages;
+                hasChanged = true;
+              }
             }
           }
         });

@@ -6,6 +6,7 @@
 import ScrollReveal from "./ScrollReveal";
 import ScrollZoomImage from "./ScrollZoomImage";
 import { getShopifySettings } from "../shopifySettings";
+import AnimatedUnderline from "./AnimatedUnderline";
 
 interface FormulaCard {
   id: string;
@@ -54,7 +55,18 @@ export default function LightweightFormulas() {
         </ScrollReveal>
         <ScrollReveal direction="up" distance={20} delay={50}>
           <h2 className="font-sans text-[22px] sm:text-[32px] font-black tracking-tight leading-tight uppercase text-brand-black">
-            {settings.formulas_heading || "STORY OF LIGHTWEIGHT FORMULAS"}
+            {(() => {
+              const headingText = settings.formulas_heading || "STORY OF LIGHTWEIGHT FORMULAS";
+              const words = headingText.trim().split(" ");
+              const lastWord = words.pop() || "";
+              const remainingText = words.join(" ") + " ";
+              return (
+                <>
+                  {remainingText}
+                  <AnimatedUnderline word={lastWord} />
+                </>
+              );
+            })()}
           </h2>
         </ScrollReveal>
       </div>

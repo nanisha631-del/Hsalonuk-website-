@@ -7,6 +7,7 @@ import { useState } from "react";
 import { Star } from "lucide-react";
 import ScrollReveal from "./ScrollReveal";
 import { getShopifySettings } from "../shopifySettings";
+import AnimatedUnderline from "./AnimatedUnderline";
 
 interface ScrollerCard {
   type: "text" | "image";
@@ -110,7 +111,18 @@ export default function AutoScrollCards() {
         </ScrollReveal>
         <ScrollReveal>
           <h2 className="font-serif text-[28px] md:text-[38px] font-black tracking-tight text-brand-black uppercase leading-none">
-            {settings.obsessed_title || "The Hype Is Real"}
+            {(() => {
+              const hypeTitle = settings.obsessed_title || "The Hype Is Real";
+              const words = hypeTitle.trim().split(" ");
+              const lastWord = words.pop() || "";
+              const remainingText = words.join(" ") + " ";
+              return (
+                <>
+                  {remainingText}
+                  <AnimatedUnderline word={lastWord} />
+                </>
+              );
+            })()}
           </h2>
         </ScrollReveal>
       </div>

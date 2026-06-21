@@ -10,6 +10,7 @@ import { useSharedState } from "../useSharedState";
 import { PRODUCTS } from "../data";
 import { Product } from "../types";
 import LuxuryButton from "./LuxuryButton";
+import AnimatedUnderline from "./AnimatedUnderline";
 
 export default function InteractiveConsultation() {
   const { handleAddToCart } = useSharedState();
@@ -80,7 +81,7 @@ export default function InteractiveConsultation() {
         </p>
         <h2 className="font-serif text-[42px] sm:text-[54px] md:text-[62px] font-black leading-[1.12] text-brand-black tracking-tight uppercase">
           DISCOVER YOUR PERFECT <br />
-          HAIR & SKIN RITUAL
+          HAIR & SKIN <AnimatedUnderline word="RITUAL" />
         </h2>
         <div className="w-16 h-0.5 bg-[#82D8C5] mx-auto mt-6" />
       </div>

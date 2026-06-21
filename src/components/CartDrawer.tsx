@@ -94,6 +94,74 @@ const ConfettiItem = ({ index, side }: { index: number; side: "left" | "right"; 
   );
 };
 
+// Sub-component for realistic wavy ribbons / curly streamers as shown in the image
+const CurlyStreamer = ({ side, color, index }: { side: "left" | "right"; color: string; index: number; key?: string }) => {
+  // Diverse curved SVG paths representing squiggly ribbons bursting out
+  const paths = [
+    "M0,120 C 40,90  60,50  100,10 C 140,-30 160,-70 200,-130",
+    "M0,120 C 50,70  80,40  120,0 C 160,-40 180,-80 230,-160",
+    "M0,120 C 30,100  50,70  90,30 C 130,-10 150,-50 180,-100",
+    "M0,120 C 60,80  90,50  140,10 C 190,-30 210,-70 260,-190",
+  ];
+  const path = paths[index % paths.length];
+  
+  // Distribute streamers in different angled trajectories
+  const rotation = side === "left" ? (index * 15 - 15) : -(index * 15 - 15);
+  
+  return (
+    <div
+      className={`absolute bottom-[110px] sm:bottom-[120px] ${side === "left" ? "left-[10px] origin-bottom-left" : "right-[10px] origin-bottom-right"} overflow-visible pointer-events-none z-40`}
+      style={{
+        transform: `rotate(${rotation}deg) scale(${0.7 + index * 0.15})`,
+        animation: "fade-out 2.5s forwards",
+        animationDelay: `${index * 0.05}s`,
+      }}
+    >
+      <svg width="220" height="150" viewBox="0 0 220 150" fill="none" className="overflow-visible pointer-events-none">
+        <path
+          d={path}
+          fill="none"
+          stroke={color}
+          strokeWidth="3.5"
+          strokeLinecap="round"
+          strokeDasharray="400"
+          strokeDashoffset="400"
+          style={{
+            animation: "streamer-unravel 1.8s cubic-bezier(0.1, 0.8, 0.2, 1) forwards",
+            animationDelay: `${index * 0.08}s`,
+          }}
+        />
+      </svg>
+    </div>
+  );
+};
+
+// Red & White striped 3D-angled party popper cone as shown in the reference image
+const PopperCone = ({ side }: { side: "left" | "right" }) => {
+  const rotationVal = side === "left" ? "35deg" : "-35deg";
+  return (
+    <div
+      className={`absolute bottom-[50px] sm:bottom-[60px] ${
+        side === "left" ? "left-[-15px]" : "right-[-15px]"
+      } z-50 pointer-events-none animate-cone-blast`}
+      style={{
+        "--base-rot": rotationVal,
+      } as React.CSSProperties}
+    >
+      <svg width="60" height="80" viewBox="0 0 60 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-lg">
+        {/* Red and White Striped Cone Body */}
+        <path d="M5,15 L30,75 L35,75 L55,15 Z" fill="#FF3E3E" />
+        <path d="M12,22 L30,75 L33,75 L40,22 Z" fill="#FFFFFF" />
+        <path d="M20,33 L30,75 L32,75 L28,33 Z" fill="#FF3E3E" />
+        {/* Golden opening rim */}
+        <ellipse cx="30" cy="15" rx="25" ry="6" fill="#FFD700" stroke="#DAA520" strokeWidth="1" />
+        {/* Mouth inner hole silhouette */}
+        <ellipse cx="30" cy="15" rx="21" ry="4" fill="#2B0000" />
+      </svg>
+    </div>
+  );
+};
+
 export default function CartDrawer({
   isOpen,
   onClose,
@@ -287,10 +355,23 @@ export default function CartDrawer({
             {/* Confetti party poppers falling along left & right visual borders */}
             {confettiActive && (
               <div className="absolute inset-0 pointer-events-none z-40 overflow-hidden" id="confetti-overlay-container">
-                {Array.from({ length: 24 }).map((_, i) => (
+                {/* Visual Party Popper Cones blasting from the corners! */}
+                <PopperCone side="left" />
+                <PopperCone side="right" />
+                
+                {/* Beautiful curvy ribbons/streamers as shown in the reference image */}
+                {["#FF1493", "#00FFFF", "#FFD700", "#39FF14", "#FF4500"].map((color, i) => (
+                  <CurlyStreamer key={`left-streamer-${i}`} index={i} side="left" color={color} />
+                ))}
+                {["#FF1493", "#00FFFF", "#FFD700", "#39FF14", "#FF4500"].map((color, i) => (
+                  <CurlyStreamer key={`right-streamer-${i}`} index={i} side="right" color={color} />
+                ))}
+
+                {/* Classic confetti sparkles, stars, and squares */}
+                {Array.from({ length: 28 }).map((_, i) => (
                   <ConfettiItem key={`left-emitter-${i}`} index={i} side="left" />
                 ))}
-                {Array.from({ length: 24 }).map((_, i) => (
+                {Array.from({ length: 28 }).map((_, i) => (
                   <ConfettiItem key={`right-emitter-${i}`} index={i} side="right" />
                 ))}
               </div>

@@ -5,7 +5,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Sparkles, Plus, Check, ShoppingBag, ArrowRight, ShieldCheck, HelpCircle } from "lucide-react";
+import { Sparkles, Check, ShoppingBag, ArrowRight, ShieldCheck } from "lucide-react";
 import { Product } from "../types";
 import { PRODUCTS } from "../data";
 
@@ -31,146 +31,146 @@ const getBundleForProduct = (productId: string): CustomBundleDef => {
   switch (productId) {
     case "snail-silk-serum":
       return {
-        title: "The Serene Scalp Clarifying Ritual",
+        title: "The Clinically Soothed Scalp Set",
         subtitle: "3-Step Deep Root Calming Program",
-        description: "Indulge in a clinical-grade scalp cleansing sequence designed to lift flakes, instantly soothe itchiness, and style with a gorgeous silken luster.",
+        description: "A customized 3-step routine designed to soothe irritated crowns and stimulate root circulation.",
         discountPct: 15,
         steps: [
-          { label: "STEP 1: THERAPHY MASK", productId: "snail-silk-scalp-mask", description: "Deeply balances and removes scalp scales during wash." },
-          { label: "STEP 2: TREATMENT ELIXIR", productId: "snail-silk-serum", description: "Leave-in soothing drops cooling active irritation." },
-          { label: "STEP 3: MERIDIAN COMB", productId: "h-salon-comb", description: "Polished celluloid teeth to stimulate root circulation." }
+          { label: "1. BALANCING MASK", productId: "snail-silk-scalp-mask", description: "Soothes roots and reduces flaking." },
+          { label: "2. TREATMENT ELIXIR", productId: "snail-silk-serum", description: "Leave-in soothing drops cooling irritation." },
+          { label: "3. MERIDIAN COMB", productId: "h-salon-comb", description: "Polished natural jade comb to stimulate growth." }
         ]
       };
     case "snail-silk-scalp-mask":
       return {
-        title: "Thermal Moisture Infusion Routine",
-        subtitle: "Intense Barrier Hydro-Reactivation",
-        description: "The supreme restoration for severely dehydrated crowns. Maximizes follicle hydration levels and detangles hair strands with heavy organic silk drape.",
+        title: "Deep Moisture Infusion Routine",
+        subtitle: "Hydro-Reactivation Barrier Program",
+        description: "Intense botanical hydration system to completely eliminate dryness, redness and static.",
         discountPct: 15,
         steps: [
-          { label: "STEP 1: CLARIFY SHOT", productId: "color-mascara", description: "Hyaluronic boost to open scalp hydration channels." },
-          { label: "STEP 2: COCONUT MASQUE", productId: "snail-silk-scalp-mask", description: "Intensively hydrate and calm redness under warm wrap." },
-          { label: "STEP 3: THERMAL CAP", productId: "h-salon-cap", description: "Quilted cotton crown shield to keep essential formulas secure." }
+          { label: "1. COCONUT MASQUE", productId: "snail-silk-scalp-mask", description: "Deep hydration mask for sensitive scalp." },
+          { label: "2. CLARIFY SHOT", productId: "color-mascara", description: "Hyaluronic pre-wash boost." },
+          { label: "3. HEAT CAP", productId: "h-salon-cap", description: "Traps micro-steam to maximize hydration." }
         ]
       };
     case "snail-silk-scalp-oil":
       return {
-        title: "Elite Lustrous Glass Hair Routine",
-        subtitle: "Maximum Gloss & Humidity Defense",
-        description: "Formulated for high-fashion runway shine. Refines damaged follicles, wraps dry ends in heavy silken nourishment, and defies damp British humidity.",
+        title: "Lustrous Mirror Shine Routine",
+        subtitle: "Gloss Renewal & Humidity Defense",
+        description: "The ultimate runway shine program that seals damaged cuticles and blocks humidity.",
         discountPct: 15,
         steps: [
-          { label: "STEP 1: MOLECULAR REPAIR", productId: "eyeliner", description: "Rebuilds internal sulfide links in chemical-treated shafts." },
-          { label: "STEP 2: GOLD LUST OIL", productId: "snail-silk-scalp-oil", description: "Infuses lightweight high-gloss reflection and Côte d'Azur magic." },
-          { label: "STEP 3: DETANGLE WEAVE", productId: "h-salon-comb", description: "Handcrafted comb designed to part locks without snags." }
+          { label: "1. GLOSS SERUM", productId: "snail-silk-scalp-oil", description: "Lightweight oil for ultimate high-gloss finish." },
+          { label: "2. BOND REPAIR", productId: "eyeliner", description: "Rebuilds essential cortical bounds." },
+          { label: "3. PRECISION COMB", productId: "h-salon-comb", description: "Anti-static styling comb." }
         ]
       };
     case "ground-recovery-oil":
       return {
-        title: "Sovereign Nocturnal Regeneration Set",
-        subtitle: "Absolute Radiance & Facial Calmness",
-        description: "Transform your twilight hour into a clinical, calming session. Combats skin irritation, resets texture lines, and gives an authentic morning glow.",
+        title: "Nocturnal Repair Recovery Set",
+        subtitle: "Overnight Radiance Barrier Restorer",
+        description: "Re-hydrate and restore the skin lipid barrier during your sleep cycle.",
         discountPct: 15,
         steps: [
-          { label: "STEP 1: RECOVERY EXTRACTION", productId: "ground-recovery-oil", description: "Botanical active fluid to renew facial brightness." },
-          { label: "STEP 2: BEDTIME SLEEP BALM", productId: "concealer", description: "Breathe in pure lavender vapor to relax temple stressors." },
-          { label: "STEP 3: SIGNATURE VELVET POUCH", productId: "makeup-pouch", description: "Custom velvet travel container protecting your glass bottles." }
+          { label: "1. EVENING LIPID", productId: "ground-recovery-oil", description: "Botanical face lipid with powerful calm." },
+          { label: "2. SLEEP BALM", productId: "concealer", description: "Aromatherapy balm to ease tension." },
+          { label: "3. TRAVEL POUCH", productId: "makeup-pouch", description: "Elegant velvet protective envelope." }
         ]
       };
     case "gym-silk":
       return {
-        title: "Post-Athletic Sensory Recovery Set",
-        subtitle: "Aromatic Circulation & Hydration",
-        description: "Relax tired muscles, release tension, and moisturize warm damp skin with Aesop's premium botanical complex following training or hot yoga.",
+        title: "Active Post-Workout Set",
+        subtitle: "Sensory Circulation & Fatigue Relief",
+        description: "Release tension and hydrate weary muscles after active physical exercises.",
         discountPct: 15,
         steps: [
-          { label: "STEP 1: CIRCULATION RECOVERY", productId: "gym-silk", description: "Eucalyptus and ginger vapors to melt physical fatigue." },
-          { label: "STEP 2: REST BALM", productId: "concealer", description: "Calming sweet almond extract to nurture weary senses." },
-          { label: "STEP 3: PROTECTIVE SHIELD", productId: "h-salon-cap", description: "Comfortable high-density cotton cap for post-spa rest." }
+          { label: "1. RECOVERY ELIXIR", productId: "gym-silk", description: "Refreshing ginger vapor to soothe scalp." },
+          { label: "2. MASSAGE BALM", productId: "concealer", description: "Sweet almond soothing balm." },
+          { label: "3. SPA BAND", productId: "h-salon-cap", description: "Comfy cotton protection hair cap." }
         ]
       };
     case "halo-highlighter":
       return {
-        title: "Royal Reflection Resurfacing Kit",
-        subtitle: "Duo-Serum Gloss & Split-End Erase",
-        description: "The dual botanical mechanism that seals open hair cuticles, corrects split ends, and delivers mesmerizing glassy luster in seconds.",
+        title: "Gloss Reflection Resurfacing Set",
+        subtitle: "Therapeutic Gloss & Core Hydration",
+        description: "Advanced peptide and botanical combination that heals split ends and adds gloss.",
         discountPct: 15,
         steps: [
-          { label: "STEP 1: ELIXIR ULTIME", productId: "halo-highlighter", description: "Marula oil base for heat-activated gloss shield." },
-          { label: "STEP 2: SPLIT END SEAL", productId: "lip-gloss", description: "Seals fractured hair fibers with weightless nutrition." },
-          { label: "STEP 3: JETSETTER BAG", productId: "makeup-pouch", description: "Heavy luxury velvet cosmetic organizer." }
+          { label: "1. REFLECTION OIL", productId: "halo-highlighter", description: "Camellia oil base for radiant shine." },
+          { label: "2. SPLIT END SEAL", productId: "lip-gloss", description: "Restores broken hair cuticles softly." },
+          { label: "3. COSMETIC BAG", productId: "makeup-pouch", description: "Ultra-plush velvet storage bag." }
         ]
       };
     case "color-mascara":
       return {
-        title: "Hydro-Lipidic Flake Rescue Combo",
-        subtitle: "Dermatologist Hydration Routine",
-        description: "For highly reactive, extremely dry and sensitive scalp skin. Provides deep cellular nourishment to keep roots calm throughout local weather changes.",
+        title: "Dermatologist Dry Flake Combo",
+        subtitle: "Anti-Dandruff Balancing Program",
+        description: "Deep prebiotic and botanical nutrition to restore dry, flaky scalp bases.",
         discountPct: 15,
         steps: [
-          { label: "STEP 1: BOOSTER SHOT", productId: "color-mascara", description: "Clinically concentrated Hyaluronic Acid booster logic." },
-          { label: "STEP 2: TREATMENT ELIXIR", productId: "snail-silk-serum", description: "Soothes root tissue with cooling mint extracts." },
-          { label: "STEP 3: COMPLEMENTARY MASK", productId: "snail-silk-scalp-mask", description: "Locks in water reserves, detoxifying dry scales." }
+          { label: "1. PRE-WASH SHOT", productId: "color-mascara", description: "Clean base pre-shampoo booster." },
+          { label: "2. SOOTHING DROPS", productId: "snail-silk-serum", description: "Leaves scalp completely scale-free." },
+          { label: "3. ROOT BALM", productId: "snail-silk-scalp-mask", description: "Locks hydration deep into follicles." }
         ]
       };
     case "eye-shadow-stick":
       return {
-        title: "Chronologiste Youth Revitalization Duet",
-        subtitle: "Active Caviar Pearls & Luxury Gloss",
-        description: "Encapsulated therapeutic hair caviar that bursts on contact. Densifies hair pulp fibers and triggers intense deep follicle volume.",
+        title: "Trichologist Follicle Nourish Set",
+        subtitle: "Caviar Micro-Peptide Renewal Program",
+        description: "Encapsulated cellular nutrients that immediately restore density and shine.",
         discountPct: 15,
         steps: [
-          { label: "STEP 1: CAVIAR PEARLS", productId: "eye-shadow-stick", description: "Peptide-burst pearls that renew cell energy at the roots." },
-          { label: "STEP 2: KÉRASTASE ELIXIR", productId: "halo-highlighter", description: "Lightweight camellia botanical serum to finalize shine." },
-          { label: "STEP 3: MERIDIAN BRUSH", productId: "h-salon-comb", description: "Stimulating tailored celluloid teeth to maximize volume." }
+          { label: "1. CAVIAR DROPS", productId: "eye-shadow-stick", description: "Peptide spheres to bolster cell growth." },
+          { label: "2. GLOSS ELIXIR", productId: "halo-highlighter", description: "Locks shine and shields styling heat." },
+          { label: "3. STYLING COMB", productId: "h-salon-comb", description: "Gently combs through root strands." }
         ]
       };
     case "concealer":
       return {
-        title: "Nocturnal Aromatherapy Restoration Kit",
-        subtitle: "Mind-Calming Overnight Recovery Set",
-        description: "Align your internal body clock with pure aromatherapy. Melt mental fatigue before bed while restoring your skin barrier beautifully.",
+        title: "Essential Aromatic Overnight Set",
+        subtitle: "Skin Barrier Renewal Routine",
+        description: "An incredibly calming overnight skin care ritual to seal active moisture.",
         discountPct: 15,
         steps: [
-          { label: "STEP 1: ZEN SLEEP BALM", productId: "concealer", description: "Aromatherapy lavender wax pressed smoothly onto target nodes." },
-          { label: "STEP 2: BOTANICAL ELIXIR", productId: "ground-recovery-oil", description: "Nutritive morning glow oil representing premium skincare." },
-          { label: "STEP 3: CROWN COCOON", productId: "h-salon-cap", description: "Thick cotton cap to protect and isolate night therapy." }
+          { label: "1. COMFORT BALM", productId: "concealer", description: "Relaxing lavender-infused face balm." },
+          { label: "2. GLOW OIL", productId: "ground-recovery-oil", description: "Renews lipid integrity on cheeks." },
+          { label: "3. SLEEP CAP", productId: "h-salon-cap", description: "Safeguards strands from pillow friction." }
         ]
       };
     case "eyeliner":
       return {
-        title: "Molecular Bone-Deep Bond Perfector",
-        subtitle: "Structural Core Hair Rescue Treatment",
-        description: "The absolute science-first repair program for bleached, heavily color-processed, or split-prone hair. Glues fractured hair bonds perfectly.",
+        title: "Molecular Bone-Deep Bond Restorer",
+        subtitle: "Chemical Damage Repair Program",
+        description: "A fast acting scientific treatment that repairs bleach or heat damaged hair bonds.",
         discountPct: 15,
         steps: [
-          { label: "STEP 1: BOND BUILDER NO.3", productId: "eyeliner", description: "Patented formula repairing broken disulfide links internally." },
-          { label: "STEP 2: GOLD NUTRIENT OIL", productId: "snail-silk-scalp-oil", description: "Precious oils shielding strands against hot mechanical snags." },
-          { label: "STEP 3: METICULOUS TAIL COMB", productId: "h-salon-comb", description: "Finetoothed styling comb for precise treatment mapping." }
+          { label: "1. BOND RECONSTRUCTOR", productId: "eyeliner", description: "Fuses broken disulfide links instantly." },
+          { label: "2. NUTRIENT SHIELD", productId: "snail-silk-scalp-oil", description: "Provides nourishing lipid shield." },
+          { label: "3. SECTIONING COMB", productId: "h-salon-comb", description: "Aide to spread the treatment scalpwide." }
         ]
       };
     case "lip-gloss":
       return {
-        title: "Split End Eraser & Core Repair Duo",
-        subtitle: "Glassy Cuticle Resurfacing Sequence",
-        description: "Instantly binds fractured fibers together. Keeps tips completely soft, and wards off the frizzy effect of humid environments.",
+        title: "Cuticle Glassing Duo & Repair Set",
+        subtitle: "Instant Humidity Defense Combo",
+        description: "Locks down rough cuticles to create a beautifully smooth, glassy drape.",
         discountPct: 15,
         steps: [
-          { label: "STEP 1: NO.3 NOURISHMENT", productId: "eyeliner", description: "Injects structural cortex proteins into fragile roots." },
-          { label: "STEP 2: NUTRITIVE SERUM", productId: "lip-gloss", description: "Targeted daily treatment gluing split ends into smooth fibers." },
-          { label: "STEP 3: SOOTHING MASQUE", productId: "snail-silk-scalp-mask", description: "Dermatology mask protecting scales against splitting." }
+          { label: "1. FIBER BALM", productId: "eyeliner", description: "Fills missing cortical keratin." },
+          { label: "2. RESURFACING SHINE", productId: "lip-gloss", description: "Binds split ends together perfectly." },
+          { label: "3. SOOTHING WRAP", productId: "snail-silk-scalp-mask", description: "Locks down cuticle layers safely." }
         ]
       };
     default:
       return {
-        title: "The Jetsetter's Apothecary Care Set",
-        subtitle: "Universal Botanical Master Duo",
-        description: "A gorgeous collection of our best-selling formulas and travel accessories to maintain glowing, hydrated, frizz-free results anywhere in the world.",
+        title: "The Ultimate Apothecary Ritual",
+        subtitle: "Universal Salon Glow Masters",
+        description: "Our signature, world-renowned glow essentials designed to support any skin type.",
         discountPct: 15,
         steps: [
-          { label: "STEP 1: ACCURATE STYLING TOOL", productId: "h-salon-comb", description: "Stimulate micro-circulation across hair follicles." },
-          { label: "STEP 2: GOLD LUST TREATMENT", productId: "snail-silk-scalp-oil", description: "A high-shine luxury shield providing Côte d'Azur aroma." },
-          { label: "STEP 3: VELVET STORAGE POUCH", productId: "makeup-pouch", description: "Elegantly padded quilted cotton velvet pouch container." }
+          { label: "1. POLISHING TOOL", productId: "h-salon-comb", description: "Stimulates scalp cell blood circulation." },
+          { label: "2. DEEP TREATMENT OIL", productId: "snail-silk-scalp-oil", description: "Nourishes fibers and blocks dryness." },
+          { label: "3. SIGNATURE POUCH", productId: "makeup-pouch", description: "Soft lined storage travel bag." }
         ]
       };
   }
@@ -213,69 +213,72 @@ export default function BundlePackSection({ product, onAddToCart, onSelectProduc
   return (
     <section 
       id="compact-routine-bundle-pack"
-      className="max-w-7xl mx-auto my-14 px-4 md:px-12 select-none"
+      className="max-w-7xl mx-auto my-10 px-4 md:px-12 select-none"
     >
-      <div className="bg-[#FAF8F5] border-2 border-[#3D4A3E]/10 rounded-2xl p-5 md:p-8 relative overflow-hidden text-left shadow-xs">
+      <div className="bg-[#FAF9F6] border border-brand-black/10 rounded-2xl p-5 md:p-8 relative overflow-hidden text-left shadow-xs transition-shadow hover:shadow-[0_4px_24px_rgba(0,0,0,0.03)]">
         
-        {/* Cute Brand Tag - Green accents */}
-        <div className="absolute top-0 right-0 bg-[#3D4A3E]/10 text-[#3D4A3E] text-[8.5px] font-sans font-black uppercase tracking-[0.2em] px-4 py-2 rounded-bl-xl border-l border-b border-[#3D4A3E]/15 flex items-center gap-1">
-          <Sparkles className="w-3.5 h-3.5 text-[#3D4A3E]" /> ROUTINE BUNDLE · SAVE {bundleDef.discountPct}%
+        {/* Brand Tag with themed colors */}
+        <div className="absolute top-0 right-0 bg-brand-black text-[#82D8C5] text-[8.5px] font-sans font-black uppercase tracking-[0.2em] px-4 py-2.5 rounded-bl-xl border-l border-b border-brand-black/10 flex items-center gap-1">
+          <Sparkles className="w-3.5 h-3.5 text-[#82D8C5]" /> ROUTINE BUNDLE · SAVE {bundleDef.discountPct}%
         </div>
 
-        {/* Header Block of Bundle - Small and Cute spacing */}
+        {/* Header Block under logo theme */}
         <div className="max-w-xl text-left mb-6">
-          <span className="text-[9px] font-sans uppercase tracking-[0.18em] text-[#3D4A3E] font-bold">RECOMMENDED WELLNESS RITUAL</span>
-          <h2 className="font-serif text-[22px] md:text-[28px] font-black text-brand-black mt-0.5 tracking-tight leading-tight">
+          <span className="text-[9px] font-sans uppercase tracking-[0.18em] text-[#82D8C5] font-black">RECOMMENDED CLINICAL RITUAL</span>
+          <h2 className="font-serif text-[20px] md:text-[25px] font-black text-brand-black mt-0.5 tracking-tight leading-tight uppercase">
             {bundleDef.title}
           </h2>
-          <p className="text-[11.5px] text-gray-500 font-sans mt-1.5 leading-relaxed">
-            {bundleDef.subtitle}. This curated set delivers maximum benefits when layered in order. Get all three with extra savings in a combined ritual pack.
+          <p className="text-[11px] text-gray-400 font-sans mt-1 leading-snug">
+            {bundleDef.subtitle} · Standard Synergistic Program.
           </p>
         </div>
 
-        {/* HORIZONTAL CARD STYLE LAYOUT */}
+        {/* MAIN COMPACT GRID VIEW -- UNIFIED & HIGH-CONTRAST */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
           
-          {/* Main sequence: horizontal row layout of product items */}
-          <div className="lg:col-span-8 flex flex-col justify-center gap-4">
+          {/* Steps column (left 8 grid spans) */}
+          <div className="lg:col-span-8 flex flex-col justify-center gap-2">
             
-            {/* 
-              LAPTOP / DESKTOP VIEW: Horizontal Card Line with interactive markers 
-              Connected with beautiful green plus symbols and intense hover animations
+            {/* Elegant, uncluttered mobile-responsive 3-card stack. 
+                - On mobile: stack vertically (grid-cols-1) where each card is a simple, highly-polished compact row with image on left, title on right, hover transition, and zero squishing!
+                - On desktop: grid-cols-3 as pristine, hovering vertical cards.
             */}
-            <div className="hidden md:flex flex-row items-center gap-4 w-full justify-between pr-2">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 w-full">
               {stepProducts.map((step, idx) => {
                 const isActive = selectedPreviewId === step.productId;
                 return (
-                  <div key={step.productId} className="flex-1 flex items-center justify-between">
-                    
-                    {/* Compact card container */}
-                    <motion.div
-                      whileHover={{ 
-                        scale: 1.03, 
-                        borderColor: "#3D4A3E",
-                        boxShadow: "0 10px 25px -5px rgba(61, 74, 62, 0.08)"
-                      }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={() => {
-                        setSelectedPreviewId(step.productId === selectedPreviewId ? null : step.productId);
-                      }}
-                      className={`flex flex-col bg-white border border-[#3D4A3E]/15 p-4 rounded-xl text-left cursor-pointer transition-all duration-300 relative w-full h-[220px] justify-between ${
-                        isActive ? "border-[#3D4A3E] ring-2 ring-[#3D4A3E]/10 bg-[#3D4A3E]/[0.02]" : "hover:bg-[#F3F6F4]"
-                      }`}
-                    >
-                      {/* Step Indicator pill - green color theme */}
-                      <div className="flex justify-between items-center">
-                        <span className="bg-[#3D4A3E] text-[#FCFAF7] text-[8.5px] font-sans font-bold uppercase tracking-wider px-2 py-0.5 rounded-md">
-                          Step {idx + 1}
+                  <motion.div
+                    key={step.productId}
+                    whileHover={{ 
+                      scale: 1.03, 
+                      borderColor: "#82D8C5",
+                      boxShadow: "0 8px 24px -4px rgba(130,216,197,0.15)"
+                    }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => {
+                      setSelectedPreviewId(step.productId === selectedPreviewId ? null : step.productId);
+                    }}
+                    className={`flex flex-row md:flex-col bg-white border p-3 md:p-4 rounded-xl text-left cursor-pointer transition-all duration-300 relative items-center justify-between gap-3 h-auto md:h-[220px] ${
+                      isActive 
+                        ? "border-[#82D8C5] ring-2 ring-[#82D8C5]/10 bg-[#82D8C5]/5" 
+                        : "border-brand-black/5 hover:border-brand-black/15"
+                    }`}
+                  >
+                    {/* Elements layout responsive wrapper */}
+                    <div className="flex flex-row md:flex-col items-center md:items-stretch md:justify-between w-full gap-3 md:gap-0">
+                      
+                      {/* Brand Label & Price */}
+                      <div className="flex justify-between items-center w-full md:mb-3 shrink-0">
+                        <span className="bg-brand-black text-[#82D8C5] text-[7.5px] md:text-[8.5px] font-sans font-black uppercase tracking-wider px-1.5 py-0.5 rounded-sm">
+                          {step.label.split(":")[0]}
                         </span>
-                        <span className="text-[10px] font-sans text-[#3D4A3E] font-medium">
+                        <span className="hidden md:inline text-[10px] font-mono text-brand-black/60 font-semibold">
                           ${(step.product.price * discountMultiplier).toFixed(2)}
                         </span>
                       </div>
 
-                      {/* Product image centered inside card */}
-                      <div className="w-[70px] h-[70px] rounded-full mx-auto bg-[#FCFAF7] border border-brand-black/5 flex items-center justify-center p-1.5 overflow-hidden shadow-xs hover:rotate-6 transition-transform">
+                      {/* Product image - beautifully centered on desktop, on left on mobile */}
+                      <div className="w-[52px] h-[52px] md:w-[72px] md:h-[72px] rounded-full shrink-0 md:mx-auto bg-[#FAF9F6] border border-brand-black/5 flex items-center justify-center p-1 overflow-hidden shadow-xs hover:rotate-3 transition-transform">
                         <img 
                           src={step.product.images[0]} 
                           alt={step.product.name}
@@ -284,104 +287,30 @@ export default function BundlePackSection({ product, onAddToCart, onSelectProduc
                         />
                       </div>
 
-                      {/* Step Title details */}
-                      <div>
-                        <h4 className="font-serif text-[13px] font-black leading-tight text-brand-black uppercase tracking-tight line-clamp-1">
+                      {/* Text info - on the right on mobile, centered/left on desktop */}
+                      <div className="text-left md:text-center w-full mt-0 md:mt-3">
+                        <h4 className="font-serif text-[11px] md:text-[13px] font-bold leading-tight text-brand-black uppercase tracking-tight line-clamp-1">
                           {step.product.name}
                         </h4>
-                        <p className="text-[10.5px] text-gray-400 font-sans mt-0.5 line-clamp-1 italic">
-                          {"Verified Botanical Formula"}
+                        <p className="hidden md:block text-[10px] text-gray-400 font-sans mt-0.5 leading-tight line-clamp-1">
+                          {step.description}
+                        </p>
+                        <p className="md:hidden text-[9px] text-[#82D8C5] font-sans font-black leading-none mt-1">
+                          Touch for details · ${(step.product.price * discountMultiplier).toFixed(2)}
                         </p>
                       </div>
 
-                      {/* Expandable miniature detail bar */}
-                      <div className="border-t border-brand-black/5 pt-1.5 flex justify-between items-center text-[9px] text-[#3D4A3E] font-sans">
-                        <span className="font-bold tracking-wider">VIEW INFUSION</span>
-                        <ArrowRight className="w-3 h-3" />
-                      </div>
+                    </div>
 
-                    </motion.div>
+                    {/* Desktop-only card footer label bar */}
+                    <div className="hidden md:flex border-t border-brand-black/5 pt-1.5 justify-between items-center text-[9px] text-brand-black/30 font-sans font-extrabold w-full">
+                      <span className="tracking-widest uppercase">VIEW LAYER</span>
+                      <ArrowRight className="w-2.5 h-2.5 text-brand-black/20" />
+                    </div>
 
-                    {/* Connector element '+'. Omitted on the last product */}
-                    {idx < stepProducts.length - 1 && (
-                      <div className="mx-3 flex items-center justify-center text-gray-300">
-                        <div className="w-6 h-6 rounded-full bg-[#3D4A3E]/10 border border-[#3D4A3E]/15 flex items-center justify-center">
-                          <Plus className="w-3.5 h-3.5 text-[#3D4A3E] stroke-[3]" />
-                        </div>
-                      </div>
-                    )}
-
-                  </div>
+                  </motion.div>
                 );
               })}
-            </div>
-
-            {/* 
-              MOBILE VIEW: Small Horizontal Swipeable Row card style (under md breakpoint)
-              Perfect for thumb-swiping! Completely cute, green-highlighted, responsive
-            */}
-            <div className="block md:hidden w-full overflow-hidden">
-              <div className="flex overflow-x-auto gap-3.5 py-1 px-0.5 scrollbar-none snap-x snap-mandatory">
-                {stepProducts.map((step, idx) => {
-                  const isActive = selectedPreviewId === step.productId;
-                  return (
-                    <motion.div
-                      key={step.productId}
-                      whileTap={{ 
-                        scale: 0.96,
-                        borderColor: "#3D4A3E"
-                      }}
-                      onClick={() => {
-                        setSelectedPreviewId(step.productId === selectedPreviewId ? null : step.productId);
-                      }}
-                      className={`w-[68vw] h-[200px] bg-white border rounded-xl p-4 snap-start shrink-0 flex flex-col justify-between text-left transition-all duration-300 ${
-                        isActive 
-                          ? "border-[#3D4A3E] ring-2 ring-[#3D4A3E]/10 bg-[#3D4A3E]/[0.02]" 
-                          : "border-[#3D4A3E]/15 hover:bg-[#F3F6F4]"
-                      }`}
-                    >
-                      <div className="flex justify-between items-center header-section">
-                        <span className="bg-[#3D4A3E] text-white text-[8px] font-sans font-extrabold uppercase tracking-widest px-2.5 py-0.5 rounded-md">
-                          Step {idx + 1}
-                        </span>
-                        
-                        <span className="text-[10px] font-sans font-bold text-[#3D4A3E]">
-                          ${(step.product.price * discountMultiplier).toFixed(2)}
-                        </span>
-                      </div>
-
-                      {/* Image block in row detail */}
-                      <div className="flex items-center gap-3.5 my-2">
-                        <div className="w-12 h-12 rounded-full bg-[#FAF8F5] border border-brand-black/5 p-1 shrink-0">
-                          <img 
-                            src={step.product.images[0]} 
-                            alt={step.product.name}
-                            className="w-full h-full object-cover rounded-full"
-                          />
-                        </div>
-                        <div className="min-w-0">
-                          <h4 className="font-serif text-[12.5px] font-bold text-brand-black truncate">
-                            {step.product.name}
-                          </h4>
-                          <span className="text-[9px] text-[#3D4A3E] block font-semibold">Touch to expand description</span>
-                        </div>
-                      </div>
-
-                      {/* Text subline detail */}
-                      <p className="text-[10.5px] text-gray-500 font-sans leading-snug line-clamp-2">
-                        {step.description}
-                      </p>
-
-                    </motion.div>
-                  );
-                })}
-              </div>
-              
-              <div className="mt-2.5 text-center text-[9px] text-gray-400 font-sans flex items-center justify-center gap-2">
-                <span className="w-1 h-1 rounded-full bg-[#3D4A3E]" />
-                <span>Swipe horizontal to explore elements</span>
-                <span className="w-1 h-1 rounded-full bg-[#3D4A3E]" />
-              </div>
             </div>
 
             {/* Expandable description panel under active items click */}
@@ -394,18 +323,18 @@ export default function BundlePackSection({ product, onAddToCart, onSelectProduc
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: "auto" }}
                     exit={{ opacity: 0, height: 0 }}
-                    className="bg-[#3D4A3E]/5 border border-[#3D4A3E]/10 rounded-xl p-3 text-[11px] text-gray-600 font-sans mt-2"
+                    className="bg-brand-black/5 border border-brand-black/10 rounded-xl p-3 text-[11px] text-gray-500 font-sans mt-2"
                   >
-                    <div className="flex justify-between items-center mb-1 font-sans">
-                      <span className="font-extrabold text-[#3D4A3E] uppercase text-[9.5px] tracking-wider">{step.label} DETAILS</span>
+                    <div className="flex justify-between items-center mb-1">
+                      <span className="font-black text-brand-black uppercase text-[9px] tracking-wider">{step.label} DETAILS</span>
                       <button 
                         onClick={() => onSelectProduct(step.product.id)}
-                        className="text-[9.5px] text-brand-black font-extrabold underline hover:text-[#3D4A3E]"
+                        className="text-[9.5px] text-brand-black font-extrabold underline hover:text-[#82D8C5] transition-colors"
                       >
-                        Visit Product Page →
+                        Learn More Details →
                       </button>
                     </div>
-                    <p className="leading-relaxed">
+                    <p className="leading-relaxed text-[11px]">
                       {step.description} {step.product.description}
                     </p>
                   </motion.div>
@@ -415,26 +344,26 @@ export default function BundlePackSection({ product, onAddToCart, onSelectProduc
 
           </div>
 
-          {/* Right side checkout box - compact summary card styled with active green checkout button */}
-          <div className="lg:col-span-4 bg-white border border-[#3D4A3E]/15 rounded-xl p-5 flex flex-col justify-between shadow-xs text-left relative">
+          {/* Checkout block (right 4 grid spans) */}
+          <div className="lg:col-span-4 bg-white border border-brand-black/10 rounded-xl p-5 flex flex-col justify-between shadow-xs text-left relative transition-all">
             
             <div>
-              {/* Header inside checkout block */}
-              <div className="flex justify-between items-start border-b border-brand-black/5 pb-3.5 mb-4">
+              {/* Header inside checkout box */}
+              <div className="flex justify-between items-start border-b border-brand-black/5 pb-3 mb-4">
                 <div>
-                  <h3 className="font-serif text-[14.5px] font-black text-brand-black leading-none">Complete Ritual</h3>
+                  <h3 className="font-serif text-[14px] font-black text-brand-black uppercase tracking-tight">Complete Ritual</h3>
                   <span className="text-[10px] text-gray-400 font-sans mt-0.5 block">{stepProducts.length} Premium Formulas combined</span>
                 </div>
-                <span className="bg-[#3D4A3E]/10 text-[#3D4A3E] text-[9px] font-sans font-extrabold px-2 py-0.5 rounded-full border border-[#3D4A3E]/15 shrink-0">
+                <span className="bg-[#82D8C5]/10 text-brand-black text-[9px] font-sans font-extrabold px-2 py-0.5 rounded-full border border-[#82D8C5]/30 shrink-0">
                   -{bundleDef.discountPct}% SAVE
                 </span>
               </div>
 
               {/* Items pricing list */}
-              <div className="space-y-2 mb-4">
+              <div className="space-y-1.5 mb-4">
                 {stepProducts.map((step) => (
-                  <div key={step.productId} className="flex justify-between items-center text-[11px] font-sans text-gray-600">
-                    <span className="truncate pr-3 group cursor-pointer hover:text-brand-black" onClick={() => onSelectProduct(step.product.id)}>
+                  <div key={step.productId} className="flex justify-between items-center text-[11px] font-sans text-gray-500">
+                    <span className="truncate pr-3 cursor-pointer hover:text-brand-black" onClick={() => onSelectProduct(step.product.id)}>
                       • {step.product.name}
                     </span>
                     <span className="font-bold text-gray-400 whitespace-nowrap">${step.product.price.toFixed(2)}</span>
@@ -443,35 +372,32 @@ export default function BundlePackSection({ product, onAddToCart, onSelectProduc
               </div>
 
               {/* Calculation totals */}
-              <div className="border-t border-brand-black/5 pt-3.5 space-y-1.5 mb-4 font-sans text-[11.5px]">
+              <div className="border-t border-brand-black/5 pt-3 space-y-1 mb-4 font-sans text-[11px]">
                 <div className="flex justify-between text-gray-400">
-                  <span>Regular Total Price:</span>
+                  <span>Regular Total Value:</span>
                   <span className="line-through">${originalTotal.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between text-[#3D4A3E] font-bold">
-                  <span>Ritual Pack Benefit:</span>
-                  <span>-${totalSavings.toFixed(2)}</span>
+                <div className="flex justify-between text-brand-black font-extrabold">
+                  <span>Combo Benefits:</span>
+                  <span className="text-red-700">-${totalSavings.toFixed(2)}</span>
                 </div>
                 
-                {/* Visual price tag - Green Highlights */}
-                <div className="flex justify-between items-end pt-2 text-[#3D4A3E]">
+                {/* Visual price tag - theme matching */}
+                <div className="flex justify-between items-end pt-2 text-brand-black border-t border-dashed border-brand-black/5 mt-2">
                   <div className="text-left">
-                    <span className="text-[8px] font-sans uppercase tracking-[0.2em] text-gray-400 font-extrabold block leading-none mb-1">BUNDLE COCOON PRICE</span>
-                    <span className="font-serif italic font-semibold leading-none text-brand-black text-[12px]">Complete Routine Offer</span>
+                    <span className="text-[7.5px] font-sans uppercase tracking-[0.2em] text-gray-400 font-black block leading-none mb-1">RITUAL OFFER PRICE</span>
+                    <span className="font-serif italic font-semibold leading-none text-brand-black text-[11px] leading-none">Instant Bundle Pricing</span>
                   </div>
-                  <span className="font-sans font-black text-[22px] tracking-tight leading-none text-[#3D4A3E]">
+                  <span className="font-sans font-black text-[21px] tracking-tight leading-none text-brand-black">
                     ${bundleTotal.toFixed(2)}
                   </span>
                 </div>
               </div>
 
-              {/* Verified Badge */}
-              <div className="bg-[#FAF8F5] border border-[#3D4A3E]/10 rounded-lg p-2.5 text-[10px] text-gray-400 leading-normal mb-5 space-y-1">
-                <div className="flex items-center gap-1.5 text-brand-black font-extrabold">
-                  <ShieldCheck className="w-3.5 h-3.5 text-[#3D4A3E]" />
-                  <span>Approved Clinic Regimen</span>
-                </div>
-                <p>Includes free express delivery within the United Kingdom. 30-day money-back guarantee seal.</p>
+              {/* Minimalist safety line */}
+              <div className="bg-[#FAF9F6] border border-brand-black/5 rounded-lg p-2 text-[9.5px] text-gray-400 leading-tight mb-4 flex items-center gap-1.5">
+                <ShieldCheck className="w-3.5 h-3.5 text-[#82D8C5] shrink-0" />
+                <span>Approved regimen. Includes free UK shipping.</span>
               </div>
             </div>
 
@@ -483,30 +409,26 @@ export default function BundlePackSection({ product, onAddToCart, onSelectProduc
                     initial={{ opacity: 0, scale: 0.95, y: 5 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.95, y: -5 }}
-                    className="absolute -top-11 left-0 right-0 bg-[#3D4A3E] text-white text-[10.5px] font-sans font-bold rounded-lg py-2 px-3 text-center flex items-center justify-center gap-1.5 shadow-md border border-[#3D4A3E]/40 z-15"
+                    className="absolute -top-11 left-0 right-0 bg-brand-black text-white text-[10px] font-sans font-bold rounded-lg py-2 px-3 text-center flex items-center justify-center gap-1.5 shadow-md border border-brand-black/10 z-15"
                   >
-                    <Check className="w-3.5 h-3.5 text-[#82D8C5] stroke-[4]" /> Ritual Pack saved to your bag!
+                    <Check className="w-3.5 h-3.5 text-[#82D8C5] stroke-[4]" /> Added Entire Ritual to Bag!
                   </motion.div>
                 )}
               </AnimatePresence>
 
-              {/* Action Button - Green background color theme */}
+              {/* Action Button - Elegant Solid Black turning into brand-mint on hover */}
               <button
                 onClick={handleAddBundleToCart}
                 disabled={isSuccessAdded}
-                className={`w-full py-3.5 px-6 rounded-full font-sans font-bold text-[10.5px] uppercase tracking-widest flex items-center justify-center gap-2 transition-all duration-300 cursor-pointer ${
+                className={`w-full py-3 px-5 rounded-full font-sans font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 transition-all duration-300 cursor-pointer ${
                   isSuccessAdded 
-                    ? "bg-[#3D4A3E]/25 text-white/50 pointer-events-none"
-                    : "bg-[#3D4A3E] hover:bg-[#3D4A3E]/95 text-white hover:shadow-md active:scale-97 select-none border border-[#3D4A3E]"
+                    ? "bg-brand-black/20 text-brand-black/30 pointer-events-none"
+                    : "bg-brand-black text-white hover:bg-[#82D8C5] hover:text-brand-black hover:scale-101 hover:shadow-sm active:scale-97 select-none border border-brand-black"
                 }`}
               >
                 <ShoppingBag className="w-3.5 h-3.5" />
                 {isSuccessAdded ? "Adding Pack..." : "Add Entire Ritual to Bag"}
               </button>
-              
-              <span className="text-[9px] font-sans text-gray-400 block text-center mt-2 leading-none">
-                Creates custom Shopify line-items with dynamic combo pricing.
-              </span>
             </div>
 
           </div>

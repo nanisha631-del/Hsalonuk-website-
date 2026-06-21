@@ -40,7 +40,7 @@ export default function Navbar({
   onNavigate
 }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState<"shop_all" | "bestsellers" | null>(null);
+  const [activeDropdown, setActiveDropdown] = useState<"shop_all" | "bestsellers" | "bundle" | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileShopAllExpanded, setMobileShopAllExpanded] = useState(false);
   
@@ -48,7 +48,7 @@ export default function Navbar({
   const dropdownRef = useRef<HTMLDivElement>(null);
   const timeoutRef = useRef<any>(null);
 
-  const openDropdown = (menu: "shop_all" | "bestsellers") => {
+  const openDropdown = (menu: "shop_all" | "bestsellers" | "bundle") => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
       timeoutRef.current = null;
@@ -163,6 +163,7 @@ export default function Navbar({
   };
 
   const bestsellers = PRODUCTS.slice(0, 4);
+  const bundles = PRODUCTS.filter((p) => p.category === "bundle").slice(0, 4);
 
   return (
     <>
@@ -243,6 +244,15 @@ export default function Navbar({
             onMouseLeave={closeDropdown}
           >
             {renderNavButton("Bestsellers", "bestsellers")}
+          </div>
+
+          {/* Bundle Menu Item */}
+          <div 
+            className="relative py-8"
+            onMouseEnter={() => openDropdown("bundle")}
+            onMouseLeave={closeDropdown}
+          >
+            {renderNavButton("Bundle", "shop_all", "bundle")}
           </div>
 
           {/* About us Menu Item */}
@@ -556,6 +566,89 @@ export default function Navbar({
               </motion.div>
             </motion.div>
           )}
+
+          {activeDropdown === "bundle" && (
+            <motion.div 
+              key="bundle_mega"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              style={{ overflow: "hidden" }}
+              className="absolute left-0 right-0 top-full w-full bg-white border-b border-brand-black/15 shadow-2xl z-40"
+              onMouseEnter={cancelClose}
+              onMouseLeave={closeDropdown}
+            >
+              <motion.div
+                initial={{ opacity: 0, scale: 1.05 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 1.05 }}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                className="max-w-7xl mx-auto py-10 px-12"
+              >
+                <div className="flex items-center justify-between mb-6 border-b border-brand-black/5 pb-3">
+                  <div>
+                    <h3 className="font-sans font-black text-sm uppercase tracking-wider text-brand-black">Apothecary Value Rituals & Sets</h3>
+                    <p className="font-sans text-xs text-brand-black/60 mt-0.5 font-medium">Curated multi-step programs with exclusive savings up to 15% off regular custom routines.</p>
+                  </div>
+                  <button 
+                    onClick={() => { onNavigate("shop_all", "bundle"); setActiveDropdown(null); }}
+                    className="font-sans text-xs font-bold text-[#82D8C5] hover:underline flex items-center gap-1 cursor-pointer"
+                  >
+                    View All Bundles <ChevronRight className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+
+                {/* Bundle Grid Preview list */}
+                <motion.div 
+                  variants={{
+                    hidden: {},
+                    show: {
+                      transition: {
+                        staggerChildren: 0.3, // Match custom sweet delay of 0.3s
+                      }
+                    }
+                  }}
+                  initial="hidden"
+                  animate="show"
+                  className="grid grid-cols-4 gap-6"
+                >
+                  {bundles.map((product) => (
+                    <motion.div 
+                      key={product.id}
+                      variants={{
+                        hidden: { opacity: 0, y: 40, filter: "blur(4px)", scale: 0.99 },
+                        show: { 
+                          opacity: 1, 
+                          y: 0, 
+                          filter: "blur(0px)", 
+                          scale: 1,
+                          transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] } 
+                        }
+                      }}
+                      style={{ willChange: "transform, opacity, filter" }}
+                      onClick={() => { onNavigate("product", product.id); setActiveDropdown(null); }}
+                      className="group border border-brand-black/5 rounded-lg p-3 bg-brand-offwhite cursor-pointer hover:shadow-md transition-all duration-300 text-center"
+                    >
+                      <div className="aspect-square rounded-md overflow-hidden relative mb-3 bg-white">
+                        <img 
+                          src={product.images[0]} 
+                          alt={product.name}
+                          className="object-contain w-full h-full p-2 group-hover:scale-[1.06] hover:scale-[1.06] transition-transform duration-[1500ms] ease-[cubic-bezier(0.25,1,0.5,1)] [will-change:transform]"
+                          referrerPolicy="no-referrer"
+                        />
+                        <span className="absolute top-2 left-2 bg-[#82D8C5] text-brand-black text-[9px] font-extrabold px-1.5 py-0.5 rounded-xs tracking-wider uppercase">
+                          ★ {product.rating}.0
+                        </span>
+                      </div>
+                      <h4 className="font-sans font-bold text-xs truncate text-brand-black group-hover:text-[#82D8C5] transition-colors">{product.name}</h4>
+                      <p className="font-mono text-xs font-semibold text-[#82D8C5] mt-1">${product.price.toFixed(2)} USD</p>
+                    </motion.div>
+                  ))}
+                </motion.div>
+              </motion.div>
+            </motion.div>
+          )}
         </AnimatePresence>
       </nav>
 
@@ -660,6 +753,16 @@ export default function Navbar({
                   className="font-sans font-extrabold text-[28px] tracking-tight text-brand-black hover:text-[#82D8C5] transition-colors text-left w-full"
                 >
                   Bestsellers
+                </button>
+              </div>
+
+              {/* Bundle dynamic redirect */}
+              <div className="border-b border-brand-black/5 pb-4">
+                <button
+                  onClick={() => { onNavigate("shop_all", "bundle"); setMobileMenuOpen(false); }}
+                  className="font-sans font-extrabold text-[28px] tracking-tight text-brand-black hover:text-[#82D8C5] transition-colors text-left w-full"
+                >
+                  Bundles
                 </button>
               </div>
 
