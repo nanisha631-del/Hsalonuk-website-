@@ -397,6 +397,164 @@ const getReviewsForProduct = (productId: string): CustomReview[] => {
           avatarLetter: "S"
         }
       ];
+    case "pure-balance-ritual-face-scalp-hair":
+      return [
+        {
+          id: "pbr-1",
+          author: "Isabella K.",
+          location: "Richmond, London",
+          title: "My holy grail luxury crown reset",
+          rating: 5,
+          date: "Yesterday",
+          content: "Absolute pure perfection for face and scalp. Waking up with a hydrated, fully relaxed morning glow and silken hair is so addicting. The Lavender and Snail Silk Proteins feel extraordinarily expensive.",
+          helpfulCount: 52,
+          verified: true,
+          tag: "COMPLETE RECOVERY",
+          avatarLetter: "I"
+        },
+        {
+          id: "pbr-2",
+          author: "Camilla P.",
+          location: "Belgravia, UK",
+          title: "The complete luxury spa at home",
+          rating: 5,
+          date: "4 days ago",
+          content: "My face redness has completely faded and my scalp dry patches are totally gone. The fragrance is incredibly rich and calming. Worth every single pound!",
+          helpfulCount: 37,
+          verified: true,
+          tag: "HIGH-END BOTANICALS",
+          avatarLetter: "C"
+        },
+        {
+          id: "pbr-3",
+          author: "Lady Georgina L.",
+          location: "Chelsea, London",
+          title: "Sovereign skin & hair rejuvenator",
+          rating: 5,
+          date: "2 weeks ago",
+          content: "I follow the 20-minute nighttime wellness protocol with the comb and elixirs. My skin glows with athletic hydrated health and my hair has a gorgeous mirror gloss. Outstanding and authentic.",
+          helpfulCount: 61,
+          verified: true,
+          tag: "SOVEREIGN GLOW",
+          avatarLetter: "G"
+        }
+      ];
+    case "hair-and-scalp-circulation-set":
+      return [
+        {
+          id: "hcc-1",
+          author: "Chloe J.",
+          location: "Bath, UK",
+          title: "Incredible growth and thickness results",
+          rating: 5,
+          date: "Just now",
+          content: "This combination has completely reversed my thinning hair strands. The microcirculation massage tool with the peppermint oil stimulates the roots like magic.",
+          helpfulCount: 19,
+          verified: true,
+          tag: "GROWTH SYNERGY",
+          avatarLetter: "C"
+        },
+        {
+          id: "hcc-2",
+          author: "Seraphina M.",
+          location: "Windsor, UK",
+          title: "Highly energetic scalp therapy",
+          rating: 5,
+          date: "6 days ago",
+          content: "The argan oil and massage tool are highly therapeutic. My scalp tension disappears immediately after my class session, leaving roots deeply moisturized.",
+          helpfulCount: 22,
+          verified: true,
+          tag: "TEMPLE RELIEF",
+          avatarLetter: "S"
+        }
+      ];
+    case "hair-growth-set":
+      return [
+        {
+          id: "hgs-1",
+          author: "Amelie B.",
+          location: "Hampstead, London",
+          title: "Stopped my premature shedding!",
+          rating: 5,
+          date: "2 days ago",
+          content: "I've been massaging this peptide-enriched serum into my scalp roots daily. My hair fall has decreased by half in just three weeks and has a noticeable bounce.",
+          helpfulCount: 42,
+          verified: true,
+          tag: "ANTI-SHEDDING",
+          avatarLetter: "A"
+        },
+        {
+          id: "hgs-2",
+          author: "Jessica T.",
+          location: "Edinburgh, Scotland",
+          title: "Superb volume booster",
+          rating: 5,
+          date: "1 week ago",
+          content: "Rebuilds and fortifies weak, broken fibers effortlessly. My hair ends feel heavy and thick, and my roots have amazing lift.",
+          helpfulCount: 31,
+          verified: true,
+          tag: "VOLUME BOOSTER",
+          avatarLetter: "J"
+        }
+      ];
+    case "scalp-care-bundle":
+      return [
+        {
+          id: "scb-1",
+          author: "Fiona D.",
+          location: "Surrey, UK",
+          title: "Relieved my chronic dry scalp flakes",
+          rating: 5,
+          date: "3 days ago",
+          content: "After years of trying medicated coal tar shampoos, this luxury peppermint and chamomile bundle is the only thing that cured my redness and irritation. Totally worth it.",
+          helpfulCount: 28,
+          verified: true,
+          tag: "FLAKE CONTROL",
+          avatarLetter: "F"
+        },
+        {
+          id: "scb-2",
+          author: "Aveline R.",
+          location: "Mayfair, London",
+          title: "Soothing beyond measure",
+          rating: 5,
+          date: "2 weeks ago",
+          content: "Leaves the scalp feeling calm and icy clean and the hair beautifully soft and silken-smooth. Color and keratin safe, no nasty sulfates.",
+          helpfulCount: 16,
+          verified: true,
+          tag: "BARRIER CALMING",
+          avatarLetter: "A"
+        }
+      ];
+    case "scalp-massage-set":
+      return [
+        {
+          id: "sms-1",
+          author: "Eleanor S.",
+          location: "The Cotswolds",
+          title: "Heavenly root meridian stimulation",
+          rating: 5,
+          date: "Yesterday",
+          content: "Perfect grooming comb paired with the organic stimulating oil feels heavenly. I glide them gently before bed with 10 slow strokes to activate scalp pressure points.",
+          helpfulCount: 34,
+          verified: true,
+          tag: "MERIDIAN PATHWAYS",
+          avatarLetter: "E"
+        },
+        {
+          id: "sms-2",
+          author: "Beatrice G.",
+          location: "Cheshire, UK",
+          title: "My night scalp massage ritual is complete",
+          rating: 5,
+          date: "5 days ago",
+          content: "Helps calm my busy mind completely. The scent is of high-end boutique botanicals, and my comb glides like absolute glass.",
+          helpfulCount: 19,
+          verified: true,
+          tag: "SENSORY REST",
+          avatarLetter: "B"
+        }
+      ];
     default:
       return [
         {
@@ -476,16 +634,16 @@ export default function ScenicReviews({ onAddToCart, onSelectProduct, product }:
           {/* Header block within sticky view */}
           <div className="max-w-7xl mx-auto px-12 md:px-24 mb-10 text-left w-full">
             <div className="flex items-center gap-2 mb-2">
-              <span className="bg-[#3D4A3E]/10 text-[#3D4A3E] text-[10px] font-sans font-bold uppercase tracking-[0.25em] px-3.5 py-1 rounded-full border border-[#3D4A3E]/20 flex items-center gap-1.5 animate-pulse">
+              <span className="bg-[#3D4A3E]/10 text-[#3D4A3E] text-[10px] font-sans font-black uppercase tracking-[0.25em] px-3.5 py-1 rounded-full border border-[#3D4A3E]/20 flex items-center gap-1.5 animate-pulse">
                 <Sparkles className="w-3 h-3 text-[#3D4A3E]" /> SCROLL-REVEAL EXPERIENCES
               </span>
-              <span className="text-[11px] font-serif italic text-gray-400">Authentic Client Logs</span>
+              <span className="text-[10px] font-sans font-black uppercase tracking-wider text-[#82D8C5]">Authentic Client Logs</span>
             </div>
             
-            <h2 className="font-serif text-[38px] lg:text-[46px] font-bold tracking-tight text-brand-black leading-tight">
+            <h2 className="font-sans text-[36px] lg:text-[42px] font-black uppercase tracking-tight text-brand-black leading-tight">
               The Client Sanctuary
             </h2>
-            <p className="text-[13px] text-gray-500 font-sans max-w-xl mt-1.5">
+            <p className="text-[13px] text-gray-500 font-sans max-w-xl mt-1.5 leading-relaxed">
               Scroll down smoothly to review genuine ritual experiences recorded by our verified UK clients.
             </p>
           </div>
@@ -502,7 +660,7 @@ export default function ScenicReviews({ onAddToCart, onSelectProduct, product }:
                   <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center mb-6">
                     <MessageSquare className="w-5 h-5 text-[#82D8C5]" />
                   </div>
-                  <h3 className="font-serif text-[20px] font-extrabold text-white leading-tight">
+                  <h3 className="font-sans text-[17px] font-black uppercase tracking-wider text-white leading-tight">
                     Pure & Natural Formula Feedback
                   </h3>
                   <p className="text-[12px] opacity-85 mt-2.5 leading-relaxed font-sans">
@@ -543,7 +701,7 @@ export default function ScenicReviews({ onAddToCart, onSelectProduct, product }:
                       </div>
 
                       {/* Review Title & Content */}
-                      <h4 className="font-serif text-[15px] font-bold text-brand-black leading-snug mb-2">
+                      <h4 className="font-sans text-[12.5px] font-bold uppercase tracking-wide text-brand-black leading-snug mb-2">
                         "{rev.title}"
                       </h4>
                       <p className="text-[12px] text-gray-500 font-sans leading-relaxed line-clamp-4">
@@ -593,7 +751,7 @@ export default function ScenicReviews({ onAddToCart, onSelectProduct, product }:
                     <span className="w-7 h-7 rounded-full bg-[#EEDBC5]/20 flex items-center justify-center border border-white text-[10px] font-black text-brand-black">H</span>
                     <span className="w-7 h-7 rounded-full bg-[#9A8FB7]/20 flex items-center justify-center border border-white text-[10px] font-black text-brand-black">O</span>
                   </div>
-                  <h4 className="font-serif text-[15.5px] font-bold text-brand-black leading-tight">Verified Shopify Reviews</h4>
+                  <h4 className="font-sans text-[13px] font-black uppercase tracking-wider text-brand-black leading-tight">Verified Shopify Reviews</h4>
                   <p className="text-[11px] text-gray-400 font-sans mt-1 leading-normal">
                     Secure order history linkage maintains absolute authenticity. No simulated reviews permitted.
                   </p>
@@ -619,10 +777,10 @@ export default function ScenicReviews({ onAddToCart, onSelectProduct, product }:
           <span className="bg-[#3D4A3E]/10 text-[#3D4A3E] text-[9px] font-sans font-extrabold uppercase tracking-[0.2em] px-3 py-1 rounded-full border border-[#3D4A3E]/20 inline-flex items-center gap-1 mb-2 leading-none">
             <Sparkles className="w-3 h-3 text-[#3D4A3E]" /> DYNAMIC REVIEWS
           </span>
-          <h2 className="font-serif text-[28px] font-bold tracking-tight text-brand-black leading-tight">
+          <h2 className="font-sans text-[26px] font-black uppercase tracking-tight text-brand-black leading-tight">
             Client Sanctuary
           </h2>
-          <span className="font-serif italic text-gray-400 text-[12px] block mt-0.5">Verified Client Feedback for {product?.name}</span>
+          <span className="font-sans text-[11px] font-bold uppercase tracking-wider text-[#82D8C5] block mt-1">Verified Client Feedback for {product?.name}</span>
         </div>
 
         {/* Swipe Guidance Helper */}
@@ -640,7 +798,7 @@ export default function ScenicReviews({ onAddToCart, onSelectProduct, product }:
               <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center mb-6">
                 <MessageSquare className="w-5 h-5 text-[#82D8C5]" />
               </div>
-              <h3 className="font-serif text-[18px] font-extrabold text-white leading-tight">
+              <h3 className="font-sans text-[15px] font-black uppercase tracking-wider text-white leading-tight">
                 Pure Scalp & Hair Apothecary Reports
               </h3>
               <p className="text-[12px] opacity-85 mt-2 leading-relaxed">
@@ -678,7 +836,7 @@ export default function ScenicReviews({ onAddToCart, onSelectProduct, product }:
                     </span>
                   </div>
 
-                  <h4 className="font-serif text-[14.5px] font-bold text-brand-black leading-tight mb-1.5 line-clamp-1">
+                  <h4 className="font-sans text-[12.5px] font-bold uppercase tracking-wide text-brand-black leading-tight mb-1.5 line-clamp-1">
                     "{rev.title}"
                   </h4>
                   <p className="text-[11.5px] text-gray-500 font-sans leading-relaxed line-clamp-4">
@@ -722,7 +880,7 @@ export default function ScenicReviews({ onAddToCart, onSelectProduct, product }:
           <div className="w-[85vw] h-[280px] bg-[#FCFAF7] border border-dashed border-brand-black/10 rounded-3xl p-6 snap-start shrink-0 flex flex-col justify-between text-left">
             <div>
               <span className="text-[8px] font-bold font-mono text-[#3D4A3E]/50 tracking-[0.2em] block uppercase mb-1.5">ORGANIC CALM STANDARDS</span>
-              <h4 className="font-serif text-[15px] font-bold text-brand-black leading-tight">Verified Shopify Accounts Only</h4>
+              <h4 className="font-sans text-[13px] font-black uppercase tracking-wider text-brand-black leading-tight">Verified Shopify Accounts Only</h4>
               <p className="text-[11px] text-gray-400 font-sans mt-2 leading-relaxed">
                 All reviews originate from buyers authenticated via checkout. Our formulas deliver real visual confidence.
               </p>

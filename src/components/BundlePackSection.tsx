@@ -217,7 +217,7 @@ export default function BundlePackSection({ product, onAddToCart, onSelectProduc
       id="compact-routine-bundle-pack"
       className="max-w-7xl mx-auto my-6 px-4 md:px-12 select-none"
     >
-      <div className="bg-[#FAF9F6] border border-brand-black/10 rounded-2xl p-4 md:p-8 relative overflow-hidden text-left shadow-xs transition-shadow hover:shadow-[0_4px_24px_rgba(0,0,0,0.03)]">
+      <div className="bg-[#FAF9F6] border border-brand-black/10 rounded-2xl p-3 md:p-8 relative overflow-hidden text-left shadow-xs transition-shadow hover:shadow-[0_4px_24px_rgba(0,0,0,0.03)]">
         
         {/* Brand Tag with themed colors */}
         <div className="hidden sm:flex absolute top-0 right-0 bg-brand-black text-[#82D8C5] text-[8.5px] font-sans font-black uppercase tracking-[0.2em] px-4 py-2.5 rounded-bl-xl border-l border-b border-brand-black/10 items-center gap-1">
@@ -225,9 +225,9 @@ export default function BundlePackSection({ product, onAddToCart, onSelectProduc
         </div>
 
         {/* Header Block under logo theme */}
-        <div className="max-w-xl text-left mb-4 md:mb-6">
+        <div className="max-w-xl text-left mb-3.5 md:mb-6">
           <span className="text-[9px] font-sans uppercase tracking-[0.18em] text-[#82D8C5] font-black">RECOMMENDED CLINICAL RITUAL</span>
-          <h2 className="font-serif text-[18px] md:text-[25px] font-black text-brand-black mt-0.5 tracking-tight leading-tight uppercase">
+          <h2 className="font-sans text-[15px] md:text-[23px] font-black text-brand-black mt-0.5 tracking-tight leading-tight uppercase">
             {bundleDef.title}
           </h2>
           <p className="hidden md:block text-[11px] text-gray-400 font-sans mt-1 leading-snug">
@@ -241,13 +241,13 @@ export default function BundlePackSection({ product, onAddToCart, onSelectProduc
           {/* Steps column (left 8 grid spans) */}
           <div className="lg:col-span-8 flex flex-col justify-center gap-2 overflow-hidden">
             
-            {/* Elegant horizontal scrollable row on mobile, pristine vertical columns on desktop */}
-            <div className="flex flex-row md:grid md:grid-cols-3 gap-3 overflow-x-auto scrollbar-none w-full pb-3 md:pb-0 justify-start items-stretch">
+            {/* DESKTOP VIEW: Grid of vertical cards */}
+            <div className="hidden md:grid md:grid-cols-3 gap-3 w-full items-stretch">
               {stepProducts.map((step, idx) => {
                 const isActive = selectedPreviewId === step.productId;
                 return (
                   <motion.div
-                    key={step.productId}
+                    key={step.productId + "-desktop"}
                     whileHover={{ 
                       scale: 1.03, 
                       borderColor: "#82D8C5",
@@ -257,27 +257,25 @@ export default function BundlePackSection({ product, onAddToCart, onSelectProduc
                     onClick={() => {
                       setSelectedPreviewId(step.productId === selectedPreviewId ? null : step.productId);
                     }}
-                    className={`flex flex-col bg-white border p-3.5 rounded-xl text-center cursor-pointer transition-all duration-300 relative justify-between gap-2.5 h-[175px] md:h-[220px] w-[130px] md:w-auto shrink-0 md:shrink ${
+                    className={`flex flex-col bg-white border p-3.5 rounded-xl text-center cursor-pointer transition-all duration-300 relative justify-between gap-2.5 h-[220px] w-full ${
                       isActive 
                         ? "border-[#82D8C5] ring-2 ring-[#82D8C5]/10 bg-[#82D8C5]/5" 
                         : "border-brand-black/5 hover:border-brand-black/15"
                     }`}
                   >
-                    {/* Elements layout responsive wrapper */}
-                    <div className="flex flex-col items-center md:items-stretch justify-between w-full h-full gap-1.5 md:gap-0">
-                      
+                    <div className="flex flex-col items-stretch justify-between w-full h-full">
                       {/* Brand Label & Price */}
-                      <div className="flex justify-between items-center w-full md:mb-2 shrink-0">
-                        <span className="bg-brand-black text-[#82D8C5] text-[7.5px] md:text-[8.5px] font-sans font-black uppercase tracking-wider px-1.5 py-0.5 rounded-sm mx-auto md:mx-0">
+                      <div className="flex justify-between items-center w-full mb-2 shrink-0">
+                        <span className="bg-brand-black text-[#82D8C5] text-[8.5px] font-sans font-black uppercase tracking-wider px-1.5 py-0.5 rounded-sm">
                           {step.label.split(":")[0]}
                         </span>
-                        <span className="hidden md:inline text-[10px] font-mono text-brand-black/60 font-semibold">
+                        <span className="text-[10px] font-mono text-brand-black/60 font-semibold">
                           {formatPrice(step.product.price * discountMultiplier, state.currency)}
                         </span>
                       </div>
 
                       {/* Product image - beautifully centered */}
-                      <div className="w-[48px] h-[48px] md:w-[72px] md:h-[72px] rounded-full shrink-0 mx-auto bg-[#FAF9F6] border border-brand-black/5 flex items-center justify-center p-1 overflow-hidden shadow-xs hover:rotate-3 transition-transform">
+                      <div className="w-[72px] h-[72px] rounded-full shrink-0 mx-auto bg-[#FAF9F6] border border-brand-black/5 flex items-center justify-center p-1 overflow-hidden shadow-xs hover:rotate-3 transition-transform">
                         <img 
                           src={step.product.images[0]} 
                           alt={step.product.name}
@@ -287,26 +285,74 @@ export default function BundlePackSection({ product, onAddToCart, onSelectProduc
                       </div>
 
                       {/* Text info - centered */}
-                      <div className="text-center w-full">
-                        <h4 className="font-serif text-[10px] md:text-[13px] font-bold leading-tight text-brand-black uppercase tracking-tight line-clamp-1">
+                      <div className="text-center w-full mt-1.5">
+                        <h4 className="font-sans text-[11px] font-black leading-tight text-brand-black uppercase tracking-tight line-clamp-1">
                           {step.product.name}
                         </h4>
-                        <p className="hidden md:block text-[10px] text-gray-400 font-sans mt-0.5 leading-tight line-clamp-1">
+                        <p className="text-[10px] text-gray-400 font-sans mt-0.5 leading-tight line-clamp-1">
                           {step.description}
                         </p>
-                        <p className="text-[9px] md:hidden text-[#82D8C5] font-sans font-black leading-none mt-1">
-                          {formatPrice(step.product.price * discountMultiplier, state.currency)}
-                        </p>
                       </div>
-
                     </div>
 
                     {/* Desktop-only card footer label bar */}
-                    <div className="hidden md:flex border-t border-brand-black/5 pt-1.5 justify-between items-center text-[9px] text-brand-black/30 font-sans font-extrabold w-full">
+                    <div className="flex border-t border-brand-black/5 pt-1.5 justify-between items-center text-[9px] text-brand-black/30 font-sans font-extrabold w-full">
                       <span className="tracking-widest uppercase">VIEW LAYER</span>
                       <ArrowRight className="w-2.5 h-2.5 text-brand-black/20" />
                     </div>
+                  </motion.div>
+                );
+              })}
+            </div>
 
+            {/* MOBILE VIEW: Compact horizontal product list cards stacked vertically */}
+            <div className="flex flex-col md:hidden gap-2 w-full">
+              {stepProducts.map((step, idx) => {
+                const isActive = selectedPreviewId === step.productId;
+                return (
+                  <motion.div
+                    key={step.productId + "-mobile"}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => {
+                      setSelectedPreviewId(step.productId === selectedPreviewId ? null : step.productId);
+                    }}
+                    className={`flex flex-row items-center bg-white border p-2 rounded-xl cursor-pointer transition-all duration-300 relative justify-start gap-2.5 h-[62px] w-full ${
+                      isActive 
+                        ? "border-[#82D8C5] bg-[#82D8C5]/5" 
+                        : "border-brand-black/5"
+                    }`}
+                  >
+                    {/* Circle Image on left */}
+                    <div className="w-[40px] h-[40px] rounded-full shrink-0 bg-[#FAF9F6] border border-brand-black/5 flex items-center justify-center p-0.5 overflow-hidden">
+                      <img 
+                        src={step.product.images[0]} 
+                        alt={step.product.name}
+                        className="w-full h-full object-cover rounded-full"
+                        referrerPolicy="no-referrer"
+                      />
+                    </div>
+
+                    {/* Content on right */}
+                    <div className="flex-1 min-w-0 pr-1">
+                      <div className="flex items-center gap-1">
+                        <span className="bg-brand-black text-[#82D8C5] text-[6.5px] font-sans font-black uppercase tracking-wider px-1 py-0.2 rounded-xs">
+                          {step.label.split(":")[0]}
+                        </span>
+                      </div>
+                      <h4 className="font-sans text-[10.5px] font-bold leading-tight text-brand-black uppercase tracking-tight truncate">
+                        {step.product.name}
+                      </h4>
+                      <p className="text-[9px] text-gray-400 font-sans truncate leading-none mt-0.5">
+                        {step.description}
+                      </p>
+                    </div>
+
+                    {/* Price on far right */}
+                    <div className="text-right shrink-0 pr-1">
+                      <span className="text-[10px] font-mono font-bold text-brand-black">
+                        {formatPrice(step.product.price * discountMultiplier, state.currency)}
+                      </span>
+                    </div>
                   </motion.div>
                 );
               })}

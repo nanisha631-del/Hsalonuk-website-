@@ -88,7 +88,7 @@ export default function Navbar({
     }
     timeoutRef.current = setTimeout(() => {
       setActiveDropdown(null);
-    }, 150);
+    }, 300);
   };
 
   const cancelClose = () => {
@@ -173,7 +173,7 @@ export default function Navbar({
           onNavigate(view, category);
           setActiveDropdown(null);
         }}
-        className="relative px-3.5 py-1.5 text-[11.5px] font-sans font-black uppercase tracking-widest cursor-pointer select-none group focus:outline-none overflow-hidden rounded-md inline-block"
+        className="relative px-2.5 py-1.5 text-[10px] font-sans font-black uppercase tracking-[0.15em] cursor-pointer select-none group focus:outline-none overflow-hidden rounded-md inline-block"
       >
         {/* Left-to-Right background color box on hover */}
         <span 
@@ -195,10 +195,10 @@ export default function Navbar({
     <>
       <nav
         id="main-navigation"
-        className={`w-full relative transition-all duration-300 z-50 ${isScrolled ? "bg-white/95 backdrop-blur-md shadow-xs" : "bg-brand-offwhite"} border-b border-brand-black/10 h-20 md:h-24 flex items-center justify-between px-4 md:px-12`}
+        className={`w-full relative transition-all duration-300 z-50 ${isScrolled ? "bg-white/95 backdrop-blur-md shadow-xs" : "bg-brand-offwhite"} border-b border-brand-black/10 h-20 md:h-24 flex lg:grid lg:grid-cols-[1fr_auto_1fr] items-center justify-between px-4 md:px-12`}
         onMouseLeave={() => setActiveDropdown(null)}
       >
-        {/* LEFT COLUMN: Hamburger Menu on Mobile (Flex-1) / Brand Logo Aligned Alike to Phenomena on Laptop */}
+        {/* LEFT COLUMN: Hamburger Menu on Mobile / Brand Logo Aligned Alike to Phenomena on Laptop */}
         <div className="flex-1 lg:flex-none flex items-center justify-start z-50">
           {/* Mobile view side toggle menu button */}
           <button
@@ -253,10 +253,10 @@ export default function Navbar({
         </div>
 
         {/* MIDDLE COLUMN: Desktop Navigation with Dropdowns on Hover */}
-        <div className="hidden lg:flex items-center justify-center gap-1.5 xl:gap-2.5 flex-1">
+        <div className="hidden lg:flex items-center justify-center gap-1 xl:gap-2 h-full">
           {/* Shop All Menu Item */}
           <div 
-            className="relative py-8"
+            className="relative h-full flex items-center"
             onMouseEnter={() => openDropdown("shop_all")}
             onMouseLeave={closeDropdown}
           >
@@ -265,7 +265,7 @@ export default function Navbar({
 
           {/* Bestsellers Menu Item */}
           <div 
-            className="relative py-8"
+            className="relative h-full flex items-center"
             onMouseEnter={() => openDropdown("bestsellers")}
             onMouseLeave={closeDropdown}
           >
@@ -274,7 +274,7 @@ export default function Navbar({
 
           {/* Bundle Menu Item */}
           <div 
-            className="relative py-8"
+            className="relative h-full flex items-center"
             onMouseEnter={() => openDropdown("bundle")}
             onMouseLeave={closeDropdown}
           >
@@ -283,7 +283,7 @@ export default function Navbar({
 
           {/* About us Menu Item */}
           <div 
-            className="relative py-8"
+            className="relative h-full flex items-center"
             onMouseEnter={() => openDropdown("about")}
             onMouseLeave={closeDropdown}
           >
@@ -292,7 +292,7 @@ export default function Navbar({
 
           {/* Contact us Menu Item */}
           <div 
-            className="relative py-8"
+            className="relative h-full flex items-center"
             onMouseEnter={() => openDropdown("contact")}
             onMouseLeave={closeDropdown}
           >

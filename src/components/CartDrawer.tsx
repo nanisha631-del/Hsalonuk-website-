@@ -359,19 +359,11 @@ export default function CartDrawer({
                 <PopperCone side="left" />
                 <PopperCone side="right" />
                 
-                {/* Beautiful curvy ribbons/streamers as shown in the reference image */}
-                {["#FF1493", "#00FFFF", "#FFD700", "#39FF14", "#FF4500"].map((color, i) => (
-                  <CurlyStreamer key={`left-streamer-${i}`} index={i} side="left" color={color} />
-                ))}
-                {["#FF1493", "#00FFFF", "#FFD700", "#39FF14", "#FF4500"].map((color, i) => (
-                  <CurlyStreamer key={`right-streamer-${i}`} index={i} side="right" color={color} />
-                ))}
-
                 {/* Classic confetti sparkles, stars, and squares */}
-                {Array.from({ length: 28 }).map((_, i) => (
+                {Array.from({ length: 42 }).map((_, i) => (
                   <ConfettiItem key={`left-emitter-${i}`} index={i} side="left" />
                 ))}
-                {Array.from({ length: 28 }).map((_, i) => (
+                {Array.from({ length: 42 }).map((_, i) => (
                   <ConfettiItem key={`right-emitter-${i}`} index={i} side="right" />
                 ))}
               </div>

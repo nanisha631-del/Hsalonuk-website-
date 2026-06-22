@@ -47,6 +47,7 @@ import BestsellersPage from "./components/BestsellersPage";
 import AboutUsPage from "./components/AboutUsPage";
 import ContactUsPage from "./components/ContactUsPage";
 import SearchDrawer from "./components/SearchDrawer";
+import AIChatBot from "./components/AIChatBot";
 import { getShopifySettings } from "./shopifySettings";
 import { useSharedState } from "./useSharedState";
 import { fetchShopifyProducts } from "./lib/shopify";
@@ -397,6 +398,9 @@ export default function App() {
         onClose={() => updateState({ policyModalOpen: false })}
         initialTab={state.policyTab}
       />
+
+      {/* AI SUPPORT CHATBOT (LUCAS AT H SALON) */}
+      <AIChatBot />
 
     </div>
   );

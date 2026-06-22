@@ -341,12 +341,12 @@ export default function ProductPage({
           </div>
 
           {/* Thumbnails list below main display */}
-          <div className="flex gap-2 mt-2 overflow-x-auto scrollbar-none w-full justify-start md:justify-center">
+          <div className="flex gap-2 mt-2 justify-center w-full">
             {product.images.map((img, i) => (
               <button
                 key={i}
                 onClick={() => setSelectedImageIdx(i)}
-                className={`w-14 h-14 sm:w-16 sm:h-16 shrink-0 bg-[#E0DEDA] relative overflow-hidden transition-all duration-300 outline-none cursor-pointer rounded-lg ${
+                className={`w-11 h-11 md:w-16 md:h-16 shrink-0 bg-[#E0DEDA] relative overflow-hidden transition-all duration-300 outline-none cursor-pointer rounded-lg ${
                   selectedImageIdx === i ? "ring-2 ring-brand-black ring-offset-2 ring-offset-brand-offwhite" : "opacity-75 hover:opacity-100"
                 }`}
               >
@@ -363,7 +363,7 @@ export default function ProductPage({
           <div className="flex flex-col gap-1.5 border-b border-brand-black/5 pb-3">
             {/* SALE Badge (matching image 1 & 2) */}
             <div className="flex items-center gap-2">
-              <span className="bg-[#9A8FB7] text-white text-[10px] font-extrabold py-0.5 px-3 uppercase tracking-[0.12em] rounded-full inline-block select-none font-sans">
+              <span className="bg-[#82D8C5] text-white text-[10px] font-extrabold py-0.5 px-3 uppercase tracking-[0.12em] rounded-full inline-block select-none font-sans">
                 SELLING FAST!
               </span>
             </div>
@@ -518,7 +518,7 @@ export default function ProductPage({
                         className="overflow-hidden"
                       >
                         <div className="px-4 pb-3.5 text-[12px] text-gray-700 font-sans leading-relaxed flex flex-col gap-2.5 border-t border-brand-black/5 pt-2.5">
-                          <h4 className="font-serif text-[14px] font-bold text-[#2A342B] italic leading-tight">
+                          <h4 className="font-sans text-[12px] md:text-[13.5px] font-black uppercase tracking-wider text-brand-black leading-tight">
                             {ritual.title}
                           </h4>
                           <div className="flex flex-col gap-2">
@@ -531,9 +531,9 @@ export default function ProductPage({
                               </div>
                             ))}
                           </div>
-                          <div className="mt-0.5 p-2 bg-white/70 rounded-lg border border-[#82D8C5]/15 text-[11px] text-[#3D4A3E] font-serif italic">
-                            <span className="font-sans font-bold uppercase text-[9.5px] tracking-wider not-italic text-[#2A342B] block mb-0.5">Therapeutic Benefit</span>
-                            {ritual.benefit}
+                          <div className="mt-0.5 p-2 bg-white/70 rounded-lg border border-[#82D8C5]/15 text-[11px] text-gray-500 font-sans">
+                            <span className="font-sans font-black uppercase text-[9px] tracking-wider text-brand-black block mb-0.5">Therapeutic Benefit</span>
+                            <span className="italic">{ritual.benefit}</span>
                           </div>
                         </div>
                       </motion.div>
@@ -813,7 +813,7 @@ export default function ProductPage({
       <ScrollReveal className="max-w-7xl mx-auto mt-8 border-t border-brand-black/10 pt-6 px-4 md:px-12">
         <div className="mb-6">
           <span className="text-[10px] font-sans uppercase tracking-[0.2em] text-gray-400">YOU MAY ALSO LIKE</span>
-          <h2 className="font-serif text-[24px] md:text-[30px] font-bold tracking-tight text-brand-black mt-0.5">
+          <h2 className="font-sans text-[20px] md:text-[25px] font-black uppercase tracking-tight text-brand-black mt-0.5">
             {settings.prod_recommended_title || "Curated Duos"}
           </h2>
         </div>
@@ -839,7 +839,7 @@ export default function ProductPage({
                 />
               </div>
               <div className="flex flex-col gap-1 items-start px-2 md:px-0">
-                <h3 className="font-serif text-[15.5px] font-semibold text-brand-black group-hover:underline">
+                <h3 className="font-sans text-[13px] font-black uppercase tracking-wider text-brand-black group-hover:underline">
                   {p.name}
                 </h3>
                 <span className="font-sans text-[13px] text-gray-500 font-semibold">
@@ -1177,6 +1177,182 @@ export function AcademyProductEnhancements({ product }: AcademyProductEnhancemen
   const [quizAnswers, setQuizAnswers] = useState<Record<string, string>>({});
   const [quizLoading, setQuizLoading] = useState(false);
 
+  // Audio Context synthesis references
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const soundNodesRef = useRef<{
+    noiseNode?: AudioNode;
+    oscNodes?: OscillatorNode[];
+    gainNode?: GainNode;
+    filterNode?: BiquadFilterNode;
+  }>({});
+
+  const stopAudio = () => {
+    if (soundNodesRef.current.gainNode) {
+      try {
+        const now = audioContextRef.current?.currentTime || 0;
+        soundNodesRef.current.gainNode.gain.setValueAtTime(soundNodesRef.current.gainNode.gain.value, now);
+        soundNodesRef.current.gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+      } catch (e) {}
+    }
+    setTimeout(() => {
+      if (soundNodesRef.current.noiseNode) {
+        try { (soundNodesRef.current.noiseNode as any).stop(); } catch (e) {}
+        soundNodesRef.current.noiseNode = undefined;
+      }
+      if (soundNodesRef.current.oscNodes) {
+        soundNodesRef.current.oscNodes.forEach((osc) => {
+          try { osc.stop(); } catch (e) {}
+        });
+        soundNodesRef.current.oscNodes = [];
+      }
+    }, 350);
+  };
+
+  const startAudio = (selectedSound?: string) => {
+    stopAudio();
+    const soundType = selectedSound || soundscape;
+    
+    setTimeout(() => {
+      try {
+        if (!audioContextRef.current) {
+          audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+        }
+        const ctx = audioContextRef.current;
+        if (ctx.state === "suspended") {
+          ctx.resume();
+        }
+
+        const mainGain = ctx.createGain();
+        mainGain.gain.setValueAtTime(0, ctx.currentTime);
+        mainGain.gain.linearRampToValueAtTime(0.25, ctx.currentTime + 0.4); // Friendly, gentle loudness filter
+        mainGain.connect(ctx.destination);
+        soundNodesRef.current.gainNode = mainGain;
+
+        if (soundType === "rain") {
+          // Synthesis of comforting Pink Noise representing the UK Rain drops
+          const bufferSize = 2 * ctx.sampleRate;
+          const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+          const output = noiseBuffer.getChannelData(0);
+          
+          let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
+          for (let i = 0; i < bufferSize; i++) {
+            const white = Math.random() * 2 - 1;
+            b0 = 0.99886 * b0 + white * 0.0555179;
+            b1 = 0.99332 * b1 + white * 0.0750759;
+            b2 = 0.96900 * b2 + white * 0.1538520;
+            b3 = 0.86650 * b3 + white * 0.3104856;
+            b4 = 0.55000 * b4 + white * 0.5329522;
+            b5 = -0.7616 * b5 - white * 0.0168980;
+            output[i] = b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362;
+            output[i] *= 0.11; // normalise filter response
+            b6 = white * 0.115926;
+          }
+
+          const whiteNoise = ctx.createBufferSource();
+          whiteNoise.buffer = noiseBuffer;
+          whiteNoise.loop = true;
+
+          const filter = ctx.createBiquadFilter();
+          filter.type = "lowpass";
+          filter.frequency.setValueAtTime(1400, ctx.currentTime);
+
+          whiteNoise.connect(filter);
+          filter.connect(mainGain);
+          whiteNoise.start(0);
+          soundNodesRef.current.noiseNode = whiteNoise;
+
+        } else if (soundType === "wind") {
+          // Wind multi-oscillator low frequencies for Calm Forest atmosphere
+          const osc1 = ctx.createOscillator();
+          const osc2 = ctx.createOscillator();
+          const lowMod = ctx.createOscillator();
+          const modGain = ctx.createGain();
+
+          osc1.type = "sine";
+          osc1.frequency.setValueAtTime(110, ctx.currentTime); // A2 wind bass
+
+          osc2.type = "triangle";
+          osc2.frequency.setValueAtTime(111, ctx.currentTime); // Beat frequencies stimulation
+
+          lowMod.type = "sine";
+          lowMod.frequency.setValueAtTime(0.18, ctx.currentTime); // LFO wind speed breathing
+          modGain.gain.setValueAtTime(18, ctx.currentTime);
+
+          lowMod.connect(modGain);
+          modGain.connect(osc1.frequency);
+          modGain.connect(osc2.frequency);
+
+          const windFilter = ctx.createBiquadFilter();
+          windFilter.type = "bandpass";
+          windFilter.frequency.setValueAtTime(320, ctx.currentTime);
+          windFilter.Q.setValueAtTime(1.8, ctx.currentTime);
+
+          osc1.connect(windFilter);
+          osc2.connect(windFilter);
+          windFilter.connect(mainGain);
+
+          osc1.start(0);
+          osc2.start(0);
+          lowMod.start(0);
+
+          soundNodesRef.current.oscNodes = [osc1, osc2, lowMod];
+
+        } else if (soundType === "silence") {
+          // Pure 432Hz sine frequency with a soft 8Hz Theta wave binaural pulsing representing Deep Mist
+          const osc = ctx.createOscillator();
+          const binauralMod = ctx.createOscillator();
+          const modGain = ctx.createGain();
+
+          osc.type = "sine";
+          osc.frequency.setValueAtTime(432, ctx.currentTime);
+
+          binauralMod.type = "sine";
+          binauralMod.frequency.setValueAtTime(6, ctx.currentTime);
+          modGain.gain.setValueAtTime(0.08, ctx.currentTime);
+
+          binauralMod.connect(modGain);
+          modGain.connect(mainGain.gain);
+
+          osc.connect(mainGain);
+          osc.start(0);
+          binauralMod.start(0);
+
+          soundNodesRef.current.oscNodes = [osc, binauralMod];
+        }
+      } catch (e) {
+        console.error("Failed to start sound synthesis", e);
+      }
+    }, 50);
+  };
+
+  useEffect(() => {
+    if (isPlaying) {
+      startAudio();
+    } else {
+      stopAudio();
+    }
+  }, [isPlaying, soundscape]);
+
+  // Handle unmount & view changes
+  useEffect(() => {
+    return () => {
+      // Gentle audio stop on unmounting
+      if (soundNodesRef.current.gainNode && audioContextRef.current) {
+        try {
+          soundNodesRef.current.gainNode.gain.setValueAtTime(0, audioContextRef.current.currentTime);
+        } catch (e) {}
+      }
+      if (soundNodesRef.current.noiseNode) {
+        try { (soundNodesRef.current.noiseNode as any).stop(); } catch (e) {}
+      }
+      if (soundNodesRef.current.oscNodes) {
+        soundNodesRef.current.oscNodes.forEach((osc) => {
+          try { osc.stop(); } catch (e) {}
+        });
+      }
+    };
+  }, []);
+
   const data = getProductEnhancementData(product.id);
 
   // Simple interval to simulate audio progress
@@ -1280,12 +1456,12 @@ export function AcademyProductEnhancements({ product }: AcademyProductEnhancemen
         </div>
 
         {/* Right Active Soundscape Player */}
-        <div className="lg:col-span-5 bg-[#EDEDE9]/70 border border-brand-black/5 rounded-2xl p-6 flex flex-col justify-between shadow-xs">
+        <div className="lg:col-span-5 bg-[#F6F6F2] border border-brand-black/10 rounded-2xl p-6 flex flex-col justify-between shadow-xs hover:border-[#82D8C5]/30 transition-all">
           <div>
             <div className="flex justify-between items-start mb-4">
               <div className="flex flex-col">
-                <span className="text-[9px] font-bold tracking-widest text-[#9A8FB7] uppercase font-sans">SENSORY REJUVENATION</span>
-                <h3 className="font-serif text-[18px] font-bold text-brand-black mt-0.5">Atmosphere Soundscape</h3>
+                <span className="text-[9px] font-black tracking-[0.16em] text-[#82D8C5] uppercase font-sans">SENSORY REJUVENATION</span>
+                <h3 className="font-sans text-[20px] font-black text-brand-black uppercase tracking-tight mt-0.5">Atmosphere Soundscape</h3>
               </div>
               <Volume2 className={`w-4 h-4 text-brand-black ${isPlaying ? "animate-pulse" : "opacity-40"}`} />
             </div>
@@ -1307,10 +1483,10 @@ export function AcademyProductEnhancements({ product }: AcademyProductEnhancemen
                     setSoundscape(sound.id as any);
                     if (!isPlaying) setIsPlaying(true);
                   }}
-                  className={`px-3 py-2.5 rounded-xl border flex flex-col items-center justify-center transition-all cursor-pointer ${
+                  className={`px-3 py-2.5 rounded-xl border flex flex-col items-center justify-center transition-all cursor-pointer duration-300 ${
                     soundscape === sound.id 
-                      ? "border-[#82D8C5] bg-[#82D8C5]/10 text-brand-black" 
-                      : "border-brand-black/5 bg-white/50 text-gray-500 hover:bg-white"
+                      ? "border-[#82D8C5] bg-[#82D8C5]/15 text-brand-black font-black" 
+                      : "border-brand-black/10 bg-white/60 text-gray-400 hover:text-brand-black hover:border-brand-black/30"
                   }`}
                 >
                   <span className="font-sans text-[11px] font-bold uppercase tracking-wider">{sound.label}</span>
@@ -1330,7 +1506,7 @@ export function AcademyProductEnhancements({ product }: AcademyProductEnhancemen
                     height: isPlaying ? `${Math.sin(playbackProgress + i) * 10 + 12}px` : "3px",
                     transition: "height 0.15s ease-in-out"
                   }}
-                  className={`w-1 rounded-full ${soundscape === "rain" ? "bg-[#82D8C5]" : soundscape === "wind" ? "bg-[#9A8FB7]" : "bg-brand-black"}`}
+                  className={`w-1 rounded-full ${soundscape === "rain" ? "bg-[#82D8C5]" : soundscape === "wind" ? "bg-[#82D8C5]/75" : "bg-brand-black"}`}
                 />
               ))}
             </div>
