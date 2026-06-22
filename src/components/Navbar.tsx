@@ -22,7 +22,7 @@ import { getShopifySettings } from "../shopifySettings";
 import { PRODUCTS } from "../data";
 import { Product } from "../types";
 import ScrollZoomImage from "./ScrollZoomImage";
-import { useSharedState, CurrencyCode } from "../useSharedState";
+import { useSharedState, CurrencyCode, formatPrice, CURRENCY_MAP } from "../useSharedState";
 
 const COUNTRY_CURRENCY_MAP: Record<CurrencyCode, { country: string; label: string; mobileLabel: string }> = {
   USD: { country: "United States", label: "USD $", mobileLabel: "US | $" },
@@ -49,7 +49,7 @@ export default function Navbar({
   onNavigate
 }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState<"shop_all" | "bestsellers" | "bundle" | null>(null);
+  const [activeDropdown, setActiveDropdown] = useState<"shop_all" | "bestsellers" | "bundle" | "about" | "contact" | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileShopAllExpanded, setMobileShopAllExpanded] = useState(false);
   
@@ -74,7 +74,7 @@ export default function Navbar({
   const dropdownRef = useRef<HTMLDivElement>(null);
   const timeoutRef = useRef<any>(null);
 
-  const openDropdown = (menu: "shop_all" | "bestsellers" | "bundle") => {
+  const openDropdown = (menu: "shop_all" | "bestsellers" | "bundle" | "about" | "contact") => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
       timeoutRef.current = null;
@@ -284,7 +284,8 @@ export default function Navbar({
           {/* About us Menu Item */}
           <div 
             className="relative py-8"
-            onMouseEnter={handleImmediateClose}
+            onMouseEnter={() => openDropdown("about")}
+            onMouseLeave={closeDropdown}
           >
             {renderNavButton("About us", "about")}
           </div>
@@ -292,7 +293,8 @@ export default function Navbar({
           {/* Contact us Menu Item */}
           <div 
             className="relative py-8"
-            onMouseEnter={handleImmediateClose}
+            onMouseEnter={() => openDropdown("contact")}
+            onMouseLeave={closeDropdown}
           >
             {renderNavButton("Contact us", "contact")}
           </div>
@@ -301,10 +303,15 @@ export default function Navbar({
         {/* RIGHT COLUMN: Action Buttons */}
         <div className="flex-1 lg:flex-none flex items-center justify-end gap-1 md:gap-4 z-50">
           {/* CURRENCY CODES DROPDOWN */}
-          <div ref={currencyDropdownRef} className="relative select-none z-50">
+          <div 
+            ref={currencyDropdownRef} 
+            className="hidden lg:block relative select-none z-50"
+            onMouseEnter={() => setCurrencyOpen(true)}
+            onMouseLeave={() => setCurrencyOpen(false)}
+          >
             <button
               onClick={() => setCurrencyOpen(!currencyOpen)}
-              className="flex items-center gap-1 px-2 py-1.5 text-[10.5px] md:text-[12px] text-brand-black/80 hover:text-brand-black cursor-pointer bg-transparent border-0 uppercase tracking-wider focus:outline-none transition-colors select-none font-medium leading-none"
+              className="flex items-center gap-1 px-2 py-1.5 text-[10.5px] md:text-[12px] text-brand-black/80 hover:text-brand-black cursor-pointer bg-transparent border-0 uppercase tracking-wider focus:outline-none transition-colors select-none font-medium leading-none animate-fade-in"
               style={{ fontFamily: '"Inter", sans-serif' }}
               aria-label="Change Currency"
             >
@@ -631,7 +638,7 @@ export default function Navbar({
                         </span>
                       </div>
                       <h4 className="font-sans font-bold text-xs truncate text-brand-black group-hover:text-[#82D8C5] transition-colors">{product.name}</h4>
-                      <p className="font-mono text-xs font-semibold text-[#82D8C5] mt-1">${product.price.toFixed(2)} USD</p>
+                      <p className="font-mono text-xs font-semibold text-[#82D8C5] mt-1">{formatPrice(product.price, state.currency)}</p>
                     </motion.div>
                   ))}
                 </motion.div>
@@ -714,10 +721,164 @@ export default function Navbar({
                         </span>
                       </div>
                       <h4 className="font-sans font-bold text-xs truncate text-brand-black group-hover:text-[#82D8C5] transition-colors">{product.name}</h4>
-                      <p className="font-mono text-xs font-semibold text-[#82D8C5] mt-1">${product.price.toFixed(2)} USD</p>
+                      <p className="font-mono text-xs font-semibold text-[#82D8C5] mt-1">{formatPrice(product.price, state.currency)}</p>
                     </motion.div>
                   ))}
                 </motion.div>
+              </motion.div>
+            </motion.div>
+          )}
+
+          {activeDropdown === "about" && (
+            <motion.div 
+              key="about_mega"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              style={{ overflow: "hidden" }}
+              className="absolute left-0 right-0 top-full w-full bg-white border-b border-brand-black/15 shadow-2xl z-40"
+              onMouseEnter={cancelClose}
+              onMouseLeave={closeDropdown}
+            >
+              <motion.div
+                initial={{ opacity: 0, scale: 1.05 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 1.05 }}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                className="max-w-7xl mx-auto py-10 px-12 grid grid-cols-12 gap-8 text-left"
+              >
+                {/* Column 1: Editorial story summary */}
+                <div className="col-span-4 border-r border-[#82D8C5]/10 pr-8">
+                  <span className="text-[10px] font-mono tracking-[0.2em] text-[#82D8C5] font-black uppercase">Our Heritage</span>
+                  <h3 className="font-serif italic font-extrabold text-[22px] text-brand-black mt-2 leading-tight">
+                    Pure. Clinically Proven. Devoted to Hair Wellness.
+                  </h3>
+                  <p className="text-[11px] leading-relaxed text-gray-500 font-sans mt-3">
+                    Born out of a prestigious London apothecary, H Salon unites ancient botanical extracts with cutting-edge trichological science to restore your hair from root to tips.
+                  </p>
+                  <button 
+                    onClick={() => { onNavigate("about"); setActiveDropdown(null); }}
+                    className="text-[10px] font-sans font-black uppercase tracking-wider text-brand-black underline mt-4 hover:text-[#82D8C5] transition-colors cursor-pointer"
+                  >
+                    Read Our Full Story →
+                  </button>
+                </div>
+
+                {/* Column 2: Core Philosophy */}
+                <div className="col-span-4 flex flex-col justify-between">
+                  <div className="space-y-4">
+                    <div>
+                      <h4 className="font-sans font-black text-xs uppercase text-brand-black tracking-wider">Vegan & Organic Formula</h4>
+                      <p className="text-[11px] text-gray-400 font-sans mt-1">100% cruelty-free formulation featuring certified natural cold-pressed botanicals for deep follicle nourishment.</p>
+                    </div>
+                    <div>
+                      <h4 className="font-sans font-black text-xs uppercase text-brand-black tracking-wider">Trichological Experts</h4>
+                      <p className="text-[11px] text-gray-400 font-sans mt-1">Each formula is co-crafted with clinical experts to treat stubborn scalp dry areas and structural cuticles.</p>
+                    </div>
+                    <div>
+                      <h4 className="font-sans font-black text-xs uppercase text-brand-black tracking-wider">Zero Chemical Noise</h4>
+                      <p className="text-[11px] text-gray-400 font-sans mt-1">Absolutely free of synthetic silicones, industrial sulfates, and disruptive parabens.</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Column 3: Stats / Accents */}
+                <div className="col-span-4 pl-6 bg-brand-offwhite rounded-xl p-5 border border-brand-black/5 flex flex-col justify-between">
+                  <div>
+                    <span className="text-[8.5px] font-sans font-black text-[#82D8C5] uppercase tracking-widest block mb-1 font-black">Apothecary Standards</span>
+                    <h4 className="font-serif text-[15px] font-black text-brand-black uppercase tracking-tight">Clinical Studies & Results</h4>
+                    <p className="text-[11px] text-gray-400 leading-normal font-sans mt-1.5">
+                      "After 4 weeks of consistent regimen, 94% of testers registered a notable increase in hair strand thick feel, and 98% noticed a smoother scalp touch."
+                    </p>
+                  </div>
+                  <div className="flex gap-4 border-t border-brand-black/5 pt-3.5 mt-3.5 select-none">
+                    <div>
+                      <span className="font-serif italic font-black text-xl text-brand-black block">94%</span>
+                      <span className="text-[8.5px] font-sans text-gray-400 uppercase tracking-wider block font-black">Volume Increase</span>
+                    </div>
+                    <div>
+                      <span className="font-serif italic font-black text-xl text-brand-black block">98%</span>
+                      <span className="text-[8.5px] font-sans text-gray-400 uppercase tracking-wider block font-black">Scalp Relief</span>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+
+          {activeDropdown === "contact" && (
+            <motion.div 
+              key="contact_mega"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              style={{ overflow: "hidden" }}
+              className="absolute left-0 right-0 top-full w-full bg-white border-b border-brand-black/15 shadow-2xl z-40"
+              onMouseEnter={cancelClose}
+              onMouseLeave={closeDropdown}
+            >
+              <motion.div
+                initial={{ opacity: 0, scale: 1.05 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 1.05 }}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                className="max-w-7xl mx-auto py-10 px-12 grid grid-cols-12 gap-8 text-left"
+              >
+                {/* Column 1: Concierge details */}
+                <div className="col-span-4 border-r border-[#82D8C5]/10 pr-8">
+                  <span className="text-[10px] font-mono tracking-[0.2em] text-[#82D8C5] font-black uppercase">Store & HQ Concierge</span>
+                  <h3 className="font-serif italic font-extrabold text-[22px] text-brand-black mt-2 leading-tight">
+                    How Can We Support Your Journey?
+                  </h3>
+                  <p className="text-[11px] leading-relaxed text-gray-500 font-sans mt-3">
+                    Whether you require specific ingredient checks, details on shipping, or dynamic ritual guidance, our apothecary team is here to assist 24 hours a day.
+                  </p>
+                  <button 
+                    onClick={() => { onNavigate("contact"); setActiveDropdown(null); }}
+                    className="text-[10px] font-sans font-black uppercase tracking-wider text-brand-black underline mt-4 hover:text-[#82D8C5] transition-colors cursor-pointer"
+                  >
+                    View Support Page →
+                  </button>
+                </div>
+
+                {/* Column 2: Quick Contacts */}
+                <div className="col-span-4 flex flex-col justify-between">
+                  <div className="space-y-4">
+                    <div>
+                      <h4 className="font-sans font-black text-xs uppercase text-brand-black tracking-wider">Email Concierge</h4>
+                      <p className="text-[11px] text-gray-400 font-sans mt-0.5">concierge@hsalon.com</p>
+                      <p className="text-[9.5px] text-[#82D8C5] font-sans font-bold leading-none mt-1">Average Response Duration: under 12 hours</p>
+                    </div>
+                    <div>
+                      <h4 className="font-sans font-black text-xs uppercase text-brand-black tracking-wider">London Flagship Salon</h4>
+                      <p className="text-[11px] text-gray-400 font-sans mt-0.5">42 Old Broad St, London, EC2N 1HQ, UK</p>
+                      <p className="text-[9.5px] text-gray-400 font-sans mt-0.5">Appointments: flagship@hsalon.com</p>
+                    </div>
+                    <div>
+                      <h4 className="font-sans font-black text-xs uppercase text-brand-black tracking-wider">Business & Press</h4>
+                      <p className="text-[11px] text-gray-400 font-sans mt-0.5">press@hsalon.com · wholesale@hsalon.com</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Column 3: Support CTA Box / Consultation */}
+                <div className="col-span-4 pl-6 bg-brand-offwhite rounded-xl p-5 border border-brand-black/5 flex flex-col justify-between">
+                  <div>
+                    <span className="text-[8.5px] font-sans font-black text-[#82D8C5] uppercase tracking-widest block mb-1">Tailored Service</span>
+                    <h4 className="font-serif text-[15px] font-black text-brand-black uppercase tracking-tight">Complimentary Consultation</h4>
+                    <p className="text-[11px] text-gray-400 leading-normal font-sans mt-1.5">
+                      Need custom guidance for your specific hair texture? Book a direct virtual analysis session with one of our licensed cosmetologists.
+                    </p>
+                  </div>
+                  <button 
+                    onClick={() => { onNavigate("contact"); setActiveDropdown(null); }}
+                    className="w-full bg-brand-black hover:bg-[#82D8C5] hover:text-brand-black border border-brand-black text-white text-[9px] font-sans font-black uppercase tracking-widest py-2 rounded-full transition-all mt-4"
+                  >
+                    Book Free Analysis
+                  </button>
+                </div>
               </motion.div>
             </motion.div>
           )}
@@ -860,25 +1021,56 @@ export default function Navbar({
             </div>
 
             {/* Bottom utility sublinks (Image 8 style) */}
-            <div className="p-6 bg-brand-offwhite border-t border-brand-black/5 space-y-4 text-left">
-              <button
-                onClick={() => { onSearchClick(); setMobileMenuOpen(false); }}
-                className="block font-sans font-black text-xs uppercase tracking-widest text-brand-black/80 hover:text-[#82D8C5] transition-colors text-left w-full"
-              >
-                Search
-              </button>
-              <button
-                onClick={() => { onNavigate("about"); setMobileMenuOpen(false); }}
-                className="block font-sans font-black text-xs uppercase tracking-widest text-brand-black/80 hover:text-[#82D8C5] transition-colors text-left w-full"
-              >
-                Log in
-              </button>
-              <button
-                onClick={() => { onNavigate("about"); setMobileMenuOpen(false); }}
-                className="block font-sans font-black text-xs uppercase tracking-widest text-[#82D8C5] hover:text-brand-black transition-colors text-left w-full"
-              >
-                Create account
-              </button>
+            <div className="p-6 bg-brand-offwhite border-t border-brand-black/5 space-y-6 text-left">
+              {/* Currency Selector Grid */}
+              <div className="space-y-2.5">
+                <span className="block font-sans font-black text-[10px] uppercase tracking-widest text-brand-black/45">
+                  Select Currency
+                </span>
+                <div className="grid grid-cols-2 gap-2">
+                  {Object.entries(COUNTRY_CURRENCY_MAP).map(([code, config]) => (
+                    <button
+                      key={code}
+                      onClick={() => {
+                        updateState({ currency: code as CurrencyCode });
+                      }}
+                      className={`px-3 py-2 text-[11px] font-sans font-semibold rounded-lg text-left transition-all duration-200 flex items-center justify-between cursor-pointer border select-none h-11 ${
+                        state.currency === code 
+                          ? "border-brand-black bg-brand-black text-[#82D8C5] font-black" 
+                          : "border-brand-black/10 hover:border-brand-black/30 bg-white text-brand-black"
+                      }`}
+                    >
+                      <span>{code} ({CURRENCY_MAP[code as CurrencyCode].symbol})</span>
+                      {state.currency === code && <span className="w-1.5 h-1.5 bg-[#82D8C5] rounded-full shrink-0" />}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="h-px bg-brand-black/10 w-full" />
+
+              <div className="space-y-4">
+                <button
+                  onClick={() => { onSearchClick(); setMobileMenuOpen(false); }}
+                  className="block font-sans font-black text-xs uppercase tracking-widest text-brand-black/80 hover:text-[#82D8C5] transition-colors text-left w-full cursor-pointer"
+                >
+                  Search
+                </button>
+                <div className="flex gap-6">
+                  <button
+                    onClick={() => { onNavigate("about"); setMobileMenuOpen(false); }}
+                    className="block font-sans font-black text-xs uppercase tracking-widest text-brand-black/80 hover:text-[#82D8C5] transition-colors text-left cursor-pointer"
+                  >
+                    Log in
+                  </button>
+                  <button
+                    onClick={() => { onNavigate("about"); setMobileMenuOpen(false); }}
+                    className="block font-sans font-black text-xs uppercase tracking-widest text-[#82D8C5] hover:text-brand-black transition-colors text-left cursor-pointer"
+                  >
+                    Create account
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
 

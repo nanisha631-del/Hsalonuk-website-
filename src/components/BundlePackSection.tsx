@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { Sparkles, Check, ShoppingBag, ArrowRight, ShieldCheck } from "lucide-react";
 import { Product } from "../types";
 import { PRODUCTS } from "../data";
+import { useSharedState, formatPrice } from "../useSharedState";
 
 interface BundlePackSectionProps {
   product: Product;
@@ -177,6 +178,7 @@ const getBundleForProduct = (productId: string): CustomBundleDef => {
 };
 
 export default function BundlePackSection({ product, onAddToCart, onSelectProduct }: BundlePackSectionProps) {
+  const { state } = useSharedState();
   const bundleDef = getBundleForProduct(product.id);
 
   // Map products
@@ -213,37 +215,34 @@ export default function BundlePackSection({ product, onAddToCart, onSelectProduc
   return (
     <section 
       id="compact-routine-bundle-pack"
-      className="max-w-7xl mx-auto my-10 px-4 md:px-12 select-none"
+      className="max-w-7xl mx-auto my-6 px-4 md:px-12 select-none"
     >
-      <div className="bg-[#FAF9F6] border border-brand-black/10 rounded-2xl p-5 md:p-8 relative overflow-hidden text-left shadow-xs transition-shadow hover:shadow-[0_4px_24px_rgba(0,0,0,0.03)]">
+      <div className="bg-[#FAF9F6] border border-brand-black/10 rounded-2xl p-4 md:p-8 relative overflow-hidden text-left shadow-xs transition-shadow hover:shadow-[0_4px_24px_rgba(0,0,0,0.03)]">
         
         {/* Brand Tag with themed colors */}
-        <div className="absolute top-0 right-0 bg-brand-black text-[#82D8C5] text-[8.5px] font-sans font-black uppercase tracking-[0.2em] px-4 py-2.5 rounded-bl-xl border-l border-b border-brand-black/10 flex items-center gap-1">
+        <div className="hidden sm:flex absolute top-0 right-0 bg-brand-black text-[#82D8C5] text-[8.5px] font-sans font-black uppercase tracking-[0.2em] px-4 py-2.5 rounded-bl-xl border-l border-b border-brand-black/10 items-center gap-1">
           <Sparkles className="w-3.5 h-3.5 text-[#82D8C5]" /> ROUTINE BUNDLE · SAVE {bundleDef.discountPct}%
         </div>
 
         {/* Header Block under logo theme */}
-        <div className="max-w-xl text-left mb-6">
+        <div className="max-w-xl text-left mb-4 md:mb-6">
           <span className="text-[9px] font-sans uppercase tracking-[0.18em] text-[#82D8C5] font-black">RECOMMENDED CLINICAL RITUAL</span>
-          <h2 className="font-serif text-[20px] md:text-[25px] font-black text-brand-black mt-0.5 tracking-tight leading-tight uppercase">
+          <h2 className="font-serif text-[18px] md:text-[25px] font-black text-brand-black mt-0.5 tracking-tight leading-tight uppercase">
             {bundleDef.title}
           </h2>
-          <p className="text-[11px] text-gray-400 font-sans mt-1 leading-snug">
+          <p className="hidden md:block text-[11px] text-gray-400 font-sans mt-1 leading-snug">
             {bundleDef.subtitle} · Standard Synergistic Program.
           </p>
         </div>
 
         {/* MAIN COMPACT GRID VIEW -- UNIFIED & HIGH-CONTRAST */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
           
           {/* Steps column (left 8 grid spans) */}
-          <div className="lg:col-span-8 flex flex-col justify-center gap-2">
+          <div className="lg:col-span-8 flex flex-col justify-center gap-2 overflow-hidden">
             
-            {/* Elegant, uncluttered mobile-responsive 3-card stack. 
-                - On mobile: stack vertically (grid-cols-1) where each card is a simple, highly-polished compact row with image on left, title on right, hover transition, and zero squishing!
-                - On desktop: grid-cols-3 as pristine, hovering vertical cards.
-            */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 w-full">
+            {/* Elegant horizontal scrollable row on mobile, pristine vertical columns on desktop */}
+            <div className="flex flex-row md:grid md:grid-cols-3 gap-3 overflow-x-auto scrollbar-none w-full pb-3 md:pb-0 justify-start items-stretch">
               {stepProducts.map((step, idx) => {
                 const isActive = selectedPreviewId === step.productId;
                 return (
@@ -258,27 +257,27 @@ export default function BundlePackSection({ product, onAddToCart, onSelectProduc
                     onClick={() => {
                       setSelectedPreviewId(step.productId === selectedPreviewId ? null : step.productId);
                     }}
-                    className={`flex flex-row md:flex-col bg-white border p-3 md:p-4 rounded-xl text-left cursor-pointer transition-all duration-300 relative items-center justify-between gap-3 h-auto md:h-[220px] ${
+                    className={`flex flex-col bg-white border p-3.5 rounded-xl text-center cursor-pointer transition-all duration-300 relative justify-between gap-2.5 h-[175px] md:h-[220px] w-[130px] md:w-auto shrink-0 md:shrink ${
                       isActive 
                         ? "border-[#82D8C5] ring-2 ring-[#82D8C5]/10 bg-[#82D8C5]/5" 
                         : "border-brand-black/5 hover:border-brand-black/15"
                     }`}
                   >
                     {/* Elements layout responsive wrapper */}
-                    <div className="flex flex-row md:flex-col items-center md:items-stretch md:justify-between w-full gap-3 md:gap-0">
+                    <div className="flex flex-col items-center md:items-stretch justify-between w-full h-full gap-1.5 md:gap-0">
                       
                       {/* Brand Label & Price */}
-                      <div className="flex justify-between items-center w-full md:mb-3 shrink-0">
-                        <span className="bg-brand-black text-[#82D8C5] text-[7.5px] md:text-[8.5px] font-sans font-black uppercase tracking-wider px-1.5 py-0.5 rounded-sm">
+                      <div className="flex justify-between items-center w-full md:mb-2 shrink-0">
+                        <span className="bg-brand-black text-[#82D8C5] text-[7.5px] md:text-[8.5px] font-sans font-black uppercase tracking-wider px-1.5 py-0.5 rounded-sm mx-auto md:mx-0">
                           {step.label.split(":")[0]}
                         </span>
                         <span className="hidden md:inline text-[10px] font-mono text-brand-black/60 font-semibold">
-                          ${(step.product.price * discountMultiplier).toFixed(2)}
+                          {formatPrice(step.product.price * discountMultiplier, state.currency)}
                         </span>
                       </div>
 
-                      {/* Product image - beautifully centered on desktop, on left on mobile */}
-                      <div className="w-[52px] h-[52px] md:w-[72px] md:h-[72px] rounded-full shrink-0 md:mx-auto bg-[#FAF9F6] border border-brand-black/5 flex items-center justify-center p-1 overflow-hidden shadow-xs hover:rotate-3 transition-transform">
+                      {/* Product image - beautifully centered */}
+                      <div className="w-[48px] h-[48px] md:w-[72px] md:h-[72px] rounded-full shrink-0 mx-auto bg-[#FAF9F6] border border-brand-black/5 flex items-center justify-center p-1 overflow-hidden shadow-xs hover:rotate-3 transition-transform">
                         <img 
                           src={step.product.images[0]} 
                           alt={step.product.name}
@@ -287,16 +286,16 @@ export default function BundlePackSection({ product, onAddToCart, onSelectProduc
                         />
                       </div>
 
-                      {/* Text info - on the right on mobile, centered/left on desktop */}
-                      <div className="text-left md:text-center w-full mt-0 md:mt-3">
-                        <h4 className="font-serif text-[11px] md:text-[13px] font-bold leading-tight text-brand-black uppercase tracking-tight line-clamp-1">
+                      {/* Text info - centered */}
+                      <div className="text-center w-full">
+                        <h4 className="font-serif text-[10px] md:text-[13px] font-bold leading-tight text-brand-black uppercase tracking-tight line-clamp-1">
                           {step.product.name}
                         </h4>
                         <p className="hidden md:block text-[10px] text-gray-400 font-sans mt-0.5 leading-tight line-clamp-1">
                           {step.description}
                         </p>
-                        <p className="md:hidden text-[9px] text-[#82D8C5] font-sans font-black leading-none mt-1">
-                          Touch for details · ${(step.product.price * discountMultiplier).toFixed(2)}
+                        <p className="text-[9px] md:hidden text-[#82D8C5] font-sans font-black leading-none mt-1">
+                          {formatPrice(step.product.price * discountMultiplier, state.currency)}
                         </p>
                       </div>
 
@@ -366,7 +365,7 @@ export default function BundlePackSection({ product, onAddToCart, onSelectProduc
                     <span className="truncate pr-3 cursor-pointer hover:text-brand-black" onClick={() => onSelectProduct(step.product.id)}>
                       • {step.product.name}
                     </span>
-                    <span className="font-bold text-gray-400 whitespace-nowrap">${step.product.price.toFixed(2)}</span>
+                    <span className="font-bold text-gray-400 whitespace-nowrap">{formatPrice(step.product.price, state.currency)}</span>
                   </div>
                 ))}
               </div>
@@ -375,11 +374,11 @@ export default function BundlePackSection({ product, onAddToCart, onSelectProduc
               <div className="border-t border-brand-black/5 pt-3 space-y-1 mb-4 font-sans text-[11px]">
                 <div className="flex justify-between text-gray-400">
                   <span>Regular Total Value:</span>
-                  <span className="line-through">${originalTotal.toFixed(2)}</span>
+                  <span className="line-through">{formatPrice(originalTotal, state.currency)}</span>
                 </div>
                 <div className="flex justify-between text-brand-black font-extrabold">
                   <span>Combo Benefits:</span>
-                  <span className="text-red-700">-${totalSavings.toFixed(2)}</span>
+                  <span className="text-red-700">-{formatPrice(totalSavings, state.currency)}</span>
                 </div>
                 
                 {/* Visual price tag - theme matching */}
@@ -389,7 +388,7 @@ export default function BundlePackSection({ product, onAddToCart, onSelectProduc
                     <span className="font-serif italic font-semibold leading-none text-brand-black text-[11px] leading-none">Instant Bundle Pricing</span>
                   </div>
                   <span className="font-sans font-black text-[21px] tracking-tight leading-none text-brand-black">
-                    ${bundleTotal.toFixed(2)}
+                    {formatPrice(bundleTotal, state.currency)}
                   </span>
                 </div>
               </div>

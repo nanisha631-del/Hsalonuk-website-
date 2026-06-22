@@ -9,6 +9,7 @@ import { Search, X, Star, ArrowUpRight, ShoppingBag } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { Product } from "../types";
 import { PRODUCTS } from "../data";
+import { useSharedState, formatPrice } from "../useSharedState";
 
 interface SearchDrawerProps {
   isOpen: boolean;
@@ -23,6 +24,7 @@ export default function SearchDrawer({
   onSelectProduct,
   onAddToCart
 }: SearchDrawerProps) {
+  const { state } = useSharedState();
   const [query, setQuery] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -203,7 +205,7 @@ export default function SearchDrawer({
 
                               <div className="flex items-center justify-between gap-2 mt-1">
                                 <span className="font-mono text-xs font-bold text-brand-black">
-                                  ${p.price.toFixed(2)} USD
+                                  {formatPrice(p.price, state.currency)}
                                 </span>
                                 <button
                                   onClick={(e) => handleQuickAddItem(p, e)}

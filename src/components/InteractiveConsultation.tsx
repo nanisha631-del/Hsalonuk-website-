@@ -6,14 +6,14 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Sparkles, ArrowRight, RotateCcw, Check, ShoppingBag, Star, HelpCircle } from "lucide-react";
-import { useSharedState } from "../useSharedState";
+import { useSharedState, formatPrice } from "../useSharedState";
 import { PRODUCTS } from "../data";
 import { Product } from "../types";
 import LuxuryButton from "./LuxuryButton";
 import AnimatedUnderline from "./AnimatedUnderline";
 
 export default function InteractiveConsultation() {
-  const { handleAddToCart } = useSharedState();
+  const { state, handleAddToCart } = useSharedState();
   const [step, setStep] = useState<"intro" | "q1" | "q2" | "q3" | "result">("intro");
   const [answers, setAnswers] = useState({
     concern: "",
@@ -362,7 +362,7 @@ export default function InteractiveConsultation() {
                   <div className="flex flex-col">
                     <span className="font-mono text-[9px] text-[#82D8C5] uppercase tracking-widest font-black">Ritual Price</span>
                     <span className="font-serif font-black text-2xl text-black">
-                      ${recommendedProduct.price.toFixed(2)}
+                      {formatPrice(recommendedProduct.price, state.currency)}
                     </span>
                   </div>
 

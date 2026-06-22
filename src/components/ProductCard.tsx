@@ -7,6 +7,7 @@ import React, { useState } from "react";
 import { Star, ShoppingBag } from "lucide-react";
 import { Product } from "../types";
 import ScrollZoomImage from "./ScrollZoomImage";
+import { useSharedState, formatPrice } from "../useSharedState";
 
 interface ProductCardProps {
   product: Product;
@@ -40,6 +41,7 @@ const getProductBadges = (productId: string) => {
 
 export default function ProductCard({ product, onSelect, onQuickAdd }: ProductCardProps) {
   const badges = getProductBadges(product.id);
+  const { state } = useSharedState();
 
   return (
     <div
@@ -127,11 +129,11 @@ export default function ProductCard({ product, onSelect, onQuickAdd }: ProductCa
         {/* Price & original price */}
         <div className="flex items-center gap-2 mt-1">
           <span className="font-sans text-[14px] md:text-[15px] font-semibold text-brand-black">
-            ${product.price.toFixed(2)}
+            {formatPrice(product.price, state.currency)}
           </span>
           {product.originalPrice && (
             <span className="font-sans text-[13px] text-gray-400 line-through">
-              ${product.originalPrice.toFixed(2)}
+              {formatPrice(product.originalPrice, state.currency)}
             </span>
           )}
         </div>

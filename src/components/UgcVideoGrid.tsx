@@ -6,7 +6,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Play, Pause, X, Heart, ShoppingBag, ChevronLeft, ChevronRight, Volume2, VolumeX, Sparkles } from "lucide-react";
-import { useSharedState } from "../useSharedState";
+import { useSharedState, formatPrice } from "../useSharedState";
 import { PRODUCTS } from "../data";
 import { Product } from "../types";
 import AnimatedUnderline from "./AnimatedUnderline";
@@ -24,7 +24,7 @@ interface ReelItem {
 }
 
 export default function UgcVideoGrid() {
-  const { handleAddToCart } = useSharedState();
+  const { state, handleAddToCart } = useSharedState();
   const [activeReelIndex, setActiveReelIndex] = useState<number | null>(null);
   const [isModalPlaying, setIsModalPlaying] = useState(true);
   const [isModalMuted, setIsModalMuted] = useState(true);
@@ -490,7 +490,7 @@ export default function UgcVideoGrid() {
                   <div className="flex flex-col">
                     <span className="font-mono text-[9px] uppercase tracking-widest text-white/40">Item Price</span>
                     <span className="font-sans font-black text-2xl text-white">
-                      ${reels[activeReelIndex].productMatch.price.toFixed(2)}
+                      {formatPrice(reels[activeReelIndex].productMatch.price, state.currency)}
                     </span>
                   </div>
 

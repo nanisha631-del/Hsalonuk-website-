@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { ArrowLeft, Star, ChevronLeft, ChevronRight, Plus, Minus, Check, Heart, ShieldCheck, Sparkles, HelpCircle, Play, Pause, Volume2, Award, Clock, BookOpen, Droplets } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { Product } from "../types";
@@ -9,6 +9,7 @@ import { getShopifySettings } from "../shopifySettings";
 import ScenicReviews from "./ScenicReviews";
 import BundlePackSection from "./BundlePackSection";
 import LuxuryButton from "./LuxuryButton";
+import { useSharedState, formatPrice } from "../useSharedState";
 
 interface ProductPageProps {
   product: Product;
@@ -206,6 +207,7 @@ export default function ProductPage({
   onAddToCart,
   onSelectProduct
 }: ProductPageProps) {
+  const { state } = useSharedState();
   const settings = getShopifySettings();
   const [selectedImageIdx, setSelectedImageIdx] = useState(0);
   const [selectedColor, setSelectedColor] = useState(
@@ -255,6 +257,30 @@ export default function ProductPage({
     setSelectedImageIdx((prev) => (prev - 1 + product.images.length) % product.images.length);
   };
 
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX.current === null || touchEndX.current === null) return;
+    const diff = touchStartX.current - touchEndX.current;
+    const threshold = 40; // minimum swipe distance
+    if (diff > threshold) {
+      handleNextImage();
+    } else if (diff < -threshold) {
+      handlePrevImage();
+    }
+    touchStartX.current = null;
+    touchEndX.current = null;
+  };
+
   return (
     <div className="bg-brand-offwhite min-h-screen pt-36 md:pt-44 pb-24 px-4 md:px-12 select-none">
       
@@ -263,7 +289,12 @@ export default function ProductPage({
         
         {/* LEFT COLUMN: Gallery Grid Layout (Lg span 7) */}
         <div className="lg:col-span-7 flex flex-col gap-3">
-          <div className="relative aspect-square bg-[#E0DEDA] shadow-xs overflow-hidden group rounded-2xl">
+          <div 
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+            className="relative aspect-square bg-[#E0DEDA] shadow-xs overflow-hidden group rounded-2xl"
+          >
             {/* Back action badge floating nicely on top of the square image */}
             <button
               onClick={onBack}
@@ -297,26 +328,26 @@ export default function ProductPage({
             {/* Slider arrows */}
             <button
               onClick={handlePrevImage}
-              className="absolute left-4 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full border border-brand-black/10 bg-white/70 hover:bg-white backdrop-blur-xs flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 cursor-pointer text-brand-black"
+              className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 md:w-8 md:h-8 rounded-full border border-brand-black/10 bg-white/80 active:bg-white backdrop-blur-xs flex items-center justify-center transition-all opacity-100 md:opacity-0 md:group-hover:opacity-100 cursor-pointer text-brand-black z-20"
             >
-              <ChevronLeft className="w-4 h-4" />
+              <ChevronLeft className="w-5 h-5 md:w-4 md:h-4" />
             </button>
             <button
               onClick={handleNextImage}
-              className="absolute right-4 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full border border-brand-black/10 bg-white/70 hover:bg-white backdrop-blur-xs flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 cursor-pointer text-brand-black"
+              className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 md:w-8 md:h-8 rounded-full border border-brand-black/10 bg-white/80 active:bg-white backdrop-blur-xs flex items-center justify-center transition-all opacity-100 md:opacity-0 md:group-hover:opacity-100 cursor-pointer text-brand-black z-20"
             >
-              <ChevronRight className="w-4 h-4" />
+              <ChevronRight className="w-5 h-5 md:w-4 md:h-4" />
             </button>
           </div>
 
           {/* Thumbnails list below main display */}
-          <div className="grid grid-cols-4 gap-2 mt-0.5">
+          <div className="flex gap-2 mt-2 overflow-x-auto scrollbar-none w-full justify-start md:justify-center">
             {product.images.map((img, i) => (
               <button
                 key={i}
                 onClick={() => setSelectedImageIdx(i)}
-                className={`aspect-square bg-[#E0DEDA] relative overflow-hidden transition-all duration-300 outline-none cursor-pointer rounded-lg ${
-                  selectedImageIdx === i ? "ring-2 ring-brand-lilac ring-offset-2 ring-offset-brand-offwhite" : "opacity-75 hover:opacity-100"
+                className={`w-14 h-14 sm:w-16 sm:h-16 shrink-0 bg-[#E0DEDA] relative overflow-hidden transition-all duration-300 outline-none cursor-pointer rounded-lg ${
+                  selectedImageIdx === i ? "ring-2 ring-brand-black ring-offset-2 ring-offset-brand-offwhite" : "opacity-75 hover:opacity-100"
                 }`}
               >
                 <img src={img} alt={`Thumbnail ${i}`} referrerPolicy="no-referrer" className="w-full h-full object-cover" />
@@ -345,12 +376,12 @@ export default function ProductPage({
             {/* Price section containing exact formatted minimal size values */}
             <div className="flex flex-wrap items-center gap-2 text-brand-black mt-0.5">
               <span className="font-sans text-[17px] font-black leading-none">
-                ${product.price.toFixed(2)}
+                {formatPrice(product.price, state.currency)}
               </span>
               {product.originalPrice && (
                 <>
                   <span className="font-sans text-[14px] text-gray-400 line-through leading-none">
-                    ${product.originalPrice.toFixed(2)}
+                    {formatPrice(product.originalPrice, state.currency)}
                   </span>
                   <span className="text-[#334211] text-[10px] font-bold px-1.5 py-0.5 uppercase tracking-wider font-sans leading-none">
                     ({Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}% off)
@@ -436,7 +467,7 @@ export default function ProductPage({
               onClick={() => onAddToCart(product, quantity, selectedColor)}
               className="w-full bg-brand-black hover:bg-brand-black/95 text-white font-sans font-bold py-3 text-[12px] uppercase tracking-[0.12em] transition-all hover:scale-[1.01] active:scale-98 cursor-pointer shadow-xs rounded-full flex items-center justify-center gap-1"
             >
-              ADD TO CART • ${(product.price * quantity).toFixed(2)}
+              ADD TO CART • {formatPrice(product.price * quantity, state.currency)}
             </LuxuryButton>
             
             <LuxuryButton
@@ -668,7 +699,7 @@ export default function ProductPage({
                     {crossSellProduct.name}
                   </span>
                   <span className="font-sans text-[11px] text-gray-400">
-                    ${crossSellProduct.price.toFixed(2)}
+                    {formatPrice(crossSellProduct.price, state.currency)}
                   </span>
                 </div>
                 <button
@@ -812,7 +843,7 @@ export default function ProductPage({
                   {p.name}
                 </h3>
                 <span className="font-sans text-[13px] text-gray-500 font-semibold">
-                  ${p.price.toFixed(2)}
+                  {formatPrice(p.price, state.currency)}
                 </span>
               </div>
             </div>
@@ -863,7 +894,7 @@ export default function ProductPage({
               onClick={() => onAddToCart(product, quantity, selectedColor)}
               className="bg-brand-black hover:bg-brand-black/95 text-white font-sans text-[12px] font-bold py-3.5 px-6 rounded-full uppercase tracking-wider flex-1 cursor-pointer transition-transform duration-150 active:scale-95 text-center truncate shadow-sm"
             >
-              Add • ${product.price.toFixed(2)}
+              Add • {formatPrice(product.price, state.currency)}
             </button>
           </motion.div>
         )}

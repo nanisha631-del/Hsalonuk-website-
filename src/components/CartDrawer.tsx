@@ -10,7 +10,7 @@ import { CartItem, Product } from "../types";
 import { createShopifyCheckoutRedirect } from "../lib/shopify";
 import { PRODUCTS } from "../data";
 import LuxuryButton from "./LuxuryButton";
-import { useSharedState } from "../useSharedState";
+import { useSharedState, formatPrice } from "../useSharedState";
 import { getShopifySettings } from "../shopifySettings";
 
 // Defined premium bundle products matching requirements precisely
@@ -170,7 +170,7 @@ export default function CartDrawer({
   onRemoveItem
 }: CartDrawerProps) {
   const settings = getShopifySettings();
-  const { handleAddToCart } = useSharedState();
+  const { state, handleAddToCart } = useSharedState();
 
   const [isRedirecting, setIsRedirecting] = useState(false);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
@@ -254,7 +254,7 @@ export default function CartDrawer({
   const deliveryCostMessage =
     subtotal >= freeShippingThreshold
       ? "You've earned FREE shipping!"
-      : `Spend $${(freeShippingThreshold - subtotal).toFixed(2)} more for FREE shipping.`;
+      : `Spend ${formatPrice(freeShippingThreshold - subtotal, state.currency)} more for FREE shipping.`;
 
   const progressPercent = Math.min((subtotal / freeShippingThreshold) * 100, 100);
 
@@ -482,7 +482,7 @@ export default function CartDrawer({
                           </div>
 
                           <span className="font-sans text-[13px] font-bold text-brand-black select-none">
-                            ${(item.product.price * item.quantity).toFixed(2)}
+                            {formatPrice(item.product.price * item.quantity, state.currency)}
                           </span>
                         </div>
                       </div>
@@ -521,11 +521,13 @@ export default function CartDrawer({
                         </p>
                         <div className="flex items-center gap-2 mt-1">
                           <span className="font-sans text-[12px] font-extrabold text-brand-black">
-                            ${SERENE_DUO_BUNDLE.price.toFixed(2)}
+                            {formatPrice(SERENE_DUO_BUNDLE.price, state.currency)}
                           </span>
-                          <span className="font-sans text-[10px] text-gray-400 line-through">
-                            ${SERENE_DUO_BUNDLE.originalPrice?.toFixed(2)}
-                          </span>
+                          {SERENE_DUO_BUNDLE.originalPrice && (
+                            <span className="font-sans text-[10px] text-gray-400 line-through">
+                              {formatPrice(SERENE_DUO_BUNDLE.originalPrice, state.currency)}
+                            </span>
+                          )}
                           <span className="text-[9px] font-bold text-[#42B870] font-sans bg-green-50 px-1 py-0.5 rounded-sm">
                             SAVE 21%
                           </span>
@@ -560,11 +562,13 @@ export default function CartDrawer({
                         </p>
                         <div className="flex items-center gap-2 mt-1">
                           <span className="font-sans text-[12px] font-extrabold text-brand-black">
-                            ${GOLD_LUST_DUO_BUNDLE.price.toFixed(2)}
+                            {formatPrice(GOLD_LUST_DUO_BUNDLE.price, state.currency)}
                           </span>
-                          <span className="font-sans text-[10px] text-gray-400 line-through">
-                            ${GOLD_LUST_DUO_BUNDLE.originalPrice?.toFixed(2)}
-                          </span>
+                          {GOLD_LUST_DUO_BUNDLE.originalPrice && (
+                            <span className="font-sans text-[10px] text-gray-400 line-through">
+                              {formatPrice(GOLD_LUST_DUO_BUNDLE.originalPrice, state.currency)}
+                            </span>
+                          )}
                           <span className="text-[9px] font-bold text-[#42B870] font-sans bg-green-50 px-1 py-0.5 rounded-sm">
                             SAVE 20%
                           </span>
@@ -645,12 +649,12 @@ export default function CartDrawer({
                 <div className="flex flex-col gap-1.5">
                   <div className="flex justify-between items-center text-[12.5px] text-gray-500">
                     <span>Subtotal</span>
-                    <span>${subtotal.toFixed(2)} USD</span>
+                    <span>{formatPrice(subtotal, state.currency)}</span>
                   </div>
                   {appliedPromo && (
                     <div className="flex justify-between items-center text-[12.5px] text-green-600 font-semibold">
                       <span>Discount (10% with {appliedPromo})</span>
-                      <span>-${discountAmount.toFixed(2)} USD</span>
+                      <span>-{formatPrice(discountAmount, state.currency)}</span>
                     </div>
                   )}
                   <div className="flex justify-between items-center border-t border-brand-black/5 pt-1.5 mt-0.5">
@@ -658,7 +662,7 @@ export default function CartDrawer({
                       Total
                     </span>
                     <span className="font-sans text-[18px] font-extrabold text-brand-black">
-                      ${finalTotal.toFixed(2)} USD
+                      {formatPrice(finalTotal, state.currency)}
                     </span>
                   </div>
                 </div>

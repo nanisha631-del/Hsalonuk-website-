@@ -11,6 +11,7 @@ import { PRODUCTS } from "../data";
 import ScrollZoomImage from "./ScrollZoomImage";
 import { getShopifySettings } from "../shopifySettings";
 import AnimatedUnderline from "./AnimatedUnderline";
+import { useSharedState, formatPrice } from "../useSharedState";
 
 interface ShopTheLookProps {
   onSelectProduct: (id: string) => void;
@@ -58,6 +59,7 @@ const HOTSPOTS: Hotspot[] = [
 ];
 
 export default function ShopTheLook({ onSelectProduct, onAddToCart }: ShopTheLookProps) {
+  const { state } = useSharedState();
   const [activeProductId, setActiveProductId] = useState<string | null>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
@@ -221,7 +223,7 @@ export default function ShopTheLook({ onSelectProduct, onAddToCart }: ShopTheLoo
                               {matchingProduct.name}
                             </h4>
                             <span className="font-sans text-[9.5px] sm:text-[11px] font-semibold text-gray-500">
-                              ${matchingProduct.price.toFixed(2)}
+                              {formatPrice(matchingProduct.price, state.currency)}
                             </span>
                           </div>
                         </div>
@@ -302,7 +304,7 @@ export default function ShopTheLook({ onSelectProduct, onAddToCart }: ShopTheLoo
                           {p.name}
                         </h3>
                         <p className="font-sans text-[12px] sm:text-[13px] text-gray-500 font-bold">
-                          ${p.price.toFixed(2)}
+                          {formatPrice(p.price, state.currency)}
                         </p>
                       </div>
                     </div>

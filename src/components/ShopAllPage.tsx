@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { Search, SlidersHorizontal, ArrowDownAZ, ShoppingBag, Star, RefreshCw, X, ArrowUpDown } from "lucide-react";
 import { Product } from "../types";
 import { PRODUCTS } from "../data";
+import { useSharedState, formatPrice } from "../useSharedState";
 
 interface ShopAllPageProps {
   initialCategory?: string;
@@ -47,6 +48,7 @@ export default function ShopAllPage({
   onAddToCart,
   onBackToHome
 }: ShopAllPageProps) {
+  const { state } = useSharedState();
   const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<"featured" | "price-low-high" | "price-high-low" | "rating">("featured");
@@ -369,9 +371,9 @@ export default function ShopAllPage({
                         {/* Price & Cart purchase bar */}
                         <div className="mt-4 pt-3 border-t border-brand-black/5 flex items-center justify-between font-sans">
                           <div>
-                            <span className="font-mono text-sm font-black text-brand-black">${p.price.toFixed(2)}</span>
+                            <span className="font-mono text-sm font-black text-brand-black">{formatPrice(p.price, state.currency)}</span>
                             {p.originalPrice && (
-                              <span className="font-mono text-[10px] text-brand-black/35 line-through ml-1.5">${p.originalPrice.toFixed(2)}</span>
+                              <span className="font-mono text-[10px] text-brand-black/35 line-through ml-1.5">{formatPrice(p.originalPrice, state.currency)}</span>
                             )}
                           </div>
 

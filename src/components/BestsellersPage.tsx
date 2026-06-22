@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { Star, ShieldCheck, Sparkles, Award, ShoppingBag, Eye, Heart } from "lucide-react";
 import { Product } from "../types";
 import { PRODUCTS } from "../data";
+import { useSharedState, formatPrice } from "../useSharedState";
 
 // Smooth liquid overlay title filling from left to right on hover
 const LiquidFillHeading = () => {
@@ -126,6 +127,7 @@ export default function BestsellersPage({
   onAddToCart,
   onBackToHome
 }: BestsellersPageProps) {
+  const { state } = useSharedState();
   const [activeTab, setActiveTab] = useState<"all" | "volume" | "nourish">("all");
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
@@ -331,9 +333,9 @@ export default function BestsellersPage({
                   {/* Pricing and interaction row */}
                   <div className="pt-6 border-t border-brand-black/5 flex flex-wrap items-center justify-between gap-4">
                     <div className="flex items-baseline gap-2 font-mono">
-                      <span className="text-xl md:text-2xl font-black text-brand-black">${p.price.toFixed(2)} USD</span>
+                      <span className="text-xl md:text-2xl font-black text-brand-black">{formatPrice(p.price, state.currency)}</span>
                       {p.originalPrice && (
-                        <span className="text-xs text-brand-black/35 line-through">${p.originalPrice.toFixed(2)}</span>
+                        <span className="text-xs text-brand-black/35 line-through">{formatPrice(p.originalPrice, state.currency)}</span>
                       )}
                     </div>
 
