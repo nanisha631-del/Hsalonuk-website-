@@ -6,6 +6,7 @@
 import React, { useState, useRef } from "react";
 import { Instagram, Twitter, Plus, Minus } from "lucide-react";
 import { motion, AnimatePresence, useScroll, useTransform, useSpring } from "motion/react";
+import { useSharedState } from "../useSharedState";
 
 interface FooterProps {
   onGoHome: () => void;
@@ -14,6 +15,11 @@ interface FooterProps {
 export default function Footer({ onGoHome }: FooterProps) {
   const [activeTab, setActiveTab] = useState<string | null>(null);
   const footerRef = useRef<HTMLDivElement>(null);
+  const { updateState } = useSharedState();
+
+  const handleOpenPolicy = (tab: "privacy" | "refund" | "shipping" | "terms") => {
+    updateState({ policyModalOpen: true, policyTab: tab });
+  };
 
   // Scroll tracking to trigger smooth center zoom of H salon logo
   const { scrollYProgress } = useScroll({
@@ -152,10 +158,10 @@ export default function Footer({ onGoHome }: FooterProps) {
                   className="overflow-hidden"
                 >
                   <ul className="pb-1 flex flex-col gap-2.5 text-xs text-gray-500 font-sans pl-1">
-                    <li><button className="hover:text-black hover:underline cursor-pointer">Help center</button></li>
-                    <li><button className="hover:text-black hover:underline cursor-pointer">Shipping policy</button></li>
-                    <li><button className="hover:text-black hover:underline cursor-pointer">Free returns</button></li>
-                    <li><button className="hover:text-black hover:underline cursor-pointer">FAQs</button></li>
+                    <li><button onClick={() => handleOpenPolicy("privacy")} className="hover:text-black hover:underline cursor-pointer text-left">Privacy Policy</button></li>
+                    <li><button onClick={() => handleOpenPolicy("shipping")} className="hover:text-black hover:underline cursor-pointer text-left">Shipping Policy</button></li>
+                    <li><button onClick={() => handleOpenPolicy("refund")} className="hover:text-black hover:underline cursor-pointer text-left">Refund & Return Policy</button></li>
+                    <li><button onClick={() => handleOpenPolicy("terms")} className="hover:text-black hover:underline cursor-pointer text-left">Terms of Service</button></li>
                   </ul>
                 </motion.div>
               )}
@@ -186,21 +192,45 @@ export default function Footer({ onGoHome }: FooterProps) {
         <div className="flex flex-col gap-6 pt-2">
           {/* Social icons */}
           <div className="flex gap-4 items-center pl-1">
-            <button className="hover:opacity-70 p-2 border border-brand-black/10 rounded-full cursor-pointer transition-colors" aria-label="Instagram">
+            <a 
+              href="https://www.instagram.com/hsalon.uk/" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="hover:opacity-70 p-2 border border-brand-black/10 rounded-full cursor-pointer transition-colors flex items-center justify-center bg-white" 
+              aria-label="Instagram"
+            >
               <Instagram className="w-5 h-5 text-gray-700" />
-            </button>
-            <button className="hover:opacity-70 p-2 border border-brand-black/10 rounded-full cursor-pointer transition-colors" aria-label="TikTok">
+            </a>
+            <a 
+              href="https://www.tiktok.com/in/about" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="hover:opacity-70 p-2 border border-brand-black/10 rounded-full cursor-pointer transition-colors flex items-center justify-center bg-white" 
+              aria-label="TikTok"
+            >
               <svg className="w-5 h-5 text-gray-700 fill-current" viewBox="0 0 24 24">
                 <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.17-2.86-.74-3.94-1.74-.22-.2-.42-.43-.61-.67-.02 3.48-.01 6.96-.02 10.43-.1 2.22-.98 4.45-2.73 5.87-1.89 1.58-4.52 2.19-6.95 1.74-2.84-.46-5.32-2.61-6.19-5.36-.97-3-.45-6.52 1.58-9.08 1.68-2.14 4.34-3.23 6.99-2.9v4.07c-1.43-.16-2.95.27-3.92 1.36-.88.97-1.12 2.45-.69 3.69.45 1.37 1.83 2.37 3.28 2.38 1.88.04 3.48-1.55 3.51-3.43V.02z" />
               </svg>
-            </button>
+            </a>
             <button className="hover:opacity-70 p-2 border border-brand-black/10 rounded-full cursor-pointer transition-colors" aria-label="Twitter">
               <Twitter className="w-5 h-5 text-gray-700" />
             </button>
           </div>
 
-          <div className="text-[12px] text-gray-400 font-sans tracking-wide">
-            © 2026, H salon. Designed by Addy Growth Studio.
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 text-[12px] text-gray-400 font-sans tracking-wide">
+            <div>
+              © 2026, H salon. Designed by Addy Growth Studio.
+            </div>
+            
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 pt-1 md:pt-0">
+              <button onClick={() => handleOpenPolicy("privacy")} className="hover:text-brand-black hover:underline cursor-pointer transition-colors duration-200">Privacy Policy</button>
+              <span className="text-gray-300 select-none">•</span>
+              <button onClick={() => handleOpenPolicy("refund")} className="hover:text-brand-black hover:underline cursor-pointer transition-colors duration-200">Refund Policy</button>
+              <span className="text-gray-300 select-none">•</span>
+              <button onClick={() => handleOpenPolicy("shipping")} className="hover:text-brand-black hover:underline cursor-pointer transition-colors duration-200">Shipping Policy</button>
+              <span className="text-gray-300 select-none">•</span>
+              <button onClick={() => handleOpenPolicy("terms")} className="hover:text-brand-black hover:underline cursor-pointer transition-colors duration-200">Terms of Service</button>
+            </div>
           </div>
         </div>
 

@@ -22,6 +22,14 @@ import { getShopifySettings } from "../shopifySettings";
 import { PRODUCTS } from "../data";
 import { Product } from "../types";
 import ScrollZoomImage from "./ScrollZoomImage";
+import { useSharedState, CurrencyCode } from "../useSharedState";
+
+const COUNTRY_CURRENCY_MAP: Record<CurrencyCode, { country: string; label: string; mobileLabel: string }> = {
+  USD: { country: "United States", label: "USD $", mobileLabel: "US | $" },
+  GBP: { country: "United Kingdom", label: "GBP £", mobileLabel: "UK | £" },
+  EUR: { country: "Europe", label: "EUR €", mobileLabel: "EU | €" },
+  CAD: { country: "Canada", label: "CAD CA$", mobileLabel: "CA | $" },
+};
 
 interface NavbarProps {
   cartCount: number;
@@ -44,6 +52,23 @@ export default function Navbar({
   const [activeDropdown, setActiveDropdown] = useState<"shop_all" | "bestsellers" | "bundle" | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileShopAllExpanded, setMobileShopAllExpanded] = useState(false);
+  
+  // Custom Currency Dropdown state and listener
+  const { state, updateState } = useSharedState();
+  const [currencyOpen, setCurrencyOpen] = useState(false);
+  const currencyDropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (currencyDropdownRef.current && !currencyDropdownRef.current.contains(event.target as Node)) {
+        setCurrencyOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   
   const settings = getShopifySettings();
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -274,7 +299,53 @@ export default function Navbar({
         </div>
 
         {/* RIGHT COLUMN: Action Buttons */}
-        <div className="flex-1 lg:flex-none flex items-center justify-end gap-3 md:gap-6 z-50">
+        <div className="flex-1 lg:flex-none flex items-center justify-end gap-1 md:gap-4 z-50">
+          {/* CURRENCY CODES DROPDOWN */}
+          <div ref={currencyDropdownRef} className="relative select-none z-50">
+            <button
+              onClick={() => setCurrencyOpen(!currencyOpen)}
+              className="flex items-center gap-1 px-2 py-1.5 text-[10.5px] md:text-[12px] text-brand-black/80 hover:text-brand-black cursor-pointer bg-transparent border-0 uppercase tracking-wider focus:outline-none transition-colors select-none font-medium leading-none"
+              style={{ fontFamily: '"Inter", sans-serif' }}
+              aria-label="Change Currency"
+            >
+              <span className="hidden sm:inline">
+                {COUNTRY_CURRENCY_MAP[state.currency]?.country} | {COUNTRY_CURRENCY_MAP[state.currency]?.label}
+              </span>
+              <span className="sm:hidden inline text-[9.5px]">
+                {COUNTRY_CURRENCY_MAP[state.currency]?.mobileLabel}
+              </span>
+              <ChevronDown className={`w-3.5 h-3.5 text-brand-black/60 transition-transform duration-300 ${currencyOpen ? "rotate-180" : ""}`} />
+            </button>
+
+            <AnimatePresence>
+              {currencyOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 8, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 8, scale: 0.95 }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                  className="absolute right-0 mt-2 w-56 sm:w-60 bg-white border border-brand-black/10 rounded-lg shadow-xl py-2 z-50 overflow-hidden font-sans"
+                >
+                  {Object.entries(COUNTRY_CURRENCY_MAP).map(([code, config]) => (
+                    <button
+                      key={code}
+                      onClick={() => {
+                        updateState({ currency: code as CurrencyCode });
+                        setCurrencyOpen(false);
+                      }}
+                      className={`w-full text-left px-4 py-2 text-[12px] hover:bg-brand-black/5 transition-colors flex items-center justify-between cursor-pointer select-none ${
+                        state.currency === code ? "font-bold text-black bg-brand-black/3" : "text-gray-600 font-normal"
+                      }`}
+                    >
+                      <span className="truncate">{config.country} | {config.label}</span>
+                      {state.currency === code && <span className="w-1.5 h-1.5 bg-[#82D8C5] rounded-full shrink-0 ml-1" />}
+                    </button>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
           <button
             onClick={onSearchClick}
             className="p-2 hover:opacity-70 transition-opacity cursor-pointer text-brand-black"

@@ -6,6 +6,21 @@
 import { useState, useEffect } from "react";
 import { Product, CartItem } from "./types";
 
+export type CurrencyCode = "USD" | "GBP" | "EUR" | "CAD";
+
+export const CURRENCY_MAP: Record<CurrencyCode, { symbol: string; rate: number; label: string }> = {
+  USD: { symbol: "$", rate: 1.0, label: "USD" },
+  GBP: { symbol: "£", rate: 0.79, label: "GBP" },
+  EUR: { symbol: "€", rate: 0.92, label: "EUR" },
+  CAD: { symbol: "CA$", rate: 1.37, label: "CAD" },
+};
+
+export function formatPrice(priceInUSD: number, currencyCode: CurrencyCode = "USD") {
+  const config = CURRENCY_MAP[currencyCode] || CURRENCY_MAP.USD;
+  const converted = priceInUSD * config.rate;
+  return `${config.symbol}${converted.toFixed(2)} ${config.label}`;
+}
+
 interface SharedState {
   currentView: "home" | "product" | "shop_all" | "bestsellers" | "about" | "contact";
   selectedProductId: string;
@@ -15,6 +30,9 @@ interface SharedState {
   shopifyModalOpen: boolean;
   bestsellersTab: "BESTSELLERS" | "WHATS HOT";
   selectedCategory: string;
+  currency: CurrencyCode;
+  policyModalOpen: boolean;
+  policyTab: "privacy" | "refund" | "shipping" | "terms";
 }
 
 const listeners = new Set<() => void>();
@@ -28,6 +46,9 @@ let globalState: SharedState = {
   shopifyModalOpen: false,
   bestsellersTab: "BESTSELLERS",
   selectedCategory: "all",
+  currency: "USD",
+  policyModalOpen: false,
+  policyTab: "privacy",
 };
 
 // Seed initial cart item list from local storage securely
@@ -37,8 +58,12 @@ if (typeof window !== "undefined") {
     if (saved) {
       globalState.cartItems = JSON.parse(saved);
     }
+    const savedCurrency = localStorage.getItem("hsalon-currency");
+    if (savedCurrency && (savedCurrency === "USD" || savedCurrency === "GBP" || savedCurrency === "EUR" || savedCurrency === "CAD")) {
+      globalState.currency = savedCurrency as any;
+    }
   } catch (e) {
-    console.warn("Could not load checkout state from cache", e);
+    console.warn("Could not load checkout state or currency from cache", e);
   }
 
   // Synchronize dynamic routing on load based on browser pathing
@@ -85,6 +110,14 @@ export function useSharedState() {
         localStorage.setItem("phenomena-cart-items", JSON.stringify(globalState.cartItems));
       } catch (e) {
         console.error("Local storage sync error:", e);
+      }
+    }
+
+    if (calculated.currency) {
+      try {
+        localStorage.setItem("hsalon-currency", globalState.currency);
+      } catch (e) {
+        console.error("Local storage currency sync error:", e);
       }
     }
 

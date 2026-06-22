@@ -66,15 +66,22 @@
   transform: scale(1.07) translateZ(0) !important;
 }
 
-/* Elegant horizontal split reveal effect for secondary product images on hover */
+/* Elegant single-sided smooth rotate split reveal and slow fade-in effect for secondary product images */
 .split-reveal-img {
-  clip-path: inset(0 50% 0 50%);
-  transition: clip-path 1.2s cubic-bezier(0.25, 1, 0.25, 1), opacity 0.8s ease-out !important;
+  clip-path: inset(0 100% 0 0);
+  opacity: 0;
+  transform: scale(1.02) rotate(-1.5deg) translateZ(0);
+  transition: 
+    clip-path 1.6s cubic-bezier(0.25, 1, 0.2, 1), 
+    transform 1.8s cubic-bezier(0.25, 1, 0.2, 1), 
+    opacity 1.4s cubic-bezier(0.25, 1, 0.2, 1) !important;
   will-change: clip-path, transform, opacity !important;
 }
 
 .group:hover .split-reveal-img {
   clip-path: inset(0 0 0 0);
+  opacity: 1;
+  transform: scale(1.07) rotate(0deg) translateZ(0) !important;
 }
 
 /* Intersection observer transitions */

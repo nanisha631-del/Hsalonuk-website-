@@ -30,6 +30,7 @@ import HoverAccordion from "./components/HoverAccordion";
 import ProductPage from "./components/ProductPage";
 import CartDrawer from "./components/CartDrawer";
 import Footer from "./components/Footer";
+import PolicyModal from "./components/PolicyModal";
 import ScrollZoomImage from "./components/ScrollZoomImage";
 import ShopifyInstructionModal from "./components/ShopifyInstructionModal";
 import AestheticVideoPlayer from "./components/AestheticVideoPlayer";
@@ -388,6 +389,13 @@ export default function App() {
         onClose={() => updateState({ searchOpen: false })}
         onSelectProduct={handleSelectProduct}
         onAddToCart={handleAddToCart}
+      />
+
+      {/* GLORIOUS LEGAL POLICY MODAL OVERLAY */}
+      <PolicyModal
+        isOpen={state.policyModalOpen}
+        onClose={() => updateState({ policyModalOpen: false })}
+        initialTab={state.policyTab}
       />
 
     </div>

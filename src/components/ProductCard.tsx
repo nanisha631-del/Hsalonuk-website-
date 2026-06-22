@@ -76,7 +76,7 @@ export default function ProductCard({ product, onSelect, onQuickAdd }: ProductCa
         {/* Laptop/Desktop responsive hover variant */}
         <button
           onClick={(e) => onQuickAdd(product, e)}
-          className="absolute bottom-3 right-3 z-20 h-10 w-10 hover:w-28 bg-brand-black hover:bg-[#82D8C5] text-[#82D8C5] hover:text-brand-black rounded-full hidden lg:flex items-center justify-start overflow-hidden transition-all duration-300 ease-out cursor-pointer group/bag shadow-lg opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0"
+          className="absolute bottom-3 right-3 z-20 h-10 w-10 hover:w-28 bg-white border border-brand-black/10 hover:bg-[#82D8C5] text-brand-black hover:text-brand-black rounded-full hidden lg:flex items-center justify-start overflow-hidden transition-all duration-300 ease-out cursor-pointer group/bag shadow-lg opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0"
           title={`Quick Buy ${product.name}`}
         >
           <div className="flex items-center justify-center min-w-10 h-10 shrink-0">
@@ -90,7 +90,7 @@ export default function ProductCard({ product, onSelect, onQuickAdd }: ProductCa
         {/* Mobile/Tablet touch-friendly constant variant */}
         <button
           onClick={(e) => onQuickAdd(product, e)}
-          className="absolute bottom-3 right-3 z-20 h-10 w-10 bg-brand-black active:bg-[#82D8C5] text-[#82D8C5] active:text-brand-black rounded-full lg:hidden flex items-center justify-center cursor-pointer shadow-md active:scale-90 transition-all duration-150"
+          className="absolute bottom-3 right-3 z-20 h-10 w-10 bg-white border border-brand-black/10 active:bg-[#82D8C5] text-brand-black active:text-brand-black rounded-full lg:hidden flex items-center justify-center cursor-pointer shadow-md active:scale-90 transition-all duration-150"
           title={`Quick Buy ${product.name}`}
           aria-label={`Quick Buy ${product.name}`}
         >

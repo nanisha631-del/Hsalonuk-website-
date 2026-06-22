@@ -62,14 +62,16 @@ export default function ContactUsPage({ onBackToHome }: ContactUsPageProps) {
             
             {/* Direct Channels */}
             <div className="space-y-6">
-              <h3 className="font-sans font-black text-xs uppercase tracking-widest text-brand-black">HQ Desk</h3>
+              <h3 className="font-sans font-black text-xs uppercase tracking-widest text-brand-black">H Salon HQ</h3>
               
               <div className="flex items-start gap-3 text-sm">
                 <MapPin className="w-5 h-5 text-[#82D8C5] shrink-0 mt-0.5" />
                 <div>
-                  <h4 className="font-sans font-bold text-xs uppercase text-brand-black">Mayfair Clinic</h4>
+                  <h4 className="font-sans font-bold text-xs uppercase text-brand-black">Physical Address</h4>
                   <p className="font-sans text-xs text-brand-black/60 mt-0.5 leading-relaxed">
-                    H Salon Laboratory, 18 Bruton Street,<br />Mayfair, London, W1J 6QB, United Kingdom
+                    H Salon<br />
+                    71-75 Shelton Street, Covent Garden<br />
+                    London, WC2H 9JQ, United Kingdom
                   </p>
                 </div>
               </div>
@@ -77,19 +79,25 @@ export default function ContactUsPage({ onBackToHome }: ContactUsPageProps) {
               <div className="flex items-start gap-3 text-sm">
                 <Phone className="w-5 h-5 text-[#82D8C5] shrink-0" />
                 <div>
-                  <h4 className="font-sans font-bold text-xs uppercase text-brand-black">Consultation Hotline</h4>
-                  <p className="font-sans text-xs text-brand-black/60 mt-0.5">+44 (0) 20 7946 0192</p>
+                  <h4 className="font-sans font-bold text-xs uppercase text-brand-black">Phone Number</h4>
+                  <p className="font-sans text-xs text-brand-black/60 mt-0.5">+44 7520 644594</p>
                 </div>
               </div>
 
               <div className="flex items-start gap-3 text-sm">
                 <Mail className="w-5 h-5 text-[#82D8C5] shrink-0" />
                 <div>
-                  <h4 className="font-sans font-bold text-xs uppercase text-brand-black">Email Concierge</h4>
+                  <h4 className="font-sans font-bold text-xs uppercase text-brand-black">Email Address</h4>
                   <p className="font-sans text-xs text-[#82D8C5] font-extrabold mt-0.5 hover:underline">
-                    concierge@hsalonlab.com
+                    info@hsalon.uk
                   </p>
                 </div>
+              </div>
+
+              <div className="border-t border-brand-black/10 pt-4 text-[10.5px] font-sans text-brand-black/45 space-y-1">
+                <p><strong>Trade Name:</strong> H Salon</p>
+                <p><strong>Operated By:</strong> H SALON LTD</p>
+                <p><strong>Company Registration:</strong> 14605981 (Registered in England & Wales)</p>
               </div>
             </div>
 
