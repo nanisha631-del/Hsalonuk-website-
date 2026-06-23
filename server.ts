@@ -95,9 +95,7 @@ async function startServer() {
     } catch (err: any) {
       console.warn("Gemini Chat API Error, falling back to Support Simulator:", err);
       // Fallback is 100% resilient and seamless to ensure amazing chat reliability
-      setTimeout(() => {
-        res.json({ reply: getFallbackSupportResponse(cleanMessage) });
-      }, 500);
+      return res.json({ reply: getFallbackSupportResponse(cleanMessage) });
     }
   });
 
