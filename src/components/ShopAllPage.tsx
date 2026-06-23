@@ -274,7 +274,7 @@ export default function ShopAllPage({
                 className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
               >
                 {processedProducts.map((p) => {
-                  const ratingStars = Array.from({ length: 5 }, (_, i) => i < p.rating);
+                  const ratingStars = Array.from({ length: 5 }, (_, i) => i < Math.round(p.rating));
                   const isBest = p.tags?.includes("BESTSELLER") || p.price >= 60;
                   return (
                     <motion.div 
@@ -347,7 +347,7 @@ export default function ShopAllPage({
                                 />
                               ))}
                             </div>
-                            <span className="font-mono text-[10px] text-brand-black/45">({p.rating}.0)</span>
+                            <span className="font-mono text-[10px] text-brand-black/45">({p.rating.toFixed(1)})</span>
                           </div>
 
                           <h3 

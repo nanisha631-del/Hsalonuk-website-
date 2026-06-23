@@ -108,7 +108,7 @@ export default function ProductCard({ product, onSelect, onQuickAdd }: ProductCa
             <Star
               key={i}
               className={`w-3.5 h-3.5 ${
-                i < product.rating ? "fill-current" : "text-gray-300"
+                i < Math.round(product.rating) ? "fill-current" : "text-gray-300"
               }`}
             />
           ))}

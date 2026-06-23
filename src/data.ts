@@ -11,7 +11,7 @@ export const PRODUCTS: Product[] = [
     name: "Oribe Serene Scalp Treatment",
     subtitle: "Soothing Leave-On Treatment by Oribe",
     price: 48.00,
-    rating: 5,
+    rating: 4.8,
     images: [
       "/snail silk face serum.webp"
     ],
@@ -33,7 +33,7 @@ export const PRODUCTS: Product[] = [
     name: "Oribe Serene Scalp Masque",
     subtitle: "Balance Soothing Treatment Masque by Oribe",
     price: 52.00,
-    rating: 5,
+    rating: 4.6,
     images: [
       "/snail silk scalp mask.webp"
     ],
@@ -55,7 +55,7 @@ export const PRODUCTS: Product[] = [
     name: "Oribe Gold Lust Hair Oil",
     subtitle: "Nourishing Hair & Scalp Oil by Oribe",
     price: 45.00,
-    rating: 5,
+    rating: 4.9,
     images: [
       "/snail silk scalp oil.webp"
     ],
@@ -77,7 +77,7 @@ export const PRODUCTS: Product[] = [
     name: "The Recovery Face Oil",
     subtitle: "Overnight Barrier Repair by Ground Wellbeing",
     price: 64.00,
-    rating: 5,
+    rating: 4.7,
     images: [
       "/ground recovery oil.webp"
     ],
@@ -99,7 +99,7 @@ export const PRODUCTS: Product[] = [
     name: "The Active Body Oil",
     subtitle: "Muscle Stimulation Oil by Ground Wellbeing",
     price: 38.00,
-    rating: 5,
+    rating: 4.5,
     images: [
       "/Gym silk.webp"
     ],
@@ -121,7 +121,7 @@ export const PRODUCTS: Product[] = [
     name: "Kérastase Elixir Ultime Hair Oil",
     subtitle: "Beautifying & Glossing Hair Oil by Kérastase",
     price: 56.00,
-    rating: 5,
+    rating: 4.8,
     images: [
       "/snail silk scalp oil.webp"
     ],
@@ -143,7 +143,7 @@ export const PRODUCTS: Product[] = [
     name: "Oribe Power Drops Hydration Booster",
     subtitle: "Intense Moisture Infusion by Oribe",
     price: 28.00,
-    rating: 4,
+    rating: 4.2,
     images: [
       "/snail silk face serum.webp"
     ],
@@ -165,7 +165,7 @@ export const PRODUCTS: Product[] = [
     name: "Kérastase Chronologiste Caviar Serum",
     subtitle: "Regenerating Scalp & Hair Pearls by Kérastase",
     price: 42.00,
-    rating: 5,
+    rating: 4.6,
     images: [
       "/snail silk scalp mask.webp"
     ],
@@ -187,7 +187,7 @@ export const PRODUCTS: Product[] = [
     name: "Ground Wellbeing Sleep Face Balm",
     subtitle: "Night-Time Restorative aromatherapy by Ground",
     price: 68.00,
-    rating: 5,
+    rating: 4.9,
     images: [
       "/ground recovery oil.webp"
     ],
@@ -209,7 +209,7 @@ export const PRODUCTS: Product[] = [
     name: "Olaplex No. 9 Bond Protector Serum",
     subtitle: "Anti-Damage Hair Shield by Olaplex",
     price: 24.00,
-    rating: 5,
+    rating: 4.4,
     images: [
       "/snail silk scalp mask.webp"
     ],
@@ -231,7 +231,7 @@ export const PRODUCTS: Product[] = [
     name: "Kérastase Nutritive Split-End Serum",
     subtitle: "High-Nutrition Ultra-Sealer by Kérastase",
     price: 24.00,
-    rating: 5,
+    rating: 4.6,
     images: [
       "/snail silk face serum.webp"
     ],
@@ -253,7 +253,7 @@ export const PRODUCTS: Product[] = [
     name: "The Velvet Spa Kit Pouch",
     subtitle: "Pure quilted graphite travel sleeve",
     price: 60.00,
-    rating: 5,
+    rating: 4.3,
     images: [
       "/the main image frame pouch.jpeg",
       "/the secondary insdert image frame.jpeg"
@@ -276,7 +276,7 @@ export const PRODUCTS: Product[] = [
     name: "H Salon Signature Styling Cap",
     subtitle: "Luxury Organic Cotton Cap by H Salon",
     price: 35.00,
-    rating: 5,
+    rating: 4.1,
     images: [
       "/cap h salon product image.jpg"
     ],
@@ -298,7 +298,7 @@ export const PRODUCTS: Product[] = [
     name: "H Salon Luxury Texture Comb",
     subtitle: "Hand-Carved Anti-Static Dressing Comb",
     price: 28.00,
-    rating: 5,
+    rating: 4.5,
     images: [
       "/h salon comb.webp"
     ],
@@ -320,7 +320,7 @@ export const PRODUCTS: Product[] = [
     name: "Hair and Scalp Circulation Set",
     subtitle: "Therapeutic Growth & Circulation Synergy",
     price: 169.00,
-    rating: 5,
+    rating: 4.8,
     images: [
       "/snail silk scalp oil.webp"
     ],
@@ -342,7 +342,7 @@ export const PRODUCTS: Product[] = [
     name: "Hair Growth Set",
     subtitle: "Active Root Nourishment & Volume Program",
     price: 88.00,
-    rating: 5,
+    rating: 4.7,
     images: [
       "/snail silk face serum.webp"
     ],
@@ -364,7 +364,7 @@ export const PRODUCTS: Product[] = [
     name: "Pure Balance Ritual: Face, Scalp & Hair",
     subtitle: "Sovereign Face, Scalp & Fiber Rejuvenation",
     price: 284.00,
-    rating: 5,
+    rating: 4.9,
     images: [
       "/snail silk scalp mask.webp"
     ],
@@ -386,7 +386,7 @@ export const PRODUCTS: Product[] = [
     name: "Scalp Care Bundle",
     subtitle: "Clinical Anti-Irritation & Detangle Set",
     price: 129.00,
-    rating: 5,
+    rating: 4.6,
     images: [
       "/snail silk face serum.webp"
     ],
@@ -408,7 +408,7 @@ export const PRODUCTS: Product[] = [
     name: "Scalp Massage Set",
     subtitle: "Deep Root Meridian Stimulation Combo",
     price: 108.00,
-    rating: 5,
+    rating: 4.5,
     images: [
       "/snail silk scalp oil.webp"
     ],

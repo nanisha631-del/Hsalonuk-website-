@@ -601,7 +601,8 @@ export default function Navbar({
                     hidden: {},
                     show: {
                       transition: {
-                        staggerChildren: 0.3, // Match custom sweet delay of 0.3s
+                        staggerChildren: 0.18, // sequential snappy sequence
+                        delayChildren: 0.25, // wait for dropdown to partially open
                       }
                     }
                   }}
@@ -613,13 +614,13 @@ export default function Navbar({
                     <motion.div 
                       key={product.id}
                       variants={{
-                        hidden: { opacity: 0, y: 40, filter: "blur(4px)", scale: 0.99 },
+                        hidden: { opacity: 0, y: 35, filter: "blur(3px)", scale: 0.99 },
                         show: { 
                           opacity: 1, 
                           y: 0, 
                           filter: "blur(0px)", 
                           scale: 1,
-                          transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] } 
+                          transition: { duration: 1.0, ease: [0.16, 1, 0.3, 1] } 
                         }
                       }}
                       style={{ willChange: "transform, opacity, filter" }}
@@ -634,7 +635,7 @@ export default function Navbar({
                           className="p-2"
                         />
                         <span className="absolute top-2 left-2 bg-[#82D8C5] text-brand-black text-[9px] font-extrabold px-1.5 py-0.5 rounded-xs tracking-wider uppercase z-20">
-                          ★ {product.rating}.0
+                          ★ {product.rating.toFixed(1)}
                         </span>
                       </div>
                       <h4 className="font-sans font-bold text-xs truncate text-brand-black group-hover:text-[#82D8C5] transition-colors">{product.name}</h4>
@@ -684,7 +685,8 @@ export default function Navbar({
                     hidden: {},
                     show: {
                       transition: {
-                        staggerChildren: 0.3, // Match custom sweet delay of 0.3s
+                        staggerChildren: 0.18, // sequential snappy sequence
+                        delayChildren: 0.25, // wait for dropdown to partially open
                       }
                     }
                   }}
@@ -696,13 +698,13 @@ export default function Navbar({
                     <motion.div 
                       key={product.id}
                       variants={{
-                        hidden: { opacity: 0, y: 40, filter: "blur(4px)", scale: 0.99 },
+                        hidden: { opacity: 0, y: 35, filter: "blur(3px)", scale: 0.99 },
                         show: { 
                           opacity: 1, 
                           y: 0, 
                           filter: "blur(0px)", 
                           scale: 1,
-                          transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] } 
+                          transition: { duration: 1.0, ease: [0.16, 1, 0.3, 1] } 
                         }
                       }}
                       style={{ willChange: "transform, opacity, filter" }}
@@ -717,7 +719,7 @@ export default function Navbar({
                           referrerPolicy="no-referrer"
                         />
                         <span className="absolute top-2 left-2 bg-[#82D8C5] text-brand-black text-[9px] font-extrabold px-1.5 py-0.5 rounded-xs tracking-wider uppercase">
-                          ★ {product.rating}.0
+                          ★ {product.rating.toFixed(1)}
                         </span>
                       </div>
                       <h4 className="font-sans font-bold text-xs truncate text-brand-black group-hover:text-[#82D8C5] transition-colors">{product.name}</h4>

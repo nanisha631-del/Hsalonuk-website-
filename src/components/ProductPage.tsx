@@ -318,11 +318,23 @@ export default function ProductPage({
               </span>
             )}
             
-            <div className="w-full h-full">
-              <ScrollZoomImage
-                src={product.images[selectedImageIdx]}
-                alt={product.name}
-              />
+            <div className="w-full h-full relative overflow-hidden">
+              <AnimatePresence mode="popLayout">
+                <motion.div
+                  key={selectedImageIdx}
+                  initial={{ opacity: 0, scale: 1.15 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                  className="w-full h-full absolute inset-0"
+                  style={{ willChange: "transform, opacity" }}
+                >
+                  <ScrollZoomImage
+                    src={product.images[selectedImageIdx]}
+                    alt={product.name}
+                  />
+                </motion.div>
+              </AnimatePresence>
             </div>
 
             {/* Slider arrows */}
