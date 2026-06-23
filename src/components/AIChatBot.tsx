@@ -54,11 +54,26 @@ export default function AIChatBot() {
       });
 
       if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.error || "Failed to communicate with support server.");
+        let errMsg = "Failed to communicate with support server.";
+        try {
+          const errorData = await res.json();
+          errMsg = errorData.error || errMsg;
+        } catch (_) {
+          try {
+            const txt = await res.text();
+            if (txt) errMsg = txt.slice(0, 100);
+          } catch (__) {}
+        }
+        throw new Error(errMsg);
       }
 
-      const data = await res.json();
+      let data;
+      try {
+        data = await res.json();
+      } catch (_) {
+        throw new Error("Invalid response format received from support server.");
+      }
+      
       setMessages((prev) => [...prev, { role: "lucas", content: data.reply }]);
     } catch (err: any) {
       console.error("Chat interface failure:", err);
