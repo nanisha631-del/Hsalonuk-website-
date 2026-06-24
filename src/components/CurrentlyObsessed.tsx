@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from "motion/react";
 import ScrollReveal from "./ScrollReveal";
 import { getShopifySettings } from "../shopifySettings";
 import AnimatedUnderline from "./AnimatedUnderline";
+import { useSharedState } from "../useSharedState";
 
 interface AccordionItem {
   id: string;
@@ -16,10 +17,12 @@ interface AccordionItem {
   subtitle: string;
   image: string;
   bgColor: string;
+  productId: string;
 }
 
 export default function CurrentlyObsessed() {
   const settings = getShopifySettings();
+  const { handleSelectProduct } = useSharedState();
   const [activeId, setActiveId] = useState("glow");
 
   const ITEMS: AccordionItem[] = [
@@ -28,28 +31,32 @@ export default function CurrentlyObsessed() {
       title: settings.obsessed_item_1_title || "CROWN GROWTH & SCALP",
       subtitle: settings.obsessed_item_1_subtitle || "Stimulating leave-in elixirs and cooling root therapy",
       image: settings.obsessed_item_1_img || "/01 frame.jpeg",
-      bgColor: "#E8D5C4" // Cream
+      bgColor: "#E8D5C4", // Cream
+      productId: "snail-silk-serum"
     },
     {
       id: "eyes",
       title: settings.obsessed_item_2_title || "DEEP NUTRITION GLOSS",
       subtitle: settings.obsessed_item_2_subtitle || "High-brilliance restorative hair oils and moisture drops",
       image: settings.obsessed_item_2_img || "/02 frame.jpeg",
-      bgColor: "#C1EDE2" // Soft pale mint green
+      bgColor: "#C1EDE2", // Soft pale mint green
+      productId: "halo-highlighter"
     },
     {
       id: "touches",
       title: settings.obsessed_item_3_title || "GROUNDING WELLBEING",
       subtitle: settings.obsessed_item_3_subtitle || "Aromatherapy overnight face oils and muscle reliefs",
       image: settings.obsessed_item_3_img || "/03 frame.jpeg",
-      bgColor: "#EBDCCB" // Cream/beige neutral
+      bgColor: "#EBDCCB", // Cream/beige neutral
+      productId: "ground-recovery-oil"
     },
     {
       id: "lips",
       title: settings.obsessed_item_4_title || "LUXURY SPA TOOLS",
       subtitle: settings.obsessed_item_4_subtitle || "Natural quartz gua shas and padded velvet kit pouches",
       image: settings.obsessed_item_4_img || "/04 frame.jpeg",
-      bgColor: "#D6F5EE" // Very light soft Ice-Mint green
+      bgColor: "#D6F5EE", // Very light soft Ice-Mint green
+      productId: "makeup-pouch"
     }
   ];
 
@@ -112,6 +119,7 @@ export default function CurrentlyObsessed() {
                     isActive ? "border-l-3 border-black pl-4" : "pl-1 hover:pl-2.5"
                   }`}
                   onMouseEnter={() => setActiveId(item.id)}
+                  onClick={() => handleSelectProduct(item.productId)}
                 >
                   <div className="flex justify-between items-center w-full">
                     <div className="flex flex-col">
@@ -148,7 +156,10 @@ export default function CurrentlyObsessed() {
           </div>
 
           {/* Right image display area - 65% width */}
-          <div className="md:col-span-7 relative aspect-[14/10] bg-black/5 overflow-hidden shadow-2xl border border-black/5">
+          <div 
+            className="md:col-span-7 relative aspect-[14/10] bg-black/5 overflow-hidden shadow-2xl border border-black/5 cursor-pointer group/img"
+            onClick={() => handleSelectProduct(activeItem.productId)}
+          >
             {ITEMS.map((item) => {
               const isActive = item.id === activeId;
               return (
@@ -163,6 +174,7 @@ export default function CurrentlyObsessed() {
                     scale: isActive ? 1 : 1.05,
                     filter: isActive ? "blur(0px)" : "blur(4px)"
                   }}
+                  whileHover={isActive ? { scale: 1.04 } : undefined}
                   transition={{ duration: 0.65, ease: [0.25, 1, 0.5, 1] }}
                   className="absolute inset-0 w-full h-full object-cover"
                   style={{ 
@@ -174,9 +186,9 @@ export default function CurrentlyObsessed() {
             })}
             
             {/* Absolute label accent */}
-            <div className="absolute bottom-6 left-6 bg-white/75 backdrop-blur-md px-5 py-3 text-xs uppercase tracking-widest font-sans border border-black/5 text-black flex items-center gap-2 shadow-md z-10">
+            <div className="absolute bottom-6 left-6 bg-white/75 hover:bg-white backdrop-blur-md px-5 py-3 text-xs uppercase tracking-widest font-sans border border-black/5 text-black flex items-center gap-2 shadow-md z-10 transition-all duration-300 group-hover/img:bg-white group-hover/img:translate-x-1">
               <span className="font-bold tracking-widest">{activeItem.title}</span>
-              <ArrowRight className="w-4 h-4 text-black" />
+              <ArrowRight className="w-4 h-4 text-black transition-transform duration-300 group-hover/img:translate-x-1" />
             </div>
           </div>
 

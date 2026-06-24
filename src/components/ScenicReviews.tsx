@@ -5,7 +5,7 @@
 
 import React, { useState, useRef } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "motion/react";
-import { Star, Check, ThumbsUp, MessageSquare, Award, ArrowLeftRight, Sparkles } from "lucide-react";
+import { Star, Check, ThumbsUp, MessageSquare, Award, ArrowLeftRight, Sparkles, Upload, X, Image as ImageIcon, Film } from "lucide-react";
 import { Product } from "../types";
 
 interface ScenicReviewsProps {
@@ -26,6 +26,8 @@ interface CustomReview {
   verified: boolean;
   tag: string;
   avatarLetter: string;
+  mediaUrl?: string;
+  mediaType?: "image" | "video" | null;
 }
 
 const getReviewsForProduct = (productId: string): CustomReview[] => {
@@ -588,11 +590,113 @@ const getReviewsForProduct = (productId: string): CustomReview[] => {
 };
 
 export default function ScenicReviews({ onAddToCart, onSelectProduct, product }: ScenicReviewsProps) {
-  const currentReviews = getReviewsForProduct(product?.id || "snail-silk-serum");
+  const [customReviews, setCustomReviews] = React.useState<CustomReview[]>([]);
+
+  React.useEffect(() => {
+    try {
+      const stored = localStorage.getItem(`custom_reviews_${product?.id || "snail-silk-serum"}`);
+      setCustomReviews(stored ? JSON.parse(stored) : []);
+    } catch (e) {
+      setCustomReviews([]);
+    }
+  }, [product?.id]);
+
+  const staticReviews = getReviewsForProduct(product?.id || "snail-silk-serum");
+  const currentReviews = [...customReviews, ...staticReviews];
 
   // Helpful states
   const [votedReviews, setVotedReviews] = useState<Record<string, boolean>>({});
   const [helpfulOverrides, setHelpfulOverrides] = useState<Record<string, number>>({});
+
+  // Form states for adding review
+  const [isWriteReviewOpen, setIsWriteReviewOpen] = useState(false);
+  const [newRating, setNewRating] = useState(5);
+  const [newAuthor, setNewAuthor] = useState("");
+  const [newLocation, setNewLocation] = useState("");
+  const [newTitle, setNewTitle] = useState("");
+  const [newContent, setNewContent] = useState("");
+  const [newTag, setNewTag] = useState("HONEST EXPERIENCES");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  
+  // Media states
+  const [newMediaUrl, setNewMediaUrl] = useState<string>("");
+  const [newMediaType, setNewMediaType] = useState<"image" | "video" | null>(null);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const fileType = file.type.startsWith("video/") ? "video" : "image";
+    setNewMediaType(fileType);
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      if (event.target?.result) {
+        setNewMediaUrl(event.target.result as string);
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleRemoveMedia = () => {
+    setNewMediaUrl("");
+    setNewMediaType(null);
+  };
+
+  const handleReviewSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newAuthor || !newTitle || !newContent) return;
+
+    setIsSubmitting(true);
+
+    // Simulate luxury brand review authentication and posting latency
+    setTimeout(() => {
+      const newReview: CustomReview = {
+        id: `custom-${Date.now()}`,
+        author: newAuthor,
+        location: newLocation || "Verified UK Client",
+        title: newTitle,
+        rating: newRating,
+        date: "Just now",
+        content: newContent,
+        helpfulCount: 0,
+        verified: true,
+        tag: newTag.toUpperCase() || "VERIFIED CUSTOMER",
+        avatarLetter: newAuthor.charAt(0).toUpperCase() || "C",
+        mediaUrl: newMediaUrl || undefined,
+        mediaType: newMediaType || undefined
+      };
+
+      const updated = [newReview, ...customReviews];
+      setCustomReviews(updated);
+
+      try {
+        localStorage.setItem(`custom_reviews_${product?.id || "snail-silk-serum"}`, JSON.stringify(updated));
+      } catch (err) {
+        console.error(err);
+      }
+
+      setIsSubmitting(false);
+      setSubmitSuccess(true);
+
+      // Reset form fields
+      setNewRating(5);
+      setNewAuthor("");
+      setNewLocation("");
+      setNewTitle("");
+      setNewContent("");
+      setNewTag("HONEST EXPERIENCES");
+      setNewMediaUrl("");
+      setNewMediaType(null);
+
+      // Close modal after 1.5s success visual feedback
+      setTimeout(() => {
+        setIsWriteReviewOpen(false);
+        setSubmitSuccess(false);
+      }, 1500);
+    }, 800);
+  };
 
   const handleHelpfulClick = (reviewId: string, e: React.MouseEvent) => {
     e.stopPropagation();
@@ -625,191 +729,281 @@ export default function ScenicReviews({ onAddToCart, onSelectProduct, product }:
       className="relative w-full bg-[#FCFAF7] border-t border-brand-black/5 select-none overflow-hidden"
     >
       {/* 
-        LAPTOP / DESKTOP VIEW: Scroll-Driven Horizontal Track (md and up)
-        Guaranteed smooth, lag-free, response directly mapped to physical page scroll
+        Write a Review Overlay Modal
       */}
-      <div className="hidden md:block relative h-[180vh] w-full bg-[#FCFAF7]">
-        <div className="sticky top-0 h-screen w-full flex flex-col justify-center overflow-hidden">
-          
-          {/* Header block within sticky view */}
-          <div className="max-w-7xl mx-auto px-12 md:px-24 mb-10 text-left w-full">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="bg-[#3D4A3E]/10 text-[#3D4A3E] text-[10px] font-sans font-black uppercase tracking-[0.25em] px-3.5 py-1 rounded-full border border-[#3D4A3E]/20 flex items-center gap-1.5 animate-pulse">
-                <Sparkles className="w-3 h-3 text-[#3D4A3E]" /> SCROLL-REVEAL EXPERIENCES
-              </span>
-              <span className="text-[10px] font-sans font-black uppercase tracking-wider text-[#82D8C5]">Authentic Client Logs</span>
-            </div>
-            
-            <h2 className="font-sans text-[36px] lg:text-[42px] font-black uppercase tracking-tight text-brand-black leading-tight">
-              The Client Sanctuary
-            </h2>
-            <p className="text-[13px] text-gray-500 font-sans max-w-xl mt-1.5 leading-relaxed">
-              Scroll down smoothly to review genuine ritual experiences recorded by our verified UK clients.
-            </p>
-          </div>
+      <AnimatePresence>
+        {isWriteReviewOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            {/* Backdrop with elegant soft dark blur */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => { if (!isSubmitting) setIsWriteReviewOpen(false); }}
+              className="absolute inset-0 bg-brand-black/45 backdrop-blur-md cursor-pointer"
+            />
 
-          {/* Smooth Horizontal Track */}
-          <div className="w-full relative flex items-center h-[350px]">
-            <motion.div 
-              style={{ x: translateXVal }} 
-              className="flex gap-8 px-12 md:px-24 w-max h-full items-center"
+            {/* Modal Body */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 15 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 15 }}
+              transition={{ type: "spring", damping: 25, stiffness: 350 }}
+              className="bg-[#FCFAF7] text-brand-black rounded-3xl w-full max-w-lg p-7 sm:p-8 relative shadow-2xl border border-brand-black/5 z-10 max-h-[90vh] overflow-y-auto scrollbar-none"
             >
-              {/* Optional Introductory Card */}
-              <div className="w-[320px] bg-[#3D4A3E] text-white rounded-3xl p-8 flex flex-col justify-between shrink-0 shadow-lg border border-[#3D4A3E]/40 text-left h-[300px]">
-                <div>
-                  <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center mb-6">
-                    <MessageSquare className="w-5 h-5 text-[#82D8C5]" />
-                  </div>
-                  <h3 className="font-sans text-[17px] font-black uppercase tracking-wider text-white leading-tight">
-                    Pure & Natural Formula Feedback
-                  </h3>
-                  <p className="text-[12px] opacity-85 mt-2.5 leading-relaxed font-sans">
-                    Formulations tailored specifically to {product?.name || "your hair type"} using authentic botanicals.
-                  </p>
-                </div>
-                <div className="flex items-center gap-1.5 text-[10.5px] font-mono tracking-wider text-[#82D8C5]">
-                  <span>100% EXCLUSIVE RATING</span>
-                </div>
+              {/* Close Button */}
+              <button
+                disabled={isSubmitting}
+                type="button"
+                onClick={() => setIsWriteReviewOpen(false)}
+                className="absolute top-5 right-5 w-8 h-8 rounded-full bg-brand-black/5 hover:bg-brand-black/10 flex items-center justify-center text-brand-black transition-colors cursor-pointer"
+              >
+                <span className="font-sans text-lg font-bold">×</span>
+              </button>
+
+              <div className="text-left">
+                <span className="text-[#3D4A3E] text-[9px] font-sans font-black uppercase tracking-[0.2em] bg-[#3D4A3E]/10 px-3 py-1 rounded-full border border-[#3D4A3E]/20 inline-flex items-center gap-1.5 mb-3">
+                  <Sparkles className="w-3 h-3 text-[#3D4A3E]" /> AUTHENTIC CLIENT FEEDBACK
+                </span>
+                <h3 className="font-sans text-2xl font-black uppercase tracking-tight text-brand-black leading-tight">
+                  Share Your Ritual
+                </h3>
+                <p className="text-[11.5px] text-gray-400 font-sans mt-1 leading-normal">
+                  Record your honest formulation review for <span className="font-bold text-brand-black">{product?.name}</span>.
+                </p>
               </div>
 
-              {/* Verified Product specific reviews in continuous flow */}
-              {currentReviews.map((rev) => {
-                const helpfulCount = rev.helpfulCount + (helpfulOverrides[rev.id] || 0);
-                const isVoted = votedReviews[rev.id];
+              {submitSuccess ? (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="py-12 flex flex-col items-center justify-center text-center space-y-4"
+                >
+                  <div className="w-16 h-16 rounded-full bg-[#82D8C5]/20 flex items-center justify-center text-[#3D4A3E] border border-[#82D8C5]/30">
+                    <Check className="w-8 h-8 text-[#3D4A3E]" />
+                  </div>
+                  <div>
+                    <h4 className="font-sans text-[15px] font-black uppercase tracking-wider text-brand-black">Review Published Live!</h4>
+                    <p className="text-xs text-gray-500 mt-1">Thank you. Your authentic experience has been recorded successfully.</p>
+                  </div>
+                </motion.div>
+              ) : (
+                <form onSubmit={handleReviewSubmit} className="mt-6 space-y-5 text-left">
+                  {/* Rating Selector */}
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] font-sans font-black uppercase tracking-widest text-brand-black/60 block">Rating</label>
+                    <div className="flex items-center gap-1.5">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <button
+                          key={star}
+                          type="button"
+                          onClick={() => setNewRating(star)}
+                          className="p-1 hover:scale-110 transition-transform cursor-pointer text-[#82D8C5]"
+                        >
+                          <Star
+                            className={`w-6 h-6 ${
+                              star <= newRating ? "text-[#82D8C5] fill-[#82D8C5]" : "text-gray-200"
+                            }`}
+                          />
+                        </button>
+                      ))}
+                    </div>
+                  </div>
 
-                return (
-                  <div
-                    key={rev.id}
-                    className="w-[340px] h-[300px] bg-white border border-brand-black/5 rounded-3xl p-7 flex flex-col justify-between hover:border-[#3D4A3E]/30 transition-all duration-300 shadow-xs hover:shadow-lg text-left bg-gradient-to-br from-white to-[#FCFAF7]/40 shrink-0"
-                  >
-                    <div>
-                      {/* Rating details */}
-                      <div className="flex justify-between items-center mb-4">
-                        <div className="flex items-center gap-0.5">
-                          {[...Array(5)].map((_, i) => (
-                            <Star
-                              key={i}
-                              className={`w-3.5 h-3.5 ${
-                                i < rev.rating ? "text-[#EEDBC5] fill-[#EEDBC5]" : "text-gray-200"
-                              }`}
+                  {/* Title */}
+                  <div className="space-y-1">
+                    <label className="text-[10px] font-sans font-black uppercase tracking-widest text-brand-black/60 block">Review Headline</label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g., Cured my dry skin instantly!"
+                      value={newTitle}
+                      onChange={(e) => setNewTitle(e.target.value)}
+                      className="w-full bg-white/70 border border-brand-black/10 rounded-xl px-4 py-2.5 text-xs font-sans text-brand-black focus:outline-none focus:border-[#3D4A3E] transition-all"
+                    />
+                  </div>
+
+                  {/* Content */}
+                  <div className="space-y-1">
+                    <label className="text-[10px] font-sans font-black uppercase tracking-widest text-brand-black/60 block">Your Experience</label>
+                    <textarea
+                      required
+                      rows={3}
+                      placeholder="Share your experience using this formulation..."
+                      value={newContent}
+                      onChange={(e) => setNewContent(e.target.value)}
+                      className="w-full bg-white/70 border border-brand-black/10 rounded-xl px-4 py-2.5 text-xs font-sans text-brand-black focus:outline-none focus:border-[#3D4A3E] transition-all resize-none"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    {/* Author Name */}
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-sans font-black uppercase tracking-widest text-brand-black/60 block">Your Name</label>
+                      <input
+                        type="text"
+                        required
+                        placeholder="e.g., Charlotte H."
+                        value={newAuthor}
+                        onChange={(e) => setNewAuthor(e.target.value)}
+                        className="w-full bg-white/70 border border-brand-black/10 rounded-xl px-4 py-2.5 text-xs font-sans text-brand-black focus:outline-none focus:border-[#3D4A3E] transition-all"
+                      />
+                    </div>
+
+                    {/* Location */}
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-sans font-black uppercase tracking-widest text-brand-black/60 block">Location</label>
+                      <input
+                        type="text"
+                        placeholder="e.g., Kensington, London"
+                        value={newLocation}
+                        onChange={(e) => setNewLocation(e.target.value)}
+                        className="w-full bg-white/70 border border-brand-black/10 rounded-xl px-4 py-2.5 text-xs font-sans text-brand-black focus:outline-none focus:border-[#3D4A3E] transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Review Tag Category Selection */}
+                  <div className="space-y-1">
+                    <label className="text-[10px] font-sans font-black uppercase tracking-widest text-brand-black/60 block">Core Result Tag</label>
+                    <select
+                      value={newTag}
+                      onChange={(e) => setNewTag(e.target.value)}
+                      className="w-full bg-white/70 border border-brand-black/10 rounded-xl px-3.5 py-2.5 text-xs font-sans text-brand-black focus:outline-none focus:border-[#3D4A3E] transition-all"
+                    >
+                      <option value="HONEST EXPERIENCES">HONEST EXPERIENCES</option>
+                      <option value="TENSION RELIEF">TENSION RELIEF</option>
+                      <option value="WEIGHTLESS EFFECT">WEIGHTLESS EFFECT</option>
+                      <option value="THERAPEUTIC">THERAPEUTIC</option>
+                      <option value="SILK SMOOTHING">SILK SMOOTHING</option>
+                      <option value="ANTI-FLAKE">ANTI-FLAKE</option>
+                      <option value="BARRIER HYDRATION">BARRIER HYDRATION</option>
+                      <option value="LUMINOSITY GLOW">LUMINOSITY GLOW</option>
+                      <option value="HEAT DEFENSE">HEAT DEFENSE</option>
+                      <option value="FRIZZ CONTROL">FRIZZ CONTROL</option>
+                      <option value="MORNING GLOW">MORNING GLOW</option>
+                      <option value="MEMBRANE REPAIR">MEMBRANE REPAIR</option>
+                      <option value="REDNESS CALMING">REDNESS CALMING</option>
+                    </select>
+                  </div>
+
+                  {/* Elegant File Upload Section */}
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] font-sans font-black uppercase tracking-widest text-brand-black/60 block">Add Photo or Video</label>
+                    <div className="relative border border-dashed border-brand-black/10 rounded-xl p-4 bg-white/50 flex flex-col items-center justify-center transition-all hover:bg-white/80">
+                      {newMediaUrl ? (
+                        <div className="relative w-full rounded-lg overflow-hidden border border-brand-black/5 bg-brand-black/5">
+                          {newMediaType === "video" ? (
+                            <video 
+                              src={newMediaUrl} 
+                              controls 
+                              className="w-full max-h-48 object-contain mx-auto rounded-lg"
                             />
-                          ))}
+                          ) : (
+                            <img 
+                              src={newMediaUrl} 
+                              alt="Review upload preview" 
+                              className="w-full max-h-48 object-contain mx-auto rounded-lg"
+                              referrerPolicy="no-referrer"
+                            />
+                          )}
+                          <button
+                            type="button"
+                            onClick={handleRemoveMedia}
+                            className="absolute top-2 right-2 p-1.5 bg-brand-black/70 hover:bg-brand-black text-white rounded-full transition-colors cursor-pointer shadow-md"
+                          >
+                            <X className="w-3.5 h-3.5" />
+                          </button>
                         </div>
-                        <span className="text-[9px] font-mono font-bold tracking-wider text-[#3D4A3E] bg-[#3D4A3E]/5 px-2.5 py-0.5 rounded-full border border-[#3D4A3E]/10 uppercase">
-                          {rev.tag}
-                        </span>
-                      </div>
-
-                      {/* Review Title & Content */}
-                      <h4 className="font-sans text-[12.5px] font-bold uppercase tracking-wide text-brand-black leading-snug mb-2">
-                        "{rev.title}"
-                      </h4>
-                      <p className="text-[12px] text-gray-500 font-sans leading-relaxed line-clamp-4">
-                        {rev.content}
-                      </p>
+                      ) : (
+                        <label className="flex flex-col items-center justify-center gap-1.5 cursor-pointer w-full py-2">
+                          <Upload className="w-5 h-5 text-gray-400" />
+                          <span className="text-xs text-gray-500 font-sans font-medium">Click to upload image or video</span>
+                          <span className="text-[9px] text-gray-400 font-sans">Supports JPG, PNG, MP4</span>
+                          <input
+                            type="file"
+                            accept="image/*,video/*"
+                            onChange={handleFileChange}
+                            className="hidden"
+                          />
+                        </label>
+                      )}
                     </div>
-
-                    {/* Member footer */}
-                    <div className="border-t border-brand-black/5 pt-4 flex items-center justify-between">
-                      <div className="flex items-center gap-2.5">
-                        <div className="w-8 h-8 rounded-full bg-[#EDEDE9] flex items-center justify-center font-serif text-[12px] font-bold text-[#3D4A3E] border border-brand-black/5 shrink-0">
-                          {rev.avatarLetter}
-                        </div>
-                        <div>
-                          <span className="font-sans font-bold text-[11.5px] text-brand-black block leading-none">
-                            {rev.author}
-                          </span>
-                          <span className="text-[9px] text-gray-400 font-sans block mt-1">
-                            {rev.location}
-                          </span>
-                        </div>
-                      </div>
-
-                      <button
-                        onClick={(e) => handleHelpfulClick(rev.id, e)}
-                        className={`flex items-center gap-1 px-2.5 py-1 rounded-lg border text-[10px] cursor-pointer select-none font-bold transition-all ${
-                          isVoted
-                            ? "bg-[#3D4A3E]/10 border-[#3D4A3E]/35 text-[#3D4A3E]"
-                            : "border-brand-black/5 hover:border-[#3D4A3E]/30 text-gray-400 hover:text-[#3D4A3E]"
-                        }`}
-                      >
-                        <ThumbsUp className="w-2.5 h-2.5" />
-                        Helpful ({helpfulCount})
-                      </button>
-                    </div>
-
                   </div>
-                );
-              })}
 
-              {/* End of Track Luxury Stamp Card */}
-              <div className="w-[300px] h-[300px] bg-[#FCFAF7] border border-dashed border-brand-black/10 rounded-3xl p-8 flex flex-col justify-between shrink-0 text-left">
-                <div className="space-y-4">
-                  <span className="text-[9px] font-bold font-mono text-[#3D4A3E]/50 tracking-[0.2em] block uppercase">BRITISH TRICHOLOGY SEAL</span>
-                  <div className="flex -space-x-2">
-                    <span className="w-7 h-7 rounded-full bg-[#82D8C5]/20 flex items-center justify-center border border-white text-[10px] font-black text-brand-black">S</span>
-                    <span className="w-7 h-7 rounded-full bg-[#EEDBC5]/20 flex items-center justify-center border border-white text-[10px] font-black text-brand-black">H</span>
-                    <span className="w-7 h-7 rounded-full bg-[#9A8FB7]/20 flex items-center justify-center border border-white text-[10px] font-black text-brand-black">O</span>
-                  </div>
-                  <h4 className="font-sans text-[13px] font-black uppercase tracking-wider text-brand-black leading-tight">Verified Shopify Reviews</h4>
-                  <p className="text-[11px] text-gray-400 font-sans mt-1 leading-normal">
-                    Secure order history linkage maintains absolute authenticity. No simulated reviews permitted.
-                  </p>
-                </div>
-                <div className="text-[10px] text-gray-400 font-sans border-t border-brand-black/5 pt-3">
-                  All items tested under dry climate stressors.
-                </div>
-              </div>
+                  {/* Submit Button */}
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full bg-[#3D4A3E] hover:bg-brand-black text-white py-3 px-4 rounded-xl text-xs font-sans font-bold tracking-widest uppercase transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2 cursor-pointer border border-[#3D4A3E]/10 disabled:opacity-50"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        <span>Verifying checkout & submitting...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="w-3.5 h-3.5 text-[#82D8C5]" />
+                        <span>Submit Live Review</span>
+                      </>
+                    )}
+                  </button>
+                </form>
+              )}
             </motion.div>
           </div>
+        )}
+      </AnimatePresence>
 
+      {/* Unified responsive elegant review grid for both laptop and mobile */}
+      <div className="max-w-7xl mx-auto px-5 sm:px-12 md:px-24 py-16 text-left">
+        {/* Header Block */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <span className="bg-[#3D4A3E]/10 text-[#3D4A3E] text-[10px] font-sans font-black uppercase tracking-[0.25em] px-3.5 py-1 rounded-full border border-[#3D4A3E]/20 flex items-center gap-1.5">
+                <Sparkles className="w-3 h-3 text-[#3D4A3E]" /> CLIENT TRUST REPORT
+              </span>
+              <span className="text-[10px] font-sans font-black uppercase tracking-wider text-brand-black/40">Authentic Experiences</span>
+            </div>
+            <h2 className="font-sans text-[28px] sm:text-[34px] lg:text-[40px] font-black uppercase tracking-tight text-brand-black leading-none">
+              The Client Sanctuary
+            </h2>
+            <p className="text-[12.5px] text-gray-500 font-sans max-w-xl leading-relaxed">
+              Honest ritual experiences recorded by our verified clients. All updates are applied in real time.
+            </p>
+          </div>
+          <button 
+            type="button"
+            onClick={() => setIsWriteReviewOpen(true)}
+            className="bg-[#3D4A3E] text-white hover:bg-[#2F3A30] px-6 py-3.5 rounded-full text-xs font-sans font-bold tracking-widest uppercase transition-all duration-300 shadow-md hover:shadow-lg flex items-center gap-2 cursor-pointer border border-[#3D4A3E]/10 hover:scale-105 shrink-0 self-start md:self-auto"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-[#82D8C5]" /> Write a Review
+          </button>
         </div>
-      </div>
 
-      {/* 
-        MOBILE OR SMARTPHONE VIEW: Smooth Horizontal Scroll-Snap (under md breakpoint)
-        Zero sticky complexity, high performance native GPU scrolling, no lagging!
-      */}
-      <div className="block md:hidden py-12 px-5">
-        
-        {/* Mobile Header Block */}
-        <div className="text-left mb-6">
-          <span className="bg-[#3D4A3E]/10 text-[#3D4A3E] text-[9px] font-sans font-extrabold uppercase tracking-[0.2em] px-3 py-1 rounded-full border border-[#3D4A3E]/20 inline-flex items-center gap-1 mb-2 leading-none">
-            <Sparkles className="w-3 h-3 text-[#3D4A3E]" /> DYNAMIC REVIEWS
-          </span>
-          <h2 className="font-sans text-[26px] font-black uppercase tracking-tight text-brand-black leading-tight">
-            Client Sanctuary
-          </h2>
-          <span className="font-sans text-[11px] font-bold uppercase tracking-wider text-[#82D8C5] block mt-1">Verified Client Feedback for {product?.name}</span>
-        </div>
-
-        {/* Swipe Guidance Helper */}
-        <div className="flex items-center gap-1.5 text-[9.5px] text-gray-400 uppercase tracking-widest font-sans mb-4">
-          <ArrowLeftRight className="w-3.5 h-3.5" />
-          <span>Swipe left to scroll reviews</span>
-        </div>
-
-        {/* Scroll-Snap Horizontal Container - 100% lag-free since it runs on native browser scrolling */}
-        <div className="flex overflow-x-auto gap-4 snap-x snap-mandatory pt-2 pb-6 scrollbar-none scroll-smooth">
-          
-          {/* Introductory Card */}
-          <div className="w-[85vw] bg-[#3D4A3E] text-white rounded-3xl p-6 snap-start shrink-0 flex flex-col justify-between text-left h-[280px]">
+        {/* Responsive Grid containing cute, aesthetic cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {/* Static Intro Card */}
+          <div className="bg-[#3D4A3E] text-white rounded-3xl p-6 flex flex-col justify-between shadow-md border border-[#3D4A3E]/40 text-left min-h-[290px] hover:shadow-lg transition-shadow duration-300">
             <div>
-              <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center mb-6">
-                <MessageSquare className="w-5 h-5 text-[#82D8C5]" />
+              <div className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center mb-4">
+                <MessageSquare className="w-4.5 h-4.5 text-[#82D8C5]" />
               </div>
-              <h3 className="font-sans text-[15px] font-black uppercase tracking-wider text-white leading-tight">
-                Pure Scalp & Hair Apothecary Reports
+              <h3 className="font-sans text-[14px] font-black uppercase tracking-wider text-white leading-tight">
+                Pure & Natural Formula Feedback
               </h3>
-              <p className="text-[12px] opacity-85 mt-2 leading-relaxed">
-                Proven results verified directly from premium hair wellness routine schedules in the UK.
+              <p className="text-[11.5px] opacity-85 mt-2 leading-relaxed font-sans">
+                Formulations tailored specifically to {product?.name || "your hair type"} using authentic botanicals.
               </p>
             </div>
-            <span className="text-[9px] font-mono tracking-widest text-[#82D8C5] uppercase">
-              Swipe to begin · Verified records
-            </span>
+            <div className="flex items-center gap-1.5 text-[10px] font-mono tracking-wider text-[#82D8C5]">
+              <span>100% EXCLUSIVE RATING</span>
+            </div>
           </div>
 
+          {/* Map currentReviews */}
           {currentReviews.map((rev) => {
             const helpfulCount = rev.helpfulCount + (helpfulOverrides[rev.id] || 0);
             const isVoted = votedReviews[rev.id];
@@ -817,43 +1011,68 @@ export default function ScenicReviews({ onAddToCart, onSelectProduct, product }:
             return (
               <div
                 key={rev.id}
-                className="w-[85vw] h-[280px] bg-white border border-brand-black/5 rounded-3xl p-6 snap-start shrink-0 flex flex-col justify-between text-left shadow-xs"
+                className="bg-white border border-brand-black/5 rounded-3xl p-5 flex flex-col justify-between hover:border-[#3D4A3E]/30 transition-all duration-300 shadow-sm hover:shadow-md text-left bg-gradient-to-br from-white to-[#FCFAF7]/40 min-h-[290px]"
               >
                 <div>
+                  {/* Rating details */}
                   <div className="flex justify-between items-center mb-3">
                     <div className="flex items-center gap-0.5">
                       {[...Array(5)].map((_, i) => (
                         <Star
                           key={i}
-                          className={`w-3 h-3 ${
-                            i < rev.rating ? "text-[#EEDBC5] fill-[#EEDBC5]" : "text-gray-200"
+                          className={`w-3.5 h-3.5 ${
+                            i < rev.rating ? "text-[#82D8C5] fill-[#82D8C5]" : "text-gray-200"
                           }`}
                         />
                       ))}
                     </div>
-                    <span className="text-[8px] font-mono font-bold tracking-wider text-[#3D4A3E] bg-[#3D4A3E]/5 px-2 py-0.5 rounded-full border border-[#3D4A3E]/10 uppercase">
+                    <span className="text-[8.5px] font-mono font-bold tracking-wider text-[#3D4A3E] bg-[#3D4A3E]/5 px-2.5 py-0.5 rounded-full border border-[#3D4A3E]/10 uppercase">
                       {rev.tag}
                     </span>
                   </div>
 
-                  <h4 className="font-sans text-[12.5px] font-bold uppercase tracking-wide text-brand-black leading-tight mb-1.5 line-clamp-1">
+                  {/* Review Title & Content */}
+                  <h4 className="font-sans text-[12px] font-bold uppercase tracking-wide text-brand-black leading-snug mb-1.5">
                     "{rev.title}"
                   </h4>
-                  <p className="text-[11.5px] text-gray-500 font-sans leading-relaxed line-clamp-4">
+                  <p className="text-[11px] text-gray-500 font-sans leading-relaxed">
                     {rev.content}
                   </p>
+
+                  {/* Render optional media attachments */}
+                  {rev.mediaUrl && (
+                    <div className="mt-3.5 overflow-hidden rounded-2xl border border-brand-black/5 bg-brand-black/5">
+                      {rev.mediaType === "video" ? (
+                        <video 
+                          src={rev.mediaUrl} 
+                          controls 
+                          playsInline 
+                          muted 
+                          className="w-full h-36 object-cover hover:scale-102 transition-transform duration-300"
+                        />
+                      ) : (
+                        <img 
+                          src={rev.mediaUrl} 
+                          alt="Customer uploaded review attachment" 
+                          referrerPolicy="no-referrer"
+                          className="w-full h-36 object-cover hover:scale-102 transition-transform duration-300"
+                        />
+                      )}
+                    </div>
+                  )}
                 </div>
 
-                <div className="border-t border-brand-black/5 pt-3.5 flex items-center justify-between">
+                {/* Member footer */}
+                <div className="border-t border-brand-black/5 pt-3.5 mt-4 flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <div className="w-7 h-7 rounded-full bg-[#EDEDE9] flex items-center justify-center font-serif text-[11px] font-extrabold text-[#3D4A3E]">
+                    <div className="w-7 h-7 rounded-full bg-[#EDEDE9] flex items-center justify-center font-serif text-[11px] font-bold text-[#3D4A3E] border border-brand-black/5 shrink-0">
                       {rev.avatarLetter}
                     </div>
                     <div>
                       <span className="font-sans font-bold text-[11px] text-brand-black block leading-none">
                         {rev.author}
                       </span>
-                      <span className="text-[8.5px] text-gray-400 font-sans block mt-0.5">
+                      <span className="text-[8px] text-gray-400 font-sans block mt-0.5">
                         {rev.location}
                       </span>
                     </div>
@@ -861,46 +1080,39 @@ export default function ScenicReviews({ onAddToCart, onSelectProduct, product }:
 
                   <button
                     onClick={(e) => handleHelpfulClick(rev.id, e)}
-                    className={`flex items-center gap-1 px-3 py-1 rounded-lg border text-[9px] cursor-pointer font-extrabold ${
+                    className={`flex items-center gap-1 px-2 py-0.5 rounded-lg border text-[9px] cursor-pointer select-none font-bold transition-all ${
                       isVoted
                         ? "bg-[#3D4A3E]/10 border-[#3D4A3E]/35 text-[#3D4A3E]"
-                        : "border-brand-black/5 text-[#3D4A3E] bg-white h-full"
+                        : "border-brand-black/5 hover:border-[#3D4A3E]/30 text-gray-400 hover:text-[#3D4A3E]"
                     }`}
                   >
                     <ThumbsUp className="w-2.5 h-2.5" />
-                    Helpful ({helpfulCount})
+                    <span>Helpful ({helpfulCount})</span>
                   </button>
                 </div>
-
               </div>
             );
           })}
 
-          {/* End stamp card */}
-          <div className="w-[85vw] h-[280px] bg-[#FCFAF7] border border-dashed border-brand-black/10 rounded-3xl p-6 snap-start shrink-0 flex flex-col justify-between text-left">
-            <div>
-              <span className="text-[8px] font-bold font-mono text-[#3D4A3E]/50 tracking-[0.2em] block uppercase mb-1.5">ORGANIC CALM STANDARDS</span>
-              <h4 className="font-sans text-[13px] font-black uppercase tracking-wider text-brand-black leading-tight">Verified Shopify Accounts Only</h4>
-              <p className="text-[11px] text-gray-400 font-sans mt-2 leading-relaxed">
-                All reviews originate from buyers authenticated via checkout. Our formulas deliver real visual confidence.
+          {/* Extra Decorative Seal Card */}
+          <div className="bg-[#FCFAF7] border border-dashed border-brand-black/10 rounded-3xl p-6 flex flex-col justify-between text-left min-h-[290px]">
+            <div className="space-y-3">
+              <span className="text-[8px] font-bold font-mono text-[#3D4A3E]/50 tracking-[0.2em] block uppercase">BRITISH TRICHOLOGY SEAL</span>
+              <div className="flex -space-x-1.5">
+                <span className="w-6.5 h-6.5 rounded-full bg-[#82D8C5]/20 flex items-center justify-center border border-white text-[9px] font-black text-brand-black">S</span>
+                <span className="w-6.5 h-6.5 rounded-full bg-[#EEDBC5]/20 flex items-center justify-center border border-white text-[9px] font-black text-brand-black">H</span>
+                <span className="w-6.5 h-6.5 rounded-full bg-[#9A8FB7]/20 flex items-center justify-center border border-white text-[9px] font-black text-brand-black">O</span>
+              </div>
+              <h4 className="font-sans text-[12px] font-black uppercase tracking-wider text-brand-black leading-tight">Verified Shopify Reviews</h4>
+              <p className="text-[10.5px] text-gray-400 font-sans leading-normal">
+                Secure order history linkage maintains absolute authenticity. No simulated reviews permitted.
               </p>
             </div>
-            <div className="text-[9px] text-gray-400 font-sans border-t border-brand-black/5 pt-3">
-              30-day money-back guarantee seal.
+            <div className="text-[9.5px] text-gray-400 font-sans border-t border-brand-black/5 pt-3">
+              All items tested under dry climate stressors.
             </div>
           </div>
-
         </div>
-
-        {/* Visual Swipe Indicators */}
-        <div className="flex justify-center gap-1 mt-1 opacity-70">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#3D4A3E]" />
-          <span className="w-1.5 h-1.5 rounded-full bg-gray-300" />
-          <span className="w-1.5 h-1.5 rounded-full bg-gray-300" />
-          <span className="w-1.5 h-1.5 rounded-full bg-gray-300" />
-          <span className="w-1.5 h-1.5 rounded-full bg-gray-300" />
-        </div>
-
       </div>
 
     </section>

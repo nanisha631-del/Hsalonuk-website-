@@ -8,6 +8,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import ScrollReveal from "./ScrollReveal";
 import AnimatedUnderline from "./AnimatedUnderline";
+import { useSharedState } from "../useSharedState";
 
 interface CategoryItem {
   id: string;
@@ -15,6 +16,8 @@ interface CategoryItem {
   subtitle: string;
   image: string;
   products: string;
+  categoryId: string;
+  productId: string;
 }
 
 const CATEGORIES: CategoryItem[] = [
@@ -23,25 +26,32 @@ const CATEGORIES: CategoryItem[] = [
     title: "SCALP & ROOT ELIXIRS",
     subtitle: "RESTORE BALANCED CROWNS",
     image: "/snail silk scalp oil.webp",
-    products: "Oribe Serene Scalp • Root Cooling Masques • Power Drops"
+    products: "Oribe Serene Scalp • Root Cooling Masques • Power Drops",
+    categoryId: "scalp-care",
+    productId: "snail-silk-scalp-oil"
   },
   {
     id: "face",
     title: "WELLBEING SKIN CARE",
     subtitle: "DEEP CELLULAR HYDRATION",
     image: "/ground recovery oil.webp",
-    products: "Ground Face Oils • Active Recovery Body Oils • Sleep Bed Balms"
+    products: "Ground Face Oils • Active Recovery Body Oils • Sleep Bed Balms",
+    categoryId: "recovery-botanicals",
+    productId: "ground-recovery-oil"
   },
   {
     id: "eyes",
     title: "RESTORE & GLOSS CARE",
     subtitle: "REBUILD HAIR FIBER INTEGRITY",
     image: "/snail silk face serum.webp",
-    products: "Kérastase Elixir Ultime • Chronologiste Pearls • Olaplex Shields"
+    products: "Kérastase Elixir Ultime • Chronologiste Pearls • Olaplex Shields",
+    categoryId: "hair-oils",
+    productId: "snail-silk-serum"
   }
 ];
 
 export default function HoverAccordion() {
+  const { updateState, handleSelectProduct } = useSharedState();
   const [activeCat, setActiveCat] = useState<CategoryItem>(CATEGORIES[0]);
 
   return (
@@ -70,6 +80,7 @@ export default function HoverAccordion() {
                   key={cat.id}
                   className="group py-3 sm:py-4 border-b border-brand-black/10 last:border-0 cursor-pointer"
                   onMouseEnter={() => setActiveCat(cat)}
+                  onClick={() => handleSelectProduct(cat.productId)}
                 >
                   <div
                     className="flex flex-col transition-all duration-300"
@@ -108,7 +119,10 @@ export default function HoverAccordion() {
           </div>
 
           {/* Right image projection panel (70% column span 7) representing 1:1 on mobile, 16:9 aspect-video on laptop */}
-          <div className="md:col-span-8 w-full max-w-full md:max-w-2xl mx-auto aspect-square md:aspect-video relative bg-[#F7F7F9]/80 overflow-hidden shadow-xs rounded-[16px] border border-brand-black/5 flex items-center justify-center">
+          <div 
+            className="md:col-span-8 w-full max-w-full md:max-w-2xl mx-auto aspect-square md:aspect-video relative bg-[#F7F7F9]/80 overflow-hidden shadow-xs rounded-[16px] border border-brand-black/5 flex items-center justify-center cursor-pointer group/img-panel"
+            onClick={() => handleSelectProduct(activeCat.productId)}
+          >
             <AnimatePresence mode="wait">
               <motion.img
                 key={activeCat.id}
@@ -119,14 +133,21 @@ export default function HoverAccordion() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3, ease: "easeOut" }}
-                className="w-full h-full object-contain p-4 md:p-6"
+                className="w-full h-full object-contain p-4 md:p-6 transition-transform duration-500 group-hover/img-panel:scale-105"
               />
             </AnimatePresence>
 
-            <div className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-md px-3.5 py-1.5 border border-brand-black/5 flex items-center gap-1.5 text-[10px] uppercase tracking-widest font-sans font-black text-brand-black rounded-full shadow-xs hover:bg-white transition-colors">
+            <button 
+              className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-md px-4 py-2 border border-brand-black/5 flex items-center gap-1.5 text-[10px] uppercase tracking-widest font-sans font-black text-brand-black rounded-full shadow-md hover:bg-white transition-all hover:scale-105 duration-300 cursor-pointer z-10"
+              onClick={(e) => {
+                e.stopPropagation();
+                updateState({ currentView: "shop_all", selectedCategory: activeCat.categoryId });
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+            >
               <span>View collection</span>
-              <ArrowRight className="w-3.5 h-3.5 text-brand-lilac" />
-            </div>
+              <ArrowRight className="w-3.5 h-3.5 text-brand-lilac transition-transform duration-300 group-hover/img-panel:translate-x-1" />
+            </button>
           </div>
 
         </div>

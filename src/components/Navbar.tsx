@@ -22,6 +22,7 @@ import { getShopifySettings } from "../shopifySettings";
 import { PRODUCTS } from "../data";
 import { Product } from "../types";
 import ScrollZoomImage from "./ScrollZoomImage";
+import AnimatedCounter from "./AnimatedCounter";
 import { useSharedState, CurrencyCode, formatPrice, CURRENCY_MAP } from "../useSharedState";
 
 const COUNTRY_CURRENCY_MAP: Record<CurrencyCode, { country: string; label: string; mobileLabel: string }> = {
@@ -29,6 +30,13 @@ const COUNTRY_CURRENCY_MAP: Record<CurrencyCode, { country: string; label: strin
   GBP: { country: "United Kingdom", label: "GBP £", mobileLabel: "UK | £" },
   EUR: { country: "Europe", label: "EUR €", mobileLabel: "EU | €" },
   CAD: { country: "Canada", label: "CAD CA$", mobileLabel: "CA | $" },
+  AUD: { country: "Australia", label: "AUD A$", mobileLabel: "AU | $" },
+  JPY: { country: "Japan", label: "JPY ¥", mobileLabel: "JP | ¥" },
+  SGD: { country: "Singapore", label: "SGD S$", mobileLabel: "SG | $" },
+  INR: { country: "India", label: "INR ₹", mobileLabel: "IN | ₹" },
+  AED: { country: "U.A.E.", label: "AED د.إ", mobileLabel: "AE | د.إ" },
+  CHF: { country: "Switzerland", label: "CHF", mobileLabel: "CH | CHF" },
+  NZD: { country: "New Zealand", label: "NZD NZ$", mobileLabel: "NZ | $" },
 };
 
 interface NavbarProps {
@@ -331,7 +339,7 @@ export default function Navbar({
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 8, scale: 0.95 }}
                   transition={{ duration: 0.2, ease: "easeOut" }}
-                  className="absolute right-0 mt-2 w-56 sm:w-60 bg-white border border-brand-black/10 rounded-lg shadow-xl py-2 z-50 overflow-hidden font-sans"
+                  className="absolute right-0 mt-2 w-56 sm:w-60 bg-white border border-brand-black/10 rounded-lg shadow-xl py-2 z-50 max-h-72 overflow-y-auto font-sans"
                 >
                   {Object.entries(COUNTRY_CURRENCY_MAP).map(([code, config]) => (
                     <button
@@ -796,11 +804,15 @@ export default function Navbar({
                   </div>
                   <div className="flex gap-4 border-t border-brand-black/5 pt-3.5 mt-3.5 select-none">
                     <div>
-                      <span className="font-serif italic font-black text-xl text-brand-black block">94%</span>
+                      <span className="font-serif italic font-black text-xl text-brand-black block">
+                        <AnimatedCounter value="94%" />
+                      </span>
                       <span className="text-[8.5px] font-sans text-gray-400 uppercase tracking-wider block font-black">Volume Increase</span>
                     </div>
                     <div>
-                      <span className="font-serif italic font-black text-xl text-brand-black block">98%</span>
+                      <span className="font-serif italic font-black text-xl text-brand-black block">
+                        <AnimatedCounter value="98%" />
+                      </span>
                       <span className="text-[8.5px] font-sans text-gray-400 uppercase tracking-wider block font-black">Scalp Relief</span>
                     </div>
                   </div>

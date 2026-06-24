@@ -20,21 +20,75 @@ async function startServer() {
     
     // Helper function for ultra-premium simulated support response
     const getFallbackSupportResponse = (msg: string): string => {
-      if (msg.includes("dry scalp") || msg.includes("flake") || msg.includes("dandruff") || msg.includes("itch") || msg.includes("dryness")) {
-        return "I completely understand how uncomfortable a dry, flaking scalp can feel. I highly recommend our soothing Oribe Serene Scalp Treatment (£48) alongside the rich Serene Scalp Masque (£52) to immediately calm itchiness and restore your barrier.";
-      } else if (msg.includes("hair fall") || msg.includes("shedding") || msg.includes("thinning") || msg.includes("loss") || msg.includes("fall")) {
-        return "Dealing with hair shedding can be frustrating, but our premium peptide-enriched Hair Growth Set is designed to fortify weak fibers. Additionally, massaging with Oribe Gold Lust Hair Oil (£45) delivers instant active nourishment.";
-      } else if (msg.includes("tension") || msg.includes("headache") || msg.includes("stress") || msg.includes("relax") || msg.includes("massage")) {
-        return "For deep tension release, our Ground Wellbeing Sleep Face Balm (£68) works wonders. Combine it with a nightly 10-stroke scalp glide using our custom H Salon cap and hand-carved combs to ease daily meridian pressure.";
-      } else if (msg.includes("bundle") || msg.includes("all") || msg.includes("routine") || msg.includes("complete") || msg.includes("ritual")) {
-        return "To achieve the ultimate crown revival, the flagship Pure Balance Ritual bundle (£284) is magnificent. It unites the Lavender Snail Silk scalp mask, recovery oils, and sensory combs into one sovereign self-care regimen.";
-      } else if (msg.includes("thank") || msg.includes("thanks") || msg.includes("great") || msg.includes("perfect") || msg.includes("awesome")) {
-        return "You are most welcome! It is an absolute privilege assisting you. Please don't hesitate to reach back out if you require any further boutique treatment advice from London.";
-      } else if (msg.includes("hello") || msg.includes("hi") || msg.includes("hey") || msg.includes("morning") || msg.includes("afternoon")) {
-        return "Hello there! Welcome to H Salon live support. I am Lucas. Are you seeking custom relief tips for your scalp, or perhaps bespoke suggestions for our luxury hair oil formulas today?";
-      } else {
-        return "I would be absolutely delighted to help guide your routine. Our botanical formulas, like the Oribe Serene Scalp series and Gold Lust Oil, are fully optimized for delicate hair and scalp concerns. Could you share a bit more about your current hair type or skin goals?";
+      const cleanMsg = msg.toLowerCase();
+      
+      // 1. Delivery & Shipping
+      if (cleanMsg.includes("deliver") || cleanMsg.includes("shipping") || cleanMsg.includes("ship") || cleanMsg.includes("how long") || cleanMsg.includes("transit") || cleanMsg.includes("arrive") || cleanMsg.includes("postage") || cleanMsg.includes("time") || cleanMsg.includes("days")) {
+        return "Our premium collections are hand-packaged and shipped directly from Mayfair, London via DHL Express. UK orders arrive in 1–2 business days, while international deliveries to the USA, Canada, Europe, Australia, India, or UAE take just 3–5 business days. Once your package is on its way, you will receive a tracking link via email!";
       }
+      
+      // 2. Returns & Refunds
+      if (cleanMsg.includes("refund") || cleanMsg.includes("return") || cleanMsg.includes("exchange") || cleanMsg.includes("guarantee") || cleanMsg.includes("cancel") || cleanMsg.includes("wrong item")) {
+        return "We offer a 30-day luxury satisfaction guarantee. If any formula doesn't align perfectly with your hair wellness ritual, you are welcome to return or exchange it in its original packaging within 30 days. Simply email our concierge at concierge@hsalon.london, and we'll dispatch a complimentary prepaid return label immediately.";
+      }
+      
+      // 3. Contact & Location
+      if (cleanMsg.includes("where") || cleanMsg.includes("located") || cleanMsg.includes("location") || cleanMsg.includes("address") || cleanMsg.includes("salon") || cleanMsg.includes("london") || cleanMsg.includes("phone") || cleanMsg.includes("call") || cleanMsg.includes("store") || cleanMsg.includes("studio") || cleanMsg.includes("contact")) {
+        return "Our physical flagship boutique and head spa therapy studio are situated in the heart of Mayfair, London. For personalized concierge booking, inquiries, or custom orders, you can reach our team at concierge@hsalon.london or call us directly at +44 20 7946 0192.";
+      }
+      
+      // 4. Authenticity & Formulas
+      if (cleanMsg.includes("organic") || cleanMsg.includes("natural") || cleanMsg.includes("botanical") || cleanMsg.includes("authentic") || cleanMsg.includes("ingredients") || cleanMsg.includes("real") || cleanMsg.includes("animal") || cleanMsg.includes("tested") || cleanMsg.includes("vegan")) {
+        return "Rest assured that every bottle we sell is 100% authentic, fresh from prestige London and French laboratories. Our botanical mixtures combine bio-fermented hair nutrients with pure cold-pressed oils. Every formula is entirely cruelty-free and dermatologically certified.";
+      }
+
+      // 5. Scalp specific
+      if (cleanMsg.includes("dry") || cleanMsg.includes("flake") || cleanMsg.includes("dandruff") || cleanMsg.includes("itch") || cleanMsg.includes("irritation") || cleanMsg.includes("scalp")) {
+        return "I completely understand how frustrating scalp flaking or dryness can be! I highly recommend our soothing 'Oribe Serene Scalp Treatment' to cool itchiness, paired with the luxurious 'Oribe Serene Scalp Masque' to deeply hydrate. I've provided their direct product links below so you can add them to your cart instantly!";
+      } 
+      
+      // 6. Hair fall / Growth
+      if (cleanMsg.includes("hair fall") || cleanMsg.includes("shedding") || cleanMsg.includes("thinning") || cleanMsg.includes("loss") || cleanMsg.includes("fall") || cleanMsg.includes("grow") || cleanMsg.includes("growth")) {
+        return "Dealing with hair shedding and thinning can be discouraging, but our premium 'Oribe Gold Lust Hair Oil' delivers intense nourishment to fortify hair fibers. Pair it with the 'Kérastase Chronologiste Caviar Serum' to regenerate your hair vitality. I've placed their direct add-to-cart links below to help you get started right away!";
+      } 
+      
+      // 7. Tension & Stress relief
+      if (cleanMsg.includes("tension") || cleanMsg.includes("headache") || cleanMsg.includes("stress") || cleanMsg.includes("relax") || cleanMsg.includes("massage") || cleanMsg.includes("sleep")) {
+        return "To dissolve deep facial tension and support a restful night, nothing compares to the 'Ground Wellbeing Sleep Face Balm' combined with the soothing organic botanical extracts of 'The Recovery Face Oil'. I have provided direct product links below so you can easily add them and start your evening ritual!";
+      } 
+      
+      // 8. Muscle / Body Care
+      if (cleanMsg.includes("muscle") || cleanMsg.includes("body") || cleanMsg.includes("active") || cleanMsg.includes("workout") || cleanMsg.includes("sport") || cleanMsg.includes("pain")) {
+        return "For active recovery and deep muscle stimulation, 'The Active Body Oil' is magnificent. It contains Eucalyptus, Black Pepper, and Ginger to soothe sore muscles. You can view its details or add it to your cart using the link below!";
+      } 
+      
+      // 9. Heat Damage & Split ends
+      if (cleanMsg.includes("damage") || cleanMsg.includes("split") || cleanMsg.includes("heat") || cleanMsg.includes("dry hair")) {
+        return "To repair split ends and protect your hair from heat damage, I highly recommend 'Kérastase Nutritive Split-End Serum' or the 'Olaplex No. 9 Bond Protector Serum'. I've listed both of these advanced formulas below for quick access!";
+      } 
+      
+      // 10. Accessories & Apparel
+      if (cleanMsg.includes("cap") || cleanMsg.includes("comb") || cleanMsg.includes("accessories") || cleanMsg.includes("bag") || cleanMsg.includes("pouch")) {
+        return "Our lifestyle accessories are superb! Safeguard your glass dropper bottles in 'The Velvet Spa Kit Pouch' and look chic in our signature organic cotton 'H Salon Signature Styling Cap'. The direct product details and add-to-cart links are available below!";
+      } 
+      
+      // 11. Routine bundles
+      if (cleanMsg.includes("bundle") || cleanMsg.includes("all") || cleanMsg.includes("routine") || cleanMsg.includes("complete") || cleanMsg.includes("ritual")) {
+        return "For the ultimate crown revival, we suggest our premium 'Oribe Serene Scalp Treatment' and 'Oribe Gold Lust Hair Oil'. Check out the direct product options below to add them directly to your cart and build your ritual!";
+      } 
+      
+      // 12. Politeness / Thanks
+      if (cleanMsg.includes("thank") || cleanMsg.includes("thanks") || cleanMsg.includes("great") || cleanMsg.includes("perfect") || cleanMsg.includes("awesome") || cleanMsg.includes("ok")) {
+        return "It is an absolute honor to assist you! Please check out the recommended product links below so you can easily find them and add them to your cart. Let me know if you need any other guidance.";
+      } 
+      
+      // 13. General greetings
+      if (cleanMsg.includes("hello") || cleanMsg.includes("hi") || cleanMsg.includes("hey") || cleanMsg.includes("morning") || cleanMsg.includes("afternoon") || cleanMsg.includes("evening")) {
+        return "Hello! Welcome to H Salon live support, London. I am Lucas, your personal scalp therapist and concierge. How may I assist you with your hair wellness journey today?";
+      }
+
+      // Default human fallback
+      return "I would be absolutely delighted to assist you with that! Our Mayfair boutique is fully stocked with premium dermatologist-tested hair care and relaxation aids. Could you please share a bit more about your hair concerns or skin type so I can recommend the exact formula and send you the direct add-to-cart link?";
     };
 
     try {
@@ -58,14 +112,27 @@ async function startServer() {
 
       // System instruction for Lucas
       const systemInstruction = 
-        "You are Lucas, an welcoming, helpful, and realistic customer support specialist at H Salon, London, UK. " +
+        "You are Lucas, a welcoming, helpful, and realistic customer support specialist at H Salon, London, UK. " +
         "You provide live chat support for premium scalp-care, hair-oils, and botanical recovery products. " +
         "Answer in a warm, polite, conversational, human-like manner. Avoid robotic preambles or dry listings. " +
         "Talk precisely like an expert salon therapist - attentive and luxurious. " +
         "Keep your replies relatively short (maximum 2-3 sentences), concise, and elegant. " +
-        "Reference our top formulas: Oribe Serene Scalp Treatment (£48), Oribe Serene Scalp Masque (£52), " +
-        "Oribe Gold Lust Hair Oil (£45), Ground Wellbeing Sleep Face Balm (£68), and our flagship Pure Balance Ritual bundle (£284) " +
-        "whenever clients ask about dry scalp flaking, tension release, routine tips, or high-end self-care gift sets.";
+        "When recommending products, ALWAYS mention their exact names so our system can detect them and generate direct clickable shopping links for the client below your message. " +
+        "Our catalog names are exactly: " +
+        "1. 'Oribe Serene Scalp Treatment' for dry/flaky/itchy scalp or scalp irritation. " +
+        "2. 'Oribe Serene Scalp Masque' for deep scalp hydration, flake reduction, and conditioning. " +
+        "3. 'Oribe Gold Lust Hair Oil' for luxury hair oil, intense shine, hair defense, and splitting ends. " +
+        "4. 'The Recovery Face Oil' for overnight barrier repair, tired skin, and organic evening rituals. " +
+        "5. 'The Active Body Oil' for post-workout athletic muscle recovery and aromatherapy stimulation. " +
+        "6. 'Kérastase Elixir Ultime Hair Oil' for high-performance shine, frizz control, and thermal heat protection. " +
+        "7. 'Oribe Power Drops Hydration Booster' for intensive hyaluronic acid dry scalp booster. " +
+        "8. 'Kérastase Chronologiste Caviar Serum' for premium regenerating scalp & hair pearls. " +
+        "9. 'Ground Wellbeing Sleep Face Balm' for nightly rest, facial tension relief, and sweet sleep. " +
+        "10. 'Olaplex No. 9 Bond Protector Serum' for anti-pollution damage protection hair shield. " +
+        "11. 'Kérastase Nutritive Split-End Serum' for dry hair tips, split-end sealing, and nutrition. " +
+        "12. 'The Velvet Spa Kit Pouch' for double-stitched velvet quilted travel zipper. " +
+        "13. 'H Salon Signature Styling Cap' for protective logo cap. " +
+        "Always recommend the real products from this list, and gently let the client know that you've placed direct product checkout and details links below your message so they don't have to search and can easily add them to their cart.";
 
       const modelName = "gemini-3.5-flash";
       const chatHistory = history || [];

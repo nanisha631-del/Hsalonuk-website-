@@ -10,6 +10,7 @@ import { Star, ShieldCheck, Sparkles, Award, ShoppingBag, Eye, Heart } from "luc
 import { Product } from "../types";
 import { PRODUCTS } from "../data";
 import { useSharedState, formatPrice } from "../useSharedState";
+import AnimatedCounter from "./AnimatedCounter";
 
 // Smooth liquid overlay title filling from left to right on hover
 const LiquidFillHeading = () => {
@@ -63,58 +64,7 @@ const FluidTabHeaderButton = ({ label, isActive, onClick, onMouseEnter }: FluidT
   );
 };
 
-// Fluid and decelerating (ease-out) countdown numbering counter starting from 1 to target value
-const AnimatedCounter = ({ value }: { value: string }) => {
-  const [displayValue, setDisplayValue] = useState("1");
-
-  useEffect(() => {
-    const prefix = value.startsWith("-") ? "-" : "";
-    const cleanString = value.replace(/^[+-]/, "");
-    const match = cleanString.match(/[\d.]+/);
-    
-    if (!match) {
-      setDisplayValue(value);
-      return;
-    }
-
-    const targetNum = parseFloat(match[0]);
-    const suffix = cleanString.replace(match[0], "");
-    const duration = 1800; // 1.8 seconds transition
-    const startTime = performance.now();
-    const hasDecimal = match[0].includes(".");
-
-    let animationFrameId: number;
-
-    const updateCount = (now: number) => {
-      const elapsed = now - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      
-      // Decelerating (Ease Out Cubic) easing
-      const easeProgress = 1 - Math.pow(1 - progress, 3);
-      const currentNum = 1 + (targetNum - 1) * easeProgress;
-
-      let formattedNum = "";
-      if (hasDecimal) {
-        formattedNum = currentNum.toFixed(1);
-      } else {
-        formattedNum = Math.floor(currentNum).toString();
-      }
-
-      setDisplayValue(`${prefix}${formattedNum}${suffix}`);
-
-      if (progress < 1) {
-        animationFrameId = requestAnimationFrame(updateCount);
-      } else {
-        setDisplayValue(value);
-      }
-    };
-
-    animationFrameId = requestAnimationFrame(updateCount);
-    return () => cancelAnimationFrame(animationFrameId);
-  }, [value]);
-
-  return <span>{displayValue}</span>;
-};
+// Reusable fluid background-filling action tab buttons
 
 interface BestsellersPageProps {
   onSelectProduct: (productId: string) => void;

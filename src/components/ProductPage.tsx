@@ -9,6 +9,7 @@ import { getShopifySettings } from "../shopifySettings";
 import ScenicReviews from "./ScenicReviews";
 import BundlePackSection from "./BundlePackSection";
 import LuxuryButton from "./LuxuryButton";
+import AnimatedCounter from "./AnimatedCounter";
 import { useSharedState, formatPrice } from "../useSharedState";
 
 interface ProductPageProps {
@@ -1616,7 +1617,9 @@ export function AcademyProductEnhancements({ product }: AcademyProductEnhancemen
                           </div>
                           <div className="bg-[#EDEDE9]/50 p-2.5 rounded-xl border border-brand-black/5">
                             <span className="block text-[8px] font-bold uppercase text-gray-400 font-sans">Absorption Rate</span>
-                            <span className="text-[11.5px] font-sans font-extrabold text-[#3D4A3E]">{ing.bioavailability} Bioavailability</span>
+                            <span className="text-[11.5px] font-sans font-extrabold text-[#3D4A3E]">
+                              <AnimatedCounter value={ing.bioavailability} /> Bioavailability
+                            </span>
                           </div>
                         </div>
                       </div>
@@ -1643,7 +1646,9 @@ export function AcademyProductEnhancements({ product }: AcademyProductEnhancemen
             <div>
               <div className="flex justify-between items-center text-[10px] font-sans font-bold text-gray-500 uppercase mb-1">
                 <span>{data.clinicals.metric1.name}</span>
-                <span className="text-brand-black">+{data.clinicals.metric1.value}%</span>
+                <span className="text-brand-black">
+                  <AnimatedCounter value={`+${data.clinicals.metric1.value}%`} />
+                </span>
               </div>
               <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
                 <motion.div 
@@ -1660,7 +1665,9 @@ export function AcademyProductEnhancements({ product }: AcademyProductEnhancemen
             <div>
               <div className="flex justify-between items-center text-[10px] font-sans font-bold text-gray-500 uppercase mb-1">
                 <span>{data.clinicals.metric2.name}</span>
-                <span className="text-brand-black">+{data.clinicals.metric2.value}%</span>
+                <span className="text-brand-black">
+                  <AnimatedCounter value={`+${data.clinicals.metric2.value}%`} />
+                </span>
               </div>
               <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
                 <motion.div 
@@ -1677,7 +1684,9 @@ export function AcademyProductEnhancements({ product }: AcademyProductEnhancemen
             <div>
               <div className="flex justify-between items-center text-[10px] font-sans font-bold text-gray-500 uppercase mb-1">
                 <span>{data.clinicals.metric3.name}</span>
-                <span className="text-brand-black">+{data.clinicals.metric3.value}%</span>
+                <span className="text-brand-black">
+                  <AnimatedCounter value={`+${data.clinicals.metric3.value}%`} />
+                </span>
               </div>
               <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
                 <motion.div 

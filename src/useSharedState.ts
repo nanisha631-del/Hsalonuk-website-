@@ -6,13 +6,20 @@
 import { useState, useEffect } from "react";
 import { Product, CartItem } from "./types";
 
-export type CurrencyCode = "USD" | "GBP" | "EUR" | "CAD";
+export type CurrencyCode = "USD" | "GBP" | "EUR" | "CAD" | "AUD" | "JPY" | "SGD" | "INR" | "AED" | "CHF" | "NZD";
 
 export const CURRENCY_MAP: Record<CurrencyCode, { symbol: string; rate: number; label: string }> = {
   USD: { symbol: "$", rate: 1.0, label: "USD" },
   GBP: { symbol: "£", rate: 0.79, label: "GBP" },
   EUR: { symbol: "€", rate: 0.92, label: "EUR" },
   CAD: { symbol: "CA$", rate: 1.37, label: "CAD" },
+  AUD: { symbol: "A$", rate: 1.50, label: "AUD" },
+  JPY: { symbol: "¥", rate: 158.0, label: "JPY" },
+  SGD: { symbol: "S$", rate: 1.35, label: "SGD" },
+  INR: { symbol: "₹", rate: 83.5, label: "INR" },
+  AED: { symbol: "AED ", rate: 3.67, label: "AED" },
+  CHF: { symbol: "CHF", rate: 0.89, label: "CHF" },
+  NZD: { symbol: "NZ$", rate: 1.63, label: "NZD" },
 };
 
 export function formatPrice(priceInUSD: number, currencyCode: CurrencyCode = "USD") {
@@ -59,7 +66,7 @@ if (typeof window !== "undefined") {
       globalState.cartItems = JSON.parse(saved);
     }
     const savedCurrency = localStorage.getItem("hsalon-currency");
-    if (savedCurrency && (savedCurrency === "USD" || savedCurrency === "GBP" || savedCurrency === "EUR" || savedCurrency === "CAD")) {
+    if (savedCurrency && savedCurrency in CURRENCY_MAP) {
       globalState.currency = savedCurrency as any;
     }
   } catch (e) {
