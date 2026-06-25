@@ -66,11 +66,11 @@ export default function Footer({ onGoHome }: FooterProps) {
   };
 
   return (
-    <footer id="brand-footer" ref={footerRef} className="bg-[#F1EEF4] text-brand-black w-full pt-16 pb-12 px-4 md:px-12 relative select-none border-t border-brand-black/5 mt-auto">
-      <div className="max-w-7xl mx-auto flex flex-col gap-10">
+    <footer id="brand-footer" ref={footerRef} className="bg-[#F1EEF4] text-brand-black w-full pt-12 md:pt-16 pb-8 md:pb-12 px-4 md:px-12 relative select-none border-t border-brand-black/5 mt-auto">
+      <div className="max-w-7xl mx-auto flex flex-col gap-6 md:gap-10">
         
         {/* Brand Info & Contact Information Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-start border-b border-brand-black/10 pb-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-16 items-start border-b border-brand-black/10 pb-5 md:pb-10">
           {/* About the Brand Text Panel (Matching image 8 & 9) */}
           <div className="flex flex-col gap-3">
             <h4 className="font-serif text-[18px] md:text-[20px] font-bold text-[#8B7C68] uppercase">
@@ -107,7 +107,7 @@ export default function Footer({ onGoHome }: FooterProps) {
         </div>
 
         {/* SHOP + SUPPORT Collapsible accordions with liquid color fill and hover triggers */}
-        <div className="flex flex-col border-t border-brand-black/10 mt-4 max-w-xl">
+        <div className="flex flex-col border-t-0 md:border-t border-brand-black/10 mt-0 md:mt-2 max-w-xl">
           
           {/* Shop Tab with desktop mouse hover trigger */}
           <div 
@@ -198,7 +198,7 @@ export default function Footer({ onGoHome }: FooterProps) {
         </div>
 
         {/* Center Giant H salon logo designed to zoom in dynamically from center */}
-        <div className="pt-8 pb-4 overflow-hidden flex justify-center items-center w-full">
+        <div className="pt-4 pb-2 md:pt-8 md:pb-4 overflow-hidden flex justify-center items-center w-full">
           <motion.button
             onClick={onGoHome}
             style={{
@@ -216,7 +216,7 @@ export default function Footer({ onGoHome }: FooterProps) {
         </div>
 
         {/* Socials & Copyrights */}
-        <div className="flex flex-col gap-6 pt-2">
+        <div className="flex flex-col gap-4 md:gap-6 pt-1 md:pt-2">
           {/* Social icons */}
           <div className="flex gap-4 items-center pl-1">
             <a 
@@ -244,7 +244,7 @@ export default function Footer({ onGoHome }: FooterProps) {
             </button>
           </div>
 
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 text-[12px] text-gray-400 font-sans tracking-wide border-t border-brand-black/5 pt-6">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 md:gap-4 text-[12px] text-gray-400 font-sans tracking-wide border-t border-brand-black/5 pt-4 md:pt-6">
             <div className="flex flex-col gap-2">
               <div>
                 © 2026, H salon. Designed by Addy Growth Studio.

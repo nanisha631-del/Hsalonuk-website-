@@ -80,7 +80,13 @@ export default function HoverAccordion() {
                   key={cat.id}
                   className="group py-3 sm:py-4 border-b border-brand-black/10 last:border-0 cursor-pointer"
                   onMouseEnter={() => setActiveCat(cat)}
-                  onClick={() => handleSelectProduct(cat.productId)}
+                  onClick={() => {
+                    if (window.innerWidth < 1024) {
+                      setActiveCat(cat);
+                    } else {
+                      handleSelectProduct(cat.productId);
+                    }
+                  }}
                 >
                   <div
                     className="flex flex-col transition-all duration-300"
@@ -121,7 +127,11 @@ export default function HoverAccordion() {
           {/* Right image projection panel (70% column span 7) representing 1:1 on mobile, 16:9 aspect-video on laptop */}
           <div 
             className="md:col-span-8 w-full max-w-full md:max-w-2xl mx-auto aspect-square md:aspect-video relative bg-[#F7F7F9]/80 overflow-hidden shadow-xs rounded-[16px] border border-brand-black/5 flex items-center justify-center cursor-pointer group/img-panel"
-            onClick={() => handleSelectProduct(activeCat.productId)}
+            onClick={() => {
+              if (window.innerWidth >= 1024) {
+                handleSelectProduct(activeCat.productId);
+              }
+            }}
           >
             <AnimatePresence mode="wait">
               <motion.img

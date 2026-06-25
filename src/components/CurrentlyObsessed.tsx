@@ -119,7 +119,13 @@ export default function CurrentlyObsessed() {
                     isActive ? "border-l-3 border-black pl-4" : "pl-1 hover:pl-2.5"
                   }`}
                   onMouseEnter={() => setActiveId(item.id)}
-                  onClick={() => handleSelectProduct(item.productId)}
+                  onClick={() => {
+                    if (window.innerWidth < 1024) {
+                      setActiveId(item.id);
+                    } else {
+                      handleSelectProduct(item.productId);
+                    }
+                  }}
                 >
                   <div className="flex justify-between items-center w-full">
                     <div className="flex flex-col">
@@ -158,7 +164,11 @@ export default function CurrentlyObsessed() {
           {/* Right image display area - 65% width */}
           <div 
             className="md:col-span-7 relative aspect-[14/10] bg-black/5 overflow-hidden shadow-2xl border border-black/5 cursor-pointer group/img"
-            onClick={() => handleSelectProduct(activeItem.productId)}
+            onClick={() => {
+              if (window.innerWidth >= 1024) {
+                handleSelectProduct(activeItem.productId);
+              }
+            }}
           >
             {ITEMS.map((item) => {
               const isActive = item.id === activeId;
