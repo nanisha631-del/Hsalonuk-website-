@@ -33,11 +33,34 @@ export default function AIChatBot() {
   const { state, handleAddToCart, handleSelectProduct } = useSharedState();
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  const [isLauncherVisible, setIsLauncherVisible] = useState(false);
+
   useEffect(() => {
     if (isOpen) {
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages, isOpen]);
+
+  // Periodic launcher visibility effect for fade-in & slide-in from the right side every few seconds
+  useEffect(() => {
+    // Initial entrance delay of 2.5 seconds
+    const initialTimer = setTimeout(() => {
+      setIsLauncherVisible(true);
+    }, 2500);
+
+    // Stays visible for 8 seconds, slides out for 3.5 seconds, then slides back in smoothly
+    const interval = setInterval(() => {
+      setIsLauncherVisible(false);
+      setTimeout(() => {
+        setIsLauncherVisible(true);
+      }, 3500);
+    }, 15000);
+
+    return () => {
+      clearTimeout(initialTimer);
+      clearInterval(interval);
+    };
+  }, []);
 
   // Robust parser to scan bot messages for recommended product cards
   const findRecommendedProducts = (text: string): Product[] => {
@@ -200,36 +223,37 @@ export default function AIChatBot() {
 
   return (
     <>
-      {/* Mini floating launcher icon on the bottom-right */}
+      {/* Mini floating launcher icon on the bottom-left */}
       <div 
         id="ai-chatbot-root"
-        className="fixed bottom-24 lg:bottom-6 right-6 z-50 flex flex-col items-end pointer-events-none"
+        className="fixed bottom-24 md:bottom-6 left-6 z-50 flex flex-col items-start pointer-events-none"
       >
         <AnimatePresence>
-          {!isOpen && (
+          {!isOpen && isLauncherVisible && (
             <motion.button
               id="ai-chatbot-launcher-btn"
               onClick={() => setIsOpen(true)}
-              initial={{ scale: 0, y: 50, opacity: 0 }}
-              animate={{ scale: 1, y: 0, opacity: 1 }}
-              exit={{ scale: 0, y: 30, opacity: 0 }}
+              initial={{ x: -100, opacity: 0, scale: 0.8 }}
+              animate={{ x: 0, opacity: 1, scale: 1 }}
+              exit={{ x: -100, opacity: 0, scale: 0.8 }}
+              transition={{ type: "spring", damping: 15, stiffness: 100 }}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
-              className="pointer-events-auto relative w-14 h-14 bg-[#3D4A3E] text-[#82D8C5] rounded-full flex items-center justify-center shadow-2xl cursor-pointer border border-[#3D4A3E]/10 hover:bg-[#2C362D] transition-colors group"
+              className="pointer-events-auto relative w-11 h-11 bg-[#3D4A3E] text-[#82D8C5] rounded-full flex items-center justify-center shadow-2xl cursor-pointer border border-[#3D4A3E]/10 hover:bg-[#2C362D] transition-colors group"
               title="Speak with Lucas at H Salon Support"
             >
               {/* Pulsing indicator ring */}
-              <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full border-2 border-white flex items-center justify-center animate-bounce">
-                <span className="relative block w-2 h-2 rounded-full bg-white"></span>
+              <span className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 bg-red-500 rounded-full border border-white flex items-center justify-center animate-bounce">
+                <span className="relative block w-1.5 h-1.5 rounded-full bg-white"></span>
               </span>
               
               {/* Sparking glow indicator */}
               <span className="absolute inset-0 rounded-full bg-[#82D8C5]/10 animate-ping pointer-events-none" />
 
-              <MessageSquare className="w-6 h-6 transition-transform duration-300 group-hover:rotate-6 text-[#82D8C5]" />
+              <MessageSquare className="w-5 h-5 transition-transform duration-300 group-hover:rotate-6 text-[#82D8C5]" />
               
-              {/* Cute hover text bubble pointing to the button */}
-              <div className="absolute right-16 top-1/2 -translate-y-1/2 bg-white text-brand-black text-[10px] font-sans font-black tracking-widest uppercase px-3 py-1.5 rounded-xl border border-brand-black/5 shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap hidden sm:block">
+              {/* Cute hover text bubble pointing to the button (placed to the right of launcher since it is left aligned) */}
+              <div className="absolute left-14 top-1/2 -translate-y-1/2 bg-white text-brand-black text-[10px] font-sans font-black tracking-widest uppercase px-3 py-1.5 rounded-xl border border-brand-black/5 shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap hidden sm:block">
                 Chat Live with Lucas
               </div>
             </motion.button>

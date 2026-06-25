@@ -370,11 +370,17 @@ export default function Navbar({
           </button>
 
           <button
-            onClick={() => onNavigate("about")}
-            className="p-2 hover:opacity-70 transition-opacity hidden md:block cursor-pointer text-brand-black"
+            onClick={() => updateState({ authModalOpen: true })}
+            className="p-2 hover:opacity-70 transition-opacity flex cursor-pointer text-brand-black"
             aria-label="Account Login"
           >
-            <User className="w-5 h-5 md:w-6 md:h-6" />
+            {state.user ? (
+              <div className="w-6 h-6 md:w-7 md:h-7 rounded-full bg-[#82D8C5] border border-brand-black/20 text-brand-black font-sans font-black flex items-center justify-center text-[11px] md:text-xs uppercase select-none">
+                {state.user.avatar}
+              </div>
+            ) : (
+              <User className="w-5 h-5 md:w-6 md:h-6" />
+            )}
           </button>
 
           <button
@@ -1070,20 +1076,52 @@ export default function Navbar({
                 >
                   Search
                 </button>
-                <div className="flex gap-6">
-                  <button
-                    onClick={() => { onNavigate("about"); setMobileMenuOpen(false); }}
-                    className="block font-sans font-black text-xs uppercase tracking-widest text-brand-black/80 hover:text-[#82D8C5] transition-colors text-left cursor-pointer"
-                  >
-                    Log in
-                  </button>
-                  <button
-                    onClick={() => { onNavigate("about"); setMobileMenuOpen(false); }}
-                    className="block font-sans font-black text-xs uppercase tracking-widest text-[#82D8C5] hover:text-brand-black transition-colors text-left cursor-pointer"
-                  >
-                    Create account
-                  </button>
-                </div>
+                {state.user ? (
+                  <div className="space-y-3.5">
+                    <div className="flex items-center gap-2.5 bg-brand-black/[0.03] p-2.5 rounded-xl border border-brand-black/5">
+                      <div className="w-8 h-8 rounded-full bg-[#82D8C5] text-brand-black font-sans font-black flex items-center justify-center text-xs uppercase shrink-0">
+                        {state.user.avatar}
+                      </div>
+                      <div className="min-w-0">
+                        <span className="block text-[11px] font-sans font-extrabold text-[#82D8C5] leading-none uppercase tracking-wider">
+                          VIP MEMBER
+                        </span>
+                        <span className="block text-xs font-sans font-bold text-brand-black truncate mt-0.5">
+                          {state.user.name}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex gap-6">
+                      <button
+                        onClick={() => { updateState({ authModalOpen: true }); setMobileMenuOpen(false); }}
+                        className="block font-sans font-black text-xs uppercase tracking-widest text-[#82D8C5] hover:text-brand-black transition-colors text-left cursor-pointer"
+                      >
+                        My Account
+                      </button>
+                      <button
+                        onClick={() => { updateState({ user: null }); setMobileMenuOpen(false); }}
+                        className="block font-sans font-black text-xs uppercase tracking-widest text-brand-black/80 hover:text-[#82D8C5] transition-colors text-left cursor-pointer"
+                      >
+                        Log out
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex gap-6">
+                    <button
+                      onClick={() => { updateState({ authModalOpen: true }); setMobileMenuOpen(false); }}
+                      className="block font-sans font-black text-xs uppercase tracking-widest text-brand-black/80 hover:text-[#82D8C5] transition-colors text-left cursor-pointer"
+                    >
+                      Log in
+                    </button>
+                    <button
+                      onClick={() => { updateState({ authModalOpen: true }); setMobileMenuOpen(false); }}
+                      className="block font-sans font-black text-xs uppercase tracking-widest text-[#82D8C5] hover:text-brand-black transition-colors text-left cursor-pointer"
+                    >
+                      Create account
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>

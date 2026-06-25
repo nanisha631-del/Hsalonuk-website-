@@ -11,7 +11,15 @@ export default function AestheticVideoPlayer() {
   // Dynamically resolve the active source, skipping 0-byte/empty local files
   useEffect(() => {
     const backupUrl = "https://assets.mixkit.co/videos/preview/mixkit-beauty-treatment-fluid-dripping-44358-large.mp4";
-    const candidates = ["/frame%20video.mp4", "/frame video.mp4", "/0613-1.mp4", "/0613.mp4"];
+    const videoName = "Scalp health is so important💗Using the Scalp Silk from @hsalon.uk to nourish my scalp and give .mp4";
+    const candidates = [
+      `/${videoName}`,
+      encodeURI(`/${videoName}`),
+      "/frame%20video.mp4",
+      "/frame video.mp4",
+      "/0613-1.mp4",
+      "/0613.mp4"
+    ];
 
     const checkSources = async () => {
       for (const src of candidates) {

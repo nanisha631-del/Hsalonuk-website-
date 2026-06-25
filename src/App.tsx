@@ -48,6 +48,8 @@ import AboutUsPage from "./components/AboutUsPage";
 import ContactUsPage from "./components/ContactUsPage";
 import SearchDrawer from "./components/SearchDrawer";
 import AIChatBot from "./components/AIChatBot";
+import ScrollToTopCircle from "./components/ScrollToTopCircle";
+import GoogleAuthModal from "./components/GoogleAuthModal";
 import { getShopifySettings } from "./shopifySettings";
 import { useSharedState } from "./useSharedState";
 import { fetchShopifyProducts } from "./lib/shopify";
@@ -401,6 +403,12 @@ export default function App() {
 
       {/* AI SUPPORT CHATBOT (LUCAS AT H SALON) */}
       <AIChatBot />
+
+      {/* DYNAMIC LIQUID FILLING SCROLL TO TOP CIRCLE */}
+      <ScrollToTopCircle />
+
+      {/* SECURE GOOGLE SSO AUTHENTICATION MODAL */}
+      <GoogleAuthModal />
 
     </div>
   );

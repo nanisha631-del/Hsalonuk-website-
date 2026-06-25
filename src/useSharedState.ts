@@ -28,6 +28,14 @@ export function formatPrice(priceInUSD: number, currencyCode: CurrencyCode = "US
   return `${config.symbol}${converted.toFixed(2)} ${config.label}`;
 }
 
+export interface UserProfile {
+  name: string;
+  email: string;
+  avatar: string;
+  loyaltyPoints: number;
+  joinedDate: string;
+}
+
 interface SharedState {
   currentView: "home" | "product" | "shop_all" | "bestsellers" | "about" | "contact";
   selectedProductId: string;
@@ -40,6 +48,8 @@ interface SharedState {
   currency: CurrencyCode;
   policyModalOpen: boolean;
   policyTab: "privacy" | "refund" | "shipping" | "terms";
+  user: UserProfile | null;
+  authModalOpen: boolean;
 }
 
 const listeners = new Set<() => void>();
@@ -56,6 +66,8 @@ let globalState: SharedState = {
   currency: "USD",
   policyModalOpen: false,
   policyTab: "privacy",
+  user: null,
+  authModalOpen: false,
 };
 
 // Seed initial cart item list from local storage securely
@@ -69,8 +81,12 @@ if (typeof window !== "undefined") {
     if (savedCurrency && savedCurrency in CURRENCY_MAP) {
       globalState.currency = savedCurrency as any;
     }
+    const savedUser = localStorage.getItem("hsalon-user");
+    if (savedUser) {
+      globalState.user = JSON.parse(savedUser);
+    }
   } catch (e) {
-    console.warn("Could not load checkout state or currency from cache", e);
+    console.warn("Could not load checkout state, currency, or user from cache", e);
   }
 
   // Synchronize dynamic routing on load based on browser pathing
@@ -125,6 +141,18 @@ export function useSharedState() {
         localStorage.setItem("hsalon-currency", globalState.currency);
       } catch (e) {
         console.error("Local storage currency sync error:", e);
+      }
+    }
+
+    if (calculated.hasOwnProperty("user")) {
+      try {
+        if (globalState.user) {
+          localStorage.setItem("hsalon-user", JSON.stringify(globalState.user));
+        } else {
+          localStorage.removeItem("hsalon-user");
+        }
+      } catch (e) {
+        console.error("Local storage user sync error:", e);
       }
     }
 

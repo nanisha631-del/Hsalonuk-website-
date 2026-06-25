@@ -150,7 +150,7 @@ export default function GreetingSection() {
                         <path
                           d="M2,3 Q50,9 98,3"
                           fill="none"
-                          stroke="#008060"
+                          stroke="#82D8C5"
                           strokeWidth="5"
                           strokeLinecap="round"
                           pathLength="100"

@@ -884,28 +884,10 @@ export default function ProductPage({
             transition={{ duration: 0.4, ease: [0.25, 1, 0.5, 1] }}
             className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-brand-black/10 py-3.5 px-4 z-50 flex items-center justify-between gap-3 lg:hidden"
           >
-            {/* Left circular or rounded pill select */}
-            <div className="relative flex-1">
-              <select
-                value={selectedColor || ""}
-                onChange={(e) => setSelectedColor(e.target.value)}
-                className="w-full bg-[#F1EEF4] border-none text-brand-black text-[12px] font-sans font-bold py-3.5 px-4 rounded-full appearance-none outline-none cursor-pointer pr-10"
-              >
-                {product.colors?.map((c) => (
-                  <option key={c.name} value={c.name}>
-                    {c.name}
-                  </option>
-                ))}
-              </select>
-              <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-brand-black font-bold">
-                ↓
-              </div>
-            </div>
-
-            {/* Right buy CTA button */}
+            {/* Full-width buy CTA button */}
             <button
               onClick={() => onAddToCart(product, quantity, selectedColor)}
-              className="bg-brand-black hover:bg-brand-black/95 text-white font-sans text-[12px] font-bold py-3.5 px-6 rounded-full uppercase tracking-wider flex-1 cursor-pointer transition-transform duration-150 active:scale-95 text-center truncate shadow-sm"
+              className="w-full bg-brand-black hover:bg-brand-black/95 text-white font-sans text-[12px] font-bold py-3.5 px-6 rounded-full uppercase tracking-wider cursor-pointer transition-transform duration-150 active:scale-95 text-center truncate shadow-sm"
             >
               Add • {formatPrice(product.price, state.currency)}
             </button>
