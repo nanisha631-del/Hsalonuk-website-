@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { Sparkles, ArrowRight, Eye, ShieldCheck, Zap, Droplets, Scissors, ChevronLeft, ChevronRight } from "lucide-react";
 import { useSharedState } from "../useSharedState";
 import AnimatedUnderline from "./AnimatedUnderline";
+import AnimatedCounter from "./AnimatedCounter";
 
 interface CaseStudy {
   id: string;
@@ -336,6 +337,9 @@ export default function BeforeAfterSection() {
                       referrerPolicy="no-referrer"
                       className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none brightness-[0.98]"
                     />
+                    <div className="absolute left-6 top-6 bg-white/90 border border-black/10 text-brand-black font-sans text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded-md select-none shadow-md z-10 whitespace-nowrap min-w-max">
+                      BEFORE RAW
+                    </div>
                     <div className="absolute right-6 top-6 bg-brand-black text-[#82D8C5] font-sans text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded-md select-none shadow-md z-10">
                       AFTER RITUAL
                     </div>
@@ -345,7 +349,13 @@ export default function BeforeAfterSection() {
                       className="absolute inset-y-0 left-0 overflow-hidden pointer-events-none"
                       style={{ width: `${sliderPos}%` }}
                     >
-                      <div className="relative w-full h-full aspect-[4/3] min-w-full">
+                      <div 
+                        className="relative h-full aspect-[4/3]"
+                        style={{
+                          width: containerWidth ? `${containerWidth}px` : "100%",
+                          minWidth: containerWidth ? `${containerWidth}px` : "100%"
+                        }}
+                      >
                         <img 
                           src={c.beforeImg} 
                           alt="Before clinical therapy raw state" 
@@ -358,9 +368,6 @@ export default function BeforeAfterSection() {
                           }}
                           className="absolute inset-0 object-cover pointer-events-none select-none grayscale-[30%] contrast-[1.05]"
                         />
-                        <div className="absolute left-6 top-6 bg-white/90 border border-black/10 text-brand-black font-sans text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded-md select-none shadow-md z-10">
-                          BEFORE RAW
-                        </div>
                       </div>
                     </div>
                   </motion.div>
@@ -394,7 +401,9 @@ export default function BeforeAfterSection() {
             <div className="mt-4 flex flex-col md:flex-row md:items-center justify-between gap-y-2 gap-x-4 border border-black/5 bg-white/40 p-4 rounded-xl leading-normal text-xs text-black/60 shadow-xs max-w-full">
               <div className="flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#82D8C5]" />
-                <span className="font-bold text-black">{currentCase.metric}</span>
+                <span className="font-bold text-black">
+                  <AnimatedCounter value={currentCase.metric} />
+                </span>
                 <span className="text-[11px] font-sans text-black/40">({currentCase.metricSub})</span>
               </div>
               <div className="flex items-center gap-1.5 md:text-right">

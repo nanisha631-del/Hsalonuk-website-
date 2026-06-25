@@ -70,8 +70,8 @@ export default function ContactUsPage({ onBackToHome }: ContactUsPageProps) {
                   <h4 className="font-sans font-bold text-xs uppercase text-brand-black">Physical Address</h4>
                   <p className="font-sans text-xs text-brand-black/60 mt-0.5 leading-relaxed">
                     H Salon<br />
-                    71-75 Shelton Street, Covent Garden<br />
-                    London, WC2H 9JQ, United Kingdom
+                    42 Old Broad Street<br />
+                    London, EC2N 1HP, United Kingdom
                   </p>
                 </div>
               </div>
@@ -89,7 +89,7 @@ export default function ContactUsPage({ onBackToHome }: ContactUsPageProps) {
                 <div>
                   <h4 className="font-sans font-bold text-xs uppercase text-brand-black">Email Address</h4>
                   <p className="font-sans text-xs text-[#82D8C5] font-extrabold mt-0.5 hover:underline">
-                    info@hsalon.uk
+                    support@hsalon.uk
                   </p>
                 </div>
               </div>
@@ -98,6 +98,7 @@ export default function ContactUsPage({ onBackToHome }: ContactUsPageProps) {
                 <p><strong>Trade Name:</strong> H Salon</p>
                 <p><strong>Operated By:</strong> H SALON LTD</p>
                 <p><strong>Company Registration:</strong> 14605981 (Registered in England & Wales)</p>
+                <p><strong>Registered Office:</strong> 71-75 Shelton Street, Covent Garden, London, WC2H 9JQ, United Kingdom</p>
               </div>
             </div>
 

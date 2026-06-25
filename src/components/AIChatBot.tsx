@@ -79,7 +79,6 @@ export default function AIChatBot() {
       { keys: ["sleep face balm", "sleep balm", "face balm"], id: "concealer" },
       { keys: ["olaplex", "bond protector", "olaplex no. 9"], id: "eyeliner" },
       { keys: ["split-end", "split end", "nutritive split"], id: "lip-gloss" },
-      { keys: ["velvet spa", "spa kit pouch", "velvet pouch"], id: "makeup-pouch" },
       { keys: ["styling cap", "signature cap", "h salon cap"], id: "h-salon-cap" },
     ];
     
@@ -144,8 +143,8 @@ export default function AIChatBot() {
     } 
     
     // 10. Accessories & Apparel
-    if (cleanMsg.includes("cap") || cleanMsg.includes("comb") || cleanMsg.includes("accessories") || cleanMsg.includes("bag") || cleanMsg.includes("pouch")) {
-      return "Our lifestyle accessories are superb! Safeguard your glass dropper bottles in 'The Velvet Spa Kit Pouch' and look chic in our signature organic cotton 'H Salon Signature Styling Cap'. The direct product details and add-to-cart links are available below!";
+    if (cleanMsg.includes("cap") || cleanMsg.includes("comb") || cleanMsg.includes("accessories") || cleanMsg.includes("bag")) {
+      return "Our lifestyle accessories are superb! Style and protect your hair with our signature organic cotton 'H Salon Signature Styling Cap' or detangle gently with the hand-carved 'H Salon Luxury Texture Comb'. The direct product details and add-to-cart links are available below!";
     } 
     
     // 11. Routine bundles

@@ -69,14 +69,41 @@ export default function Footer({ onGoHome }: FooterProps) {
     <footer id="brand-footer" ref={footerRef} className="bg-[#F1EEF4] text-brand-black w-full pt-16 pb-12 px-4 md:px-12 relative select-none border-t border-brand-black/5 mt-auto">
       <div className="max-w-7xl mx-auto flex flex-col gap-10">
         
-        {/* About the Brand Text Panel (Matching image 8 & 9) */}
-        <div className="max-w-xl flex flex-col gap-3">
-          <h4 className="font-serif text-[18px] md:text-[20px] font-bold text-[#8B7C68] uppercase">
-            ABOUT THE BRAND
-          </h4>
-          <p className="text-[14px] md:text-[15px] font-sans text-gray-600 leading-relaxed">
-            Good hair, scalp, and skincare should feel natural and restorative, not complicated. That’s why we focus on pure clinical active botanical formulas that heal irritated roots and skin.
-          </p>
+        {/* Brand Info & Contact Information Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-start border-b border-brand-black/10 pb-10">
+          {/* About the Brand Text Panel (Matching image 8 & 9) */}
+          <div className="flex flex-col gap-3">
+            <h4 className="font-serif text-[18px] md:text-[20px] font-bold text-[#8B7C68] uppercase">
+              ABOUT THE BRAND
+            </h4>
+            <p className="text-[14px] md:text-[15px] font-sans text-gray-600 leading-relaxed">
+              Good hair, scalp, and skincare should feel natural and restorative, not complicated. That’s why we focus on pure clinical active botanical formulas that heal irritated roots and skin.
+            </p>
+          </div>
+
+          {/* Contact Information Panel */}
+          <div className="flex flex-col gap-3">
+            <h4 className="font-serif text-[18px] md:text-[20px] font-bold text-[#8B7C68] uppercase">
+              CONTACT INFORMATION
+            </h4>
+            <div className="text-[13px] md:text-[14px] font-sans text-gray-600 leading-relaxed space-y-2">
+              <p>
+                <strong className="text-brand-black">Trade Name:</strong> H Salon
+              </p>
+              <p>
+                <strong className="text-brand-black">Email:</strong>{" "}
+                <a href="mailto:support@hsalon.uk" className="hover:underline text-[#2E6C4E] font-extrabold">
+                  support@hsalon.uk
+                </a>
+              </p>
+              <p>
+                <strong className="text-brand-black">Physical Address:</strong> H Salon, 42 Old Broad Street, London, EC2N 1HP, United Kingdom
+              </p>
+              <p className="text-[11px] text-gray-500 pt-1 leading-normal">
+                Operated by <strong className="text-brand-black font-semibold">H SALON LTD</strong> (Company No. 14605981). Registered Office: 71-75 Shelton Street, Covent Garden, London, WC2H 9JQ, United Kingdom.
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* SHOP + SUPPORT Collapsible accordions with liquid color fill and hover triggers */}
@@ -217,19 +244,30 @@ export default function Footer({ onGoHome }: FooterProps) {
             </button>
           </div>
 
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 text-[12px] text-gray-400 font-sans tracking-wide">
-            <div>
-              © 2026, H salon. Designed by Addy Growth Studio.
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 text-[12px] text-gray-400 font-sans tracking-wide border-t border-brand-black/5 pt-6">
+            <div className="flex flex-col gap-2">
+              <div>
+                © 2026, H salon. Designed by Addy Growth Studio.
+              </div>
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
+                <button onClick={() => handleOpenPolicy("privacy")} className="hover:text-brand-black hover:underline cursor-pointer transition-colors duration-200">Privacy Policy</button>
+                <span className="text-gray-300 select-none">•</span>
+                <button onClick={() => handleOpenPolicy("refund")} className="hover:text-brand-black hover:underline cursor-pointer transition-colors duration-200">Refund Policy</button>
+                <span className="text-gray-300 select-none">•</span>
+                <button onClick={() => handleOpenPolicy("shipping")} className="hover:text-brand-black hover:underline cursor-pointer transition-colors duration-200">Shipping Policy</button>
+                <span className="text-gray-300 select-none">•</span>
+                <button onClick={() => handleOpenPolicy("terms")} className="hover:text-brand-black hover:underline cursor-pointer transition-colors duration-200">Terms of Service</button>
+              </div>
             </div>
-            
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 pt-1 md:pt-0">
-              <button onClick={() => handleOpenPolicy("privacy")} className="hover:text-brand-black hover:underline cursor-pointer transition-colors duration-200">Privacy Policy</button>
-              <span className="text-gray-300 select-none">•</span>
-              <button onClick={() => handleOpenPolicy("refund")} className="hover:text-brand-black hover:underline cursor-pointer transition-colors duration-200">Refund Policy</button>
-              <span className="text-gray-300 select-none">•</span>
-              <button onClick={() => handleOpenPolicy("shipping")} className="hover:text-brand-black hover:underline cursor-pointer transition-colors duration-200">Shipping Policy</button>
-              <span className="text-gray-300 select-none">•</span>
-              <button onClick={() => handleOpenPolicy("terms")} className="hover:text-brand-black hover:underline cursor-pointer transition-colors duration-200">Terms of Service</button>
+
+            {/* Payment gateway image */}
+            <div className="flex items-center pt-2 md:pt-0">
+              <img 
+                src="/hsalon gateway.png" 
+                alt="Payment Gateways" 
+                className="h-7 md:h-8 w-auto object-contain opacity-85 hover:opacity-100 transition-opacity duration-300"
+                referrerPolicy="no-referrer"
+              />
             </div>
           </div>
         </div>

@@ -351,22 +351,6 @@ const getReviewsForProduct = (productId: string): CustomReview[] => {
           avatarLetter: "M"
         }
       ];
-    case "makeup-pouch":
-      return [
-        {
-          id: "mp-1",
-          author: "Imogen P.",
-          location: "Cambridge, UK",
-          title: "Exquisite quilted velvet quality",
-          rating: 5,
-          date: "2 weeks ago",
-          content: "The stitch craftsmanship is remarkable. Heavy cotton lining preserves my glass apothecary bottles safely when traveling. A beautiful, tactile luxury container.",
-          helpfulCount: 29,
-          verified: true,
-          tag: "VELVET STITCHING",
-          avatarLetter: "I"
-        }
-      ];
     case "h-salon-cap":
       return [
         {

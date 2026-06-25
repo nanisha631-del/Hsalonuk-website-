@@ -249,29 +249,6 @@ export const PRODUCTS: Product[] = [
     tags: ["BESTSELLER"]
   },
   {
-    id: "makeup-pouch",
-    name: "The Velvet Spa Kit Pouch",
-    subtitle: "Pure quilted graphite travel sleeve",
-    price: 60.00,
-    rating: 4.3,
-    images: [
-      "/the main image frame pouch.jpeg",
-      "/the secondary insdert image frame.jpeg"
-    ],
-    category: "accessories",
-    description: "A gorgeous, padded luxury spa kit pouch designed to house your Oribe, Kérastase, and Ground Wellbeing elixirs. Crafted with double-stitch quilted velvet, splash-proof lining, and a polished heavy brass zip closure.",
-    intro: "Premium space-saving beauty pouch featuring quick-slide dual metals and easy waterproof storage.",
-    bullets: [
-      "Thick, luxurious quilted velvet shell",
-      "Stain-proof and wipeable interior lining in graphite tone",
-      "Polished heavy brass hardware zipper",
-      "Perfect size to safeguard glass dropper bottles"
-    ],
-    howToUse: "Pack your glass apothecary dropper bottles and rollers securely into custom inside elasticated sleeves for on-the-go hotel room retreats.",
-    ingredients: "Luxury Quilted Soft Velvet, Waterproof Poly Shield Lining, Heavy Core Solid Brass Metal Zipper.",
-    tags: ["POPULAR"]
-  },
-  {
     id: "h-salon-cap",
     name: "H Salon Signature Styling Cap",
     subtitle: "Luxury Organic Cotton Cap by H Salon",

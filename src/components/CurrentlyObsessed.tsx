@@ -52,11 +52,11 @@ export default function CurrentlyObsessed() {
     },
     {
       id: "lips",
-      title: settings.obsessed_item_4_title || "LUXURY SPA TOOLS",
-      subtitle: settings.obsessed_item_4_subtitle || "Natural quartz gua shas and padded velvet kit pouches",
-      image: settings.obsessed_item_4_img || "/04 frame.jpeg",
+      title: settings.obsessed_item_4_title || "SIGNATURE CLOTHING",
+      subtitle: settings.obsessed_item_4_subtitle || "Premium embroidered organic cotton styling caps",
+      image: settings.obsessed_item_4_img || "/cap h salon product image.jpg",
       bgColor: "#D6F5EE", // Very light soft Ice-Mint green
-      productId: "makeup-pouch"
+      productId: "h-salon-cap"
     }
   ];
 

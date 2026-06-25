@@ -159,16 +159,6 @@ const getRitualForProduct = (productId: string) => {
         ],
         benefit: "Seals split ends immediately and protects vulnerable hair tips from high winds and dry air."
       };
-    case "makeup-pouch":
-      return {
-        title: "The Mindful Sensory Packing Ritual",
-        steps: [
-          "Unzip your quilted velvet pouch slowly, enjoying the tactile feel of heavy double-stitched cotton.",
-          "Arrange your glass apothecary dropper bottles, oils, and combs into their secure inside sleeves.",
-          "Close the brass zip with intention, knowing your daily wellness and therapy tools are sheltered."
-        ],
-        benefit: "Keeps your luxurious hair therapy products organized, safe, and ready for any hotel wellness retreat."
-      };
     case "h-salon-cap":
       return {
         title: "The Post-Treatment Crown Shield Ritual",
@@ -241,7 +231,7 @@ export default function ProductPage({
   const recommendedProducts = PRODUCTS.filter((p) => p.id !== product.id).slice(0, 4);
 
   // Buy it with accessory item
-  const crossSellProduct = PRODUCTS.find((p) => p.id === "makeup-pouch") || PRODUCTS[0];
+  const crossSellProduct = PRODUCTS.find((p) => p.id === "h-salon-cap") || PRODUCTS[0];
 
   const toggleTab = (tabName: string) => {
     setOpenTabs((prev) => ({

@@ -75,7 +75,7 @@ const getBundleForProduct = (productId: string): CustomBundleDef => {
         steps: [
           { label: "1. EVENING LIPID", productId: "ground-recovery-oil", description: "Botanical face lipid with powerful calm." },
           { label: "2. SLEEP BALM", productId: "concealer", description: "Aromatherapy balm to ease tension." },
-          { label: "3. TRAVEL POUCH", productId: "makeup-pouch", description: "Elegant velvet protective envelope." }
+          { label: "3. PRECISION COMB", productId: "h-salon-comb", description: "Hand-carved detangling comb." }
         ]
       };
     case "gym-silk":
@@ -99,7 +99,7 @@ const getBundleForProduct = (productId: string): CustomBundleDef => {
         steps: [
           { label: "1. REFLECTION OIL", productId: "halo-highlighter", description: "Camellia oil base for radiant shine." },
           { label: "2. SPLIT END SEAL", productId: "lip-gloss", description: "Restores broken hair cuticles softly." },
-          { label: "3. COSMETIC BAG", productId: "makeup-pouch", description: "Ultra-plush velvet storage bag." }
+          { label: "3. STYLING CAP", productId: "h-salon-cap", description: "Premium embroidered cotton cap." }
         ]
       };
     case "color-mascara":
@@ -171,7 +171,7 @@ const getBundleForProduct = (productId: string): CustomBundleDef => {
         steps: [
           { label: "1. POLISHING TOOL", productId: "h-salon-comb", description: "Stimulates scalp cell blood circulation." },
           { label: "2. DEEP TREATMENT OIL", productId: "snail-silk-scalp-oil", description: "Nourishes fibers and blocks dryness." },
-          { label: "3. SIGNATURE POUCH", productId: "makeup-pouch", description: "Soft lined storage travel bag." }
+          { label: "3. SIGNATURE CAP", productId: "h-salon-cap", description: "Premium cotton protection cap." }
         ]
       };
   }
