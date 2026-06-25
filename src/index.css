@@ -56,9 +56,9 @@
 
 /* Custom luxury slow transitions for images shown in cards, hero, and carousel */
 .luxury-zoom {
-  transition: transform 2.0s cubic-bezier(0.25, 1, 0.25, 1), opacity 0.8s ease-out, filter 0.8s ease-out !important;
-  will-change: transform !important;
-  transform: scale(1) translateZ(0); /* force hardware acceleration */
+  transition: transform 2.0s cubic-bezier(0.25, 1, 0.25, 1), opacity 0.35s cubic-bezier(0.215, 0.61, 0.355, 1), filter 0.35s ease-out !important;
+  will-change: transform, opacity !important;
+  transform: scale(1) translate3d(0, 0, 0); /* force hardware acceleration */
 }
 
 .luxury-zoom:hover,

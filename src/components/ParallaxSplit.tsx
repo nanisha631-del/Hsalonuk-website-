@@ -5,12 +5,12 @@
 
 import { useEffect, useState, useRef } from "react";
 import { ArrowRight } from "lucide-react";
+import { motion, useScroll, useTransform } from "motion/react";
 import ScrollReveal from "./ScrollReveal";
 import ScrollZoomImage from "./ScrollZoomImage";
 import { getShopifySettings } from "../shopifySettings";
 
 export default function ParallaxSplit() {
-  const [scrollProgress, setScrollProgress] = useState(0.2);
   const [isMobile, setIsMobile] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
   const settings = getShopifySettings();
@@ -50,50 +50,30 @@ export default function ParallaxSplit() {
     window.addEventListener("resize", handleResize);
     handleResize();
 
-    const handleScroll = () => {
-      if (!sectionRef.current) return;
-      const rect = sectionRef.current.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-      
-      // Calculate how far the section is scrolled into view (0 to 1) safely guarding division by zero
-      const enteredDistance = windowHeight - rect.top;
-      const totalDistance = windowHeight + rect.height;
-      const progress = totalDistance <= 0 ? 0 : Math.max(0, Math.min(1, enteredDistance / totalDistance));
-      
-      setScrollProgress(isNaN(progress) ? 0.2 : progress);
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-
     return () => {
-      window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleResize);
     };
   }, []);
 
-  // Compute smooth animation values
-  // We want the polaroids to be far apart when entering view, and smoothly come closer as we scroll down.
-  const animProgressRaw = (scrollProgress - 0.12) / 0.38;
-  const animProgress = isNaN(animProgressRaw) ? 0 : Math.max(0, Math.min(1, animProgressRaw));
-  const spread = isNaN(animProgress) ? 1 : 1 - animProgress; // 1 = far apart, 0 = fully converged
+  // Framer Motion zero re-render scroll progress
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"]
+  });
 
-  // Coordinate math based on mobile vs desktop layouts and the scroll-controlled spread factor:
-  const leftX = isMobile
-    ? -28 - (spread * 95)
-    : -65 - (spread * 175);
-  const leftY = isMobile
-    ? -15 - (spread * 15)
-    : -35 - (spread * 30);
-  const leftRot = -4.5 - (spread * 6);
+  // spread progress goes from 1 to 0 over scroll interval [0.12, 0.50]
+  const spread = useTransform(scrollYProgress, [0.12, 0.50], [1, 0]);
 
-  const rightX = isMobile
-    ? 28 + (spread * 95)
-    : 65 + (spread * 175);
-  const rightY = isMobile
-    ? 15 + (spread * 15)
-    : 35 + (spread * 30);
-  const rightRot = 5 + (spread * 6);
+  // Coordinate transforms mapped smoothly to the spread factor
+  const leftX = useTransform(spread, (s) => isMobile ? -28 - (s * 95) : -65 - (s * 175));
+  const leftY = useTransform(spread, (s) => isMobile ? -15 - (s * 15) : -35 - (s * 30));
+  const leftRot = useTransform(spread, (s) => -4.5 - (s * 6));
+  const leftOpacity = useTransform(scrollYProgress, [0.12, 0.50], [0.6, 1.0]);
+
+  const rightX = useTransform(spread, (s) => isMobile ? 28 + (s * 95) : 65 + (s * 175));
+  const rightY = useTransform(spread, (s) => isMobile ? 15 + (s * 15) : 35 + (s * 30));
+  const rightRot = useTransform(spread, (s) => 5 + (s * 6));
+  const rightOpacity = useTransform(scrollYProgress, [0.12, 0.50], [0.6, 1.0]);
 
   return (
     <section
@@ -107,44 +87,50 @@ export default function ParallaxSplit() {
         <div className="relative w-[280px] sm:w-[480px] h-[260px] sm:h-[450px] mx-auto flex items-center justify-center">
           
           {/* POLAROID 1 (REAR PHOTO) - Dynamically flies in from left and rotates on scroll */}
-          <div 
-            className="absolute w-[130px] sm:w-[220px] bg-white p-2 pb-6 sm:p-3.5 sm:pb-14 shadow-lg border border-brand-black/5 transition-all duration-[400ms] ease-out z-0 origin-center"
+          <motion.div 
+            className="absolute w-[130px] sm:w-[220px] bg-white p-2 pb-6 sm:p-3.5 sm:pb-14 shadow-lg border border-brand-black/5 z-0 origin-center"
             style={{
-              transform: `translate3d(${leftX}px, ${leftY}px, 0) rotate(${leftRot}deg)`,
+              x: leftX,
+              y: leftY,
+              rotate: leftRot,
+              opacity: leftOpacity,
               willChange: "transform, opacity",
-              opacity: 0.6 + animProgress * 0.4
             }}
           >
             <div className="w-full aspect-[4/5] bg-gray-100 overflow-hidden relative">
               <ScrollZoomImage
                 src={img1}
                 alt="Scalp treatment visual"
+                loading="lazy"
               />
             </div>
             <div className="mt-1.5 text-left font-mono text-[7px] sm:text-[9px] text-gray-400 tracking-wider">
               SCALP_ELIXIR // 01
             </div>
-          </div>
+          </motion.div>
 
           {/* POLAROID 2 (FRONT PHOTO) - Dynamically flies in from right and rotates on scroll */}
-          <div 
-            className="absolute w-[130px] sm:w-[220px] bg-white p-2 pb-6 sm:p-3.5 sm:pb-14 shadow-xl border border-brand-black/5 transition-all duration-[400ms] ease-out z-10 origin-center"
+          <motion.div 
+            className="absolute w-[130px] sm:w-[220px] bg-white p-2 pb-6 sm:p-3.5 sm:pb-14 shadow-xl border border-brand-black/5 z-10 origin-center"
             style={{
-              transform: `translate3d(${rightX}px, ${rightY}px, 0) rotate(${rightRot}deg)`,
+              x: rightX,
+              y: rightY,
+              rotate: rightRot,
+              opacity: rightOpacity,
               willChange: "transform, opacity",
-              opacity: 0.6 + animProgress * 0.4
             }}
           >
             <div className="w-full aspect-[4/5] bg-gray-100 overflow-hidden relative">
               <ScrollZoomImage
                 src={img2}
                 alt="Hair gloss visual"
+                loading="lazy"
               />
             </div>
             <div className="mt-1.5 text-left font-mono text-[7px] sm:text-[9px] text-gray-400 tracking-wider">
               HAIR_GLOSS // DEEP
             </div>
-          </div>
+          </motion.div>
         </div>
 
         {/* Center Text Layer UNDER Polaroid stack */}

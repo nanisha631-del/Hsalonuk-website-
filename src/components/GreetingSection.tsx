@@ -3,60 +3,37 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { ArrowRight } from "lucide-react";
+import { motion, useScroll, useTransform } from "motion/react";
 import ScrollReveal from "./ScrollReveal";
 import ScrollZoomImage from "./ScrollZoomImage";
 import { getShopifySettings } from "../shopifySettings";
 
 export default function GreetingSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const [progress, setProgress] = useState(0);
   const settings = getShopifySettings();
 
   const titleText = settings.greeting_heading || "H SALON LUXURY";
   const greetingText = settings.greeting_hint || "Wellness from";
   const bgImage = settings.greeting_image || "/cap salon.png";
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!sectionRef.current) return;
-      const rect = sectionRef.current.getBoundingClientRect();
-      const totalHeight = rect.height;
-      const windowHeight = window.innerHeight;
-
-      // Scrolled distance within the track
-      const scrolled = -rect.top;
-      const scrollableDistance = totalHeight - windowHeight;
-      const progressVal = scrollableDistance <= 0 ? 0 : Math.max(0, Math.min(1, scrolled / scrollableDistance));
-      setProgress(isNaN(progressVal) ? 0 : progressVal);
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    window.addEventListener("resize", handleScroll, { passive: true });
-    handleScroll();
-
-    // Small delay to ensure measurements load perfectly
-    const t = setTimeout(handleScroll, 100);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleScroll);
-      clearTimeout(t);
-    };
-  }, []);
-
-  // Map scroll progress to a comfortable range for text filling (starts after 5% scroll, completes at 95%)
-  const animProgressRaw = (progress - 0.05) / 0.90;
-  const animProgress = isNaN(animProgressRaw) ? 0 : Math.max(0, Math.min(1, animProgressRaw));
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end end"]
+  });
 
   // Programmatically combine last two words "YOUR" and "SHINE." to underline them together
   const initialWords = "HEALTHY HAIR AND BALANCED SCALP DOESN'T NEED TO BE COMPLICATED. OUR TREATMENT ELIXIRS BLEND ESSENTIAL PLANT CLINICALS SEAMLESSLY, CALMING SENSITIVE ROOTS ALL DAY AND BEAUTIFYING YOUR SHINE.".split(" ");
   const words = [...initialWords.slice(0, -2), "YOUR SHINE."];
 
-  // Fade and translate CTA button based on scroll completeness (starts appearing when 82% text filled)
-  const buttonOpacityRaw = (animProgress - 0.82) / 0.15;
-  const buttonOpacity = isNaN(buttonOpacityRaw) ? 0 : Math.max(0, Math.min(1, buttonOpacityRaw));
+  // Last word underline progress (starts when 78% scrolled, ends at 94%)
+  const lineProgress = useTransform(scrollYProgress, [0.78, 0.94], [0, 1]);
+
+  // Button transitions (starts at 82% scrolled, ends at 97%)
+  const buttonOpacity = useTransform(scrollYProgress, [0.82, 0.97], [0, 1]);
+  const buttonY = useTransform(scrollYProgress, [0.82, 0.97], [12, 0]);
+  const buttonPointerEvents = useTransform(scrollYProgress, (val) => val > 0.82 ? "auto" : "none");
 
   return (
     <section
@@ -89,6 +66,8 @@ export default function GreetingSection() {
                   src={bgImage} 
                   alt="H Salon Apothecary Wellness Card" 
                   className="brightness-[0.7] contrast-[1.1]"
+                  loading="eager"
+                  fetchPriority="high"
                 />
               </div>
               
@@ -107,47 +86,37 @@ export default function GreetingSection() {
           {/* Scrolling progressive fill text */}
           <div className="w-full max-w-4xl px-2">
             <p className="font-sans font-extrabold text-[16px] sm:text-[22px] md:text-[30px] lg:text-[36px] leading-[1.2] tracking-tight uppercase flex flex-wrap justify-center gap-x-[0.22em] gap-y-[0.06em]">
-              {words.map((word, i, arr) => {
-                const wordStart = i / arr.length;
-                const wordEnd = (i + 1.5) / arr.length; // elegant overlap for super smooth cross-bleed
+              {words.map((word, i) => {
+                // Map the overall scroll range: text fill happens over [0.05, 0.95]
+                const totalRange = 0.95 - 0.05;
+                const wordStart = 0.05 + (i / words.length) * totalRange;
+                const wordEnd = 0.05 + ((i + 1.5) / words.length) * totalRange;
                 
-                let wordProgress = 0;
-                if (animProgress >= wordEnd) {
-                  wordProgress = 1;
-                } else if (animProgress <= wordStart) {
-                  wordProgress = 0;
-                } else {
-                  wordProgress = (animProgress - wordStart) / (wordEnd - wordStart);
-                }
+                // Opacity and color values mapped smoothly via Framer Motion without React re-renders
+                const opacity = useTransform(scrollYProgress, [wordStart, wordEnd], [0.12, 1.0]);
+                const textColor = useTransform(scrollYProgress, [wordStart, wordEnd], ["rgba(0, 0, 0, 0.12)", "rgba(0, 0, 0, 1)"]);
 
-                // Smoothly fade text opacity from discrete 12% to pure bold black 100%
-                const opacity = 0.12 + wordProgress * 0.88;
-
-                const isLastWord = i === arr.length - 1;
+                const isLastWord = i === words.length - 1;
 
                 if (isLastWord) {
-                  // progress of the curved underline drawing (starts when almost finished scrolling text)
-                  const lineProgress = Math.max(0, Math.min(1, (animProgress - 0.78) / 0.16));
-                  
                   return (
                     <span key={i} className="relative inline-block whitespace-nowrap">
-                      <span
+                      <motion.span
                         style={{
                           opacity,
-                          transition: "opacity 0.15s ease-out, color 0.15s ease-out",
-                          color: wordProgress > 0 ? "#000000" : "inherit"
+                          color: textColor,
                         }}
-                        className="inline-block"
+                        className="inline-block transition-colors duration-150"
                       >
                         {word}
-                      </span>
+                      </motion.span>
                       {/* Premium Curved Green Underline drawn precisely with scroll */}
                       <svg
                         className="absolute left-0 -bottom-2 md:-bottom-3 w-full h-[8px] sm:h-[12px] overflow-visible pointer-events-none"
                         viewBox="0 0 100 10"
                         preserveAspectRatio="none"
                       >
-                        <path
+                        <motion.path
                           d="M2,3 Q50,9 98,3"
                           fill="none"
                           stroke="#82D8C5"
@@ -155,8 +124,9 @@ export default function GreetingSection() {
                           strokeLinecap="round"
                           pathLength="100"
                           strokeDasharray="100"
-                          strokeDashoffset={100 * (1 - lineProgress)}
-                          className="transition-all duration-75 ease-out"
+                          style={{
+                            strokeDashoffset: useTransform(lineProgress, [0, 1], [100, 0])
+                          }}
                         />
                       </svg>
                     </span>
@@ -164,30 +134,29 @@ export default function GreetingSection() {
                 }
 
                 return (
-                  <span
+                  <motion.span
                     key={i}
                     style={{
                       opacity,
-                      transition: "opacity 0.15s ease-out, color 0.15s ease-out",
-                      color: wordProgress > 0 ? "#000000" : "inherit"
+                      color: textColor,
                     }}
-                    className="inline-block"
+                    className="inline-block transition-colors duration-150"
                   >
                     {word}
-                  </span>
+                  </motion.span>
                 );
               })}
             </p>
           </div>
 
           {/* Call to action below fill text */}
-          <div 
+          <motion.div 
             style={{ 
               opacity: buttonOpacity, 
-              transform: `translateY(${(1 - buttonOpacity) * 12}px)`,
-              pointerEvents: buttonOpacity > 0.5 ? "auto" : "none"
+              y: buttonY,
+              pointerEvents: buttonPointerEvents
             }}
-            className="transition-all duration-300 ease-out mt-4 shrink-0"
+            className="mt-4 shrink-0"
           >
             <button
               onClick={() => {
@@ -198,7 +167,7 @@ export default function GreetingSection() {
             >
               SHOP OUR PRODUCTS
             </button>
-          </div>
+          </motion.div>
 
         </div>
       </div>

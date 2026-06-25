@@ -18,15 +18,16 @@ export default function ScrollingBanner() {
       className="w-full h-[500px] md:h-[600px] relative overflow-hidden select-none"
     >
       <ScrollReveal className="w-full h-full">
-        {/* Background Ken Burns Animating Image */}
+        {/* Background Ken Burns Animating Image - optimized for GPU thread */}
         <motion.div
-          animate={{ scale: [1, 1.05] }}
+          animate={{ scale: [1, 1.03] }}
           transition={{
-            duration: 9,
+            duration: 12,
             repeat: Infinity,
             repeatType: "reverse",
             ease: "easeInOut",
           }}
+          style={{ willChange: "transform" }}
           className="w-full h-full bg-[#E8D5C4] relative"
         >
           {/* Extremely high end visual models photo - custom laptop/mobile versions */}
@@ -34,12 +35,14 @@ export default function ScrollingBanner() {
             src="/scroll banner photo laptop view.jpeg"
             alt="H Salon Luxury Hair treatments vibe - Laptop View"
             referrerPolicy="no-referrer"
+            {...({ fetchPriority: "high" } as any)}
             className="hidden md:block w-full h-full object-cover brightness-[0.92]"
           />
           <img
             src="/scroll banner photo mobile view.jpeg"
             alt="H Salon Luxury Hair treatments vibe - Mobile View"
             referrerPolicy="no-referrer"
+            {...({ fetchPriority: "high" } as any)}
             className="block md:hidden w-full h-full object-cover brightness-[0.92]"
           />
         </motion.div>

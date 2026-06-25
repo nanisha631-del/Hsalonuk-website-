@@ -33,9 +33,12 @@ export default function ScrollZoomImage({
 
   return (
     <div className="overflow-hidden w-full h-full relative bg-zinc-200/50" id={id}>
-      {/* Delicate, shimmering ambient gradient loader background */}
+      {/* Premium hardware-accelerated sweeping shimmer loader */}
       {!isLoaded && (
-        <div className="absolute inset-0 bg-gradient-to-r from-zinc-200 via-zinc-100 to-zinc-200 animate-pulse z-0" />
+        <div className="absolute inset-0 bg-zinc-100 overflow-hidden z-0">
+          <div className="absolute inset-0 bg-gradient-to-r from-zinc-100 via-zinc-200/70 to-zinc-100 animate-pulse" />
+          <div className="absolute inset-y-0 -left-[100%] w-[300%] bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shine-sweep" />
+        </div>
       )}
       <img
         src={src}
