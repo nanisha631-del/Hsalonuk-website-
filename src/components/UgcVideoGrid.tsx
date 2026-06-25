@@ -276,6 +276,7 @@ export default function UgcVideoGrid() {
                   poster={reel.coverImage}
                   autoPlay
                   loop
+                  preload="metadata"
                   muted={hasStatus.muted}
                   playsInline
                   className="w-full h-full object-cover transition-transform duration-[1500ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-[1.06] hover:scale-[1.06] [will-change:transform]"

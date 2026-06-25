@@ -6,44 +6,39 @@ export default function AestheticVideoPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
-  const [videoSrc, setVideoSrc] = useState<string>("");
+  const [videoSrc, setVideoSrc] = useState<string>("/frame video.mp4");
 
-  // Dynamically resolve the active source, skipping 0-byte/empty local files
+  // Dynamically resolve the active source as a background check or fallback
   useEffect(() => {
     const backupUrl = "https://assets.mixkit.co/videos/preview/mixkit-beauty-treatment-fluid-dripping-44358-large.mp4";
     const videoName = "Scalp health is so important💗Using the Scalp Silk from @hsalon.uk to nourish my scalp and give .mp4";
     const candidates = [
-      `/${videoName}`,
-      encodeURI(`/${videoName}`),
-      "/frame%20video.mp4",
       "/frame video.mp4",
-      "/0613-1.mp4",
-      "/0613.mp4"
+      "/frame%20video.mp4",
+      `/${videoName}`,
+      encodeURI(`/${videoName}`)
     ];
 
     const checkSources = async () => {
       for (const src of candidates) {
         try {
           const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 500); // 500ms max per local check
+          const timeoutId = setTimeout(() => controller.abort(), 400);
           
           const response = await fetch(src, { method: "HEAD", signal: controller.signal });
           clearTimeout(timeoutId);
 
           if (response.ok) {
             const contentLength = response.headers.get("content-length");
-            // If the file exists and is indeed a valid binary file (not empty 0-bytes)
             if (contentLength && parseInt(contentLength, 10) > 1000) {
               setVideoSrc(src);
               return;
             }
           }
         } catch (e) {
-          // Fall through to next candidate or backup
+          // Fall through
         }
       }
-      // Fail-safe beauty loop
-      setVideoSrc(backupUrl);
     };
 
     checkSources();

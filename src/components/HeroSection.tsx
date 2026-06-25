@@ -38,19 +38,9 @@ export default function HeroSection() {
                 autoPlay
                 muted
                 preload="auto"
-                poster="/hero section mobile view.jpeg"
                 className="w-full h-full object-cover brightness-[0.80]"
               >
                 <source src="/halon 1.mp4" type="video/mp4" />
-                <source src="/halon%201.mp4" type="video/mp4" />
-                <source src="/hsalon 1.mp4" type="video/mp4" />
-                <source src="/hsalon%201.mp4" type="video/mp4" />
-                <source src="/halon1.mp4" type="video/mp4" />
-                <source src="/hsalon1.mp4" type="video/mp4" />
-                <source src="/halon_1.mp4" type="video/mp4" />
-                <source src="/hsalon_1.mp4" type="video/mp4" />
-                <source src="/frame video.mp4" type="video/mp4" />
-                <source src="/frame%20video.mp4" type="video/mp4" />
               </video>
             </div>
           </div>

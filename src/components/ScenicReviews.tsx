@@ -1030,6 +1030,7 @@ export default function ScenicReviews({ onAddToCart, onSelectProduct, product }:
                         <video 
                           src={rev.mediaUrl} 
                           controls 
+                          preload="none"
                           playsInline 
                           muted 
                           className="w-full h-36 object-cover hover:scale-102 transition-transform duration-300"
