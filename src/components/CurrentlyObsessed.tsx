@@ -54,7 +54,7 @@ export default function CurrentlyObsessed() {
       id: "lips",
       title: settings.obsessed_item_4_title || "SIGNATURE CLOTHING",
       subtitle: settings.obsessed_item_4_subtitle || "Premium embroidered organic cotton styling caps",
-      image: settings.obsessed_item_4_img || "/cap h salon product image.jpg",
+      image: settings.obsessed_item_4_img || "/signature clothing cap 04.jpeg",
       bgColor: "#D6F5EE", // Very light soft Ice-Mint green
       productId: "h-salon-cap"
     }

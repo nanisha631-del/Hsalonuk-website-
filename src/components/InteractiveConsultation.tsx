@@ -104,14 +104,45 @@ export default function InteractiveConsultation() {
             >
               {/* Image Section Block to show beautiful custom picture */}
               <div className="md:col-span-5 relative bg-zinc-100 aspect-square md:aspect-auto overflow-hidden group">
-                <img 
-                  src="/01 frame.jpeg" 
+                {/* Desktop Version Image (Hidden on mobile) */}
+                <motion.img 
+                  src="/hair and skin ritual image.jpeg" 
                   alt="Custom diagnostics consult - luxury cosmetics setup"
                   referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover group-hover:scale-[1.06] hover:scale-[1.06] transition-transform duration-[1500ms] ease-[cubic-bezier(0.25,1,0.5,1)] brightness-[0.94] [will-change:transform]"
+                  className="hidden md:block w-full h-full object-cover brightness-[0.94] [will-change:transform]"
+                  animate={{
+                    scale: [1, 1.04, 1],
+                  }}
+                  transition={{
+                    duration: 6,
+                    ease: "easeInOut",
+                    repeat: Infinity,
+                  }}
+                  onError={(e) => {
+                    e.currentTarget.src = "/01 frame.jpeg";
+                  }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
-                <div className="absolute bottom-6 left-6 right-6 text-white text-left">
+
+                {/* Mobile Version Image (Hidden on desktop) */}
+                <motion.img 
+                  src="/hair and scalp ritual image mobile verison.jpeg" 
+                  alt="Custom diagnostics consult mobile - luxury cosmetics setup"
+                  referrerPolicy="no-referrer"
+                  className="block md:hidden w-full h-full object-cover brightness-[0.94] [will-change:transform]"
+                  animate={{
+                    scale: [1, 1.04, 1],
+                  }}
+                  transition={{
+                    duration: 6,
+                    ease: "easeInOut",
+                    repeat: Infinity,
+                  }}
+                  onError={(e) => {
+                    e.currentTarget.src = "/01 frame.jpeg";
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent pointer-events-none" />
+                <div className="absolute bottom-6 left-6 right-6 text-white text-left pointer-events-none">
                   <span className="font-sans font-extrabold text-[9px] uppercase tracking-widest text-[#82D8C5] block mb-1">
                     DIAGNOSTIC SPA GATE
                   </span>
