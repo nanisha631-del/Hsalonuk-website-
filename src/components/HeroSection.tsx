@@ -16,18 +16,31 @@ export default function HeroSection() {
       <div className="max-w-7xl mx-auto flex flex-col gap-6">
 
         {/* The Taller Vertical Framed Hero Card on mobile and widescreen on desktop per request */}
-        <div className="relative w-full aspect-[2/3] md:aspect-[21/9] bg-[#E8E8E8] rounded-[24px] md:rounded-[36px] overflow-hidden shadow-sm flex items-end justify-center pb-12 sm:pb-20">
+        <div className="relative w-full aspect-[2/3] md:aspect-[16/9] bg-[#E8E8E8] rounded-[24px] md:rounded-[36px] overflow-hidden shadow-sm flex items-end justify-center pb-12 sm:pb-20">
           
           {/* Background portrait of skin close-up - Responsive with correct rounded top and bottom mirroring */}
           <div className="absolute inset-0 z-0 select-none overflow-hidden rounded-[24px] md:rounded-[36px]">
-            {/* Laptop view image */}
-            <div className="hidden md:block w-full h-full">
-              <ScrollZoomImage
-                src={settings.hero_image_url || "/hero section image.jpeg"}
+            {/* Laptop view image - exact 16:9 aspect fit, no hover zoom cuts */}
+            <div className="hidden md:block w-full h-full overflow-hidden">
+              <motion.img
+                src="/HERO IMAGE H SALON LAPTOP ONLY.png"
                 alt="Radiant Hair and Scalp Elixir Hero Background"
-                className="brightness-[0.80] object-center"
+                className="w-full h-full object-cover brightness-[0.95]"
                 loading="eager"
-                fetchPriority="high"
+                initial={{ scale: 1.15, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                whileHover={{ 
+                  scale: 1.06,
+                  transition: { duration: 3.0, ease: "easeInOut" }
+                }}
+                transition={{
+                  scale: { duration: 2.2, ease: "easeOut" },
+                  opacity: { duration: 1.8, ease: "easeOut" },
+                  default: { duration: 2.0, ease: "easeInOut" }
+                }}
+                onError={(e) => {
+                  e.currentTarget.src = "/hero section image.jpeg";
+                }}
               />
             </div>
             {/* Mobile view video - strictly replacing the image with the requested halon 1 video on mobile only */}
