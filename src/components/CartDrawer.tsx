@@ -177,10 +177,38 @@ export default function CartDrawer({
   
   // Promo code states
   const [promoCode, setPromoCode] = useState("");
-  const [appliedPromo, setAppliedPromo] = useState<string | null>(null);
+  const [appliedPromo, setAppliedPromo] = useState<string | null>(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("hsalon-applied-promo") || null;
+    }
+    return null;
+  });
   const [promoError, setPromoError] = useState<string | null>(null);
-  const [promoSuccess, setPromoSuccess] = useState<string | null>(null);
+  const [promoSuccess, setPromoSuccess] = useState<string | null>(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("hsalon-applied-promo");
+      if (saved === "FIRST10") {
+        return "Discount code 'First10' applied! 10% saved.";
+      }
+    }
+    return null;
+  });
   const [isPromoExpanded, setIsPromoExpanded] = useState(false);
+
+  // Synchronize dynamic promo code when drawer is opened
+  React.useEffect(() => {
+    if (isOpen && typeof window !== "undefined") {
+      const saved = localStorage.getItem("hsalon-applied-promo");
+      if (saved === "FIRST10") {
+        setAppliedPromo("FIRST10");
+        setPromoSuccess("Discount code 'First10' applied! 10% saved.");
+        setIsPromoExpanded(true);
+      } else if (!saved) {
+        setAppliedPromo(null);
+        setPromoSuccess(null);
+      }
+    }
+  }, [isOpen]);
 
   // Celebration state managers
   const [confettiActive, setConfettiActive] = useState<"discount" | "bundle" | null>(null);
@@ -215,16 +243,22 @@ export default function CartDrawer({
     const cleanCode = promoCode.trim().toUpperCase();
     if (cleanCode === "FIRST10") {
       setAppliedPromo("FIRST10");
-      setPromoSuccess("Discount code 'First10' applied! 10% saved.");
+      if (typeof window !== "undefined") {
+        localStorage.setItem("hsalon-applied-promo", "FIRST10");
+      }
+      setPromoSuccess("Discount code applied! 10% saved.");
       setPromoCode("");
       triggerCelebration("discount");
     } else {
-      setPromoError("Invalid discount code. Try 'First10'.");
+      setPromoError("Invalid discount code. Please check and try again.");
     }
   };
 
   const handleRemovePromo = () => {
     setAppliedPromo(null);
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("hsalon-applied-promo");
+    }
     setPromoSuccess(null);
     setPromoError(null);
   };
@@ -291,8 +325,8 @@ export default function CartDrawer({
             id="cart-drawer-container"
           >
             {/* Promo Heading Banner */}
-            <div className="bg-brand-black text-white text-center py-2.5 text-[11px] uppercase tracking-[0.15em] font-medium px-4 select-none">
-              ✨ New customers save 10% with code <span className="text-brand-lilac font-semibold">FIRST10</span>
+            <div className="bg-brand-black text-[#82D8C5] text-center py-2.5 text-[10px] sm:text-[11px] uppercase tracking-[0.18em] font-black px-4 select-none">
+              ✨ COMPLIMENTARY LABORATORY PACKAGING & UK DELIVERY FOR ALL RITUALS
             </div>
 
             {/* Header */}
@@ -600,7 +634,7 @@ export default function CartDrawer({
                     <div className="flex flex-col gap-1.5 animate-fade-in">
                       <div className="flex items-center justify-between">
                         <label className="text-[9px] uppercase tracking-wider text-gray-400 font-bold">
-                          Promo code (Try: <span className="text-brand-lilac">First10</span>)
+                          Promo code
                         </label>
                         <button 
                           onClick={() => setIsPromoExpanded(false)}
@@ -612,7 +646,7 @@ export default function CartDrawer({
                       <div className="flex gap-1.5 mt-0.5">
                         <input
                           type="text"
-                          placeholder="CODE (e.g. First10)"
+                          placeholder="ENTER PROMO CODE"
                           value={promoCode}
                           onChange={(e) => setPromoCode(e.target.value)}
                           className="flex-1 bg-brand-offwhite text-[11px] text-brand-black placeholder-gray-400 border border-brand-black/10 px-2.5 py-1.5 rounded-xs focus:outline-none focus:border-[#82D8C5] uppercase font-semibold"

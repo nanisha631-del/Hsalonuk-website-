@@ -50,6 +50,8 @@ import SearchDrawer from "./components/SearchDrawer";
 import AIChatBot from "./components/AIChatBot";
 import ScrollToTopCircle from "./components/ScrollToTopCircle";
 import GoogleAuthModal from "./components/GoogleAuthModal";
+import OrderTracking from "./components/OrderTracking";
+import AestheticDiscountPopup from "./components/AestheticDiscountPopup";
 import { getShopifySettings } from "./shopifySettings";
 import { useSharedState } from "./useSharedState";
 import { fetchShopifyProducts } from "./lib/shopify";
@@ -374,6 +376,9 @@ export default function App() {
         </AnimatePresence>
       </main>
 
+      {/* NEW SECTION — APOTHECARY ORDER & SHIPMENT LOGISTICS */}
+      <OrderTracking />
+
       {/* SECTION 16 — COPYRIGHT FOOTER */}
       <Footer onGoHome={handleGoHome} />
 
@@ -409,6 +414,9 @@ export default function App() {
 
       {/* SECURE GOOGLE SSO AUTHENTICATION MODAL */}
       <GoogleAuthModal />
+
+      {/* LUXURY AESTHETIC 10% DISCOUNT POPUP MODAL */}
+      <AestheticDiscountPopup />
 
     </div>
   );
