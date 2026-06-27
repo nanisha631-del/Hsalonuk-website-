@@ -249,46 +249,72 @@ export default function App() {
               <CurrentlyObsessed />
 
               {/* SECTION 5 — TRUST CARDS */}
-              <TrustCards />
+              <div className="lazy-section">
+                <TrustCards />
+              </div>
 
               {/* NEW SECTION — ENDLESS WAVE SCROLL MARQUEE */}
-              <WaveScrollSection />
+              <div className="lazy-section">
+                <WaveScrollSection />
+              </div>
 
               {/* SECTION 6 — PARALLAX SPLIT IMAGE */}
-              <ParallaxSplit />
+              <div className="lazy-section">
+                <ParallaxSplit />
+              </div>
 
               {/* SECTION 7 — "THE HYPE IS REAL" CONTINUOUS AUTO SCROLL */}
-              <AutoScrollCards />
+              <div className="lazy-section">
+                <AutoScrollCards />
+              </div>
 
               {/* SECTION 8 — SHOP THE LOOK */}
-              <ShopTheLook
-                onSelectProduct={handleSelectProduct}
-                onAddToCart={(p, qty) => handleAddToCart(p, qty, p.colors && p.colors.length > 0 ? p.colors[0].name : undefined)}
-              />
+              <div className="lazy-section">
+                <ShopTheLook
+                  onSelectProduct={handleSelectProduct}
+                  onAddToCart={(p, qty) => handleAddToCart(p, qty, p.colors && p.colors.length > 0 ? p.colors[0].name : undefined)}
+                />
+              </div>
 
               {/* SECTION 9 — TEXT FILL ON SCROLL */}
-              <GreetingSection />
+              <div className="lazy-section">
+                <GreetingSection />
+              </div>
 
               {/* NEW PREMIUM SECTION — BEFORE AND AFTER SLIDER REVELATION */}
-              <BeforeAfterSection />
+              <div className="lazy-section">
+                <BeforeAfterSection />
+              </div>
 
               {/* SECTION 10 — LIGHTWEIGHT FORMULA PARALLAX STACKS */}
-              <LightweightFormulas />
+              <div className="lazy-section">
+                <LightweightFormulas />
+              </div>
 
               {/* SECTION 12 — SCROLLING BANNER */}
-              <ScrollingBanner />
+              <div className="lazy-section">
+                <ScrollingBanner />
+              </div>
 
               {/* SECTION 13 — "HAIRCARE SHOULD BE RESTORATIVE" EDITORIAL */}
-              <FunEditorialSection />
+              <div className="lazy-section">
+                <FunEditorialSection />
+              </div>
 
               {/* NEW PREMIUM SECTION — UGC VIDEO SHOPPING REELS GRID */}
-              <UgcVideoGrid />
+              <div className="lazy-section">
+                <UgcVideoGrid />
+              </div>
 
               {/* SECTION 15 — LANDING HOVER ACCORDION */}
-              <HoverAccordion />
+              <div className="lazy-section">
+                <HoverAccordion />
+              </div>
 
               {/* SECTION 14 — COMMUNITY UGC */}
-              <CommunitySection />
+              <div className="lazy-section">
+                <CommunitySection />
+              </div>
 
             </motion.div>
           )}

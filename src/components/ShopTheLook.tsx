@@ -213,6 +213,8 @@ export default function ShopTheLook({ onSelectProduct, onAddToCart }: ShopTheLoo
                           <img
                             src={matchingProduct.images[0]}
                             alt={matchingProduct.name}
+                            loading="lazy"
+                            decoding="async"
                             className="w-9 h-9 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl object-cover border border-black/5 shrink-0 bg-brand-offwhite"
                           />
                           <div className="flex flex-col min-w-0">

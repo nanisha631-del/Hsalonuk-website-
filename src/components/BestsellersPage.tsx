@@ -233,6 +233,8 @@ export default function BestsellersPage({
                   <img 
                     src={p.images[0]} 
                     alt={p.name}
+                    loading="lazy"
+                    decoding="async"
                     className="object-contain w-full h-full p-4 group-hover:scale-[1.06] hover:scale-[1.06] transition-transform duration-[1500ms] ease-[cubic-bezier(0.25,1,0.5,1)] [will-change:transform]"
                     referrerPolicy="no-referrer"
                   />

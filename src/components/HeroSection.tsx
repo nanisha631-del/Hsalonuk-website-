@@ -43,7 +43,7 @@ export default function HeroSection() {
                 }}
               />
             </div>
-            {/* Mobile view video - strictly replacing the image with the requested halon 1 video on mobile only */}
+            {/* Mobile view video - strictly replacing the image with the requested mobile-only video on mobile only */}
             <div className="block md:hidden w-full h-full">
               <video
                 loop
@@ -53,7 +53,7 @@ export default function HeroSection() {
                 preload="auto"
                 className="w-full h-full object-cover brightness-[0.80]"
               >
-                <source src="/halon 1.mp4" type="video/mp4" />
+                <source src="/hero section video mobile version only.mp4" type="video/mp4" />
               </video>
             </div>
           </div>

@@ -241,6 +241,8 @@ export default function AestheticDiscountPopup() {
                   src="/the main image frame pouch.jpeg" 
                   alt="H Salon Luxury Botanical Rituals" 
                   referrerPolicy="no-referrer"
+                  loading="lazy"
+                  decoding="async"
                   className="absolute inset-0 w-full h-full object-cover opacity-80 brightness-[0.75] transition-transform duration-[4000ms] hover:scale-105"
                   onError={(e) => {
                     // Fallback to secondary asset if pouch isn't present

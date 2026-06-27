@@ -6,43 +6,12 @@ export default function AestheticVideoPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
-  const [videoSrc, setVideoSrc] = useState<string>("/frame video.mp4");
-
-  // Dynamically resolve the active source as a background check or fallback
-  useEffect(() => {
-    const backupUrl = "https://assets.mixkit.co/videos/preview/mixkit-beauty-treatment-fluid-dripping-44358-large.mp4";
-    const videoName = "Scalp health is so important💗Using the Scalp Silk from @hsalon.uk to nourish my scalp and give .mp4";
-    const candidates = [
-      "/frame video.mp4",
-      "/frame%20video.mp4",
-      `/${videoName}`,
-      encodeURI(`/${videoName}`)
-    ];
-
-    const checkSources = async () => {
-      for (const src of candidates) {
-        try {
-          const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 400);
-          
-          const response = await fetch(src, { method: "HEAD", signal: controller.signal });
-          clearTimeout(timeoutId);
-
-          if (response.ok) {
-            const contentLength = response.headers.get("content-length");
-            if (contentLength && parseInt(contentLength, 10) > 1000) {
-              setVideoSrc(src);
-              return;
-            }
-          }
-        } catch (e) {
-          // Fall through
-        }
-      }
-    };
-
-    checkSources();
-  }, []);
+  const [sources, setSources] = useState<string[]>([
+    "/Scalp health is so important💗Using the Scalp Silk from @hsalon.uk to nourish my scalp and give .mp4",
+    "https://assets.mixkit.co/videos/preview/mixkit-beauty-treatment-fluid-dripping-44358-large.mp4"
+  ]);
+  const [sourceIndex, setSourceIndex] = useState(0);
+  const videoSrc = sources[sourceIndex];
 
   // Sync isMuted state with the actual modern HTML5 video tag
   useEffect(() => {
@@ -74,6 +43,12 @@ export default function AestheticVideoPlayer() {
       }
     }
   }, [videoSrc]);
+
+  const handleVideoError = () => {
+    if (sourceIndex < sources.length - 1) {
+      setSourceIndex((prev) => prev + 1);
+    }
+  };
 
   // Event handlers bound to native video tag to guarantee single source of truth representation
   const onNativePlay = () => {
@@ -154,6 +129,7 @@ export default function AestheticVideoPlayer() {
           onPlaying={onNativePlaying}
           onWaiting={onNativeWaiting}
           onCanPlay={() => setIsLoading(false)}
+          onError={handleVideoError}
           className="w-full h-full object-cover transition-transform duration-[1500ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-[1.06] hover:scale-[1.06] [will-change:transform]"
         />
       )}

@@ -16,12 +16,29 @@
     background-color: #F7F5F2;
     color: #0A0A0A;
     font-family: var(--font-sans);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  /* GPU Hardware acceleration on images and videos for ultra-smooth rendering & zero scroll lag */
+  img, video {
+    backface-visibility: hidden;
+    transform: translate3d(0,0,0);
+    will-change: auto;
   }
 
   /* Upper tracking for luxury labels */
   .tracking-luxury {
     letter-spacing: 0.15em;
   }
+}
+
+/* Off-screen elements rendering optimization for microsecond load speed and smooth scrolling */
+.lazy-section {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 700px;
 }
 
 @keyframes scroll-left {
