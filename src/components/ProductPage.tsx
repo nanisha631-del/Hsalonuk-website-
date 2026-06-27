@@ -483,10 +483,7 @@ export default function ProductPage({
               BUY IT NOW
             </LuxuryButton>
 
-            {/* Demostore Notice matching original Screenshot 3 */}
-            <div className="text-center text-[10.5px] text-gray-400 font-sans tracking-wide py-1 leading-none">
-              This is a demo store for Palo Alto. These products are not for sale.
-            </div>
+
           </div>
 
           {/* Collapsible Tabs: DESCRIPTION, HOW TO USE, INGREDIENTS, SHIPPING & RETURNS - extremely compact */}
