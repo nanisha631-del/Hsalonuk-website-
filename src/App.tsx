@@ -210,7 +210,11 @@ export default function App() {
           onNavigate={(view, category) => {
             const updates: any = { currentView: view };
             if (category) {
-              updates.selectedCategory = category;
+              if (view === "product") {
+                updates.selectedProductId = category;
+              } else {
+                updates.selectedCategory = category;
+              }
             }
             updateState(updates);
           }}

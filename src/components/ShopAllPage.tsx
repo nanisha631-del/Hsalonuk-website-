@@ -64,10 +64,8 @@ export default function ShopAllPage({
   const categories = [
     { id: "all", name: "All Remedies" },
     { id: "scalp-care", name: "Scalp Therapeutics" },
-    { id: "hair-oils", name: "Hair Oils & Glosses" },
-    { id: "boosters", name: "Concentrated Boosters" },
-    { id: "recovery-botanicals", name: "Recovery Botanicals" },
-    { id: "accessories", name: "Luxury Accessories" },
+    { id: "hair-oils", name: "Nourishing Hair & Body Oils" },
+    { id: "accessories", name: "Luxury Tools & Accessories" },
     { id: "bundle", name: "Restorative Sets & Bundles" },
   ];
 

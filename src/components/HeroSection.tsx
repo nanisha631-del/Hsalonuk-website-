@@ -30,13 +30,13 @@ export default function HeroSection() {
                 initial={{ scale: 1.15, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 whileHover={{ 
-                  scale: 1.06,
-                  transition: { duration: 3.0, ease: "easeInOut" }
+                  scale: 1.05,
+                  transition: { duration: 0.8, ease: "easeInOut" }
                 }}
                 transition={{
-                  scale: { duration: 2.2, ease: "easeOut" },
-                  opacity: { duration: 1.8, ease: "easeOut" },
-                  default: { duration: 2.0, ease: "easeInOut" }
+                  scale: { duration: 1.2, ease: "easeOut" },
+                  opacity: { duration: 1.0, ease: "easeOut" },
+                  default: { duration: 0.8, ease: "easeInOut" }
                 }}
                 onError={(e) => {
                   e.currentTarget.src = "/hero section image.jpeg";

@@ -427,22 +427,19 @@ export default function Navbar({
                   <h3 className="font-sans font-black text-xs uppercase tracking-widest text-[#82D8C5] mb-4">Categories</h3>
                   <ul className="space-y-2 font-sans text-sm">
                     <li>
-                      {renderDropdownLink("All Treatments", () => { onNavigate("shop_all", "all"); setActiveDropdown(null); }, true, "font-bold")}
+                      {renderDropdownLink("All Remedies", () => { onNavigate("shop_all", "all"); setActiveDropdown(null); }, true, "font-bold")}
                     </li>
                     <li>
                       {renderDropdownLink("Scalp Therapeutics", () => { onNavigate("shop_all", "scalp-care"); setActiveDropdown(null); }, true, "font-semibold")}
                     </li>
                     <li>
-                      {renderDropdownLink("Hair Oils & Glosses", () => { onNavigate("shop_all", "hair-oils"); setActiveDropdown(null); }, true, "font-semibold")}
+                      {renderDropdownLink("Nourishing Hair & Body Oils", () => { onNavigate("shop_all", "hair-oils"); setActiveDropdown(null); }, true, "font-semibold")}
                     </li>
                     <li>
-                      {renderDropdownLink("Concentrated Boosters", () => { onNavigate("shop_all", "boosters"); setActiveDropdown(null); }, true, "font-semibold")}
+                      {renderDropdownLink("Luxury Tools & Accessories", () => { onNavigate("shop_all", "accessories"); setActiveDropdown(null); }, true, "font-semibold")}
                     </li>
                     <li>
-                      {renderDropdownLink("Recovery Botanicals", () => { onNavigate("shop_all", "recovery-botanicals"); setActiveDropdown(null); }, true, "font-semibold")}
-                    </li>
-                    <li>
-                      {renderDropdownLink("Luxury Accessories", () => { onNavigate("shop_all", "accessories"); setActiveDropdown(null); }, true, "font-semibold")}
+                      {renderDropdownLink("Restorative Sets & Bundles", () => { onNavigate("shop_all", "bundle"); setActiveDropdown(null); }, true, "font-semibold")}
                     </li>
                   </ul>
                 </div>
@@ -461,13 +458,13 @@ export default function Navbar({
                       )}
                     </li>
                     <li>
-                      {renderDropdownLink("Oribe Serene Scalp Treatment", () => { onNavigate("product", "snail-silk-serum"); setActiveDropdown(null); }, false, "font-semibold")}
+                      {renderDropdownLink("Snail Silk® Face Serum", () => { onNavigate("product", "snail-silk-serum"); setActiveDropdown(null); }, false, "font-semibold")}
                     </li>
                     <li>
-                      {renderDropdownLink("Gold Lust Hair Oil", () => { onNavigate("product", "snail-silk-scalp-oil"); setActiveDropdown(null); }, false, "font-semibold")}
+                      {renderDropdownLink("Scalp Silk®", () => { onNavigate("product", "snail-silk-scalp-oil"); setActiveDropdown(null); }, false, "font-semibold")}
                     </li>
                     <li>
-                      {renderDropdownLink("The Recovery Face Oil", () => { onNavigate("product", "ground-recovery-oil"); setActiveDropdown(null); }, false, "font-semibold")}
+                      {renderDropdownLink("Ground Recovery Oil®", () => { onNavigate("product", "ground-recovery-oil"); setActiveDropdown(null); }, false, "font-semibold")}
                     </li>
                   </ul>
                 </div>
@@ -475,10 +472,12 @@ export default function Navbar({
                 {/* Graphical Showcase Right Section */}
                 <motion.div 
                   variants={{
-                    hidden: {},
+                    hidden: { opacity: 0 },
                     show: {
+                      opacity: 1,
                       transition: {
                         staggerChildren: 0.2, // Delicate staggered sequence
+                        delayChildren: 0.45, // Wait for dropdown menu to slide open fully
                       }
                     }
                   }}
@@ -488,12 +487,12 @@ export default function Navbar({
                 >
                   <motion.div 
                     variants={{
-                      hidden: { opacity: 0, y: 30, filter: "blur(4px)", scale: 0.99 },
+                      hidden: { opacity: 0, y: 35, scale: 0.99, filter: "blur(3px)" },
                       show: { 
                         opacity: 1, 
                         y: 0, 
-                        filter: "blur(0px)", 
                         scale: 1,
+                        filter: "blur(0px)",
                         transition: { duration: 1.0, ease: [0.16, 1, 0.3, 1] } 
                       }
                     }}
@@ -510,19 +509,19 @@ export default function Navbar({
                       <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors" />
                     </div>
                     <div className="p-3 text-center">
-                      <h4 className="font-sans font-extrabold text-[12px] truncate text-brand-black text-left group-hover:text-[#82D8C5]">Scalp Treatment</h4>
-                      <p className="font-mono text-[10px] text-brand-black/60 mt-0.5 text-left">$48.00 USD</p>
+                      <h4 className="font-sans font-extrabold text-[12px] truncate text-brand-black text-left group-hover:text-[#82D8C5]">Snail Silk® Face Serum</h4>
+                      <p className="font-mono text-[10px] text-brand-black/60 mt-0.5 text-left">$71.00 USD</p>
                     </div>
                   </motion.div>
 
                   <motion.div 
                     variants={{
-                      hidden: { opacity: 0, y: 30, filter: "blur(4px)", scale: 0.99 },
+                      hidden: { opacity: 0, y: 35, scale: 0.99, filter: "blur(3px)" },
                       show: { 
                         opacity: 1, 
                         y: 0, 
-                        filter: "blur(0px)", 
                         scale: 1,
+                        filter: "blur(0px)",
                         transition: { duration: 1.0, ease: [0.16, 1, 0.3, 1] } 
                       }
                     }}
@@ -533,25 +532,25 @@ export default function Navbar({
                     <div className="aspect-square w-full overflow-hidden relative bg-white">
                       <img 
                         src="/snail silk scalp oil.webp" 
-                        alt="Gold Lust Hair Oil"
+                        alt="Scalp Silk®"
                         className="object-cover w-full h-full group-hover:scale-[1.06] hover:scale-[1.06] transition-transform duration-[1500ms] ease-[cubic-bezier(0.25,1,0.5,1)] [will-change:transform]"
                       />
                       <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors" />
                     </div>
                     <div className="p-3 text-center">
-                      <h4 className="font-sans font-extrabold text-[12px] truncate text-brand-black text-left group-hover:text-[#82D8C5]">Gold Lust Hair Oil</h4>
-                      <p className="font-mono text-[10px] text-brand-black/60 mt-0.5 text-left">$45.00 USD</p>
+                      <h4 className="font-sans font-extrabold text-[12px] truncate text-brand-black text-left group-hover:text-[#82D8C5]">Scalp Silk®</h4>
+                      <p className="font-mono text-[10px] text-brand-black/60 mt-0.5 text-left">$48.00 USD</p>
                     </div>
                   </motion.div>
 
                   <motion.div 
                     variants={{
-                      hidden: { opacity: 0, y: 30, filter: "blur(4px)", scale: 0.99 },
+                      hidden: { opacity: 0, y: 35, scale: 0.99, filter: "blur(3px)" },
                       show: { 
                         opacity: 1, 
                         y: 0, 
-                        filter: "blur(0px)", 
                         scale: 1,
+                        filter: "blur(0px)",
                         transition: { duration: 1.0, ease: [0.16, 1, 0.3, 1] } 
                       }
                     }}
@@ -562,14 +561,14 @@ export default function Navbar({
                     <div className="aspect-square w-full overflow-hidden relative bg-white">
                       <img 
                         src="/ground recovery oil.webp" 
-                        alt="Recovery Face Oil" 
+                        alt="Ground Recovery Oil®" 
                         className="object-cover w-full h-full group-hover:scale-[1.06] hover:scale-[1.06] transition-transform duration-[1500ms] ease-[cubic-bezier(0.25,1,0.5,1)] [will-change:transform]"
                       />
                       <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors" />
                     </div>
                     <div className="p-3 text-center">
-                      <h4 className="font-sans font-extrabold text-[12px] truncate text-brand-black text-left group-hover:text-[#82D8C5]">Recovery Face Oil</h4>
-                      <p className="font-mono text-[10px] text-brand-black/60 mt-0.5 text-left">$64.00 USD</p>
+                      <h4 className="font-sans font-extrabold text-[12px] truncate text-brand-black text-left group-hover:text-[#82D8C5]">Ground Recovery Oil®</h4>
+                      <p className="font-mono text-[10px] text-[#2F2F2F]/60 mt-0.5 text-left">$65.00 USD</p>
                     </div>
                   </motion.div>
                 </motion.div>
@@ -612,11 +611,12 @@ export default function Navbar({
                 {/* Bestseller Grid Preview list */}
                 <motion.div 
                   variants={{
-                    hidden: {},
+                    hidden: { opacity: 0 },
                     show: {
+                      opacity: 1,
                       transition: {
-                        staggerChildren: 0.18, // sequential snappy sequence
-                        delayChildren: 0.25, // wait for dropdown to partially open
+                        staggerChildren: 0.2, // Delicate staggered sequence
+                        delayChildren: 0.45, // Wait for dropdown menu to slide open fully
                       }
                     }
                   }}
@@ -628,12 +628,12 @@ export default function Navbar({
                     <motion.div 
                       key={product.id}
                       variants={{
-                        hidden: { opacity: 0, y: 35, filter: "blur(3px)", scale: 0.99 },
+                        hidden: { opacity: 0, y: 35, scale: 0.99, filter: "blur(3px)" },
                         show: { 
                           opacity: 1, 
                           y: 0, 
-                          filter: "blur(0px)", 
                           scale: 1,
+                          filter: "blur(0px)",
                           transition: { duration: 1.0, ease: [0.16, 1, 0.3, 1] } 
                         }
                       }}
@@ -696,11 +696,12 @@ export default function Navbar({
                 {/* Bundle Grid Preview list */}
                 <motion.div 
                   variants={{
-                    hidden: {},
+                    hidden: { opacity: 0 },
                     show: {
+                      opacity: 1,
                       transition: {
-                        staggerChildren: 0.18, // sequential snappy sequence
-                        delayChildren: 0.25, // wait for dropdown to partially open
+                        staggerChildren: 0.2, // Delicate staggered sequence
+                        delayChildren: 0.45, // Wait for dropdown menu to slide open fully
                       }
                     }
                   }}
@@ -712,12 +713,12 @@ export default function Navbar({
                     <motion.div 
                       key={product.id}
                       variants={{
-                        hidden: { opacity: 0, y: 35, filter: "blur(3px)", scale: 0.99 },
+                        hidden: { opacity: 0, y: 35, scale: 0.99, filter: "blur(3px)" },
                         show: { 
                           opacity: 1, 
                           y: 0, 
-                          filter: "blur(0px)", 
                           scale: 1,
+                          filter: "blur(0px)",
                           transition: { duration: 1.0, ease: [0.16, 1, 0.3, 1] } 
                         }
                       }}
@@ -963,7 +964,7 @@ export default function Navbar({
                       onClick={() => { onNavigate("shop_all", "all"); setMobileMenuOpen(false); }}
                       className="block text-brand-black/75 hover:text-[#82D8C5] py-1 cursor-pointer w-full text-left"
                     >
-                      All Formulations
+                      All Remedies
                     </button>
                     <button 
                       onClick={() => { onNavigate("shop_all", "scalp-care"); setMobileMenuOpen(false); }}
@@ -975,25 +976,19 @@ export default function Navbar({
                       onClick={() => { onNavigate("shop_all", "hair-oils"); setMobileMenuOpen(false); }}
                       className="block text-brand-black/75 hover:text-[#82D8C5] py-1 cursor-pointer w-full text-left"
                     >
-                      Hair Oils & Glosses
-                    </button>
-                    <button 
-                      onClick={() => { onNavigate("shop_all", "boosters"); setMobileMenuOpen(false); }}
-                      className="block text-[#82D8C5] py-1 cursor-pointer w-full text-left font-black"
-                    >
-                      Concentrated Boosters
-                    </button>
-                    <button 
-                      onClick={() => { onNavigate("shop_all", "recovery-botanicals"); setMobileMenuOpen(false); }}
-                      className="block text-brand-black/75 hover:text-[#82D8C5] py-1 cursor-pointer w-full text-left"
-                    >
-                      Recovery Botanicals
+                      Nourishing Hair & Body Oils
                     </button>
                     <button 
                       onClick={() => { onNavigate("shop_all", "accessories"); setMobileMenuOpen(false); }}
                       className="block text-brand-black/75 hover:text-[#82D8C5] py-1 cursor-pointer w-full text-left"
                     >
-                      Luxury Accessories
+                      Luxury Tools & Accessories
+                    </button>
+                    <button 
+                      onClick={() => { onNavigate("shop_all", "bundle"); setMobileMenuOpen(false); }}
+                      className="block text-brand-black/75 hover:text-[#82D8C5] py-1 cursor-pointer w-full text-left"
+                    >
+                      Restorative Sets & Bundles
                     </button>
                   </div>
                 )}
